@@ -1,3 +1,7 @@
+2004-02-21  Ben Elliston  <bje@wasabisystems.com>
+
+	* lib/libgloss.exp (build_wrapper): Remove redundant set command.
+
 2004-02-08  Daniel Jacobowitz  <drow@mvista.com>
 
 	* baseboards/basic-sim.exp: Set gdb,do_reload_on_run.
