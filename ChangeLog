@@ -1,5 +1,10 @@
 2004-01-27  Ben Elliston  <bje@wasabisystems.com>
 
+	* Clean.tcl: Run tclsh via /usr/bin/env for portability.
+	(cleanfiles): Concatenate regular filenames that match .*.
+
+2004-01-27  Ben Elliston  <bje@wasabisystems.com>
+
 	* doc/overview: Remove all files.
 
 2003-12-03  Ben Elliston  <bje@wasabisystems.com>
