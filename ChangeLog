@@ -1,3 +1,7 @@
+2004-08-20  Daniel Jacobowitz  <dan@debian.org>
+
+	* testglue.c: Prototype abort(3) and exit(3).
+
 2004-02-21  Ben Elliston  <bje@wasabisystems.com>
 
 	* lib/libgloss.exp (build_wrapper): Remove redundant set command.
