@@ -1,3 +1,9 @@
+2003-12-03  Ben Elliston  <bje@wasabisystems.com>
+
+	* testsuite/runtest.all/utils.test: Fix a test for proc find which
+	assumed that "subsubfile1" would appear at the end of the returned
+	list.  Adjust to use a more robust regular expression.
+
 2003-11-26  Ben Elliston  <bje@wasabisystems.com>
 
 	* doc/overview.sgml (version): Update.
