@@ -1,3 +1,8 @@
+2004-08-22  Ben Elliston  <bje@gnu.org>
+
+	* config.guess: Update to most recent version.
+	* config.sub: Likewise.
+
 2004-08-20  Daniel Jacobowitz  <dan@debian.org>
 
 	* testglue.c: Prototype abort(3) and exit(3).
