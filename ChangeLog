@@ -1,3 +1,9 @@
+2003-11-26  Ben Elliston  <bje@wasabisystems.com>
+
+	* packaging/rpm/dejagnu.spec: Update version numbers throughout.
+	* packaging/pkg/pkginfo: Likewise.
+	* packaging/depot/dejagnu.psf: Likewise.
+	
 2003-10-25  Ben Elliston  <bje@wasabisystems.com>
 
 	* runtest.exp (frame_version): Bump version.	
