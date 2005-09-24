@@ -1,6 +1,11 @@
+2005-09-24  Ben Elliston  <bje@gnu.org>
+
+	* packaging/pkg/pkginfo (EMAIL): Update mail address.
+
 2005-07-06  Ben Elliston  <bje@gnu.org>
 
-	* The src/dejagnu tree on sourceware.org is now defunct.
+	The src/dejagnu tree on sourceware.org is now defunct.
+	Use packaged versions of DejaGnu instead.
 
 2005-07-06  Ben Elliston  <bje@gnu.org>
 
