@@ -1,3 +1,7 @@
+2006-01-01  Ben Elliston  <bje@gnu.org>
+
+	* DejaGnu 1.4 branch closed.
+
 2005-12-20  Nathan Sidwell  <nathan@codesourcery.com>
 
 	* baseboards/ms1-sid.exp: Rename from this ..
