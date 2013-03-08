@@ -1,5 +1,9 @@
 2013-03-08  Ben Elliston  <bje@gnu.org>
 
+	* configure.ac (AC_INIT): Bump version to 1.5.1.
+	* runtest.exp (frame_version): Likewise.
+	* configure: Regenerate.
+
 	* Makefile.in: Regenerate with automake 1.13.
 	* aclocal.m4: Likewise.
 
