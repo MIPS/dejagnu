@@ -1,3 +1,11 @@
+2015-01-30  Ben Elliston  <bje@gnu.org>
+
+	* runtest.exp (frame_version): Set to 1.5.2.
+	* configure.ac (AC_INIT): Set version to 1.5.2.
+	* configure: Regenerate.
+	* doc/dejagnu.xml (appversion, version): Set to 1.5.2.
+	* doc/dejagnu.texi: Regenerate.
+
 2015-01-22  Eric Botcazou  <ebotcazou@adacore.com>
 
 	* Makefile.am (baseboard_DATA): Add baseboards/visium-sim.exp.
