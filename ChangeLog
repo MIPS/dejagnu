@@ -1,5 +1,9 @@
 2015-03-30  Ben Elliston  <bje@gnu.org>
 
+	* DejaGnu 1.5.3 released.
+
+2015-03-30  Ben Elliston  <bje@gnu.org>
+
         * runtest.exp (frame_version): Set to 1.5.3.
 	* configure.ac (AC_INIT): Set version to 1.5.3.
 	* configure: Regenerate.
