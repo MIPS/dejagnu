@@ -1,5 +1,13 @@
 2015-03-30  Ben Elliston  <bje@gnu.org>
 
+        * runtest.exp (frame_version): Set to 1.5.3.
+	* configure.ac (AC_INIT): Set version to 1.5.3.
+	* configure: Regenerate.
+	* doc/dejagnu.xml (appversion, version): Set to 1.5.3.
+	* doc/dejagnu.texi: Regenerate.
+
+2015-03-30  Ben Elliston  <bje@gnu.org>
+
 	Revert the following change which causes breakage reported here:
 	https://lists.gnu.org/archive/html/dejagnu/2015-03/msg00003.html
 
