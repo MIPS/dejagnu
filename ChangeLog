@@ -1,3 +1,7 @@
+2016-04-17  Ben Elliston  <bje@gnu.org>
+
+	* NEWS: Start a new section for the next release.
+
 2016-04-15  Ben Elliston  <bje@gnu.org>
 
 	* Makefile.am (CONTRIB): Add new contrib scripts.
