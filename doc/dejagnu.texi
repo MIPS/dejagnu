@@ -11,7 +11,7 @@
 @top DejaGnu
 
 @ifnottex
-This file documents DejaGnu version 1.6.
+This file documents DejaGnu version 1.6.1-git.
 
 @insertcopying
 @end ifnottex
