@@ -1,5 +1,11 @@
 2016-04-17  Ben Elliston  <bje@gnu.org>
 
+	Reported by shellcheck.
+	* runtest: Use $((..)) not `expr ..` and defensively double quote
+	shell variables.
+
+2016-04-17  Ben Elliston  <bje@gnu.org>
+
 	* Makefile.am (pkgdata_DATA): Add lib/ssh.exp, lib/dmucs.exp.
 	* Makefile.in: Regenerate.
 
