@@ -26,6 +26,7 @@ load_lib "rlogin.exp"
 load_lib "kermit.exp"
 load_lib "tip.exp"
 load_lib "rsh.exp"
+load_lib "ssh.exp"
 load_lib "ftp.exp"
 
 # Open a connection to a remote host or target. This requires the target_info

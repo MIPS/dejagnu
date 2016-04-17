@@ -1,5 +1,9 @@
 2016-04-17  Ben Elliston  <bje@gnu.org>
 
+	* lib/remote.exp: Load ssh.exp lib.
+
+2016-04-17  Ben Elliston  <bje@gnu.org>
+
 	* lib/rsh.exp (rsh_open): Fix description comment.
 
 2016-04-17  Ben Elliston  <bje@gnu.org>
