@@ -41,6 +41,7 @@ pkgdata_DATA = \
   lib/debugger.exp \
   lib/dejagnu.exp \
   lib/dg.exp \
+  lib/dmucs.exp \
   lib/framework.exp \
   lib/ftp.exp \
   lib/kermit.exp \
@@ -48,6 +49,7 @@ pkgdata_DATA = \
   lib/remote.exp \
   lib/rlogin.exp \
   lib/rsh.exp \
+  lib/ssh.exp \
   lib/standard.exp \
   lib/target.exp \
   lib/targetdb.exp \
