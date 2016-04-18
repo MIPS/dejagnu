@@ -145,4 +145,4 @@ if ! type "$expectbin" > /dev/null 2> /dev/null ; then
     exit 1
 fi
 
-exec "$expectbin" "$debug" -- "$runpath/runtest.exp" "$target" ${1+"$@"}
+exec $expectbin $debug -- $runpath/runtest.exp $target ${1+"$@"}
