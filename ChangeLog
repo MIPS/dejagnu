@@ -1,3 +1,9 @@
+2016-04-19  Nick Clifton  <nickc@redhat.com>
+
+	* baseboards/msp430-sim.exp: New file.
+	* Makefile.am (baseboard_DATA): Add msp430-sim.exp.
+	* Makefile.in: Regenerate.
+
 2016-04-18  Ben Elliston  <bje@gnu.org>
 
 	* runtest: Remove quoting in final exec command.

@@ -107,6 +107,7 @@ baseboard_DATA = \
 	baseboards/mmixware-sim.exp \
 	baseboards/mn10200-sim.exp \
 	baseboards/mn10300-sim.exp \
+	baseboards/msp430-sim.exp \
 	baseboards/mt-sid.exp \
 	baseboards/multi-sim.exp \
 	baseboards/powerpc-sim.exp \
