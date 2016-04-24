@@ -4560,7 +4560,6 @@ tool, and its version number.
 * runtest_file_p Procedure: runtest_file_p procedure
 * diff Procedure: diff procedure
 * setenv Procedure: setenv procedure
-* unsetenv Procedure: unsetenv procedure
 * getenv Procedure: getenv procedure
 * prune_system_crud Procedure: prune_system_crud procedure
 @end menu
@@ -4726,7 +4725,7 @@ The first file to compare.
 The second file to compare.
 @end table
 
-@node setenv procedure, unsetenv procedure, diff procedure, Utility Procedures
+@node setenv procedure, getenv procedure, diff procedure, Utility Procedures
 @subsubsection setenv Procedure
 
 Sets the environment variable @emph{var} to the value @emph{val}.
@@ -4745,23 +4744,7 @@ The environment variable to set.
 The value to set the variable to.
 @end table
 
-@node unsetenv procedure, getenv procedure, setenv procedure, Utility Procedures
-@subsubsection unsetenv Procedure
-
-Unsets the environment variable
-@emph{var}.
-
-@quotation
-@t{@b{unsetenv}@{@i{var}@}}
-@end quotation
-
-@table @asis
-
-@item @code{var}
-The environment variable to unset.
-@end table
-
-@node getenv procedure, prune_system_crud procedure, unsetenv procedure, Utility Procedures
+@node getenv procedure, prune_system_crud procedure, setenv procedure, Utility Procedures
 @subsubsection getenv Procedure
 
 Returns the value of @emph{var} in the

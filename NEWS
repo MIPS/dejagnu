@@ -2,6 +2,9 @@
 
 Changes since 1.6:
 
+1. The user-visible utility procedure `unsetenv' has been removed.  If
+   a testsuite uses any of these procedures, a copy of the procedure
+   should be made and placed in the lib directory of the testsuite.
 
 Changes since 1.5.3:
 
