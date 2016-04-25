@@ -283,8 +283,5 @@ proc rsh_exec { boardname program pargs inp outp } {
 	return [list -1 "Couldn't parse $RSH output, $output."]
     }
     regsub "XYZ(\[0-9\]*)ZYX\n?" $output "" output
-    # Delete one trailing \n because that is what `exec' will do and we want
-    # to behave identical to it.
-    regsub "\n$" $output "" output
     return [list [expr {$status != 0}] $output]
 }
