@@ -88,19 +88,6 @@ if [info exists env(TESTRUN)] {
     untested "getenv, get an environment variable"
 }
 
-# Test unsetenv:
-#
-if [info exists env(TESTRUN)] {
-    unsetenv TESTRUN
-    if [info exists env(TESTRUN)] {
-        fail "unsetenv, unset an environment variable"
-    } else {
-        pass "unsetenv, unset an environment variable"
-    }
-} else {
-    untested "unsetenv, unset an environment variable"
-}
-
 # Test 'which' using a relative path.
 #
 if {[which ./config.status] != 0} {
