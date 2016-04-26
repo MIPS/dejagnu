@@ -1,3 +1,7 @@
+2016-04-26  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi: Fill more paragraphs.
+
 2016-04-25  Ben Elliston  <bje@gnu.org>
 
 	* testsuite/runtest.all/utils.test: Remove unsetenv test.

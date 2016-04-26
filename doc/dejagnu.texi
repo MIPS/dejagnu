@@ -1233,11 +1233,11 @@ default. Go into the IIS manager and change the FTP server so that it
 does not allow anonymous FTP. Set the home directory to the root
 directory (i.e. c:\) of a suitable drive. Allow writing via FTP.
 
-It will create an account like IUSR_FOOBAR where foobar is
-the name of your machine. Go into the user editor and give that
-account a password that you don't mind hanging around in the
-clear (i.e. not the same as your admin or personal
-passwords). Also, add it to all the various permission groups.
+It will create an account like IUSR_FOOBAR where foobar is the name of
+your machine. Go into the user editor and give that account a password
+that you don't mind hanging around in the clear (i.e. not the same as
+your admin or personal passwords). Also, add it to all the various
+permission groups.
 
 You'll also need a telnet server. For Windows, go to the
 @uref{http://ataman.com,Ataman} web site, pick up the Ataman Remote
@@ -1246,11 +1246,11 @@ eval period anyway. Add IUSR_FOOBAR to the list of allowed users, set
 the HOME directory to be the same as the FTP default directory. Change
 the Mode prompt to simple.
 
-Ok, now you need to pick a directory name to do all the testing in. For
-the sake of this example, we'll call it piggy (i.e. c:\piggy). Create
-this directory.
+Now you need to pick a directory name to do all the testing in. For the
+sake of this example, we'll call it piggy (i.e. c:\piggy). Create this
+directory.
 
-You'll need a unix machine. Create a directory for the scripts you'll
+You'll need a Unix machine. Create a directory for the scripts you'll
 need. For this example, we'll use /usr/local/swamp/testing. You'll need
 to have a source tree somewhere, say /usr/src/devo. Now, copy some files
 from releng's area in SV to your machine:
@@ -1289,8 +1289,8 @@ sh-hms-gcc.exe in your PATH on the PC), do something like this:
 ./MkTestDir sh-hms /usr/dejagnu/src/devo
 @end example
 
-If you are testing a native PC compiler (ex: you have
-gcc.exe in your PATH on the PC), do this:
+If you are testing a native PC compiler (ex: you have gcc.exe in your
+PATH on the PC), do this:
 
 @strong{Setup Native Remote Testing}
 
@@ -1312,9 +1312,8 @@ cd /usr/local/swamp/testing
 make  -k -w check RUNTESTFLAGS="--host_board foobar --target_board foobar -v -v" > check.out 2>&1
 @end example
 
-To run a specific test, use a command like this (for
-this example, you'd run this from the gcc directory that
-MkTestDir created):
+To run a specific test, use a command like this (for this example, you'd
+run this from the gcc directory that MkTestDir created):
 
 @strong{Run a Test Remotely}
 
@@ -1477,10 +1476,8 @@ Nevertheless, it is straightforward to start a new testsuite.
 To help orient you further in this task, here is an outline of the steps
 to begin building a testsuite for a program example.
 
-
-Create or select a directory to contain your new
-collection of tests. Change into that directory (shown here as
-@file{testsuite}):
+Create or select a directory to contain your new collection of
+tests. Change into that directory (shown here as @file{testsuite}):
 
 Create a @file{configure.in} file in this directory, to control
 configuration-dependent choices for your tests.  So far as DejaGnu is
@@ -1788,11 +1785,11 @@ addl_link_flags@tab "-N"@tab Additional link flags, rarely used.
 remotedir@tab "/tmp/runtest.[pid]"@tab Directory on the remote target in which executables are downloaded and executed.
 @end multitable
 
-These fields are used by the GCC and GDB tests, and are mostly
-only useful to somewhat trying to debug a new board file for one of
-these tools. Many of these are used only by a few testcases, and their
-purpose is esoteric. These are listed with sample values as a guide to
-better guessing if you need to change any of these.
+These fields are used by the GCC and GDB tests, and are mostly only
+useful to somewhat trying to debug a new board file for one of these
+tools. Many of these are used only by a few testcases, and their purpose
+is esoteric. These are listed with sample values as a guide to better
+guessing if you need to change any of these.
 
 @strong{Board Info Fields For GCC & GDB}
 
@@ -2052,10 +2049,8 @@ The bug tracking system (eg. PRMS/GNATS) number identifying a
 corresponding bug report (@emph{0} if you do not specify it).
 
 @item $bug_id
-An optional bug ID, perhaps a bug
-identification number from another organization
-(@emph{0} if you do not specify
-it).
+An optional bug ID, perhaps a bug identification number from another
+organization (@emph{0} if you do not specify it).
 
 @item $subdir
 The subdirectory for the current test case.
@@ -2687,15 +2682,13 @@ transform.
 @node check_conditional_xfail procedure, clear_xfail procedure, transform procedure, Core Internal Procedures
 @subsubsection check_conditional_xfail Procedure
 
-This procedure adds a conditional xfail, based on compiler
-options used to create a test case executable. If an include options
-is found in the compiler flags, and it's the right architecture,
-it'll trigger an @emph{XFAIL}. Otherwise it'll produce
-an ordinary @emph{FAIL}. You can also specify flags to
-exclude. This makes a result be a @emph{FAIL}, even if
-the included options are found. To set the conditional, set
-the variable @code{compiler_conditional_xfail_data} to the
-fields
+This procedure adds a conditional xfail, based on compiler options used
+to create a test case executable. If an include options is found in the
+compiler flags, and it's the right architecture, it'll trigger an
+@emph{XFAIL}. Otherwise it'll produce an ordinary @emph{FAIL}. You can
+also specify flags to exclude. This makes a result be a @emph{FAIL},
+even if the included options are found. To set the conditional, set the
+variable @code{compiler_conditional_xfail_data} to the fields
 
 @example
 "[message string] [targets list] [includes list] [excludes list]"
@@ -3678,7 +3671,6 @@ all information.
 @node kermit_open procedure, kermit_command procedure, kermit procedure, connprocs
 @subsubsection kermit_open Procedure
 
-
 @quotation
 @t{@b{kermit_open}@{@i{dest}
 @i{args}@}}
@@ -3692,7 +3684,6 @@ all information.
 @node kermit_command procedure, kermit_send procedure, kermit_open procedure, connprocs
 @subsubsection kermit_command Procedure
 
-
 @quotation
 @t{@b{kermit_command}@{@i{dest}
 @i{args}@}}
@@ -3705,7 +3696,6 @@ all information.
 
 @node kermit_send procedure, kermit_transmit procedure, kermit_command procedure, connprocs
 @subsubsection kermit_send Procedure
-
 
 @quotation
 @t{@b{kermit_send}@{@i{dest string args}@}}
@@ -3736,7 +3726,6 @@ all information.
 @node telnet_open procedure, telnet_binary procedure, kermit_transmit procedure, connprocs
 @subsubsection telnet_open Procedure
 
-
 @quotation
 @t{@b{telnet_open}@{@i{hostname}
 @i{args}@}}
@@ -3761,7 +3750,6 @@ all information.
 
 @node telnet_transmit procedure, tip_open procedure, telnet_binary procedure, connprocs
 @subsubsection telnet_transmit Procedure
-
 
 @quotation
 @t{@b{telnet_transmit}@{@i{dest}
@@ -3790,7 +3778,6 @@ all information.
 @node rlogin_open procedure, rlogin_spawn procedure, tip_open procedure, connprocs
 @subsubsection rlogin_open Procedure
 
-
 @quotation
 @t{@b{rlogin_open}@{@i{arg}@}}
 @end quotation
@@ -3801,7 +3788,6 @@ all information.
 
 @node rlogin_spawn procedure, rsh_open procedure, rlogin_open procedure, connprocs
 @subsubsection rlogin_spawn Procedure
-
 
 @quotation
 @t{@b{rlogin_spawn}@{@i{dest}
@@ -3815,7 +3801,6 @@ all information.
 
 @node rsh_open procedure, rsh_download procedure, rlogin_spawn procedure, connprocs
 @subsubsection rsh_open Procedure
-
 
 @quotation
 @t{@b{rsh_open}@{@i{hostname}@}}
@@ -3859,7 +3844,6 @@ all information.
 
 @node rsh_exec procedure, ssh_close procedure, rsh_upload procedure, connprocs
 @subsubsection rsh_exec Procedure
-
 
 @quotation
 @t{@b{rsh_exec}@{@i{boardname}
@@ -3956,7 +3940,6 @@ all information.
 @node ftp_download procedure, ftp_close procedure, ftp_upload procedure, connprocs
 @subsubsection ftp_download Procedure
 
-
 @quotation
 @t{@b{ftp_download}@{@i{host}
 @i{localfile}
@@ -3971,7 +3954,6 @@ all information.
 
 @node ftp_close procedure, tip_download procedure, ftp_download procedure, connprocs
 @subsubsection ftp_close Procedure
-
 
 @quotation
 @t{@b{ftp_close}@{@i{host}@}}
@@ -4006,7 +3988,6 @@ This is the filename to download.
 @node Procedures For Target Boards, target database library file, connprocs, Builtin Procedures
 @subsection Procedures For Target Boards
 
-
 @menu
 * default_link Procedure: default_link procedure
 * default_target_assemble Procedure: default_target_assemble procedure
@@ -4040,7 +4021,6 @@ This is the filename to download.
 
 @node default_target_assemble procedure, default_target_compile procedure, default_link procedure, Procedures For Target Boards
 @subsubsection default_target_assemble Procedure
-
 
 @quotation
 @t{@b{default_target_assemble}@{@i{source}
@@ -4086,7 +4066,6 @@ This is the filename to download.
 @node prune_warnings procedure, push_build procedure, pop_config procedure, Procedures For Target Boards
 @subsubsection prune_warnings Procedure
 
-
 @quotation
 @t{@b{prune_warnings}@{@i{text}@}}
 @end quotation
@@ -4097,7 +4076,6 @@ This is the filename to download.
 
 @node push_build procedure, push_config procedure, prune_warnings procedure, Procedures For Target Boards
 @subsubsection push_build Procedure
-
 
 @quotation
 @t{@b{push_build}@{@i{name}@}}
@@ -4253,8 +4231,7 @@ This treats @code{board_info} array's field
 @table @asis
 
 @item @code{entry}
-The name of a @code{board_info} field
-to operate on.
+The name of a @code{board_info} field to operate on.
 
 @item @code{value}
 The value to add to the field.
@@ -4262,7 +4239,6 @@ The value to add to the field.
 
 @node set_currtarget_info procedure, target_info procedure, add_board_info procedure, target database library file
 @subsubsection set_currtarget_info Procedure
-
 
 @quotation
 @t{@b{set_currtarget_info}@{@i{entry}
@@ -4291,9 +4267,8 @@ The value to add to the field.
 @node unset_board_info procedure, unset_currtarget_info procedure, target_info procedure, target database library file
 @subsubsection unset_board_info Procedure
 
-This checks if @code{board_info} array's field
-@emph{entry} has been set and if so, then removes
-it.
+This checks if @code{board_info} array's field @emph{entry} has been set
+and if so, then removes it.
 
 @quotation
 @t{@b{unset_board_info}@{@i{entry}@}}
@@ -4301,8 +4276,7 @@ it.
 
 @table @asis
 @item @code{entry}
-The name of a @code{board_info} field
-to operate on.
+The name of a @code{board_info} field to operate on.
 @end table
 
 @node unset_currtarget_info procedure, push_target procedure, unset_board_info procedure, target database library file
@@ -4320,10 +4294,9 @@ to operate on.
 @node push_target procedure, poptarget procedure, unset_currtarget_info procedure, target database library file
 @subsubsection push_target Procedure
 
-This makes the target named @emph{name} be the
-current target connection. The value of @emph{name} is
-an index into the @code{target_info} array and is set in
-the global config file.
+This makes the target named @emph{name} be the current target
+connection. The value of @emph{name} is an index into the
+@code{target_info} array and is set in the global config file.
 
 @quotation
 @t{@b{push_target}@{@i{name}@}}
@@ -4331,8 +4304,7 @@ the global config file.
 
 @table @asis
 @item @code{name}
-The name of the target to make current
-connection.
+The name of the target to make current connection.
 @end table
 
 @node poptarget procedure, list_targets procedure, push_target procedure, target database library file
@@ -4356,11 +4328,9 @@ This lists all the supported targets for this architecture.
 @node push_host procedure, pop_host procedure, list_targets procedure, target database library file
 @subsubsection push_host Procedure
 
-This makes the host named @emph{name} be the
-current remote host connection. The value of
-@emph{name} is an index into the
-@code{target_info} array and is set in the global config
-file.
+This makes the host named @emph{name} be the current remote host
+connection. The value of @emph{name} is an index into the
+@code{target_info} array and is set in the global config file.
 
 @quotation
 @t{@b{push_host}@{@i{name}@}}
@@ -4579,12 +4549,9 @@ directory that match an optional pattern.
 @item @code{args}
 
 @item @code{pattern}
-If you do not specify
-@code{pattern},
-@code{Getdirs} assumes a default pattern of
-@emph{*}. You may use the common shell
-wildcard characters in the pattern. If no directories
-match the pattern, then a NULL string is
+If you do not specify @code{pattern}, @code{Getdirs} assumes a default
+pattern of @emph{*}. You may use the common shell wildcard characters in
+the pattern. If no directories match the pattern, then a NULL string is
 returned.
 @end table
 
@@ -4668,19 +4635,16 @@ regexp matches.
 @node prune procedure, runtest_file_p procedure, grep procedure, Utility Procedures
 @subsubsection prune Procedure
 
-This procedure is deprecated and will be removed in
-the next release of DejaGnu.  If a testsuite uses this
-procedure, a copy of the procedure should be made and placed
-in the lib directory of the testsuite.
+This procedure is deprecated and will be removed in the next release of
+DejaGnu.  If a testsuite uses this procedure, a copy of the procedure
+should be made and placed in the lib directory of the testsuite.
 
 @node runtest_file_p procedure, diff procedure, prune procedure, Utility Procedures
 @subsubsection runtest_file_p Procedure
 
-Search @emph{runtest}s for
-@emph{testcase} and return @emph{1} if
-found, @emph{0} if not. @emph{runtests}
-is a list of two elements.  The first is a copy of what was on
-the right side of the @emph{=} if
+Search @emph{runtest}s for @emph{testcase} and return @emph{1} if found,
+@emph{0} if not. @emph{runtests} is a list of two elements.  The first
+is a copy of what was on the right side of the @emph{=} if
 
 @example
 foo.exp="..."
@@ -4747,8 +4711,8 @@ The value to set the variable to.
 @node getenv procedure, prune_system_crud procedure, setenv procedure, Utility Procedures
 @subsubsection getenv Procedure
 
-Returns the value of @emph{var} in the
-environment if it exists, otherwise it returns NULL.
+Returns the value of @emph{var} in the environment if it exists,
+otherwise it returns NULL.
 
 @quotation
 @t{@b{getenv}@{@i{var}@}}
@@ -4757,22 +4721,19 @@ environment if it exists, otherwise it returns NULL.
 @table @asis
 
 @item @code{var}
-The environment variable to get the value
-of.
+The environment variable to get the value of.
 @end table
 
 @node prune_system_crud procedure, , getenv procedure, Utility Procedures
 @subsubsection prune_system_crud Procedure
 
-For system @emph{system}, delete text the host or
-target operating system might issue that will interfere with pattern
-matching of program output in @emph{text}.  An example
-is the message that is printed if a shared library is out of
-date.
+For system @emph{system}, delete text the host or target operating
+system might issue that will interfere with pattern matching of program
+output in @emph{text}.  An example is the message that is printed if a
+shared library is out of date.
 
 @quotation
-@t{@b{prune_system_crud}@{@i{system}
-@i{test}@}}
+@t{@b{prune_system_crud}@{@i{system} @i{test}@}}
 @end quotation
 
 @table @asis
@@ -4787,9 +4748,9 @@ The Tcl variable containing the text.
 @node Libgloss, Debugging Procedures, Utility Procedures, Builtin Procedures
 @subsection Libgloss, a free board support package (BSP)
 
-Libgloss is a free @dfn{BSP} (Board Support
-Package) commonly used with GCC and G++ to produce a fully linked
-executable image for an embedded systems.
+Libgloss is a free @dfn{BSP} (Board Support Package) commonly used with
+GCC and G++ to produce a fully linked executable image for an embedded
+systems.
 
 @menu
 * libgloss_link_flags Procedure: libgloss_link_flags procedure
@@ -5101,9 +5062,9 @@ executable image for an embedded systems.
 @node dumpvars procedure, dumplocals procedure, , Debugging Procedures
 @subsubsection dumpvars Procedure
 
-This takes a csh style regular expression (glob rules) and prints
-the values of the global variable names that match.  It is abbreviated
-as @emph{dv}.
+This takes a csh style regular expression (glob rules) and prints the
+values of the global variable names that match.  It is abbreviated as
+@emph{dv}.
 
 @quotation
 @t{@b{dumpvars}@{@i{vars}@}}
@@ -5117,9 +5078,9 @@ The variables to dump.
 @node dumplocals procedure, dumprocs procedure, dumpvars procedure, Debugging Procedures
 @subsubsection dumplocals Procedure
 
-This takes a csh style regular expression (glob rules) and
-prints the values of the local variable names that match. It is
-abbreviated as @emph{dl}.
+This takes a csh style regular expression (glob rules) and prints the
+values of the local variable names that match. It is abbreviated as
+@emph{dl}.
 
 @quotation
 @t{@b{dumplocals}@{@i{args}@}}
@@ -5132,9 +5093,8 @@ abbreviated as @emph{dl}.
 @node dumprocs procedure, dumpwatch procedure, dumplocals procedure, Debugging Procedures
 @subsubsection dumprocs Procedure
 
-This takes a csh style regular expression (glob rules) and
-prints the body of all procs that match. It is abbreviated as
-@emph{dp}.
+This takes a csh style regular expression (glob rules) and prints the
+body of all procs that match. It is abbreviated as @emph{dp}.
 
 @quotation
 @t{@b{dumprocs}@{@i{pattern}@}}
@@ -5149,9 +5109,8 @@ for.
 @node dumpwatch procedure, watcharray procedure, dumprocs procedure, Debugging Procedures
 @subsubsection dumpwatch Procedure
 
-This takes a csh style regular expression (glob rules) and
-prints all the watchpoints. It is abbreviated as
-@emph{dw}.
+This takes a csh style regular expression (glob rules) and prints all
+the watchpoints. It is abbreviated as @emph{dw}.
 
 @quotation
 @t{@b{dumpwatch}@{@i{pattern}@}}
@@ -5174,8 +5133,7 @@ for.
 
 @table @asis
 @item @code{type}
-The csh "glob" style pattern to look
-for.
+The csh "glob" style pattern to look for.
 @end table
 
 @node watchvar procedure, watchunset procedure, watcharray procedure, Debugging Procedures
@@ -5239,8 +5197,8 @@ The variable to watch.
 @node watchdel procedure, print procedure, watchread procedure, Debugging Procedures
 @subsubsection watchdel Procedure
 
-This deletes a watchpoint from the watch list. It is
-abbreviated as @emph{wd}.
+This deletes a watchpoint from the watch list. It is abbreviated as
+@emph{wd}.
 
 @quotation
 @t{@b{watchdel}@{@i{args}@}}
@@ -5267,8 +5225,7 @@ This prints the value of the variable @code{var}. It is abbreviated as
 @node quit procedure, , print procedure, Debugging Procedures
 @subsubsection quit Procedure
 
-This makes runtest exit. It is abbreviated as
-@emph{q}.
+This makes runtest exit. It is abbreviated as @emph{q}.
 
 @quotation
 @t{@b{quit}}
