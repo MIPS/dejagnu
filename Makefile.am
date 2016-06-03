@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2015 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -73,6 +73,7 @@ config_DATA = \
 baseboarddir = $(pkgdatadir)/baseboards
 baseboard_DATA = \
 	baseboards/README \
+	baseboards/aarch64-sim.exp \
 	baseboards/androideabi.exp \
 	baseboards/am33_2.0-libremote.exp \
 	baseboards/arm-ice.exp \

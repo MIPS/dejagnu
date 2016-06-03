@@ -73,6 +73,9 @@ proc libgloss_link_flags { args } {
 	"xscale*" {
 	    set cpu arm
 	}
+	"aarch64*" {
+	    set cpu aarch64
+	}
 	default {
 	    set cpu $target_cpu
 	}

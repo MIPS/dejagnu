@@ -1,3 +1,10 @@
+2016-06-03  Jim Wilson  <jim.wilson@linaro.org>
+
+	* baseboards/aarch64-sim.exp: New file.
+	* Makefile.am (baseboard_DATA): Add aarch64-sim.exp.
+	* Makefile.in: Regenerate.
+	* lib/libgloss.exp (libgloss_link_flags): Map aarch64* to aarch64.
+
 2016-04-26  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi: Fill more paragraphs.
