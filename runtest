@@ -41,7 +41,7 @@ else
     done
     IFS="$save_ifs"
 fi
-execpath=$(echo "$mypath" | sed  -e 's@/[^/]*$@@')
+execpath=$(echo "$mypath" | sed -e 's@/[^/]*$@@')
 
 # Get the name by which runtest was invoked and extract the config
 # triplet.
@@ -58,14 +58,14 @@ fi
 # takes precedence over all other tests. Otherwise look for a freshly
 # built one, and then use one in the path.
 
-if [ x"$EXPECT" != x ] ; then
-  expectbin=$EXPECT
+if [ -n "$EXPECT" ] ; then
+  expectbin="$EXPECT"
 else
   if [ -x "$execpath/expect" ] ; then
-    expectbin=$execpath/expect
+    expectbin="$execpath/expect"
   else
-      expectbin=expect
-    fi
+    expectbin=expect
+  fi
 fi
 
 # Just to be safe ..
@@ -93,7 +93,7 @@ for a in "$@" ; do
   esac
 done
 
-if expr $verbose \> 0 > /dev/null ; then
+if expr "$verbose" \> 0 > /dev/null ; then
   echo Expect binary is "$expectbin"
 fi
 
@@ -112,14 +112,14 @@ fi
 for i in \
     $(echo "$execpath" | sed  -e 's@/[^/]*$@/share/dejagnu@') \
     $(echo "$execpath" | sed  -e 's@/[^/]*/[^/]*$@/share/dejagnu@') \
-    $execpath \
+    "$execpath" \
     /usr/share/dejagnu \
     /usr/local/share/dejagnu ; do
     if expr "$verbose" \> 1 > /dev/null ; then
 	echo Looking for "$i"/runtest.exp.
     fi
     if [ -f "$i/runtest.exp" ] ; then
-	runpath=$i
+	runpath="$i"
 	if expr "$verbose" \> 0 > /dev/null ; then
 	    echo Using "$i"/runtest.exp as main test driver
 	fi
@@ -129,13 +129,13 @@ done
 
 # Check for an environment variable.
 
-if [ x"$DEJAGNULIBS" != x ] ; then
-    runpath=$DEJAGNULIBS
+if [ -n "$DEJAGNULIBS" ] ; then
+    runpath="$DEJAGNULIBS"
     if expr "$verbose" \> 0 > /dev/null ; then
 	echo Using "$DEJAGNULIBS"/runtest.exp as main test driver
     fi
 fi
-if [ x"$runpath" = x ] ; then
+if [ -z "$runpath" ] ; then
     echo "ERROR: runtest.exp does not exist"
     exit 1
 fi
@@ -145,4 +145,4 @@ if ! type "$expectbin" > /dev/null 2> /dev/null ; then
     exit 1
 fi
 
-exec $expectbin $debug -- $runpath/runtest.exp $target ${1+"$@"}
+exec "$expectbin" $debug -- "$runpath"/runtest.exp $target ${1+"$@"}
