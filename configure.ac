@@ -1,7 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-dnl Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
-dnl 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+dnl Copyright (C) 1992-2010 Free Software Foundation, Inc.
 dnl
 dnl This file is part of DejaGnu.
 dnl

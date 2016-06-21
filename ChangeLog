@@ -1,5 +1,45 @@
 2016-06-22  Bernhard Reutner-Fischer  <rep.dot.nop@gmail.com>
 
+	* baseboards/aarch64-sim.exp, baseboards/am33_2.0-libremote.exp,
+	baseboards/arm-ice.exp, baseboards/arm-sid.exp,
+	baseboards/arm-sim.exp, baseboards/basic-sid.exp,
+	baseboards/basic-sim.exp, baseboards/cris-sim.exp,
+	baseboards/d30v-sim.exp, baseboards/fr30-sim.exp,
+	baseboards/frv-sim.exp, baseboards/gdbserver-sample.exp,
+	baseboards/generic-sim.exp, baseboards/i386-sid.exp,
+	baseboards/iq2000-sim.exp, baseboards/jmr3904-sim.exp,
+	baseboards/linux-gdbserver.exp, baseboards/linux-libremote.exp,
+	baseboards/m68k-sid.exp, baseboards/mcore-moto-sim.exp,
+	baseboards/mcore-sim.exp, baseboards/mips-lnews-sim.exp,
+	baseboards/mips-lsi-sim.exp, baseboards/mips-sim-idt32.exp,
+	baseboards/mips-sim-idt64.exp, baseboards/mips-sim.exp,
+	baseboards/mmixware-sim.exp, baseboards/mn10200-sim.exp,
+	baseboards/mn10300-sim.exp, baseboards/mt-sid.exp,
+	baseboards/powerpc-sim.exp, baseboards/powerpcle-sim.exp,
+	baseboards/rx-sim.exp, baseboards/sh-sid.exp,
+	baseboards/sh-sim.exp, baseboards/sparc-sim.exp,
+	baseboards/sparc64-sim.exp, baseboards/sparclite-sim-le.exp,
+	baseboards/sparclite-sim.exp, baseboards/tx39-sim.exp,
+	baseboards/unix.exp, baseboards/v850-sim.exp,
+	baseboards/vr4100-sim.exp, baseboards/vr4111-sim.exp,
+	baseboards/vr4300-sim.exp, baseboards/xtensa-sim.exp,
+	lib/debugger.exp, lib/dejagnu.exp, lib/dg.exp, lib/framework.exp,
+	lib/ftp.exp, lib/kermit.exp, lib/libgloss.exp, lib/remote.exp,
+	lib/rlogin.exp, lib/rsh.exp, lib/standard.exp, lib/target.exp,
+	lib/targetdb.exp, lib/telnet.exp, lib/tip.exp, lib/utils.exp,
+	testsuite/config/default.exp, testsuite/lib/libsup.exp,
+	testsuite/lib/util-defs.exp, testsuite/libdejagnu/tunit.exp,
+	testsuite/libdejagnu/unit.cc, testsuite/runtest.all/libs.exp,
+	testsuite/runtest.all/options.exp,
+	testsuite/runtest.all/stats-sub.exp,
+	testsuite/runtest.all/stats.exp, config/default.exp,
+	config/gdb-comm.exp, config/gdb_stub.exp, config/sid.exp,
+	config/sim.exp, config/unix.exp, config/vxworks.exp, configure.ac,
+	dejagnu.h, runtest, runtest.exp: Use condensed years in copyright
+	statement.
+
+2016-06-22  Bernhard Reutner-Fischer  <rep.dot.nop@gmail.com>
+
 	* doc/runtest.1: Use condensed years in copyright statement.
 
 2016-06-21  Bernhard Reutner-Fischer  <rep.dot.nop@gmail.com>
