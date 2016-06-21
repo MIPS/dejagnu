@@ -1,3 +1,7 @@
+2016-06-21  Bernhard Reutner-Fischer  <rep.dot.nop@gmail.com>
+
+	* config/adb.exp (adb_exec) Improve verbose message.
+
 2016-06-03  Jim Wilson  <jim.wilson@linaro.org>
 
 	* baseboards/aarch64-sim.exp: New file.
