@@ -1,5 +1,5 @@
 // unit.cc -- This is a test case for the dejagnu.h classes.
-// Copyright (C) 2001-2010 Free Software Foundation, Inc.
+// Copyright (C) 2001-2016 Free Software Foundation, Inc.
 
 // This file is part of DejaGnu.
 
