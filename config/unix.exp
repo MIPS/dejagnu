@@ -78,6 +78,11 @@ proc unix_load { dest prog args } {
 	verbose -log "Setting LD_LIBRARY_PATH to $ld_library_path:$orig_ld_library_path" 2
 	verbose -log "Execution timeout is: $test_timeout" 2
 
+	# Prepend shell name (e.g., qemu emulator) to the command.
+	if {[board_info $dest exists exec_shell]} {
+	    set command "[board_info $dest exec_shell] $command"
+	}
+
 	set id [remote_spawn $dest $command "readonly"]
 	if { $id < 0 } {
 	    set output "remote_spawn failed"
@@ -119,6 +124,14 @@ proc unix_load { dest prog args } {
 		return [list "unresolved" ""]
 	    }
 	}
+
+	# Prepend shell name (e.g., qemu emulator) to the command.
+	if {[board_info $dest exists exec_shell]} {
+	    set remotecmd "[board_info $dest exec_shell] $remotefile"
+	} else {
+	    set remotecmd "$remotefile"
+	}
+
 	set status [remote_exec $dest $remotefile $parg $inp]
 	remote_file $dest delete $remotefile.o $remotefile
 	if { [lindex $status 0] < 0 } {
