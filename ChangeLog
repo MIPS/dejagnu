@@ -1,3 +1,7 @@
+2016-09-04  Jan Kratochvil  <jan.kratochvil@redhat.com>
+
+	* runtest.exp: Set CCACHE_DISABLE, clear CCACHE_NODISABLE.
+
 2016-06-28  Ben Elliston  <bje@gnu.org>
 
 	* aclocal.m4, Makefile.in: Regenerate with automake 1.15.
