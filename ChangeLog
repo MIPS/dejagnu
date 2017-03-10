@@ -1,3 +1,8 @@
+2017-03-11  Thomas Preud'homme  <thomas.preudhomme@arm.com>
+
+	* lib/remote.exp (remote_download): Add logging message when
+	source and destination file differ in name.
+
 2016-09-04  Jan Kratochvil  <jan.kratochvil@redhat.com>
 
 	* runtest.exp: Set CCACHE_DISABLE, clear CCACHE_NODISABLE.

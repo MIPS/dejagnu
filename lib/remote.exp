@@ -440,6 +440,7 @@ proc remote_download { dest file args } {
 	if { $destfile == "" || $destfile == $file } {
 	    return $file
 	} else {
+	    verbose -log "Downloading on $dest to $destfile: $file" 2
 	    set result [catch "exec cp -p $file $destfile" output]
 	    if {[regexp "same file|are identical" $output]} {
 		set result 0
