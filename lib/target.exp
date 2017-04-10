@@ -736,11 +736,11 @@ proc default_target_assemble { source destfile flags } {
 # calling the compiler. FLAGS are any additional flags to pass to the
 # linker.
 #
-proc target_link { objects destfile flags } {
-    return [default_link target "$objects" "$destfile" $flags]
+proc target_link { objects destfile flags args } {
+    return [default_link target "$objects" "$destfile" $flags $args]
 }
 
-proc default_link { board objects destfile flags } {
+proc default_link { board objects destfile flags args } {
     global LD_FOR_TARGET
     global LDFLAGS_FOR_TARGET
 
@@ -773,7 +773,11 @@ proc default_link { board objects destfile flags } {
 	set LD "$LD_FOR_TARGET"
     } else {
 	if {![board_info target exists linker]} {
-	    set LD [find_ld]
+	    if { $args == "use_gold" } {
+	      set LD [find_gold]
+	    } else {
+	      set LD [find_ld]
+	    }
 	} else {
 	    set LD [board_info target linker]
 	}

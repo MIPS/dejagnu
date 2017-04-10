@@ -896,6 +896,23 @@ proc find_ld { } {
     return $LD
 }
 
+proc find_gold { } {
+    global tool_root_dir
+
+    set LD ""
+
+    if {![is_remote host]} {
+	set LD [lookfor_file $tool_root_dir gold/ld-new]
+	if { $LD == "" } {
+	    set LD [lookfor_file $tool_root_dir gold/gold/ld-new]
+	}
+    }
+    if { $LD == "" } {
+	set LD [transform ld.gold]
+    }
+    return $LD
+}
+
 proc build_wrapper { gluefile } {
     global libdir
     global tool
