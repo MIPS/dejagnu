@@ -1,3 +1,7 @@
+2017-06-04  Ben Elliston  <bje@gnu.org>
+
+	* testsuite/runtest.all/remote.test: Remove cruft from yesteryear.
+
 2017-06-04  Tom de Vries  <tom@codesourcery.com>
 
 	* testsuite/runtest.all/target.test: Remove list_targets test.
