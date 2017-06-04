@@ -13,6 +13,11 @@ if [ file exists $srcdir/$subdir/default_procs.tcl ] {
     puts "ERROR: $srcdir/$subdir/default_procs.tcl doesn't exist"
 }
 
+proc load_lib { lib } {
+     global srcdir
+     source "$srcdir/../lib/$lib"
+}
+
 set file $srcdir/../lib/remote.exp
 if [ file exists $file] {
     source $file

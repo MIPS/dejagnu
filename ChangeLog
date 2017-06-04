@@ -1,3 +1,10 @@
+2017-06-04  Tom de Vries  <tom@codesourcery.com>
+
+	* testsuite/runtest.all/libs.exp (process_test): Dump entire
+	output when there's no reportable output.
+	* testsuite/runtest.all/remote.test (load_lib): New proc.
+	* testsuite/runtest.all/target.test (load_lib): Same.
+
 2017-03-11  Thomas Preud'homme  <thomas.preudhomme@arm.com>
 
 	* lib/remote.exp (remote_download): Add logging message when

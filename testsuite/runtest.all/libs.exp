@@ -31,7 +31,26 @@ proc process_test { test } {
 
     if [file exists $test] {
 	verbose "Processing test $test" 2
-	spawn -open  [open "|$EXPECT $test $srcdir $subdir [pwd]" r]
+	set res [catch {
+	    exec -ignorestderr \
+		$EXPECT $test $srcdir $subdir [pwd] \
+		> OUTPUT 2>ERROR
+	}]
+	if { $res } {
+	    perror "$test failed" 0
+
+	    set fp [open "OUTPUT" r]
+	    set output [read $fp]
+	    close $fp
+	    puts "$test stdout: >$output<"
+
+	    set fp [open "ERROR" r]
+	    set error [read $fp]
+	    close $fp
+	    puts "$test stderr: >$error<"
+	}
+
+	spawn -open [open "|cat OUTPUT" r]
 	expect {
 	    "No such file or directory" {
 		perror "$test wouldn't run" 0
@@ -68,6 +87,7 @@ proc process_test { test } {
 		verbose "All Done" 3
 	    }
 	}
+	file delete OUTPUT ERROR
     } else {
 	perror "$test doesn't exist" 0
     }
