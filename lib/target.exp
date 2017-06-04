@@ -57,9 +57,7 @@ set text "\[- A-Za-z0-9\.\;\"\_\:\'\`\(\)\!\#\=\+\?\&\*]"
 # Set the target connection.
 #
 proc push_target { name } {
-    global target_abbrev
-
-    pop_config  target
+    pop_config target
     push_config target $name
 }
 

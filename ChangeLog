@@ -1,5 +1,10 @@
 2017-06-04  Ben Elliston  <bje@gnu.org>
 
+	* lib/target.exp (push_target): Remove unnecessary global command.
+	* testsuite/runtest.all/target.test: Overhaul tests.
+
+2017-06-04  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/runtest.all/remote.test: Remove cruft from yesteryear.
 
 2017-06-04  Tom de Vries  <tom@codesourcery.com>
