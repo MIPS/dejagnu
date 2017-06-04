@@ -1,5 +1,9 @@
 2017-06-04  Tom de Vries  <tom@codesourcery.com>
 
+	* testsuite/runtest.all/target.test: Remove list_targets test.
+
+2017-06-04  Tom de Vries  <tom@codesourcery.com>
+
 	* testsuite/runtest.all/libs.exp (process_test): Dump entire
 	output when there's no reportable output.
 	* testsuite/runtest.all/remote.test (load_lib): New proc.

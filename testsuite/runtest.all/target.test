@@ -68,13 +68,6 @@ set target_info(mvme,baud)      "9600"
 
 set timeout 100
 
-# test list_target
-
-if { [list_targets] == "idp mvme" } {
-    puts "PASSED: list_targets"
-} else {
-    puts "FAILED: list_targets"
-}
 push_config target idp
 set matches 0
 if { $target_info(target,name) == "idp" } {
