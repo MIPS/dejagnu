@@ -31,40 +31,52 @@ proc process_test { test } {
 
     if [file exists $test] {
 	verbose "Processing test $test" 2
+	set n 0
 	spawn -open  [open "|$EXPECT $test $srcdir $subdir [pwd]" r]
 	expect {
 	    "No such file or directory" {
 		perror "$test wouldn't run" 0
+		set n [expr $n + 1]
 	    }
 	    -re "\[\r\n\]*NOTSUPPORTED: $text\[\r\n\]*" {
 		unsupported "[lrange $expect_out(0,string) 1 end]"
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    -re "\[\r\n\]*NOTTESTED: $text\[\r\n\]*" {
 		untested "[lrange $expect_out(0,string) 1 end]"
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    -re "\[\r\n\]*PASSED: $text\[\r\n\]*" {
 		pass "[lrange $expect_out(0,string) 1 end]"
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    -re "\[\r\n\]*FAILED: $text\[\r\n\]*" {
 		fail "[lrange $expect_out(0,string) 1 end]"
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    -re "\[\r\n\]*WARNED: $text\[\r\n\]*" {
 		verbose "$expect_out(0,string)" 2
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    -re "\[\r\n\]*ERRORED: $text\[\r\n\]*" {
 		verbose "$expect_out(0,string)" 2
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    timeout {
 		perror "$test timed out" 0
+		set n [expr $n + 1]
 		exp_continue
 	    }
 	    eof {
+		if { $n == 0 } {
+		    perror "$test gives no reportable output" 0
+		}
 		verbose "All Done" 3
 	    }
 	}
