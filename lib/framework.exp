@@ -226,7 +226,7 @@ proc istarget { args } {
 
     set triplet [lindex $args 0]
 
-    # now check against the cannonical name
+    # now check against the canonical name
     if {[info exists target_triplet]} {
 	verbose "Checking \"$triplet\" against \"$target_triplet\"" 2
 	if {[string match $triplet $target_triplet]} {
