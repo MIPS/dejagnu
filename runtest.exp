@@ -390,7 +390,7 @@ proc usage { } {
     send_user "\t--reboot\t\tReboot the target (if supported)\n"
     send_user "\t--srcdir \[name\]\t\tThe test suite source code directory\n"
     send_user "\t--status\t\tSet the exit status to fail on Tcl errors\n"
-    send_user "\t--strace \[number\]\tSet expect tracing ON\n"
+    send_user "\t--strace \[number\]\tTurn on Expect tracing\n"
     send_user "\t--target \[triplet\]\tThe canonical triplet of the target board\n"
     send_user "\t--target_board \[name(s)\] The list of target boards to run tests on\n"
     send_user "\t--tool \[name(s)\]\tRun tests on these tools\n"
