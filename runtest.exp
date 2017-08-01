@@ -387,7 +387,7 @@ proc usage { } {
     send_user "\t--mail \[name(s)\]\tWhom to mail the results to\n"
     send_user "\t--objdir \[name\]\t\tThe test suite binary directory\n"
     send_user "\t--outdir \[name\]\t\tThe directory to put logs in\n"
-    send_user "\t--reboot \[name\]\t\tReboot the target (if supported)\n"
+    send_user "\t--reboot\t\tReboot the target (if supported)\n"
     send_user "\t--srcdir \[name\]\t\tThe test suite source code directory\n"
     send_user "\t--status\t\tSet the exit status to fail on Tcl errors\n"
     send_user "\t--strace \[number\]\tSet expect tracing ON\n"

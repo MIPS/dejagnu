@@ -1,3 +1,7 @@
+2017-08-01  Ben Elliston  <bje@gnu.org>
+
+	* runtest.exp (usage): --reboot doesn't take a 'name' parameter.
+
 2017-06-04  Ben Elliston  <bje@gnu.org>
 
 	* lib/target.exp (push_target): Remove unnecessary global command.
