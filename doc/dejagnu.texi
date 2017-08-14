@@ -662,9 +662,9 @@ file, but not in the summary (@file{*.sum}) log file.
 @item @code{-V}, @code{--version}
 Prints out the version numbers of DejaGnu, Expect, and Tcl.
 
-@item @code{-x}, @code{--xml=FILE}
-Generate XML output. FILE is optional; if given it is the name of the
-output file.  If not given, the output file is named after the tool.
+@item @code{-x}, @code{--xml}
+Generate XML output. The output file is named after the tool with an
+.xml extension.
 
 @item @file{testfile}.exp[=arg(s)]
 Specify the names of testsuites to run. By default, @emph{runtest} runs

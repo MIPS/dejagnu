@@ -1,3 +1,12 @@
+2017-08-15  Ben Elliston  <bje@gnu.org>
+
+	* lib/framework.exp (open_logs): Set .xml filename correctly.
+	* runtest.exp: Remove xml_file_name var.
+	(usage): Update --xml option to not take an argument.
+	(load_tool_init): Likewise.
+	* doc/dejagnu.texi (Invoking runtest): Update documentation.
+	* doc/runtest.1: Likewise.
+
 2017-08-01  Ben Elliston  <bje@gnu.org>
 
 	* runtest.exp (usage): Improve --strace message.
