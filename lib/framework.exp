@@ -363,10 +363,16 @@ proc log_and_exit {} {
     exit $exit_status
 }
 
+# Emit an XML tag, but escape XML special characters in the body.
+proc xml_tag { tag body } {
+    set escapes { < &lt; > &gt; & &amp; \" &quot; ' &apos; }
+    return <$tag>[string map $escapes $body]</$tag>
+}
+
 proc xml_output { message } {
     global xml_file
     if { $xml_file != "" } {
-	puts $xml_file "$message"
+	puts $xml_file $message
     }
 }
 
@@ -435,9 +441,9 @@ proc log_summary { args } {
 	    set mess "# of $test_counts($x,name)"
 	    if { $xml } {
 		xml_output "  <summary>"
-		xml_output "    <result>$x</result>"
-		xml_output "    <description>$mess</description>"
-		xml_output "    <total>$val</total>"
+		xml_output "    [xml_tag result $x]"
+		xml_output "    [xml_tag description $mess]"
+		xml_output "    [xml_tag total $val]"
 		xml_output "  </summary>"
 	    }
 	    if { [string length $mess] < 24 } {
@@ -695,11 +701,11 @@ proc record_test { type message args } {
 	set output ""
 	set output "expect_out(buffer)"
 	xml_output "  <test>"
-	xml_output "    <input>[string trimright [lindex $rio 0]]</input>"
-	xml_output "    <output>[string trimright [lindex $rio 1]]</output>"
-	xml_output "    <result>$type</result>"
-	xml_output "    <name>$message</name>"
-	xml_output "    <prms_id>$prms_id</prms_id>"
+	xml_output "    [xml_tag input [string trimright [lindex $rio 0]]]"
+	xml_output "    [xml_tag output [string trimright [lindex $rio 1]]]"
+	xml_output "    [xml_tag result $type]"
+	xml_output "    [xml_tag name $message]"
+	xml_output "    [xml_tag prms_id $prms_id]"
 	xml_output "  </test>"
     }
 
