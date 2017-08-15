@@ -615,6 +615,9 @@ proc find_binutils_prog { name } {
 	    set file [lookfor_file $tool_root_dir binutils/$name]
 	}
 	if { $file == "" } {
+	    set file [lookfor_file $tool_root_dir binutils/binutils/$name]
+	}
+	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir binutils/${name}-new]
 	}
 	if { $file != "" } {
