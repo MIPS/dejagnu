@@ -1,3 +1,7 @@
+2017-08-18  Tom Tromey  <tom@tromey.com>
+
+	* runtest.exp: Fix --directory matching.
+
 2017-08-15  Ben Elliston  <bje@gnu.org>
 
 	* lib/framework.exp (xml_tag): New proc.
