@@ -1,3 +1,8 @@
+2017-08-19  Ben Elliston  <bje@gnu.org>
+
+	* lib/framework.exp (xml_tag): Escape all of the non-printable
+	control characters (ASCII codes 1 to 31 inclusive).
+
 2017-08-18  Tom Tromey  <tom@tromey.com>
 
 	* runtest.exp: Fix --directory matching.

@@ -366,6 +366,12 @@ proc log_and_exit {} {
 # Emit an XML tag, but escape XML special characters in the body.
 proc xml_tag { tag body } {
     set escapes { < &lt; > &gt; & &amp; \" &quot; ' &apos; }
+    for {set i 1} {$i < 32} {incr i} {
+	# Append non-printable character
+	lappend escapes [format %c $i]
+	# .. and then the corresponding XML escape
+	lappend escapes &#[format %x $i]\;
+    }
     return <$tag>[string map $escapes $body]</$tag>
 }
 
