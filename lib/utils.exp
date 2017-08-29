@@ -339,6 +339,14 @@ proc setenv { var val } {
     set env($var) $val
 }
 
+# Unset an environment variable
+#
+proc unsetenv { var } {
+    global env
+    unset env($var)
+}
+
+
 # Get a value from an environment variable
 #
 proc getenv { var } {

@@ -1,3 +1,17 @@
+2017-08-29  Ben Elliston  <bje@gnu.org>
+
+	Revert these changes:
+
+	2016-04-25  Ben Elliston  <bje@gnu.org>
+
+	* testsuite/runtest.all/utils.test: Remove unsetenv test.
+
+	2016-04-24  Ben Elliston  <bje@gnu.org>
+
+	* lib/utils.exp (unsetenv): Remove proc.
+	* doc/dejagnu.texi: Update documentation.
+	* NEWS: Update.
+
 2017-08-19  Ben Elliston  <bje@gnu.org>
 
 	* lib/framework.exp (xml_tag): Escape all of the non-printable
