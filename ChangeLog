@@ -1,3 +1,9 @@
+2017-09-13  Ben Elliston  <bje@gnu.org>
+
+	* lib/framework.exp (open_logs): Set XML version to 1.1.
+	(xml_tag): Skip valid whitespace chars (0x9, 0xA, 0xD). Include
+	missing 'x' in escape sequence.
+
 2017-08-29  Ben Elliston  <bje@gnu.org>
 
 	Revert these changes:
