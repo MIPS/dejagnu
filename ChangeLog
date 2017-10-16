@@ -1,5 +1,14 @@
 2017-10-16  Ben Elliston  <bje@gnu.org>
 
+	* NEWS: Start a new section for the next release.
+	* configure.ac (AC_INIT): Update version number.
+	* configure: Regenerate.
+	* runtest.exp (frame_version): Update version number.
+	* doc/dejagnu.texi: Likewise.
+	* doc/runtest.1: Update datestamp.
+
+2017-10-16  Ben Elliston  <bje@gnu.org>
+
 	* config.guess: Update to version 2017-09-26.
 	* config.sub: Likewise.
 
