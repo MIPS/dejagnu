@@ -1,5 +1,9 @@
 2017-10-16  Ben Elliston  <bje@gnu.org>
 
+	* DejaGnu 1.6.1 released.
+
+2017-10-16  Ben Elliston  <bje@gnu.org>
+
 	* NEWS: Add entry for changes since version 1.6.
 	* configure.ac (AC_INIT): Update version number.
 	* configure: Regenerate.
