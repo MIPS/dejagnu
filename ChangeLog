@@ -1,3 +1,8 @@
+2017-10-16  Ben Elliston  <bje@gnu.org>
+
+	* config.guess: Update to version 2017-09-26.
+	* config.sub: Likewise.
+
 2017-09-13  Ben Elliston  <bje@gnu.org>
 
 	* lib/framework.exp (open_logs): Set XML version to 1.1.
