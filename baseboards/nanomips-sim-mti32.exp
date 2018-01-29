@@ -41,3 +41,4 @@ set_board_info ldscript "-Tmti32.ld"
 # And, it can't do arguments, and doesn't have real signals.
 set_board_info noargs 1
 set_board_info gdb,nosignals 1
+set_board_info gdb,no_hardware_watchpoints 1
