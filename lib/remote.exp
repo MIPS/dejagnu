@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016 Free Software Foundation, Inc.
+# Copyright (C) 1992-2018 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -70,13 +70,16 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 	# Tcl has no kill primitive, so we have to execute an external
 	# command in order to kill the process.
 	verbose "doing kill, pid is $pid"
-	# Prepend "-" to generate the "process group ID" needed by
-	# kill.
-	set pgid "-$pid"
 	# Send SIGINT to give the program a better chance to interrupt
 	# whatever it might be doing and react to stdin closing.
 	# eg, in case of GDB, this should get it back to the prompt.
-	exec sh -c "exec > /dev/null 2>&1 && (kill -2 $pgid || kill -2 $pid)"
+	# Do so separately for each PID in the list to avoid differences
+	# in return value behavior for kill between shells
+	foreach spid $pid {
+          # Prepend "-" to generate the "process group ID" needed by
+          # kill.
+	  exec sh -c "exec > /dev/null 2>&1 && (kill -2 -$spid || kill -2 $spid)"
+	}
 
 	# If the program doesn't exit gracefully when stdin closes,
 	# we'll need to kill it.  But only do this after 'wait'ing a
@@ -86,9 +89,15 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 	# PID reuse race.
 	set secs 5
 	set sh_cmd "exec > /dev/null 2>&1"
-	append sh_cmd " && sleep $secs && (kill -15 $pgid || kill -15 $pid)"
-	append sh_cmd " && sleep $secs && (kill -9 $pgid || kill -9 $pid)"
-	append sh_cmd " && sleep $secs"
+	append sh_cmd " && sleep $secs && ("
+	foreach spid $pid {
+	  append sh_cmd "(kill -15 -$spid || kill -15 $spid);"
+	}
+	append sh_cmd ") && sleep $secs && ("
+	foreach spid $pid {
+	  append sh_cmd "(kill -9 -$spid || kill -9 $spid);"
+	}
+	append sh_cmd ") && sleep $secs"
 	set exec_pid [exec sh -c "$sh_cmd" &]
     }
     verbose "pid is $pid"

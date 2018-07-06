@@ -1,3 +1,8 @@
+2018-07-06  Richard Biener  <rguenther@suse.de>
+
+	* lib/remote.exp (close_wait_program): Use separate kill command
+	for each pid.
+
 2017-10-16  Ben Elliston  <bje@gnu.org>
 
 	* NEWS: Start a new section for the next release.
