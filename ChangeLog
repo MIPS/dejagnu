@@ -1,5 +1,11 @@
 2018-07-19  Ben Elliston  <bje@gnu.org>
 
+	* runtest: Use POSIX 'command', not 'type', to look for the Expect
+	binary. Silences Shellcheck warning SC2039 ("In POSIX sh, 'type'
+	is undefined").
+
+2018-07-19  Ben Elliston  <bje@gnu.org>
+
 	* config.guess: Update to latest version.
 	* config.sub: Likewise.
 
