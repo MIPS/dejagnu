@@ -29,7 +29,7 @@ before=$tmp1
 now=$tmp2
 
 exit_status=0
-trap "rm -f $tmp1 $tmp2 $now_s $before_s" 0 1 2 3 5 9 13 15
+trap 'rm -f $tmp1 $tmp2 $now_s $before_s' EXIT HUP INT QUIT TRAP PIPE TERM
 
 sort -t ':' +1 "$now" > "$now_s"
 sort -t ':' +1 "$before" > "$before_s"
@@ -37,8 +37,8 @@ sort -t ':' +1 "$before" > "$before_s"
 grep '^FAIL:' "$now_s" | sed 's/^[^:]*:[ 	]//' >$tmp1
 grep '^PASS' "$before_s" | sed 's/^[^:]*:[ 	]//' | comm -12 $tmp1 - >$tmp2
 
-grep -s . $tmp2 >/dev/null
-if [ $? = 0 ]; then
+
+if grep -s . $tmp2 >/dev/null ; then
 	echo "Tests that now fail, but worked before:"
 	echo
 	cat $tmp2
@@ -49,8 +49,8 @@ fi
 grep '^PASS' "$now_s" | sed 's/^[^:]*:[ 	]//' >$tmp1
 grep '^FAIL' "$before_s" | sed 's/^[^:]*:[ 	]//' | comm -12 $tmp1 - >$tmp2
 
-grep -s . $tmp2 >/dev/null
-if [ $? = 0 ]; then
+
+if grep -s . $tmp2 >/dev/null ; then
 	echo "Tests that now work, but didn't before:"
 	echo
 	cat $tmp2
@@ -60,8 +60,8 @@ fi
 grep '^FAIL' "$now_s" | sed 's/^[^:]*:[ 	]//' >$tmp1
 grep '^[PF]A[SI][SL]' "$before_s" | sed 's/^[^:]*:[ 	]//' | comm -23 $tmp1 - >$tmp2
 
-grep -s . $tmp2 >/dev/null
-if [ $? = 0 ]; then
+
+if grep -s . $tmp2 >/dev/null ; then
 	echo "New tests that FAIL:"
 	echo
 	cat $tmp2
@@ -72,8 +72,8 @@ fi
 grep '^PASS' "$now_s" | sed 's/^[^:]*:[ 	]//' >$tmp1
 grep '^[PF]A[SI][SL]' "$before_s" | sed 's/^[^:]*:[ 	]//' | comm -23 $tmp1 - >$tmp2
 
-grep -s . $tmp2 >/dev/null
-if [ $? = 0 ]; then
+
+if grep -s . $tmp2 >/dev/null ; then
 	echo "New tests that PASS:"
 	echo
 	cat $tmp2
@@ -83,8 +83,8 @@ fi
 grep '^[PF]A[SI][SL]' "$now_s" | sed 's/^[^:]*:[ 	]//' >$tmp1
 grep '^PASS' "$before_s" | sed 's/^[^:]*:[ 	]//' | comm -13 $tmp1 - >$tmp2
 
-grep -s . $tmp2 >/dev/null
-if [ $? = 0 ]; then
+
+if grep -s . $tmp2 >/dev/null ; then
 	echo "Old tests that passed, that have disappeared: (Eeek!)"
 	echo
 	cat $tmp2
@@ -94,8 +94,8 @@ fi
 grep '^[PF]A[SI][SL]' "$now_s" | sed 's/^[^:]*:[ 	]//' >$tmp1
 grep '^FAIL' "$before_s" | sed 's/^[^:]*:[ 	]//' | comm -13 $tmp1 - >$tmp2
 
-grep -s . $tmp2 >/dev/null
-if [ $? = 0 ]; then
+
+if grep -s . $tmp2 >/dev/null ; then
 	echo "Old tests that failed, that have disappeared: (Eeek!)"
 	echo
 	cat $tmp2

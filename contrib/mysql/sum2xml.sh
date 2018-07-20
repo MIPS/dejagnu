@@ -70,7 +70,7 @@ echo "<testsuite>" >> "$outfile"
 ${decomp} "$infile"
 infile=$(echo "$infile" | sed -e 's:\.xz::' -e 's:\.gz::')
 
-while read line
+while read -r line
 do
   # ignore blank lines
     if test x"${line}" = x; then
@@ -84,7 +84,7 @@ do
     if test "$(echo "$line" | grep -c Summary)" -gt 0; then
 	break
     fi
-    valid=$(echo "$line" | egrep -c 'PASS|FAIL|UNTESTED|UNSUPPORTED|UNRESOLVED')
+    valid=$(echo "$line" | grep -E -c 'PASS|FAIL|UNTESTED|UNSUPPORTED|UNRESOLVED')
     if test "$valid" -eq 0; then
 	continue
     fi
