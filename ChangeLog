@@ -1,3 +1,7 @@
+2018-07-20  Ben Elliston  <bje@gnu.org>
+
+	* contrib/sum2junit.sh: Eliminate some Shellcheck warnings.
+
 2018-07-19  Ben Elliston  <bje@gnu.org>
 
 	* runtest: Use POSIX 'command', not 'type', to look for the Expect

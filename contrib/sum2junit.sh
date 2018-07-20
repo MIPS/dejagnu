@@ -34,19 +34,19 @@ fi
 tool=$(grep "tests ===" "$infile" | tr -s ' ' | cut -d ' ' -f 2)
 
 # Get the counts for tests that didn't work properly
-skipped=$(egrep -c '^UNRESOLVED|^UNTESTED|^UNSUPPORTED' "$infile")
+skipped=$(grep -E -c '^UNRESOLVED|^UNTESTED|^UNSUPPORTED' "$infile")
 if test x"${skipped}" = x; then
     skipped=0
 fi
 
 # The total of successful results are PASS and XFAIL
-passes=$(egrep -c '^PASS|XFAIL' "$infile")
+passes=$(grep -E -c '^PASS|XFAIL' "$infile")
 if test x"${passes}" = x; then
     passes=0
 fi
 
 # The total of failed results are FAIL and XPASS
-failures=$(egrep -c '^XFAIL|XPASS' "$infile")
+failures=$(grep -E -c '^XFAIL|XPASS' "$infile")
 if test x"${failures}" = x; then
     failures=0
 fi
@@ -55,7 +55,7 @@ fi
 total=$((passes + failures))
 total=$((total + skipped))
 
-cat <<EOF > ${outfile}
+cat <<EOF > "$outfile"
 <?xml version="1.0"?>
 
 <testsuites>
@@ -68,9 +68,9 @@ EOF
 # case problem results.
 tmpfile="${infile}.tmp"
 rm -f "$tmpfile"
-egrep 'XPASS|FAIL|UNTESTED|UNSUPPORTED|UNRESOLVED' "$infile" > "$tmpfile"
+grep -E 'XPASS|FAIL|UNTESTED|UNSUPPORTED|UNRESOLVED' "$infile" > "$tmpfile"
 
-while read line
+while read -r line
 do
     echo -n "."
     result=$(echo "$line" | cut -d ' ' -f 1 | tr -d ':')
