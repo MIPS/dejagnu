@@ -105,7 +105,7 @@ rm testrun.data
 
 files=$(find . -maxdepth 1 -name '*.data' | tr '\n' ' ')
 # Get all the versions in the files, we'll pad rows so all the rows match
-versions=$(cut -d ' ' -f 3 $files | sort -V | uniq | tr '\n' ' ')
+versions=$(cut -d ' ' -f 3 "$files" | sort -V | uniq | tr '\n' ' ')
 
 for i in ${files}; do
    for j in ${versions}; do

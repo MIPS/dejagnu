@@ -1,5 +1,10 @@
 2018-07-20  Ben Elliston  <bje@gnu.org>
 
+	* contrib/mysql/make-datafile.sh: Eliminate Shellcheck warnings.
+	* contrib/mysql/sum2xml.sh: Likewise.
+
+2018-07-20  Ben Elliston  <bje@gnu.org>
+
 	* contrib/compare_tests: Eliminate Shellcheck warnings.
 	* contrib/mysql/sum2xml.sh: Likewise.
 

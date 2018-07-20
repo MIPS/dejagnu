@@ -90,7 +90,7 @@ do
     fi
     echo -n "."
     { echo "<test>"; echo "  <input></input>"; echo "  <output></output>"; } >> "$outfile"
-    result=$(echo "$line" | sed -e 's/: .*$//')
+    result=${line/: *//}
     echo "  <result>${result}</result>" >> "$outfile"
     name=${line/^[A-Z]*: /}
     { echo "  <name>${name}</name>"; echo "  <prms_id></prms_id>"; echo "</test>"; } >> "$outfile"
