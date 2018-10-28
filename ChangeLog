@@ -1,3 +1,7 @@
+2018-10-28  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* lib/framework.exp (record_test): Fix message formatting.
+
 2018-07-20  Ben Elliston  <bje@gnu.org>
 
 	* contrib/mysql/make-datafile.sh: Eliminate Shellcheck warnings.
