@@ -1,3 +1,8 @@
+2018-10-29  Ben Elliston  <bje@gnu.org>
+
+	Reported by Jacob Bachmeyer.
+	* testsuite/runtest.all/utils.test: Fix missing end quote.
+
 2018-10-28  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* lib/framework.exp (record_test): Fix message formatting.

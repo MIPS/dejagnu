@@ -70,7 +70,7 @@ if [info exists env(TESTRUN)] {
     if { $env(TESTRUN) == "FooBar" } {
         pass "setenv, set an environment variable"
     } else {
-        fail "setenv, set an environment variable
+        fail "setenv, set an environment variable"
     }
 } else {
     fail "setenv, set an environment variable"
