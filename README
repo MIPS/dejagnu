@@ -40,14 +40,13 @@ report.  Guidelines for reporting bugs can be found at:
 Documentation
 -------------
 
-The DejaGnu documentation is written in Docbook/XML.  The Makefile
-does not render the documentation into other formats by default, as
-this requires a range of Docbook packages to be installed.  The
-intention is that this will be done by the maintainers when a release
-is made.  HTML, RTF, PostScript and PDF versions of the current user
-manual are kept on the web at:
+The DejaGnu documentation is written in Texinfo.  The Makefile does
+not render the documentation into other formats by default, as this
+requires a range of Docbook packages to be installed.  The intention
+is that this will be done by the maintainers when a release is made.
+HTML and PDF versions of the current user manual are kept at:
 
     http://www.gnu.org/software/dejagnu/#documentation
 
-Info documentation is installed on a system as part of the
-installation process.  You can read this by typing "info dejagnu".
+GNU Info documentation is installed as part of the installation
+process.  You can read this by typing "info dejagnu".
