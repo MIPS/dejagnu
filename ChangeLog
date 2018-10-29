@@ -1,3 +1,7 @@
+2018-10-28  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* lib/framework.exp (record_test): Really fix message formatting.
+
 2018-10-29  Ben Elliston  <bje@gnu.org>
 
 	Reported by Jacob Bachmeyer.

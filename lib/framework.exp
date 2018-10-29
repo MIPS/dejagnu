@@ -800,7 +800,7 @@ proc record_test { type message args } {
 
     global multipass_name
     if { $multipass_name != "" } {
-	set message [format "$type: %s: %s" "$message" "$multipass_name"]
+	set message [format "%s: %s: %s" "$type" "$multipass_name" "$message"]
     } else {
 	set message "$type: $message"
     }
