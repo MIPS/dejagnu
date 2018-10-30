@@ -1,5 +1,11 @@
 2018-10-30  Ben Elliston  <bje@gnu.org>
 
+	* Makefile.am (DISTCLEANFILES): Add testrun.xml.
+	* Makefile.in: Regenerate with Automake 1.15.1.
+	* aclocal.m4: Likewise.
+
+2018-10-30  Ben Elliston  <bje@gnu.org>
+
 	* configure.ac (AC_CONFIG_SUBDIRS): Remove.
 	* configure: Regenerate.
 

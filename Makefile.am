@@ -25,7 +25,8 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB)
 
-DISTCLEANFILES = xXx.log xXx.sum x.log x.sum testrun.log testrun.sum
+DISTCLEANFILES = xXx.log xXx.sum x.log x.sum testrun.log \
+	testrun.sum testrun.xml
 
 # Give a reassuring message so that users know the "build" worked.
 all-local:
