@@ -54,5 +54,4 @@ then
 fi
 AC_SUBST(DEJAGNU)
 
-AC_CONFIG_SUBDIRS([example/calc example/mathhelper])
 AC_OUTPUT([Makefile])

@@ -1,3 +1,8 @@
+2018-10-30  Ben Elliston  <bje@gnu.org>
+
+	* configure.ac (AC_CONFIG_SUBDIRS): Remove.
+	* configure: Regenerate.
+
 2018-10-29  Ben Elliston  <bje@gnu.org>
 
 	* README (Documentation): Update.
