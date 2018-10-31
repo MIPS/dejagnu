@@ -1,5 +1,10 @@
 2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* runtest.exp (load_tool_init): Add message indicating the
+	expected location of the tool init file.
+
+2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* contrib/sum2junit.sh (failures): Fix typo.
 
 2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>

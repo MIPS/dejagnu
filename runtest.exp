@@ -935,6 +935,8 @@ proc load_tool_init { file } {
 
     set loaded_libs($file) ""
 
+    verbose "Looking for tool init file $srcdir/lib/$file"
+
     if {[file exists [file join ${srcdir} lib $file]]} {
 	verbose "Loading library file ${srcdir}/lib/$file"
 	if { [catch "uplevel #0 source ${srcdir}/lib/$file"] == 1 } {
