@@ -46,7 +46,7 @@ if test x"${passes}" = x; then
 fi
 
 # The total of failed results are FAIL and XPASS
-failures=$(grep -E -c '^XFAIL|XPASS' "$infile")
+failures=$(grep -E -c '^FAIL|XPASS' "$infile")
 if test x"${failures}" = x; then
     failures=0
 fi
