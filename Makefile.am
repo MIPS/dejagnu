@@ -163,8 +163,11 @@ TESTSUITE_FILES = \
 	testsuite/lib/util-defs.exp \
 	testsuite/libdejagnu/tunit.exp
 
+DEJATOOL = libdejagnu runtest
+
 RUNTEST = ${top_srcdir}/runtest
-RUNTESTDEFAULTFLAGS = --srcdir $(srcdir)/testsuite RUNTEST=$(RUNTEST)
+RUNTESTDEFAULTFLAGS = --tool $${tool} --srcdir $${srcdir}/testsuite
+RUNTESTDEFAULTFLAGS += RUNTEST=$(RUNTEST)
 
 AM_CXXFLAGS = -I$(top_srcdir) -g
 check_PROGRAMS = unit

@@ -55,7 +55,6 @@ proc runtest_load { arg } {
 # runtest_exit -- exit the test driver for expect
 #
 proc runtest_exit { } {
-    close
 }
 
 #

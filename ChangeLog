@@ -1,5 +1,18 @@
 2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* Makefile.am (DEJATOOL): List tools in testsuite.
+	(RUNTESTDEFAULTFLAGS): Adjust to support per-tool testing.
+	* testsuite/config/default.exp: Rename from this ...
+	* testsuite/lib/runtest.exp: ... to this.
+	(runtest_exit): Remove spurious "close". This was causing per-tool
+	testing to fail, since the testsuite for "runtest" never actually
+	uses "spawn", so "close" ends up closing exp0, which is the
+	terminal.  The ${tool}_exit proc is not called if the --tool
+	option is not given, so this had no effect earlier.
+	* testsuite/lib/libdejagnu.exp: New empty file.
+
+2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* runtest.exp (load_tool_init): Add message indicating the
 	expected location of the tool init file.
 
@@ -10,6 +23,17 @@
 2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* configure.ac (DEJAGNU): Add comments.
+
+       * Makefile.am (DEJATOOL): List tools in testsuite.
+       (RUNTESTDEFAULTFLAGS): Adjust to support per-tool testing.
+       * testsuite/config/default.exp: Rename from this ...
+       * testsuite/lib/runtest.exp: ... to this.
+       (runtest_exit): Remove spurious "close".
+       This was causing per-tool testing to fail, since the testsuite for
+       "runtest" never actually uses "spawn", so "close" ends up closing
+       exp0, which is the terminal.  The ${tool}_exit proc is not called
+       if the --tool option is not given, so this had no effect earlier.
+       * testsuite/lib/libdejagnu.exp: New empty file.
 
 2018-10-30  Ben Elliston  <bje@gnu.org>
 
