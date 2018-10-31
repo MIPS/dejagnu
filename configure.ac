@@ -48,10 +48,12 @@ else
   AC_MSG_ERROR([Tcl 8.5 or greater is required])
 fi
 
+dnl Provide an empty global site file (/dev/null) as default.
 if test x"$DEJAGNU" = x
 then
   DEJAGNU="/dev/null"
 fi
 AC_SUBST(DEJAGNU)
+dnl Makefile.am arranges for DEJAGNU to be exported in the environment.
 
 AC_OUTPUT([Makefile])
