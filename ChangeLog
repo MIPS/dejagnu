@@ -1,3 +1,7 @@
+2018-11-02  Ben Elliston  <bje@gnu.org>
+
+	* Makefile.in: Regenerate.
+
 2018-10-31  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* Makefile.am (DEJATOOL): List tools in testsuite.
