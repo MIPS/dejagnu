@@ -1,3 +1,8 @@
+2018-11-05  Ben Elliston  <bje@gnu.org>
+
+	* config.guess: Update to latest version.
+	* config.sub: Likewise.
+
 2018-11-02  Ben Elliston  <bje@gnu.org>
 
 	* Makefile.in: Regenerate.
