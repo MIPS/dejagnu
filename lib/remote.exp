@@ -76,9 +76,9 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 	# Do so separately for each PID in the list to avoid differences
 	# in return value behavior for kill between shells
 	foreach spid $pid {
-          # Prepend "-" to generate the "process group ID" needed by
-          # kill.
-	  exec sh -c "exec > /dev/null 2>&1 && (kill -2 -$spid || kill -2 $spid)"
+	    # Prepend "-" to generate the "process group ID" needed by
+	    # kill.
+	    exec sh -c "exec > /dev/null 2>&1 && (kill -2 -$spid || kill -2 $spid)"
 	}
 
 	# If the program doesn't exit gracefully when stdin closes,
@@ -91,11 +91,11 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 	set sh_cmd "exec > /dev/null 2>&1"
 	append sh_cmd " && sleep $secs && ("
 	foreach spid $pid {
-	  append sh_cmd "(kill -15 -$spid || kill -15 $spid);"
+	    append sh_cmd "(kill -15 -$spid || kill -15 $spid);"
 	}
 	append sh_cmd ") && sleep $secs && ("
 	foreach spid $pid {
-	  append sh_cmd "(kill -9 -$spid || kill -9 $spid);"
+	    append sh_cmd "(kill -9 -$spid || kill -9 $spid);"
 	}
 	append sh_cmd ") && sleep $secs"
 	set exec_pid [exec sh -c "$sh_cmd" &]
@@ -321,14 +321,14 @@ proc remote_exec { hostname program args } {
     if { ![is_remote $hostname] } {
 	set result [local_exec "$program $pargs" $inp $outp $timeout]
     } else {
-        if { [board_info $hostname exists remotedir] } {
-            set remotedir [board_info $hostname remotedir]
+	if { [board_info $hostname exists remotedir] } {
+	    set remotedir [board_info $hostname remotedir]
 	    # This is a bit too clever. Join cd $remotedir and
 	    # $program on the command line with ';' and not '&&'. When
 	    # called, $program may be mkdir to initially create the
 	    # remote directory, in which case cd would fail.
-            set program "test -d $remotedir && cd $remotedir; $program"
-        }
+	    set program "test -d $remotedir && cd $remotedir; $program"
+	}
 	set result [call_remote "" exec $hostname $program $pargs $inp $outp]
     }
 
@@ -468,13 +468,13 @@ proc remote_download { dest file args } {
 	}
     }
     if { [board_info $dest exists remotedir] } {
-        set remotedir [board_info $dest remotedir]
-        set status [remote_exec $dest mkdir "-p $remotedir"]
-        if { [lindex $status 0] != 0 } {
-            perror "Couldn't create remote directory $remotedir on $dest"
+	set remotedir [board_info $dest remotedir]
+	set status [remote_exec $dest mkdir "-p $remotedir"]
+	if { [lindex $status 0] != 0 } {
+	    perror "Couldn't create remote directory $remotedir on $dest"
 	    return ""
-        }
-        set destfile "$remotedir/$destfile"
+	}
+	set destfile "$remotedir/$destfile"
     }
 
     return [call_remote "" download $dest $file $destfile]
@@ -1078,9 +1078,9 @@ proc standard_load { dest prog args } {
     }
 
     if {[is_remote $dest]} {
-        if {![board_info $dest exists remotedir]} {
-            set board_info($dest,remotedir) "/tmp/runtest.[pid]"
-        }
+	if {![board_info $dest exists remotedir]} {
+	    set board_info($dest,remotedir) "/tmp/runtest.[pid]"
+	}
 	set remotefile [file tail $prog]
 	set remotefile [remote_download $dest $prog $remotefile]
 	if { $remotefile == "" } {
@@ -1271,7 +1271,7 @@ proc remote_expect { board timeout args } {
 	}
 
 	set x "[lrange $args $i $i]"
-	regsub "^\n*\[ 	\]*" "$x" "" x
+	regsub "^\n*\[ \t\]*" "$x" "" x
 
 	if { $x == "-i" || $x == "-timeout" || $x == "-ex" } {
 	    append res "$x "

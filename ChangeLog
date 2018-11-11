@@ -1,3 +1,9 @@
+2018-11-11  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* lib/ssh.exp: Clean up whitespace.
+	* lib/remote.exp: Clean up whitespace.
+	(remote_expect): Change literal tab to "\t" in regexp.
+
 2018-11-05  Ben Elliston  <bje@gnu.org>
 
 	* config.guess: Update to latest version.

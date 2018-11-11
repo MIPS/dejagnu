@@ -204,7 +204,7 @@ proc ssh_close { desthost } {
     global SSH ssh_initialized
 
     verbose "Closing the SSH connection to $desthost"
-    
+
     set ssh_port ""
     set scp_port ""
     set ssh_user ""
