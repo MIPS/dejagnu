@@ -596,7 +596,7 @@ proc load_lib { file } {
     set loaded_libs($file) ""
     set search_dirs [list ../lib $libdir $libdir/lib [file dirname [file dirname $srcdir]]/dejagnu/lib $srcdir/lib $execpath/lib . [file dirname [file dirname [file dirname $srcdir]]]/dejagnu/lib]
     if {[info exists libdirs]} {
-        lappend search_dirs $libdirs
+	lappend search_dirs $libdirs
     }
     if { [search_and_load_file "library file" $file $search_dirs ] == 0 } {
 	send_error "ERROR: Couldn't find library file $file.\n"

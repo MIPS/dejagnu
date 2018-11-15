@@ -1,3 +1,7 @@
+2018-11-15  Ben Elliston  <bje@gnu.org>
+
+	* runtest.exp (load_lib): Whitespace fix.
+
 2018-11-11  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* lib/ssh.exp: Clean up whitespace.
