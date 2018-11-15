@@ -1,3 +1,8 @@
+2018-11-15  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* runtest.exp (load_tool_init): Search for tool init file instead
+	of assuming exactly one location.
+
 2018-11-15  Ben Elliston  <bje@gnu.org>
 
 	* runtest.exp (load_lib): Whitespace fix.

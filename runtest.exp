@@ -929,25 +929,21 @@ proc load_tool_init { file } {
     global srcdir
     global loaded_libs
 
-    if {[info exists loaded_libs($file)]} {
+    if {[info exists loaded_libs(tool/$file)]} {
 	return
     }
 
-    set loaded_libs($file) ""
+    set loaded_libs(tool/$file) ""
 
-    verbose "Looking for tool init file $srcdir/lib/$file"
-
-    if {[file exists [file join ${srcdir} lib $file]]} {
-	verbose "Loading library file ${srcdir}/lib/$file"
-	if { [catch "uplevel #0 source ${srcdir}/lib/$file"] == 1 } {
-	    send_error "ERROR: tcl error sourcing library file ${srcdir}/lib/$file.\n"
-	    global errorInfo
-	    if {[info exists errorInfo]} {
-		send_error "$errorInfo\n"
-	    }
-	    exit 1
-	}
+    if { [lindex [file split $srcdir] end] != "testsuite" } {
+	lappend searchpath [file join $srcdir testsuite lib tool]
+	lappend searchpath [file join $srcdir testsuite lib]
     } else {
+	lappend searchpath [file join $srcdir lib tool]
+    }
+    lappend searchpath [file join $srcdir lib]
+
+    if { ![search_and_load_file "tool init file" [list $file] $searchpath] } {
 	warning "Couldn't find tool init file"
     }
 }
