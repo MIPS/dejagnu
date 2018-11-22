@@ -1,3 +1,9 @@
+2018-11-22  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* runtest.exp: Ensure that multipass pass variables are always
+	restored.  Previously, they were only restored if the "Go digging
+	for tests" branch was taken near the end of runtest.exp.
+
 2018-11-22  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi (Customizing DejaGnu): Document error handling

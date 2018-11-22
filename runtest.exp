@@ -1886,15 +1886,16 @@ foreach current_target $target_list {
 		    }
 		}
 	    }
-	    # Restore the variables set by this pass.
-	    foreach varval $restore {
-		if { [llength $varval] > 1 } {
-		    verbose "Restoring [lindex $varval 0] to [lindex $varval 1]" 4
-		    set [lindex $varval 0] [lindex $varval 1]
-		} else {
-		    verbose "Restoring [lindex $varval 0] to `unset'" 4
-		    unset -- [lindex $varval 0]
-		}
+	}
+
+	# Restore the variables set by this pass.
+	foreach varval $restore {
+	    if { [llength $varval] > 1 } {
+		verbose "Restoring [lindex $varval 0] to [lindex $varval 1]" 4
+		set [lindex $varval 0] [lindex $varval 1]
+	    } else {
+		verbose "Restoring [lindex $varval 0] to `unset'" 4
+		unset -- [lindex $varval 0]
 	    }
 	}
     }
