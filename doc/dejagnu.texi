@@ -963,7 +963,8 @@ values that apply to DejaGnu site-wide.  @code{runtest} loads these
 values first. The global @file{site.exp} contains the default values for
 all targets and hosts supported by DejaGnu. This global file is
 identified by setting the environment variable @code{DEJAGNU} to the
-name of the file.
+name of the file. If @code{DEJAGNU} is set, but the file cannot be
+located, an error will be raised and @code{runtest} will abort.
 
 Any directory containing a configured testsuite also has a local
 @file{site.exp}, capturing configuration values specific to the tool

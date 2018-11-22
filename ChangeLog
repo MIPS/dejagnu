@@ -1,3 +1,8 @@
+2018-11-22  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi (Customizing DejaGnu): Document error handling
+	of the $DEJAGNU environment variable (see change below).
+
 2018-11-22  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* runtest.exp: Raise error if $DEJAGNU is defined but not found.
