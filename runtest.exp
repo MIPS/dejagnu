@@ -867,7 +867,8 @@ if {[info exists env(DEJAGNU)]} {
 	# config file, but issue an error if $DEJAGNU is erroneously defined.
 	# Since $DEJAGNU is set there is *supposed* to be a global config file,
 	# so the current behaviour seems reasonable.
-	send_error "WARNING: global config file $env(DEJAGNU) not found.\n"
+	send_error "ERROR: global config file $env(DEJAGNU) not found.\n"
+	exit 1
     }
     if {![info exists boards_dir]} {
 	set boards_dir "[file dirname $env(DEJAGNU)]/boards"
