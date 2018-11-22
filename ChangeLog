@@ -1,3 +1,10 @@
+2018-11-23  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi (getdirs procedure): Improve documentation
+	including documenting the -all option.
+	(find procedure): Fix a typo.
+	* lib/utils.exp (getdirs): Improve comments.
+
 2018-11-22  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* runtest.exp: Ensure that multipass pass variables are always

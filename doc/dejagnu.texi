@@ -4539,21 +4539,28 @@ tool, and its version number.
 @node getdirs procedure, find procedure, , Utility Procedures
 @subsubsection getdirs Procedure
 
-Returns a list of all the directories in the single directory a single
-directory that match an optional pattern.
+Returns a list of all the subdirectories in a single directory that
+match a glob pattern.
 
 @quotation
-@t{@b{getdirs}@{@i{rootdir}
+@t{@b{getdirs}@{@i{-all}
+@i{rootdir}
 @i{pattern}@}}
 @end quotation
 
 @table @asis
-@item @code{args}
+
+@item @code{-all}
+If this option is given, then subdirectories will be matched
+recursively.
+
+@item @code{rootdir}
+The top level directory to start the search from.
 
 @item @code{pattern}
-If you do not specify @code{pattern}, @code{Getdirs} assumes a default
-pattern of @emph{*}. You may use the common shell wildcard characters in
-the pattern. If no directories match the pattern, then a NULL string is
+If you do not specify @code{pattern}, @code{getdirs} uses a default
+pattern of @code{*}. You may use the common shell wildcard characters in
+the pattern. If no directories match the pattern, then an empty list is
 returned.
 @end table
 
@@ -4575,7 +4582,7 @@ pattern, then a NULL string is returned.
 @table @asis
 
 @item @code{rootdir}
-The top level directory to search the search from.
+The top level directory to start the search from.
 
 @item @code{pattern}
 A csh "glob" style regular expression representing the files to find.

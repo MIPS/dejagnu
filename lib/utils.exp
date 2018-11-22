@@ -24,12 +24,10 @@
 
 
 # Gets the directories in a directory, or in a directory tree.
-#     args: the first is the dir to look in, the next
-#         is the pattern to match. It
-#         defaults to *. Patterns are csh style
-#	  globbing rules
+#     args: the first is the directory to look in, the next is the
+#         glob pattern to match (default "*").
 #     options: -all  search the tree recursively
-#     returns: a list of dirs or NULL; the root directory is not returned.
+#     returns: a list of directories excluding the root directory
 #
 proc getdirs { args } {
     if { [lindex $args 0] == "-all" } {
