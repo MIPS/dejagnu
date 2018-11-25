@@ -1,3 +1,7 @@
+2018-11-25  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* lib/framework.exp: Clean up whitespace.
+
 2018-11-25  Ben Elliston  <bje@gnu.org>
 
 	* config/gdb-comm.exp: Clean up whitespace.

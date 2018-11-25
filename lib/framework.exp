@@ -42,7 +42,7 @@ proc insertdtd { } {
   <!ELEMENT result             (#PCDATA)>
   <!ELEMENT name               (#PCDATA)>
   <!ELEMENT prms_id            (#PCDATA)>
-  <!ELEMENT summary 	(result, description, total)>
+  <!ELEMENT summary            (result, description, total)>
   <!ELEMENT description        (#PCDATA)>
   <!ELEMENT total              (#PCDATA)>
 \]>"
@@ -689,9 +689,9 @@ proc record_test { type message args } {
     # the output of the test can't be considered correct.
     if { $warning_threshold > 0 && $warncnt >= $warning_threshold
 	 || $perror_threshold > 0 && $errcnt >= $perror_threshold } {
-        verbose "Error/Warning threshold exceeded: \
-                 $errcnt $warncnt (max. $perror_threshold $warning_threshold)"
-        set type UNRESOLVED
+	verbose "Error/Warning threshold exceeded: \
+		 $errcnt $warncnt (max. $perror_threshold $warning_threshold)"
+	set type UNRESOLVED
     }
 
     incr_count $type
