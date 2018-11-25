@@ -33,7 +33,7 @@ proc sim_spawn { dest cmdline args } {
     if {[board_info $dest exists sim,options]} {
 	set simflags [board_info $dest sim,options]
     } else {
-        set simflags ""
+	set simflags ""
     }
 
     if {![is_remote host]} {

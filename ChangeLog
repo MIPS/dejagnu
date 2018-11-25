@@ -1,3 +1,11 @@
+2018-11-25  Ben Elliston  <bje@gnu.org>
+
+	* config/gdb-comm.exp: Clean up whitespace.
+	* config/gdb_stub.exp: Likewise.
+	* config/sid.exp: Likewise.
+	* config/sim.exp: Likewise.
+	* config/unix.exp: Likewise.
+
 2018-11-23  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi (getdirs procedure): Improve documentation

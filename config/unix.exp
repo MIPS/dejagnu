@@ -68,9 +68,9 @@ proc unix_load { dest prog args } {
 	    set command "$prog $parg"
 	}
 
-        if {![info exists ld_library_path]} {
+	if {![info exists ld_library_path]} {
 	    set ld_library_path ""
-        }
+	}
 
 	set orig_ld_library_path "[getenv LD_LIBRARY_PATH]"
 	setenv LD_LIBRARY_PATH "$ld_library_path:$orig_ld_library_path"

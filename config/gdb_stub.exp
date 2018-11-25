@@ -139,7 +139,7 @@ proc gdb_stub_startup { dest } {
     }
 
     if {[board_info $dest exists serial]} {
-        set serial [board_info $dest serial]
+	set serial [board_info $dest serial]
     } else {
 	set serial [board_info $dest netport]
     }
@@ -397,7 +397,7 @@ proc gdb_stub_spawn { dest prog args } {
 	if { [remote_ld $dest $prog] != 1 } {
 	    return [list "fail" "remote_ld failed"]
 	}
-	
+
 	set result [gdb_stub_start $dest]
 	if { [lindex $result 0] != "pass" } {
 	    remote_reboot target
@@ -433,19 +433,19 @@ proc gdb_stub_wait { dest timeout } {
 	    gdb_stub_go_idle $dest
 	    return [list 1 ""]
 	}
-        -re " EXIT code 0.*$gdb_prompt $" {
-            gdb_stub_go_idle $dest
-            return [list 0 ""]
-        }
-        -re " EXIT code \[1-9]\[0-9]*.*$gdb_prompt $" {
-            gdb_stub_go_idle $dest
-            return [list 0 ""]
-        }
-        -re " EXIT code 4242.*$gdb_prompt $" {
-            gdb_stub_go_idle $dest
-            return [list 1 ""]
-        }
- 	-re "Program received.*$gdb_prompt $" {
+	-re " EXIT code 0.*$gdb_prompt $" {
+	    gdb_stub_go_idle $dest
+	    return [list 0 ""]
+	}
+	-re " EXIT code \[1-9]\[0-9]*.*$gdb_prompt $" {
+	    gdb_stub_go_idle $dest
+	    return [list 0 ""]
+	}
+	-re " EXIT code 4242.*$gdb_prompt $" {
+	    gdb_stub_go_idle $dest
+	    return [list 1 ""]
+	}
+	-re "Program received.*$gdb_prompt $" {
 	    gdb_stub_go_idle $dest
 	    return [list 1 ""]
 	}
@@ -535,7 +535,7 @@ proc gdb_stub_ld { dest prog } {
 	    remote_send host "y\n"
 	    exp_continue
 	}
-        -re "Load new symbol table.*y or n. $" {
+	-re "Load new symbol table.*y or n. $" {
 	    remote_send host "y\n"
 	    exp_continue
 	}
