@@ -1,5 +1,13 @@
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
+	* configure.ac (AC_INIT): Update version number.
+	* configure: Regenerate.
+	* runtest.exp (frame_version): Update version number.
+	* doc/dejagnu.texi: Likewise.
+	* doc/runtest.1: Update datestamp.
+
+2018-11-28  Ben Elliston  <bje@gnu.org>
+
 	* NEWS: Update.
 
 	* doc/dejagnu.texi: Tidy up (fill) some paragraphs.
