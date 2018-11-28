@@ -1,5 +1,7 @@
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
+	* NEWS: Update.
+
 	* doc/dejagnu.texi: Tidy up (fill) some paragraphs.
 
 2018-11-25  Jacob Bachmeyer  <jcb62281@gmail.com>
