@@ -1,5 +1,10 @@
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
+	* Makefile.am (TESTSUITE_FILES): Update filenames.
+	* Makefile.in: Regenerate.
+
+2018-11-28  Ben Elliston  <bje@gnu.org>
+
 	* NEWS: Update.
 
 	* doc/dejagnu.texi: Tidy up (fill) some paragraphs.
