@@ -158,6 +158,7 @@ TESTSUITE_FILES = \
 	testsuite/runtest.all/config.test \
 	testsuite/runtest.all/default_procs.tcl \
 	testsuite/runtest.all/load_lib.exp \
+	testsuite/lib/libdejagnu.exp \
 	testsuite/lib/libsup.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
