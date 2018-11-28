@@ -1,5 +1,7 @@
 -* text -*-
 
+Changes since 1.6.2:
+
 Changes since 1.6.1:
 
 1. runtest will abort if $DEJAGNU is defined but the file is not

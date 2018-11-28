@@ -1,5 +1,13 @@
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
+	* NEWS: Update.
+	* configure.ac: Update version number.
+	* configure: Regenerate.
+	* doc/dejagnu.texi: Update version number.
+	* runtest.exp: Update version number.
+
+2018-11-28  Ben Elliston  <bje@gnu.org>
+
 	* Makefile.am (TESTSUITE_FILES): Update filenames.
 	* Makefile.in: Regenerate.
 
