@@ -497,9 +497,9 @@ subroutine.
 @item ERROR
 Indicates a major problem (detected by the test case itself) in running
 the test. This is usually an unrecoverable error, such as a missing file
-or loss of communication to the target. (POSIX testsuites should not
-emit this message; use @emph{UNSUPPORTED}, @emph{UNTESTED}, or
-@emph{UNRESOLVED} instead, as appropriate.)
+or loss of communication to the target. POSIX testsuites should not emit
+this message; use @emph{UNSUPPORTED}, @emph{UNTESTED}, or
+@emph{UNRESOLVED} instead, as appropriate.
 
 @item WARNING
 Indicates a possible problem in running the test. Usually warnings
@@ -2645,10 +2645,10 @@ The message to use.
 @node unsupported procedure, transform procedure, unresolved procedure, Core Internal Procedures
 @subsubsection unsupported Procedure
 
-Declares that a test case depends on some facility that does not
-exist in the testing environment. @code{unsupported}
-writes in the log file a message beginning with
-@emph{UNSUPPORTED}, appending the argument string.
+Declares that a test case depends on some facility that does not exist
+in the testing environment. @code{unsupported} writes in the log file a
+message beginning with @emph{UNSUPPORTED}, appending the argument
+string.
 
 @quotation
 @t{@b{unsupported} @{ @i{message} @}}
@@ -2676,8 +2676,7 @@ conventions: For example, for a cross compiler supporting the
 @table @asis
 
 @item @code{toolname}
-The name of the cross-development program to
-transform.
+The name of the cross-development program to transform.
 @end table
 
 @node check_conditional_xfail procedure, clear_xfail procedure, transform procedure, Core Internal Procedures
@@ -4198,9 +4197,8 @@ Reboot the target.
 @node set_board_info procedure, add_board_info procedure, host_info procedure, target database library file
 @subsubsection set_board_info Procedure
 
-This checks if @code{board_info} array's field
-@emph{entry} has been set already and if not, then
-sets it to @emph{value}.
+This checks if @code{board_info} array's field @emph{entry} has been set
+already and if not, then sets it to @emph{value}.
 
 @quotation
 @t{@b{set_board_info}@{@i{entry}
@@ -4210,8 +4208,7 @@ sets it to @emph{value}.
 @table @asis
 
 @item @code{entry}
-The name of a @code{board_info} field
-to operate on.
+The name of a @code{board_info} field to operate on.
 
 @item @code{value}
 The value to set the field to.
@@ -4353,12 +4350,12 @@ This unsets the current host connection.
 @node compile procedure, archive procedure, pop_host procedure, target database library file
 @subsubsection compile Procedure
 
-This invokes the compiler as set by CC to compile the file
-@file{file}. The default options for many cross compilation targets are
+This invokes the compiler as set by CC to compile the file @file{file}.
+The default options for many cross-compilation targets are
 @emph{guessed} by DejaGnu, and these options can be added to by passing
 in more parameters as arguments to @code{compile}. Optionally, this will
 also use the value of the @emph{cflags} field in the target config
-array. If the host is not the same as the build machines, then then
+array. If the host is not the same as the build machines, then the
 compiler is run on the remote host using @code{execute_anywhere}.
 
 @quotation
@@ -4375,8 +4372,8 @@ compiler is run on the remote host using @code{execute_anywhere}.
 This produces an archive file. Any parameters passed to @code{archive}
 are used in addition to the default flags. Optionally, this will also
 use the value of the @emph{arflags} field in the target config array. If
-the host is not the same as the build machines, then then archiver is
-run on the remote host using @code{execute_anywhere}.
+the host is not the same as the build machines, then the archiver is run
+on the remote host using @code{execute_anywhere}.
 
 @quotation
 @t{@b{archive}@{@i{file}@}}
@@ -4389,9 +4386,9 @@ run on the remote host using @code{execute_anywhere}.
 @node ranlib procedure, execute_anywhere procedure, archive procedure, target database library file
 @subsubsection ranlib Procedure
 
-This generates an index for the archive file for systems that
-aren't POSIX yet. Any parameters passed to @code{ranlib}
-are used in for the flags.
+This generates an index for the archive file for systems that aren't
+POSIX yet. Any parameters passed to @code{ranlib} are used in for the
+flags.
 
 @quotation
 @t{@b{ranlib}@{@i{file}@}}
@@ -5191,9 +5188,8 @@ is abbreviated as @emph{wu}.
 @node watchwrite procedure, watchread procedure, watchunset procedure, Debugging Procedures
 @subsubsection watchwrite Procedure
 
-This breaks program execution when the variable
-@code{var} is written. It is abbreviated as
-@emph{ww}.
+This breaks program execution when the variable @code{var} is
+written. It is abbreviated as @emph{ww}.
 
 @quotation
 @t{@b{watchwrite}@{@i{var}@}}
