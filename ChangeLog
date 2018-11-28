@@ -1,5 +1,10 @@
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
+	* config.guess: Update to latest version.
+	* config.sub: Likewise.
+
+2018-11-28  Ben Elliston  <bje@gnu.org>
+
 	* NEWS: Update.
 	* configure.ac: Update version number.
 	* configure: Regenerate.
