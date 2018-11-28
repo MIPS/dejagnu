@@ -2,6 +2,9 @@
 
 Changes since 1.6.1:
 
+1. runtest will abort if $DEJAGNU is defined but the file is not
+   found.
+
 Changes since 1.6:
 
 Minor bug fixes, no major changes.
