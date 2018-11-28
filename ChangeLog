@@ -1,5 +1,10 @@
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
+	* Makefile.am (TESTSUITE_FILES): Update filenames.
+	* Makefile.in: Regenerate.
+
+2018-11-28  Ben Elliston  <bje@gnu.org>
+
 	* configure.ac (AC_INIT): Update version number.
 	* configure: Regenerate.
 	* runtest.exp (frame_version): Update version number.

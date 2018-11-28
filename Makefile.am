@@ -158,8 +158,8 @@ TESTSUITE_FILES = \
 	testsuite/runtest.all/config.test \
 	testsuite/runtest.all/default_procs.tcl \
 	testsuite/runtest.all/load_lib.exp \
-	testsuite/config/default.exp \
 	testsuite/lib/libsup.exp \
+	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
 	testsuite/libdejagnu/tunit.exp
 
