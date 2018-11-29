@@ -1,3 +1,14 @@
+2018-11-29  Ben Elliston  <bje@gnu.org>
+
+	* lib/framework.exp (istarget, ishost, istarget): Set the argument
+	default value to the empty string.
+	* doc/dejagnu.texi (find procedure): Remove reference to "NULL".
+	(getenv procedure): Re-word this node.
+	(isbuild procedure): Update.
+	(ishost procedure): Likewise.
+	(istarget procedure): Likewise.
+	* testsuite/runtest.all/config.test: Add test cases.
+
 2018-11-28  Ben Elliston  <bje@gnu.org>
 
 	* config.guess: Update to latest version.

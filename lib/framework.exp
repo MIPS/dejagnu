@@ -96,7 +96,7 @@ proc close_logs { } {
 # Check build host triplet for PATTERN.
 # With no arguments it returns the triplet string.
 #
-proc isbuild { pattern } {
+proc isbuild { { pattern "" } } {
     global build_triplet
     global host_triplet
 
@@ -188,7 +188,7 @@ proc is3way {} {
 # Check host triplet for PATTERN.
 # With no arguments it returns the triplet string.
 #
-proc ishost { pattern } {
+proc ishost { { pattern "" } } {
     global host_triplet
 
     if {[string match "" $pattern]} {
@@ -208,7 +208,7 @@ proc ishost { pattern } {
 # With no arguments it returns the triplet string.
 # Returns 1 if the target looked for, or 0 if not.
 #
-proc istarget { args } {
+proc istarget { { args "" } } {
     global target_triplet
 
     # if no arg, return the config string

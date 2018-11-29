@@ -2288,13 +2288,13 @@ Close the output logs.
 Tests for a particular build host environment.  If the currently
 configured host matches the argument string, the result is @emph{1};
 otherwise the result is @emph{0}.  @emph{host} must be a full three-part
-configure host name; in particular, you may not use the shorter
-nicknames supported by configure (but you can use wildcard characters,
-using shell syntax, to specify sets of names). If it is passed a NULL
-string, then it returns the name of the build canonical configuration.
+configure triplet; in particular, you may not use the shorter aliases
+supported by configure (but you can use wildcard characters, using shell
+syntax, to specify sets of names). If called with no arguments or an
+empty pattern, this procedure returns the build system triplet.
 
 @quotation
-@t{@b{isbuild}@{@i{pattern}@}}
+@t{@b{isbuild} @{@i{ pattern }@}}
 @end quotation
 
 @table @asis
@@ -2327,13 +2327,14 @@ result is @emph{1}; otherwise @emph{0}.
 
 Tests for a particular host environment.  If the currently configured
 host matches the argument string, the result is @emph{1}; otherwise the
-result is @emph{0}. @emph{host} must be a full three-part configure host
-name; in particular, you may not use the shorter nicknames supported by
-configure (but you can use wildcard characters, using shell syntax, to
-specify sets of names).
+result is @emph{0}. @emph{host} must be a full three-part host
+triplet. You may not use the shorter aliases supported by configure (but
+you can use wildcard characters, using shell syntax, to specify sets of
+triplets). If called with no arguments or an empty pattern, this
+procedure returns the host triplet.
 
 @quotation
-@t{@b{ishost}@{@i{pattern}@}}
+@t{@b{ishost}@{@i{ pattern }@}}
 @end quotation
 
 @table @asis
@@ -2347,10 +2348,10 @@ specify sets of names).
 Tests for a particular target environment.  If the currently configured
 target matches the argument string, the result is @emph{1} ; otherwise
 the result is @emph{0}.  target must be a full three-part configure
-target name; in particular, you may not use the shorter nicknames
-supported by configure (but you can use wildcard characters, using shell
-syntax, to specify sets of names). If it is passed a @emph{NULL} string,
-then it returns the name of the build canonical configuration.
+target name. You may not use the shorter aliases supported by configure
+(but you can use wildcard characters, using shell syntax, to specify
+sets of names). If called with no arguments or an empty pattern, this
+procedure returns the target triplet.
 
 @quotation
 @t{@b{istarget} @{ @i{args} @}}
@@ -4542,7 +4543,7 @@ match a glob pattern.
 @quotation
 @t{@b{getdirs}@{@i{-all}
 @i{rootdir}
-@i{pattern}@}}
+@i{ pattern }@}}
 @end quotation
 
 @table @asis
@@ -4564,16 +4565,16 @@ returned.
 @node find procedure, which procedure, getdirs procedure, Utility Procedures
 @subsubsection find Procedure
 
-Search for files whose names match @emph{pattern} (using shell wildcard
+Search for files whose names match @emph{ pattern } (using shell wildcard
 characters for filename expansion).  Search subdirectories recursively,
 starting at @emph{rootdir}. The result is the list of files whose names
 match; if no files match, the result is empty.  Filenames in the result
 include all intervening subdirectory names. If no files match the
-pattern, then a NULL string is returned.
+pattern, then an empty string is returned.
 
 @quotation
 @t{@b{find}@{@i{rootdir}
-@i{pattern}@}}
+@i{ pattern }@}}
 @end quotation
 
 @table @asis
@@ -4733,8 +4734,8 @@ The environment variable to unset.
 @node getenv procedure, prune_system_crud procedure, unsetenv procedure, Utility Procedures
 @subsubsection getenv Procedure
 
-Returns the value of @emph{var} in the environment if it exists,
-otherwise it returns NULL.
+Returns the value of the envrionment variable @emph{var} if it is
+defined, otherwise an empty string is returned.
 
 @quotation
 @t{@b{getenv}@{@i{var}@}}
@@ -5119,7 +5120,7 @@ This takes a csh style regular expression (glob rules) and prints the
 body of all procs that match. It is abbreviated as @emph{dp}.
 
 @quotation
-@t{@b{dumprocs}@{@i{pattern}@}}
+@t{@b{dumprocs}@{@i{ pattern }@}}
 @end quotation
 
 @table @asis
@@ -5135,13 +5136,12 @@ This takes a csh style regular expression (glob rules) and prints all
 the watchpoints. It is abbreviated as @emph{dw}.
 
 @quotation
-@t{@b{dumpwatch}@{@i{pattern}@}}
+@t{@b{dumpwatch}@{@i{ pattern }@}}
 @end quotation
 
 @table @asis
 @item @code{pattern}
-The csh "glob" style pattern to look
-for.
+The csh "glob" style pattern to look for.
 @end table
 
 @node watcharray procedure, watchvar procedure, dumpwatch procedure, Debugging Procedures
