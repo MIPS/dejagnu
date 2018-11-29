@@ -1,6 +1,7 @@
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
 	* texinfo.tex: Update to latest upstream version.
+	* INSTALL: Likewise.
 
 2018-11-29  Ben Elliston  <bje@gnu.org>
 
