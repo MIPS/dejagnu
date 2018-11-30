@@ -73,7 +73,7 @@ proc util_test { args } {
 #
 # Run the utility
 #
-# Return NULL or the output.
+# Return the output or an empty string.
 #
 
 proc util_start { args } {

@@ -1,5 +1,10 @@
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
+	* lib/utils.exp (grep): Remove reference to "NULL" in comment.
+	* testsuite/lib/util-defs.exp (util_start): Likewise.
+
+2018-11-30  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi: (verbose procedure): Improve documentation.
 	(load_lib procedure): Likewise.
 

@@ -162,7 +162,7 @@ proc which { file } {
 }
 
 # Looks for occurrences of a string in a file.
-#     return:list of lines that matched or NULL if none match.
+#     return:list of lines that matched or empty string if none match.
 #     args:  first arg is the filename,
 #            second is the pattern,
 #            third are any options.
