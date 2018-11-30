@@ -2237,6 +2237,7 @@ DejaGnu provides these Tcl procedures.
 * open_logs Procedure: open_logs procedure
 * close_logs Procedure: close_logs procedure
 * isbuild Procedure: isbuild procedure
+* isremote Procedure: isremote procedure
 * is_remote Procedure: is_remote procedure
 * is3way Procedure: is3way procedure
 * ishost Procedure: ishost procedure
@@ -2282,7 +2283,7 @@ Close the output logs.
 @t{@b{close_logs}}
 @end quotation
 
-@node isbuild procedure, is_remote procedure, close_logs procedure, Core Internal Procedures
+@node isbuild procedure, isremote procedure, close_logs procedure, Core Internal Procedures
 @subsubsection isbuild Procedure
 
 Tests for a particular build host environment.  If the currently
@@ -2302,7 +2303,18 @@ empty pattern, this procedure returns the build system triplet.
 @item @code{pattern}
 @end table
 
-@node is_remote procedure, is3way procedure, isbuild procedure, Core Internal Procedures
+@node isremote procedure, is_remote procedure, isbuild procedure, Core Internal Procedures
+@subsubsection isremote Procedure
+
+Is @i{board} remote? Return a non-zero value, if so.
+
+@quotation
+@t{@b{isremote} @{@i{ board }@}}
+@end quotation
+
+This procedure is to be used instead of @code{is_remote}.
+
+@node is_remote procedure, is3way procedure, isremote procedure, Core Internal Procedures
 @subsubsection is_remote Procedure
 
 Is @i{board} remote? Return a non-zero value, if so.
@@ -2310,6 +2322,8 @@ Is @i{board} remote? Return a non-zero value, if so.
 @quotation
 @t{@b{is_remote} @{@i{ board }@}}
 @end quotation
+
+Note that this procedure is now depreciated. Use @code{isremote} instead.
 
 @node is3way procedure, ishost procedure, is_remote procedure, Core Internal Procedures
 @subsubsection is3way Procedure

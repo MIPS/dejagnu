@@ -117,6 +117,12 @@ proc isbuild { { pattern "" } } {
 
 # Is $board remote? Return a non-zero value if so.
 #
+proc isremote { board } {
+    return [is_remote board]
+}
+
+# Legacy library proc for isremote.
+#
 proc is_remote { board } {
     global host_board
     global target_list

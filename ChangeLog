@@ -1,5 +1,11 @@
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
+	* lib/framework.exp (isremote): New.
+	* doc/dejagnu.texi (isremote procedure): Document it.
+	* NEWS: Mention isremote.
+
+2018-11-30  Ben Elliston  <bje@gnu.org>
+
 	* texinfo.tex: Update to latest upstream version.
 	* INSTALL: Likewise.
 

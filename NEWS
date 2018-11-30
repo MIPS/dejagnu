@@ -2,6 +2,10 @@
 
 Changes since 1.6.2:
 
+1. The internal proc 'is_remote' has been renamed to 'isremote' for
+   consistency with the other similar procs (eg, istarget). Testsuites
+   should use this proc. The 'is_remote' proc is deprecated.
+
 Changes since 1.6.1:
 
 1. runtest will abort if $DEJAGNU is defined but the file is not
