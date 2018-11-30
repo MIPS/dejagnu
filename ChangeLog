@@ -1,5 +1,10 @@
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
+	* doc/dejagnu.texi: (verbose procedure): Improve documentation.
+	(load_lib procedure): Likewise.
+
+2018-11-30  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi: More clean-ups of built-in proc documentation.
 
 2018-11-30  Ben Elliston  <bje@gnu.org>
