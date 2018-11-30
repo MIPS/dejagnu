@@ -36,14 +36,14 @@ proc sim_spawn { dest cmdline args } {
 	set simflags ""
     }
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	if { [which $sim] == 0 } {
 	    verbose -log "Simulator $sim missing." 3
 	    return -1
 	}
     }
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	# download the program to remote.
 	# we're assuming the program is the first word in the command.
 	# FIXME: "prog < infile" won't work until we download infile.

@@ -318,7 +318,7 @@ proc remote_exec { hostname program args } {
     verbose -log "Executing on $hostname: $program $pargs $inp $outp (timeout = $timeout)" 2
 
     # Run it locally if appropriate.
-    if { ![is_remote $hostname] } {
+    if { ![isremote $hostname] } {
 	set result [local_exec "$program $pargs" $inp $outp $timeout]
     } else {
 	if { [board_info $hostname exists remotedir] } {
@@ -445,7 +445,7 @@ proc remote_download { dest file args } {
 	set destfile [file tail $file]
     }
 
-    if { ![is_remote $dest] } {
+    if { ![isremote $dest] } {
 	if { $destfile == "" || $destfile == $file } {
 	    return $file
 	} else {
@@ -528,7 +528,7 @@ proc remote_upload {dest srcfile args} {
 	set destfile [file tail $srcfile]
     }
 
-    if { ![is_remote $dest] } {
+    if { ![isremote $dest] } {
 	if { $destfile == "" || $srcfile == $destfile } {
 	    return $srcfile
 	}
@@ -746,7 +746,7 @@ proc remote_raw_file { dest args } {
 proc standard_file { dest op args } {
     set file [lindex $args 0]
     verbose "dest in proc standard_file is $dest" 3
-    if { ![is_remote $dest] } {
+    if { ![isremote $dest] } {
 	switch -- $op {
 	    cmp {
 		set otherfile [lindex $args 1]
@@ -851,7 +851,7 @@ proc unix_clean_filename { dest file } {
 proc remote_spawn { dest commandline args } {
     global board_info
 
-    if {![is_remote $dest]} {
+    if {![isremote $dest]} {
 	if {[info exists board_info($dest,fileid)]} {
 	    unset board_info($dest,fileid)
 	}
@@ -959,7 +959,7 @@ proc remote_load { dest prog args } {
 
     set dname [board_info $dest name]
     set cache "[getenv REMOTELOAD_CACHE]/$tool/$dname/[file tail $prog]"
-    set empty [is_remote $dest]
+    set empty [isremote $dest]
     if { [board_info $dest exists is_simulator] || [getenv REMOTELOAD_CACHE] == "" } {
 	set empty 0
     } else {
@@ -977,13 +977,13 @@ proc remote_load { dest prog args } {
 	    if {![target_info exists objcopy]} {
 		set_currtarget_info objcopy [find_binutils_prog objcopy]
 	    }
-	    if {[is_remote host]} {
+	    if {[isremote host]} {
 		set dprog [remote_download host $prog "a.out"]
 	    } else {
 		set dprog $prog
 	    }
 	    set status [remote_exec host "[target_info objcopy]" "-O srec $dprog ${dprog}.sum"]
-	    if {[is_remote host]} {
+	    if {[isremote host]} {
 		remote_file upload ${dprog}.sum ${prog}.sum
 	    }
 	    if { [lindex $status 0] == 0 } {
@@ -1077,7 +1077,7 @@ proc standard_load { dest prog args } {
 	return "untested"
     }
 
-    if {[is_remote $dest]} {
+    if {[isremote $dest]} {
 	if {![board_info $dest exists remotedir]} {
 	    set board_info($dest,remotedir) "/tmp/runtest.[pid]"
 	}

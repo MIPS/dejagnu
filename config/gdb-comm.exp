@@ -68,7 +68,7 @@ proc gdb_comm_file_cmd { arg } {
 
     # The "file" command loads up a new symbol file for gdb, deal with
     # the various messages it might spew out.
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	set arg [remote_download host $arg a.out]
     }
     remote_send host "file $arg\n"
@@ -230,13 +230,13 @@ proc quit_gdb { } {
 	    }
 	}
     }
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	remote_close host
     }
 }
 
 proc gdb_comm_leave { } {
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	quit_gdb
     } else {
 	gdb_comm_go_idle
@@ -267,7 +267,7 @@ proc gdb_comm_load { dest prog args } {
 	return [list "untested" ""]
     }
 
-    if { [is_remote host] || ![board_info host exists fileid] } {
+    if { [isremote host] || ![board_info host exists fileid] } {
 	gdb_comm_start $dest
     }
 

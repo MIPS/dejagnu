@@ -785,7 +785,7 @@ proc setup_target_hook { whole_name name } {
 	${whole_name}_init $whole_name
     }
 
-    if { ![isnative] && ![is_remote target] } {
+    if { ![isnative] && ![isremote target] } {
 	global env build_triplet target_triplet
 	if { (![info exists env(DEJAGNU)]) && ($build_triplet != $target_triplet) } {
 	    warning "Assuming target board is the local machine (which is probably wrong).\nYou may need to set your DEJAGNU environment variable."

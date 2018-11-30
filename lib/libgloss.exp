@@ -35,7 +35,7 @@ proc libgloss_link_flags { args } {
 
     # if we're on a remote host, we can't search for the file, so we can only
     # use an installed compiler, so we don't add any paths here.
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -115,7 +115,7 @@ proc newlib_link_flags { args } {
 
     # if we're on a remote host, we can't search for the file, so we can only
     # use an installed compiler, so we don't add any paths here.
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -145,7 +145,7 @@ proc newlib_include_flags { args } {
 	return ""
     }
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -174,7 +174,7 @@ proc libio_include_flags { args } {
     global srcdir
     global tool_root_dir
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -208,7 +208,7 @@ proc libio_include_flags { args } {
 }
 
 proc libio_link_flags { args } {
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -226,7 +226,7 @@ proc g++_include_flags { args } {
     global srcdir
     global target_alias
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -318,7 +318,7 @@ proc libstdc++_include_flags { args } {
     global srcdir
     global target_alias
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -397,7 +397,7 @@ proc get_multilibs { args } {
 
     # if we're on a remote host, we can't search for the file, so we can only
     # use an installed compiler, so we don't add any paths here.
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -605,7 +605,7 @@ proc get_multilibs { args } {
 proc find_binutils_prog { name } {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 
 	set file [lookfor_file $tool_root_dir $name]
 	if { $file == "" } {
@@ -631,7 +631,7 @@ proc find_binutils_prog { name } {
 proc find_gcc {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir xgcc]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/xgcc]
@@ -650,7 +650,7 @@ proc find_gcc {} {
 proc find_gcj {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gcj]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gcj]
@@ -669,7 +669,7 @@ proc find_gcj {} {
 proc find_g++ {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir xg++]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/xg++]
@@ -691,7 +691,7 @@ proc find_g++ {} {
 proc find_gdc {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gdc]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gdc]
@@ -710,7 +710,7 @@ proc find_gdc {} {
 proc find_g77 {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir g77]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/g77]
@@ -729,7 +729,7 @@ proc find_g77 {} {
 proc find_gfortran {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gfortran]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gfortran]
@@ -748,7 +748,7 @@ proc find_gfortran {} {
 proc find_gnatmake {} {
     global tool_root_dir
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gnatmake]
 	if { $file == "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gnatmake]
@@ -769,7 +769,7 @@ proc find_nm {} {
     global tool_root_dir
 
     set NM ""
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set NM [lookfor_file $tool_root_dir nm-new]
 	if {$NM == ""} {
 	    set NM [lookfor_file $tool_root_dir binutils/nm-new]
@@ -867,7 +867,7 @@ proc find_gas { } {
 
     set AS ""
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set AS [lookfor_file $tool_root_dir as-new]
 	if { $AS == "" } {
 	    set AS [lookfor_file $tool_root_dir gas/as-new]
@@ -884,7 +884,7 @@ proc find_ld { } {
 
     set LD ""
 
-    if {![is_remote host]} {
+    if {![isremote host]} {
 	set LD [lookfor_file $tool_root_dir ld-new]
 	if { $LD == "" } {
 	    set LD [lookfor_file $tool_root_dir ld/ld-new]
@@ -935,7 +935,7 @@ proc winsup_include_flags { args } {
 	return ""
     }
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 
@@ -965,7 +965,7 @@ proc winsup_link_flags { args } {
 
     # if we're on a remote host, we can't search for the file, so we can only
     # use an installed compiler, so we don't add any paths here.
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	return ""
     }
 

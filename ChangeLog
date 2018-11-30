@@ -1,5 +1,18 @@
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
+	* runtest.exp: Use isremote.
+	* lib/target.exp: Likewise.
+	* lib/remote.exp: Likewise.
+	* lib/libgloss.exp: Likewise.
+	* config/unix.exp: Likewise.
+	* config/sim.exp: Likewise.
+	* config/gdb_stub.exp: Likewise.
+	* config/gdb-comm.exp: Likewise.
+	* baseboards/basic-sim.exp: Likewise.
+	* baseboards/androideabi.exp: Likewise.
+
+2018-11-30  Ben Elliston  <bje@gnu.org>
+
 	* lib/framework.exp (isremote): New.
 	* doc/dejagnu.texi (isremote procedure): Document it.
 	* NEWS: Mention isremote.

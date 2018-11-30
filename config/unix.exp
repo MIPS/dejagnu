@@ -61,7 +61,7 @@ proc unix_load { dest prog args } {
 	return "untested"
     }
     verbose "loading to $dest" 2
-    if {![is_remote $dest]} {
+    if {![isremote $dest]} {
 	if { "$inp" != "" } {
 	    set command "$prog $parg < $inp"
 	} else {

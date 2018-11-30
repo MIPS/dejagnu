@@ -62,7 +62,7 @@ proc adb_load { dest prog args } {
 	return "untested"
     }
 
-    if {[is_remote $dest]} {
+    if {[isremote $dest]} {
 	set localfile "./[file tail $prog].[pid]"
 	set remotefile "$android_tmp_dir/[file tail $prog].[pid]"
 	set remotefile [remote_download $dest $prog $remotefile]

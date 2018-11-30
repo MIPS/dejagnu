@@ -171,7 +171,7 @@ proc gdb_stub_startup { dest } {
 		set result [target_compile "${libdir}/stub-loader.c" $loader executable "ldscript=[board_info $dest gdb_stub_ldscript]"]
 	    }
 	    verbose "result is $result"
-	    if {[is_remote host]} {
+	    if {[isremote host]} {
 		set loader [remote_download host $loader]
 	    }
 	}

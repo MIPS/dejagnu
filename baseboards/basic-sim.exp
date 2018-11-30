@@ -29,7 +29,7 @@ proc find_sim { target_alias sim_dir sim_name } {
 	return $SIM
     }
 
-    if {[is_remote host]} {
+    if {[isremote host]} {
 	if {![board_info host exists no_transform_name]} {
 	    return ${target_alias}-${sim_name}
 	} else {
