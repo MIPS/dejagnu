@@ -2287,21 +2287,16 @@ Close the output logs.
 @subsubsection isbuild Procedure
 
 Tests for a particular build host environment.  If the currently
-configured host matches the argument string, the result is @emph{1};
-otherwise the result is @emph{0}.  @emph{host} must be a full three-part
-configure triplet; in particular, you may not use the shorter aliases
-supported by configure (but you can use wildcard characters, using shell
-syntax, to specify sets of names). If called with no arguments or an
-empty pattern, this procedure returns the build system triplet.
+configured host matches the @code{pattern} argument, the result is
+@emph{1}; otherwise the result is @emph{0}.  @emph{pattern} must be a
+full three-part configure triplet; in particular, you may not use the
+shorter aliases supported by @code{configure} (but you can use Tcl
+globbing to specify a range of triplets). If called with no arguments or
+an empty pattern, this procedure returns the build system triplet.
 
 @quotation
 @t{@b{isbuild} @{@i{ pattern }@}}
 @end quotation
-
-@table @asis
-
-@item @code{pattern}
-@end table
 
 @node isremote procedure, is_remote procedure, isbuild procedure, Core Internal Procedures
 @subsubsection isremote Procedure
@@ -2341,46 +2336,37 @@ result is @emph{1}; otherwise @emph{0}.
 
 Tests for a particular host environment.  If the currently configured
 host matches the argument string, the result is @emph{1}; otherwise the
-result is @emph{0}. @emph{host} must be a full three-part host
-triplet. You may not use the shorter aliases supported by configure (but
-you can use wildcard characters, using shell syntax, to specify sets of
+result is @emph{0}. @emph{pattern} must be a full three-part configure
+triplet; in particular, you may not use the shorter aliases supported by
+@code{configure} (but you can use Tcl globbing to specify a range of
 triplets). If called with no arguments or an empty pattern, this
 procedure returns the host triplet.
 
 @quotation
-@t{@b{ishost}@{@i{ pattern }@}}
+@t{@b{ishost} @{@i{ pattern }@}}
 @end quotation
-
-@table @asis
-
-@item @code{}
-@end table
 
 @node istarget procedure, isnative procedure, ishost procedure, Core Internal Procedures
 @subsubsection istarget Procedure
 
 Tests for a particular target environment.  If the currently configured
 target matches the argument string, the result is @emph{1} ; otherwise
-the result is @emph{0}.  target must be a full three-part configure
-target name. You may not use the shorter aliases supported by configure
-(but you can use wildcard characters, using shell syntax, to specify
-sets of names). If called with no arguments or an empty pattern, this
-procedure returns the target triplet.
+the result is @emph{0}. @emph{pattern} must be a full three-part
+configure triplet; in particular, you may not use the shorter aliases
+supported by @code{configure} (but you can use Tcl globbing to specify a
+range of triplets). If called with no arguments or an empty pattern,
+this procedure returns the target triplet.
 
 @quotation
-@t{@b{istarget} @{ @i{args} @}}
+@t{@b{istarget} @{ @i{pattern} @}}
 @end quotation
-
-@table @asis
-@item @code{}
-@end table
 
 @node isnative procedure, log_and_exit procedure, istarget procedure, Core Internal Procedures
 @subsubsection isnative Procedure
 
-Tests whether the current configuration has the same host and
-target. When it runs in a native configuration this procedure returns a
-@emph{1}; otherwise it returns a @emph{0}.
+This procedure returns @emph{1} if the current configuration has the
+same host and target (ie. it is a native configuration). Otherwise it
+returns @emph{0}.
 
 @quotation
 @t{@b{isnative}}
@@ -2389,17 +2375,18 @@ target. When it runs in a native configuration this procedure returns a
 @node log_and_exit procedure, log_summary procedure, isnative procedure, Core Internal Procedures
 @subsubsection log_and_exit Procedure
 
-
 @quotation
 @t{@b{log_and_exit}}
 @end quotation
 
+This procedure writes out the end of the test log and terminates @code{runtest}.
+
+
 @node log_summary procedure, setup_xfail procedure, log_and_exit procedure, Core Internal Procedures
 @subsubsection log_summary Procedure
 
-
 @quotation
-@t{@b{log_summary}@{@i{args}@}}
+@t{@b{log_summary} @{@i{args}@}}
 @end quotation
 
 @table @asis
@@ -2413,7 +2400,7 @@ Declares that the test is expected to fail on a particular set of
 configurations.  The config argument must be a list of full three-part
 configure target name; in particular, you may not use the shorter
 nicknames supported by configure (but you can use the common shell
-wildcard characters to specify sets of names).  The @emph{bugid}
+wildcard characters to specify a range of triplets).  The @emph{bugid}
 argument is optional, and used only in the logging file output; use it
 as a link to a bug-tracking system such as GNATS.
 
@@ -2453,50 +2440,34 @@ The optional bugid, used to tie this test case to a bug tracking system.
 
 Declares a test to have passed. @code{pass} writes in the log files a
 message beginning with @emph{PASS} (or @emph{XPASS}, if failure was
-expected), appending the argument @code{string}.
+expected), appending the @code{message} argument.
 
 @quotation
 @t{@b{pass} @{ @i{message} @}}
 @end quotation
-
-@table @asis
-
-@item @code{message}
-The message to use in the PASS result.
-@end table
 
 @node fail procedure, xpass procedure, pass procedure, Core Internal Procedures
 @subsubsection fail Procedure
 
 Declares a test to have failed.  @code{fail} writes in the log files a
 message beginning with @emph{FAIL} (or @emph{XFAIL}, if failure was
-expected), appending the argument @code{string}.
+expected), appending the @code{message} argument.
 
 @quotation
 @t{@b{fail} @{ @i{message} @}}
 @end quotation
-
-@table @asis
-@item @code{string}
-The message to use in the FAIL result.
-@end table
 
 @node xpass procedure, xfail procedure, fail procedure, Core Internal Procedures
 @subsubsection xpass Procedure
 
 Declares a test to have passed when it was expected to fail.
 @code{xpass} writes in the log files a message beginning with
-@emph{XPASS} (or @emph{XFAIL}, if failure was expected), appending the
-argument @code{string}.
+@emph{XPASS} (or @emph{XFAIL} if failure was expected) and the
+@code{message} argument.
 
 @quotation
 @t{@b{xpass} @{ @i{message} @}}
 @end quotation
-
-@table @asis
-@item @code{message}
-The message to use in the XPASS result.
-@end table
 
 @node xfail procedure, set_warning_threshold procedure, xpass procedure, Core Internal Procedures
 @subsubsection xfail Procedure
@@ -2607,72 +2578,55 @@ flips the output over to @emph{UNRESOLVED} state.
 
 Appends an informational message to the log file. @code{note} writes in
 the log files a message beginning with @emph{NOTE}, appending the
-argument @code{string}.  Use @code{note} sparingly. The @code{verbose}
+@code{message} argument.  Use @code{note} sparingly. The @code{verbose}
 should be used for most such messages, but in cases where a message is
 needed in the log file regardless of the verbosity level use
 @code{note}.
 
 @quotation
-@t{@b{note} @{ @i{string} @}}
+@t{@b{note} @{ @i{messsage} @}}
 @end quotation
 
-@table @asis
-
-@item @code{string}
-The string to use for this note.
-@end table
 
 @node untested procedure, unresolved procedure, note procedure, Core Internal Procedures
 @subsubsection untested Procedure
 
 Declares a test was not run. @code{untested} writes in the log file a
-message beginning with @emph{UNTESTED}, appending the argument
-@emph{string}. For example, you might use this in a dummy test whose
-only role is to record that a test does not yet exist for some feature.
+message beginning with @emph{UNTESTED}, appending the @code{message}
+argument. For example, you might use this in a dummy test whose only
+role is to record that a test does not yet exist for some feature.
 
 @quotation
 @t{@b{untested} @{ @i{message} @}}
 @end quotation
 
-@table @asis
-@item @code{message}
-The message to use.
-@end table
 
 @node unresolved procedure, unsupported procedure, untested procedure, Core Internal Procedures
 @subsubsection unresolved Procedure
 
 Declares a test to have an unresolved outcome. @code{unresolved} writes
 in the log file a message beginning with @emph{UNRESOLVED}, appending
-the argument @emph{string}.  This usually means the test did not execute
-as expected, and a human being must go over results to determine if it
-passed or failed (and to improve the test case).
+the @code{message} argument.  This usually means the test did not
+execute as expected, and a human being must go over results to determine
+if it passed or failed (and to improve the test case).
 
 @quotation
 @t{@b{unresolved} @{ @i{message} @}}
 @end quotation
 
-@table @asis
-@item @code{string}
-The message to use.
-@end table
 
 @node unsupported procedure, transform procedure, unresolved procedure, Core Internal Procedures
 @subsubsection unsupported Procedure
 
 Declares that a test case depends on some facility that does not exist
 in the testing environment. @code{unsupported} writes in the log file a
-message beginning with @emph{UNSUPPORTED}, appending the argument
-string.
+message beginning with @emph{UNSUPPORTED}, appending the @code{message}
+argument.
 
 @quotation
 @t{@b{unsupported} @{ @i{message} @}}
 @end quotation
-@table @asis
 
-@item @code{message}
-The message to use.
-@end table
 
 @node transform procedure, check_conditional_xfail procedure, unsupported procedure, Core Internal Procedures
 @subsubsection transform Procedure
@@ -2832,7 +2786,7 @@ it then looks in the current directory for a directory called
 takes precedence over the earlier ones.
 
 @quotation
-@t{@b{load_lib}@{@i{filespec}@}}
+@t{@b{load_lib} @{@i{filespec}@}}
 @end quotation
 
 @table @asis

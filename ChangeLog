@@ -1,5 +1,9 @@
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
+	* doc/dejagnu.texi: More clean-ups of built-in proc documentation.
+
+2018-11-30  Ben Elliston  <bje@gnu.org>
+
 	* runtest.exp: Use isremote.
 	* lib/target.exp: Likewise.
 	* lib/remote.exp: Likewise.
