@@ -1,5 +1,5 @@
 # runtest.exp -- Test framework driver
-# Copyright (C) 1992-2016 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -63,7 +63,6 @@ set srcdir      "."		;# source directory containing the test suite
 set ignoretests ""		;# list of tests to not execute
 set objdir	"."		;# directory where test case binaries live
 set reboot      0
-set configfile  site.exp	;# (local to this file)
 set multipass   ""		;# list of passes and var settings
 set errno	"";		;#
 set exit_error  1		;# Toggle for whether to set the exit status
@@ -86,6 +85,12 @@ set target_cpu     ""		;# type of the cpu tests are running on
 set target_alias   ""		;# standard abbreviation of target
 set compiler_flags ""		;# the flags used by the compiler
 
+#
+# These set configuration file names and are local to this file.
+#
+set local_init_file	site.exp	;# testsuite-local init file name
+set global_init_file	site.exp	;# global init file name
+
 # Various ccache versions provide incorrect debug info such as ignoring
 # different current directory, breaking GDB testsuite.
 set env(CCACHE_DISABLE) 1
@@ -107,37 +112,18 @@ if {![info exists decimal]} {
 set base_dir [pwd]
 
 #
-# These are tested in case they are not initialized in $configfile. They are
-# tested here instead of the init module so they can be overridden by command
-# line options.
+# These are set here instead of the init module so they can be overridden
+# by command line options.
 #
-if {![info exists all_flag]} {
-    set all_flag 0
-}
-if {![info exists binpath]} {
-    set binpath ""
-}
-if {![info exists debug]} {
-    set debug 0
-}
-if {![info exists options]} {
-    set options ""
-}
-if {![info exists outdir]} {
-    set outdir "."
-}
-if {![info exists reboot]} {
-    set reboot 1
-}
-if {![info exists tracelevel]} {
-    set tracelevel 0
-}
-if {![info exists verbose]} {
-    set verbose 0
-}
-if {![info exists log_dialog]} {
-    set log_dialog 0
-}
+set all_flag	0
+set binpath	""
+set debug	0
+set options	""
+set outdir	"."
+set reboot	1
+set tracelevel	0
+set verbose	0
+set log_dialog	0
 
 #
 # verbose [-n] [-log] [--] message [level]
@@ -378,10 +364,12 @@ proc usage { } {
     send_user "\t--build \[triplet\]\tThe canonical triplet of the build machine\n"
     send_user "\t--debug\t\t\tSet expect debugging ON\n"
     send_user "\t--directory name\tRun only the tests in directory 'name'\n"
+    send_user "\t--global_init \[name\]\tThe file to load for global configuration\n"
     send_user "\t--help\t\t\tPrint help text\n"
     send_user "\t--host \[triplet\]\tThe canonical triplet of the host machine\n"
     send_user "\t--host_board \[name\]\tThe host board to use\n"
     send_user "\t--ignore \[name(s)\]\tThe names of specific tests to ignore\n"
+    send_user "\t--local_init \[name\]\tThe file to load for local configuration\n"
     send_user "\t--log_dialog\t\t\Emit Expect output on stdout\n"
     send_user "\t--mail \[name(s)\]\tWhom to mail the results to\n"
     send_user "\t--objdir \[name\]\t\tThe test suite binary directory\n"
@@ -412,9 +400,9 @@ proc usage { } {
 # parse them twice.  Things are complicated because:
 # - we want to parse --verbose early on
 # - we don't want config files to override command line arguments
-#   (eg: $base_dir/$configfile vs --host/--target)
+#   (eg: $base_dir/$local_init_file vs --host/--target)
 # - we need some command line arguments before we can process some config files
-#   (eg: --objdir before $objdir/$configfile, --host/--target before $DEJAGNU)
+#   (eg: --objdir before $objdir/$local_init_file, --host/--target before $DEJAGNU)
 # The use of `arg_host_triplet' and `arg_target_triplet' lets us avoid parsing
 # the arguments three times.
 #
@@ -441,8 +429,10 @@ for { set i 0 } { $i < $argc } { incr i } {
 	    regexp {^[^=]*=(.*)$} $option nil optarg
 	}
 	"--bu*" -
+	"--g*" -
 	"--ho*" -
 	"--ig*"  -
+	"--loc*" -
 	"--m*"  -
 	"--n*"  -
 	"--ob*" -
@@ -463,6 +453,11 @@ for { set i 0 } { $i < $argc } { incr i } {
 	    continue
 	}
 
+	"--g*" {			# (--global_init) the global init file name
+	    set global_init_file $optarg
+	    continue
+	}
+
 	"--host_bo*" {
 	    set host_board $optarg
 	    continue
@@ -470,6 +465,11 @@ for { set i 0 } { $i < $argc } { incr i } {
 
 	"--ho*" {			# (--host) the host configuration
 	    set arg_host_triplet $optarg
+	    continue
+	}
+
+	"--loc*" {			# (--local_init) the local init file name
+	    set local_init_file $optarg
 	    continue
 	}
 
@@ -611,25 +611,26 @@ verbose "Login name is $logname"
 # All are sourced in order.
 #
 # Search order:
-#	$base_dir/$configfile -> $objdir/$configfile ->
-#	installed -> $DEJAGNU -> $HOME/.dejagnurc
+#    (local)	$base_dir/$local_init_file -> $objdir/$local_init_file ->
+#    (global)	installed($global_init_file) -> $DEJAGNU -> $HOME/.dejagnurc
 #
-# For the normal case, we rely on $base_dir/$configfile to set
+# For the normal case, we expect $base_dir/$local_init_file to set
 # host_triplet and target_triplet.
 #
 
-load_file $base_dir/$configfile
+load_file [file join $base_dir $local_init_file]
 
 #
-# If objdir didn't get set in $base_dir/$configfile, set it to $base_dir.
-# Make sure we source $objdir/$configfile in case $base_dir/$configfile doesn't
-# exist and objdir was given on the command line.
+# If objdir didn't get set in $base_dir/$local_init_file, set it to
+# $base_dir.  Make sure we source $objdir/$local_init_file in case
+# $base_dir/$local_init_file doesn't exist and objdir was given on the
+# command line.
 #
 
 if {[expr {[string match "." $objdir] || [string match $srcdir $objdir]}]} {
     set objdir $base_dir
 } else {
-    load_file $objdir/$configfile
+    load_file [file join $objdir $local_init_file]
 }
 
 # Well, this just demonstrates the real problem...
@@ -853,7 +854,7 @@ proc setup_build_hook { name } {
 # These files assume the host and target have been set.
 #
 
-if { [load_file -- $libdir/$configfile] == 0 } {
+if { [load_file -- [file join $libdir $global_init_file]] == 0 } {
     # If $DEJAGNU isn't set either then there isn't any global config file.
     # Warn the user as there really should be one.
     if { ! [info exists env(DEJAGNU)] } {
@@ -997,8 +998,10 @@ for { set i 0 } { $i < $argc } { incr i } {
 	    regexp {^[^=]*=(.*)$} $option nil optarg
 	}
 	"--bu*" -
+	"--g*" -
 	"--ho*" -
 	"--ig*"  -
+	"--loc*" -
 	"--m*"  -
 	"--n*"  -
 	"--ob*" -
@@ -1024,6 +1027,16 @@ for { set i 0 } { $i < $argc } { incr i } {
 
 	"--v*" {			# (--verbose) verbose output
 	    # Already parsed.
+	    continue
+	}
+
+	"--g*" {			# (--global_init) the global init file name
+	    # Already parsed (and no longer useful).  The file has been loaded.
+	    continue
+	}
+
+	"--loc*" {			# (--local_init) the local init file name
+	    # Already parsed (and no longer useful).  The file has been loaded.
 	    continue
 	}
 
@@ -1247,7 +1260,6 @@ clone_output "\n\t\t=== $tool tests ===\n"
 
 proc load_generic_config { name } {
     global srcdir
-    global configfile
     global libdir
     global env
     global board
@@ -1323,7 +1335,6 @@ proc load_tool_target_config { name } {
 
 proc load_board_description { board_name args } {
     global srcdir
-    global configfile
     global libdir
     global env
     global board
@@ -1392,7 +1403,6 @@ proc load_board_description { board_name args } {
 
 proc load_base_board_description { board_name } {
     global srcdir
-    global configfile
     global libdir
     global env
     global board

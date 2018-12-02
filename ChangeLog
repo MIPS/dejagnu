@@ -1,3 +1,25 @@
+2018-12-02  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* doc/dejagnu.texi (Invoking runtest): Document new --local_init
+	and --global_init command line options.
+	* doc/runtest.1: Likewise.
+
+	* runtest.exp: Remove useless tests before setting default values
+	for variables: all_flag, binpath, debug, options, outdir, reboot,
+	tracelevel, verbose, log_dialog.  They are set before loading any
+	files or parsing the command line.
+
+	* runtest.exp: Add options --local_init and --global_init for
+	selecting alternate testsuite configuration files.
+
+	* runtest.exp: Split variable "configfile" into "local_init_file"
+	and "global_init_file" in preparation for adding command-line
+	options to specify these independently.
+
+	* runtest.exp (load_generic_config): Remove configfile global.
+	(load_board_description): Likewise.
+	(load_base_board_description): Likewise.
+
 2018-11-30  Ben Elliston  <bje@gnu.org>
 
 	* lib/utils.exp (grep): Remove reference to "NULL" in comment.

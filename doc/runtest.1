@@ -1,4 +1,4 @@
-.TH runtest 1 "2017-10-16"
+.TH runtest 1 "2018-12-01"
 .SH NAME
 runtest \- DejaGnu test driver
 .SH SYNOPSIS
@@ -29,6 +29,10 @@ internal debugging output. The output is logged to a file called
 .BI --directory \ DIRECTORY
 Run only tests in the specified DIRECTORY.
 .TP
+.BI --global_init \ NAME
+The NAME to use for the global init file in libdir.
+The default is \fBsite.exp\fR if this option is not given.
+.TP
 .B --help
 Prints a usage message and then exits.
 .TP
@@ -40,6 +44,11 @@ The host board definition to use.
 .TP
 .BI --ignore \ test1.exp\ test2.exp\ ...
 Do not run the specified tests.
+.TP
+.BI --local_init \ NAME
+The NAME to use for the testsuite local init file in both the current
+directory and objdir.
+The default is \fBsite.exp\fR if this option is not given.
 .TP
 .B --log_dialog
 Emit Expect output to standard output.
@@ -125,7 +134,7 @@ Rob Savoye (rob@welcomehome.org)
 .SH "REPORTING BUGS"
 Report bugs to <bug\-dejagnu@gnu.org>.
 .SH COPYRIGHT
-Copyright \(co 2005\-2016 Free Software Foundation, Inc.
+Copyright \(co 2005\-2016, 2018 Free Software Foundation, Inc.
 .PP
 This is free software.  You may redistribute copies of it under the terms of
 the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.

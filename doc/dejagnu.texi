@@ -554,6 +554,14 @@ output of the tool with the scripted patterns describing expected
 output.  The output generated with @code{--strace} also goes into
 @file{dbg.log}.
 
+@item @code{--global_init [name]}
+Use @emph{name} as the global init file instead of @file{site.exp} in
+@emph{libdir}.  The default is, of course, @file{site.exp}.  Note that
+this option accepts a relative file name, interpreted starting at
+@emph{libdir}, so a file in a subdirectory may be used.  This is
+probably less useful for most sites, but is orthogonal with the
+@code{--local_init} option and may be useful in large testing labs.
+
 @item @code{--help}
 Prints out a short summary of the @emph{runtest} options, then exits
 (even if you specify other options).
@@ -577,6 +585,12 @@ The host board to use.
 
 @item @code{--ignore [name(s)] }
 The name(s) of specific tests to ignore.
+
+@item @code{--local_init [name]}
+Use @emph{name} as the testsuite local init file instead of
+@file{site.exp} in the current directory and in @emph{objdir}.  The
+default is, of course, @file{site.exp}.  Note that this option accepts a
+relative file name, so a file in a subdirectory may be used.
 
 @item @code{--log_dialog}
 Emit Expect output to stdout.  The Expect output is usually only written
@@ -1354,6 +1368,17 @@ table describes the correspondence between command line options and
 variables you can set in @file{site.exp}.  @ref{Invoking runtest}, for
 explanations of the command-line options.
 
+The @code{--local_init} and @code{--global_init} options have associated
+Tcl variables, but they influence the search for configuration files and
+overriding them is unlikely to be useful because they are not used after
+the configuration files are loaded.  Once the configuration file is
+opened, it is too late for a change to these variables to be effective.
+However, the local init file name is used twice, once relative to
+@code{base_dir} (the directory in which runtest was started) and once
+relative to @code{objdir}.  While testsuites should not make assumptions
+about what global init files are available, the user could usefully
+write such a setting.
+
 @multitable @columnfractions 0.2 0.2 0.6
 @item
 @strong{Option}@tab @strong{Tcl variable}@tab @strong{Description}
@@ -1368,6 +1393,9 @@ explanations of the command-line options.
 --dir@tab cmdline_dir_to_run@tab run only tests in the specified directory
 
 @item
+--global_init@tab global_init_file@tab file name for global init file in @code{libdir}
+
+@item
 --host@tab host_triplet@tab system triplet for the host
 
 @item
@@ -1375,6 +1403,9 @@ explanations of the command-line options.
 
 @item
 --ignore@tab ignoretests @tab do not run the specified tests
+
+@item
+--local_init@tab local_init_file@tab file name for local init file in @code{objdir}
 
 @item
 --log_dialog@tab log_dialog@tab emit Expect output to standard output
@@ -5227,3 +5258,5 @@ This makes runtest exit. It is abbreviated as @emph{q}.
 @end table
 
 @bye
+
+@c  LocalWords:  subdirectory
