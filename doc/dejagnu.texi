@@ -54,6 +54,7 @@ Free Documentation License''.
 * Extending DejaGnu::
 * Unit testing::
 * Reference::
+* Index::
 
 @detailmenu
 
@@ -274,6 +275,7 @@ it.  Currently DejaGnu can use @code{ssh}, @code{rsh}, @code{rlogin},
 @node A POSIX Conforming Test Framework, Installation, Design goals, Introduction
 @section A POSIX compliant test framework
 
+@cindex POSIX 1003.3
 DejaGnu conforms to the POSIX 1003.3 standard for test frameworks. Rob
 Savoye was a member of that committee.
 
@@ -286,6 +288,7 @@ there is only one other POSIX conforming test framework. TET was created
 by Unisoft for a consortium comprised of X/Open, Unix International and
 the Open Software Foundation.
 
+@cindex assertions
 The POSIX documentation refers to @dfn{assertions}.  An assertion is a
 description of behavior.  For example, if a standard says ``The sun
 shall shine'', a corresponding assertion might be ``The sun is
@@ -450,6 +453,7 @@ correctly.
 
 @node Runtest, Output Files, Make Check, Running tests
 @section Running runtest
+@pindex runtest
 
 @code{runtest} is the test driver for DejaGnu. You can specify two kinds
 of things on the @code{runtest} command line: command line options, and
@@ -475,6 +479,7 @@ if Expect encountered any error in the test scripts.
 
 @node Output States, Invoking runtest, , Runtest
 @subsection Output States
+@cindex output states
 
 @file{runtest} flags the outcome of each test as one of these cases. See
 @ref{A POSIX Conforming Test Framework} for a discussion of how POSIX
@@ -782,6 +787,7 @@ a more detailed explanation of each @code{runtest} option.
 
 @node Output Files, , Runtest, Running tests
 @section Output files
+@cindex output files
 
 DejaGnu always writes two kinds of output files.  Summary output is
 written to the @file{.sum} file, and detailed output is written to the
@@ -4646,9 +4652,9 @@ result is a list of all the lines that match.  If no lines match, the
 result is an empty string.  Specify @emph{regexp} using the standard
 regular expression style used by the Unix utility program grep.
 
-Use the optional third argument @emph{line} to start lines in the result
-with the line number in @file{filename}.  (This argument is simply an
-option flag; type it just as shown @code{--line}.)
+Use the optional keyword @emph{line} to start lines in the result with
+the line number in @file{filename}.  (This argument is simply an option
+flag; type it just as shown @code{--line}.)
 
 @quotation
 @t{@b{grep}@{@i{filename}
@@ -4662,13 +4668,11 @@ option flag; type it just as shown @code{--line}.)
 The file to search.
 
 @item @code{regexp}
-The Unix style regular expression (as used by the
-@code{grep} Unix utility) to search
-for.
+The Unix style regular expression (as used by the @code{grep} UNIX
+utility) to search for.
 
-@item @code{--line}
-Prefix the line number to each line where the
-regexp matches.
+@item @code{line}
+Prefix each line with the line number where the regexp matches.
 @end table
 
 @node prune procedure, runtest_file_p procedure, grep procedure, Utility Procedures
@@ -5287,6 +5291,10 @@ This makes runtest exit. It is abbreviated as @emph{q}.
 @table @asis
 @item @code{}
 @end table
+
+@node Index
+@unnumbered Index
+@printindex cp
 
 @bye
 
