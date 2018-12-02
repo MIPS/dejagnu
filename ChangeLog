@@ -1,5 +1,12 @@
 2018-12-02  Ben Elliston  <bje@gnu.org>
 
+	* doc/fdl.texi: New.
+	* doc/dejagnu.texi (Variable Index): New.
+	Add more concept index entries.
+	(GNU Free Documentation License): New appendix.
+
+2018-12-02  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi (Procedure Index): New. Add Texinfo function
 	index (@findex) entries for every built-in procedure.
 
