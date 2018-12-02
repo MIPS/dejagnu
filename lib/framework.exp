@@ -118,6 +118,7 @@ proc isbuild { { pattern "" } } {
 # Is $board remote? Return a non-zero value if so.
 #
 proc isremote { board } {
+    verbose "calling isremote $board" 3
     return [is_remote $board]
 }
 

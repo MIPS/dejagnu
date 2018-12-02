@@ -1,3 +1,7 @@
+2018-12-03  Ben Elliston  <bje@gnu.org>
+
+	* lib/framework.exp (isremote): Add verbose message.
+
 2018-12-02  Ben Elliston  <bje@gnu.org>
 
 	* lib/framework.exp (isremote): Pass $board to is_remote.
