@@ -1,5 +1,10 @@
 2018-12-02  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* runtest.exp (hex): Remove useless test before setting.
+	(decimal): Likewise.
+
+2018-12-02  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* doc/dejagnu.texi (Invoking runtest): Document new --local_init
 	and --global_init command line options.
 	* doc/runtest.1: Likewise.

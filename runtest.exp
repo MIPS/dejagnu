@@ -99,12 +99,8 @@ unset -nocomplain env(CCACHE_NODISABLE)
 #
 # some convenience abbreviations
 #
-if {![info exists hex]} {
-    set hex "0x\[0-9A-Fa-f\]+"
-}
-if {![info exists decimal]} {
-    set decimal "\[0-9\]+"
-}
+set hex "0x\[0-9A-Fa-f\]+"
+set decimal "\[0-9\]+"
 
 #
 # set the base dir (current working directory)
