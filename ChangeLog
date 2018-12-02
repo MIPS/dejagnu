@@ -1,5 +1,9 @@
 2018-12-02  Ben Elliston  <bje@gnu.org>
 
+	* lib/framework.exp (isremote): Pass $board to is_remote.
+
+2018-12-02  Ben Elliston  <bje@gnu.org>
+
 	* doc/fdl.texi: New.
 	* doc/dejagnu.texi (Variable Index): New.
 	Add more concept index entries.
