@@ -1,20 +1,51 @@
-\input texinfo
+\input texinfo       @c                    -*- Texinfo -*-
 @setfilename dejagnu.info
 @documentencoding us-ascii
 @settitle DejaGnu
-@dircategory Programming
+@finalout
+
+@c man begin INCLUDE
+@include version.texi
+@c man end
+
+@copying
+@c man begin COPYRIGHT
+Copyright @copyright{} 1992-2018 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled ``GNU
+Free Documentation License''.
+
+@c man end
+@end copying
+
+@dircategory Software development
 @direntry
 * DejaGnu: (dejagnu).           The GNU testing framework.
 @end direntry
 
+@titlepage
+@title DejaGnu
+@ifset VERSION_PACKAGE
+@subtitle @value{VERSION_PACKAGE}
+@end ifset
+@subtitle Version @value{VERSION}
+@sp 1
+@subtitle @value{UPDATED}
+@author Rob Savoye
+@author Cygnus Support
+@page
+
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+@contents
+
 @node Top, Introduction, , (dir)
 @top DejaGnu
-
-@ifnottex
-This file documents DejaGnu version 1.6.3-git.
-
-@insertcopying
-@end ifnottex
 
 @menu
 * Introduction::
