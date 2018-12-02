@@ -4684,17 +4684,17 @@ Compares the two files and returns a @emph{1} if they match, or a
 differences to the screen.
 
 @quotation
-@t{@b{diff}@{@i{file_1}
-@i{file_2}@}}
+@t{@b{diff}@{@i{file1}
+@i{file2}@}}
 @end quotation
 
 @table @asis
 
-@item @code{file_1}
-The first file to compare.
+@item @code{file1}
+First file to compare.
 
-@item @code{file_2}
-The second file to compare.
+@item @code{file2}
+Second file to compare.
 @end table
 
 @node setenv procedure, unsetenv procedure, diff procedure, Utility Procedures

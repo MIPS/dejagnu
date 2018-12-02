@@ -1,3 +1,7 @@
+2018-12-02  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi (diff procedure): Tidy up this node.
+
 2018-12-02  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* runtest.exp (hex): Remove useless test before setting.
