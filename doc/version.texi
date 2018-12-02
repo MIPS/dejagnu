@@ -1,0 +1,4 @@
+@set UPDATED 2 December 2018
+@set UPDATED-MONTH December 2018
+@set EDITION 1.6.3-git
+@set VERSION 1.6.3-git

@@ -1,5 +1,9 @@
 2018-12-02  Ben Elliston  <bje@gnu.org>
 
+	* doc/version.texi: New.
+
+2018-12-02  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi: Add title page and frontmatter. Include
 	version.texi.
 	* Makefile.in: Regenerate.
