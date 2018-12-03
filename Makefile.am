@@ -21,7 +21,7 @@
 AUTOMAKE_OPTIONS = dejagnu
 export DEJAGNU
 
-EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
+EXTRA_DIST = ChangeLog-1992 MAINTAINERS doc/texinfo.tex runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB)
 
@@ -176,5 +176,6 @@ unit_SOURCES = testsuite/libdejagnu/unit.cc
 
 # Documentation.
 
+TEXINFO_TEX = doc/texinfo.tex
 dist_man_MANS = doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi

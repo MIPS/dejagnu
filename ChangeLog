@@ -1,5 +1,14 @@
 2018-12-03  Ben Elliston  <bje@gnu.org>
 
+	* Makefile.am (TEXINFO_TEX): Set to doc/texinfo.tex.
+	(EXTRA_DIST): Add doc/texinfo.tex. Setting TEXINFO_TEX otherwise
+	prevents the distribution of the overridden texinfo.tex.
+	* Makefile.in: Regenerate.
+	* texinfo.tex: Move from here ..
+	* doc/texinfo.tex: .. to here.
+
+2018-12-03  Ben Elliston  <bje@gnu.org>
+
 	* lib/framework.exp (isremote): Add verbose message.
 
 2018-12-02  Ben Elliston  <bje@gnu.org>

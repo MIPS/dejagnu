@@ -218,7 +218,7 @@ am__v_texidevnull_ = $(am__v_texidevnull_@AM_DEFAULT_V@)
 am__v_texidevnull_0 = > /dev/null
 am__v_texidevnull_1 = 
 INFO_DEPS = $(srcdir)/doc/dejagnu.info
-am__TEXINFO_TEX_DIR = $(srcdir)
+am__TEXINFO_TEX_DIR = $(srcdir)/doc
 DVIS = doc/dejagnu.dvi
 PDFS = doc/dejagnu.pdf
 PSS = doc/dejagnu.ps
@@ -262,8 +262,7 @@ CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
 am__DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README TODO compile \
-	config.guess config.sub depcomp install-sh mdate-sh missing \
-	texinfo.tex
+	config.guess config.sub depcomp install-sh mdate-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -374,7 +373,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = dejagnu
-EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
+EXTRA_DIST = ChangeLog-1992 MAINTAINERS doc/texinfo.tex runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB)
 
@@ -519,6 +518,7 @@ AM_CXXFLAGS = -I$(top_srcdir) -g
 unit_SOURCES = testsuite/libdejagnu/unit.cc
 
 # Documentation.
+TEXINFO_TEX = doc/texinfo.tex
 dist_man_MANS = doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi
 all: all-am
