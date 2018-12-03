@@ -21,9 +21,9 @@
 AUTOMAKE_OPTIONS = dejagnu
 export DEJAGNU
 
-EXTRA_DIST = ChangeLog-1992 MAINTAINERS doc/texinfo.tex runtest \
+EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
-	$(TESTSUITE_FILES) $(XML) $(CONTRIB)
+	$(TESTSUITE_FILES) $(XML) $(CONTRIB) $(TEXINFO_TEX)
 
 DISTCLEANFILES = xXx.log xXx.sum x.log x.sum testrun.log \
 	testrun.sum testrun.xml

@@ -1,5 +1,11 @@
 2018-12-03  Ben Elliston  <bje@gnu.org>
 
+	* Makefile.am (EXTRA_DIST): Use $(TEXINFO_TEX), not a hardcoded
+	doc/texinfo.tex. With thanks to Jacob Bachmeyer.
+	* Makefile.in: Regenerate.
+
+2018-12-03  Ben Elliston  <bje@gnu.org>
+
 	* Makefile.am (TEXINFO_TEX): Set to doc/texinfo.tex.
 	(EXTRA_DIST): Add doc/texinfo.tex. Setting TEXINFO_TEX otherwise
 	prevents the distribution of the overridden texinfo.tex.
