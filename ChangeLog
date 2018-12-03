@@ -1,3 +1,9 @@
+2018-12-03  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi: Move 'Built-in Procedures' node up a level,
+	removing the 'Reference' node and chapter. Make all subsubsections
+	in this chapter unnumbered subheadings.
+
 2018-12-03  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* doc/dejagnu.texi: Fix Info node links.  The arguments to @node
