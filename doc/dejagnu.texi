@@ -5425,19 +5425,19 @@ This makes runtest exit. It is abbreviated as @emph{q}.
 @item @code{}
 @end table
 
-@node GNU Free Documentation License, Reference, Concept Index, Top
+@node GNU Free Documentation License, Concept Index, Reference, Top
 @appendix GNU Free Documentation License
 @include fdl.texi
 
-@node Concept Index, GNU Free Documentation License, Procedure Index, Top
+@node Concept Index, Procedure Index, GNU Free Documentation License, Top
 @unnumbered Concept Index
 @printindex cp
 
-@node Procedure Index, Concept Index, Variable Index, Top
+@node Procedure Index, Variable Index, Concept Index, Top
 @unnumbered Procedure Index
 @printindex fn
 
-@node Variable Index, Procedure Index, , Top
+@node Variable Index, , Procedure Index, Top
 @unnumbered Variable Index
 @printindex vr
 
