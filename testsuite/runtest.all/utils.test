@@ -158,7 +158,7 @@ if {[llength [grep ${srcdir}/runtest.all/utils.test "^# Test grep!"]] == 1} {
   fail "grep, no options"
 }
 
-# Test grep with line option..
+# Test grep with line option.
 set result [grep ${srcdir}/runtest.all/utils.test "^# Test grep!" line]
 if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
   pass "grep, line option"
@@ -168,3 +168,40 @@ if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
 
 # diff file_1 file_2
 # runtest_file_p
+# Test diff proc.
+
+# Setup.
+set f1 [open diff1.txt w]
+set f2 [open diff2.txt w]
+foreach f [list $f1 $f2] {
+  puts $f "Hello world"
+  close $f
+}
+
+# Two identical files; expect 1.
+if {[diff diff1.txt diff2.txt] == 1} {
+  pass "diff, identical files"
+} else {
+  fail "diff, identical files"
+}
+
+# Now remove one file; expect 0.
+file delete diff1.txt
+if {[diff diff1.txt diff2.txt] == 0} {
+  pass "diff, one file missing"
+} else {
+  fail "diff, one file missing"
+}
+
+# diff1.txt differs from diff2.txt; expect -1.
+set f [open diff1.txt w]
+puts $f "Hello Cygnus"
+close $f
+if {[diff diff1.txt diff2.txt] == -1} {
+  pass "diff, different files"
+} else {
+  fail "diff, different files"
+}
+
+# diff teardown.
+file delete -force diff1.txt diff2.txt
