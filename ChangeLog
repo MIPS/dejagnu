@@ -1,3 +1,8 @@
+2018-12-04  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi (Utility Procedures): Improve documentation for
+	the procedures in this section.
+
 2018-12-04  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* NEWS: Document new relative_filename procedure and --local_init/

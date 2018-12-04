@@ -4689,12 +4689,11 @@ tool, and its version number.
 @findex getdirs
 
 Returns a list of all the subdirectories in a single directory that
-match a glob pattern.
+match a glob pattern. If no directories match the pattern, then an empty
+list is returned.
 
 @quotation
-@t{@b{getdirs}@{@i{-all}
-@i{rootdir}
-@i{ pattern }@}}
+@t{@b{getdirs} @i{-all} @i{rootdir} @i{pattern}}
 @end quotation
 
 @table @asis
@@ -4709,8 +4708,8 @@ The top level directory to start the search from.
 @item @code{pattern}
 If you do not specify @code{pattern}, @code{getdirs} uses a default
 pattern of @code{*}. You may use the common shell wildcard characters in
-the pattern. If no directories match the pattern, then an empty list is
-returned.
+the pattern.
+
 @end table
 
 @node relative_filename procedure, find procedure, getdirs procedure, Utility Procedures
@@ -4736,44 +4735,40 @@ The absolute file name that should be reached by appending the return value to @
 @subsubheading find Procedure
 @findex find
 
-Search for files whose names match @emph{ pattern } (using shell wildcard
-characters for filename expansion).  Search subdirectories recursively,
-starting at @emph{rootdir}. The result is the list of files whose names
-match; if no files match, the result is empty.  Filenames in the result
-include all intervening subdirectory names. If no files match the
-pattern, then an empty string is returned.
+Search for files whose names match a glob pattern. Search subdirectories
+recursively, starting at a particular root directory. The result is the
+list of files whose names match. Filenames in the result include all
+intervening subdirectory names. If no files match the pattern, then an
+empty string is returned.
 
 @quotation
-@t{@b{find}@{@i{rootdir}
-@i{ pattern }@}}
+@t{@b{find} @i{rootdir} @i{pattern}}
 @end quotation
 
 @table @asis
-
 @item @code{rootdir}
 The top level directory to start the search from.
 
 @item @code{pattern}
-A csh "glob" style regular expression representing the files to find.
+A glob pattern representing the files to find.
 @end table
 
 @node which procedure, grep procedure, find procedure, Utility Procedures
 @subsubheading which Procedure
 @findex which
 
-Searches the execution path for an executable file @emph{binary}, like
-the BSD @code{which} utility.  This procedure uses the shell environment
-variable @emph{PATH}. It returns @emph{0} if the binary is not in the
-path, or if there is no @emph{PATH} environment variable. If
-@code{binary} is in the path, it returns the full path to @code{binary}.
+Searches the execution path for an executable file like the BSD
+@code{which(1)} utility.  This procedure uses the shell environment
+variable @code{PATH}. It returns @b{0} if the binary is not in the path
+or if the @code{PATH} environment variable is not set. If the file is in
+the path, this procedure returns the full path to the file.
 
 @quotation
-@t{@b{which}@{@i{file}@}}
+@t{@b{which} @i{file}}
 @end quotation
 
 @table @asis
-
-@item @code{binary}
+@item @code{file}
 The executable program or shell script to look for.
 @end table
 
@@ -4787,18 +4782,11 @@ result is a list of all the lines that match.  If no lines match, the
 result is an empty string.  Specify @emph{regexp} using the standard
 regular expression style used by the Unix utility program grep.
 
-Use the optional keyword @emph{line} to start lines in the result with
-the line number in @file{filename}.  (This argument is simply an option
-flag; type it just as shown @code{--line}.)
-
 @quotation
-@t{@b{grep}@{@i{filename}
-@i{regexp}
-@i{--line}@}}
+@t{@b{grep} @i{filename} @i{regexp} @b{line}}
 @end quotation
 
 @table @asis
-
 @item @code{filename}
 The file to search.
 
@@ -4807,82 +4795,73 @@ The Unix style regular expression (as used by the @code{grep} UNIX
 utility) to search for.
 
 @item @code{line}
-Prefix each line with the line number where the regexp matches.
+Use the optional keyword @code{line} to prefix matched lines in the
+result with the line number.  This is an option flag -- type it just as
+shown.
 @end table
 
 @node prune procedure, runtest_file_p procedure, grep procedure, Utility Procedures
 @subsubheading prune Procedure
 @findex prune
 
-This procedure is deprecated and will be removed in the next release of
+This procedure is deprecated and will be removed in a future release of
 DejaGnu.  If a testsuite uses this procedure, a copy of the procedure
-should be made and placed in the lib directory of the testsuite.
+should be made and placed in the @file{lib} directory of the testsuite.
 
 @node runtest_file_p procedure, diff procedure, prune procedure, Utility Procedures
 @subsubheading runtest_file_p Procedure
 @findex runtest_file_p
 
-Search @emph{runtest}s for @emph{testcase} and return @emph{1} if found,
-@emph{0} if not. @emph{runtests} is a list of two elements.  The first
-is a copy of what was on the right side of the @emph{=} if
-
-@example
-foo.exp="..."
-@end example
-
-was specified, or an empty string if no such argument is present. The
-second is the pathname of the current testcase under consideration. This
-is used by tools like compilers where each testcase is a file.
+Search @emph{runtest}s for @emph{testcase} and return @b{1} if found,
+@b{0} if not. This is used by tools like compilers where each testcase
+is a file.
 
 @quotation
-@t{@b{runtest_file_p}@{@i{runtests}
-@i{testcase}@}}
+@t{@b{runtest_file_p} @i{runtests} @i{testcase}}
 @end quotation
 
 @table @asis
-
 @item @code{runtests}
-The list of patterns to compare against.
+
+@code{runtests} is a list of two elements.  The first is a copy of what
+was on the right side of the @code{=} if @code{foo.exp="..."} was
+specified, or an empty string if no such argument is present.
 
 @item @code{testcase}
-The test case filename.
+The filename of the current testcase under consideration. 
 @end table
 
 @node diff procedure, setenv procedure, runtest_file_p procedure, Utility Procedures
 @subsubheading diff Procedure
 @findex diff
 
-Compares the two files and returns a @emph{1} if they match, or a
-@emph{0} if they don't. If @code{verbose} is set, then it'll print the
-differences to the screen.
+Compares two files and returns @b{1} if they match (no differences) or
+@b{0} if not. If @code{verbose} is set, then it will print the
+differences to the console.
 
 @quotation
-@t{@b{diff}@{@i{file1}
-@i{file2}@}}
+@t{@b{diff} @i{file1} @i{file2}}
 @end quotation
 
 @table @asis
-
 @item @code{file1}
-First file to compare.
+First file for the comparison.
 
 @item @code{file2}
-Second file to compare.
+Second file for the comparison.
 @end table
 
 @node setenv procedure, unsetenv procedure, diff procedure, Utility Procedures
 @subsubheading setenv Procedure
 @findex setenv
 
-Sets the environment variable @emph{var} to the value @emph{val}.
+Set an environment variable.
 
 @quotation
-@t{@b{setenv}@{@i{var}
-@i{val}@}}
+@t{@b{setenv}@i{var} @i{val}}
 @end quotation
 
 @table @asis
-
 @item @code{var}
 The environment variable to set.
 
@@ -4894,15 +4873,13 @@ The value to set the variable to.
 @subsubheading unsetenv Procedure
 @findex unsetenv
 
-Unsets the environment variable
-@emph{var}.
+Unset an environment variable.
 
 @quotation
-@t{@b{unsetenv}@{@i{var}@}}
+@t{@b{unsetenv} @i{var} }
 @end quotation
 
 @table @asis
-
 @item @code{var}
 The environment variable to unset.
 @end table
@@ -4915,32 +4892,29 @@ Returns the value of the envrionment variable @emph{var} if it is
 defined, otherwise an empty string is returned.
 
 @quotation
-@t{@b{getenv}@{@i{var}@}}
+@t{@b{getenv} @i{var} }
 @end quotation
 
 @table @asis
-
 @item @code{var}
-The environment variable to get the value of.
+Environment variable to retrieve.
 @end table
 
 @node prune_system_crud procedure, , getenv procedure, Utility Procedures
 @subsubheading prune_system_crud Procedure
 @findex prune_system_crud
 
-For system @emph{system}, delete text the host or target operating
-system might issue that will interfere with pattern matching of program
-output in @emph{text}.  An example is the message that is printed if a
-shared library is out of date.
+Delete text that the host or target operating system might issue that
+will interfere with pattern matching of program output.  An example is
+the message that is printed if a shared library is out of date.
 
 @quotation
-@t{@b{prune_system_crud}@{@i{system} @i{test}@}}
+@t{@b{prune_system_crud} @i{system} @i{test}}
 @end quotation
 
 @table @asis
-
 @item @code{system}
-The system error messages to look for to screen out.
+The system error messages to filter out.
 
 @item @code{text}
 The Tcl variable containing the text.
@@ -4949,7 +4923,7 @@ The Tcl variable containing the text.
 @node Libgloss, Debugging Procedures, Utility Procedures, Built-in Procedures
 @section Libgloss, a free board support package (BSP)
 
-Libgloss is a free @dfn{BSP} (Board Support Package) commonly used with
+Libgloss is a free board support package @dfn{BSP} commonly used with
 GCC and G++ to produce a fully linked executable image for an embedded
 systems.
 
