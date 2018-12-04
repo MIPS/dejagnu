@@ -145,7 +145,7 @@ if {[which [file join $objdir config.status]] != 0} {
 if {[which make] != 0} {
   pass "which, make"
 } else {
-  pass "which, make"
+  fail "which, make"
 }
 
 # grep args

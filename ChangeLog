@@ -1,5 +1,10 @@
 2018-12-04  Ben Elliston  <bje@gnu.org>
 
+	* testsuite/runtest.all/utils.test (which): Fail on the else path,
+	don't pass in either case.
+
+2018-12-04  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi (Libgloss): Improve documentation.
 	(Debugging Procedures): Likewise.
 
