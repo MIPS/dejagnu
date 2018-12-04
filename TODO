@@ -1,3 +1,10 @@
+Smaller items
+=============
+
+* Make the 'grep' proc support a -n option that is a synonym for
+  'line'. The 'line' option must be retained for backward
+  compatibility.
+
 Bigger items
 ============
 
