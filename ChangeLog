@@ -1,5 +1,12 @@
 2018-12-05  Ben Elliston  <bje@gnu.org>
 
+	* lib/utils.exp (grep): Handle -n.
+	* doc/dejagnu.texi (grep procedure): Document it.
+	* testsuite/runtest.all/utils.test: Add a test case.
+	* NEWS: Add an item.
+
+2018-12-05  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/runtest.all/utils.test: Test diff.
 
 2018-12-04  Ben Elliston  <bje@gnu.org>

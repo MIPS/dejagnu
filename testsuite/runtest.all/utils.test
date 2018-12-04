@@ -166,8 +166,14 @@ if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
   fail "grep, line option"
 }
 
-# diff file_1 file_2
-# runtest_file_p
+# Test grep with -n option.
+set result [grep -n ${srcdir}/runtest.all/utils.test "^# Test grep!"]
+if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
+  pass "grep, -n option"
+} else {
+  fail "grep, -n option"
+}
+
 # Test diff proc.
 
 # Setup.

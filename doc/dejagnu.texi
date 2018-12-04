@@ -2427,7 +2427,7 @@ Is @i{board} remote? Return a non-zero value, if so.
 @t{@b{is_remote} @{@i{ board }@}}
 @end quotation
 
-Note that this procedure is now depreciated. Use @code{isremote} instead.
+Note that this procedure is now deprecated. Use @code{isremote} instead.
 
 @node is3way procedure, ishost procedure, is_remote procedure, Core Internal Procedures
 @subsubheading is3way Procedure
@@ -4776,17 +4776,21 @@ The executable program or shell script to look for.
 @subsubheading grep Procedure
 @findex grep
 
-Search the file called @file{filename} (a fully specified path) for
-lines that contain a match for regular expression @emph{regexp}. The
-result is a list of all the lines that match.  If no lines match, the
-result is an empty string.  Specify @emph{regexp} using the standard
-regular expression style used by the Unix utility program grep.
+Search a named file for lines that contain a match for a regular
+expression. The result is a list of all the lines that match.  If no
+lines match, the result is an empty string. All of the Tcl regular
+expression syntax is supported.
 
 @quotation
-@t{@b{grep} @i{filename} @i{regexp} @b{line}}
+@t{@b{grep} @i{-n} @i{filename} @i{regexp} @b{line}}
 @end quotation
 
 @table @asis
+@item @code{-n}
+The @code{-n} option prefixes matched lines in the result with the line
+number, just like GNU @code{grep} does. This option should be used in
+preference to the @code{line} keyword documented below.
+
 @item @code{filename}
 The file to search.
 
@@ -4796,8 +4800,7 @@ utility) to search for.
 
 @item @code{line}
 Use the optional keyword @code{line} to prefix matched lines in the
-result with the line number.  This is an option flag -- type it just as
-shown.
+result with the line number. This usage is deprecated.
 @end table
 
 @node prune procedure, runtest_file_p procedure, grep procedure, Utility Procedures

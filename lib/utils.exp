@@ -201,27 +201,30 @@ proc which { file } {
 
 # Looks for occurrences of a string in a file.
 #     return:list of lines that matched or empty string if none match.
-#     args:  first arg is the filename,
-#            second is the pattern,
-#            third are any options.
-#     Options: line  - puts line numbers of match in list
-#
+#     args:  first arg is optional (e.g. -n)
+#            second is the filename,
+#            third is the pattern,
+#            fourth is any keyword options (e.g. line)
+#     options:
+#         -n  - include line numbers like grep(1)
+#       line  - synonum for -n
+
 proc grep { args } {
+    set options ""
+    if { [lindex $args 0] == "-n" } {
+	append options "line "
+	set args [lrange $args 1 end]
+    }
 
     set file [lindex $args 0]
     set pattern [lindex $args 1]
 
     verbose "Grepping $file for the pattern \"$pattern\"" 3
 
-    set argc [llength $args]
-    if { $argc > 2 } {
-	for { set i 2 } { $i < $argc } { incr i } {
-	    append options [lindex $args $i]
-	    append options " "
-	}
-    } else {
-	set options ""
+    if { [llength $args] > 2 } {
+	append options [join [lrange $args 2 end]]
     }
+    set options [lsort -unique $options]
 
     set i 0
     set fd [open $file r]
