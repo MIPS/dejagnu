@@ -4958,41 +4958,56 @@ systems.
 @subsubheading libgloss_link_flags Procedure
 @findex libgloss_link_flags
 
+Finds the pieces of @code{libgloss} needed to link a set of object files
+into an executable. This usually means setting the @code{-L} and
+@code{-B} paths correctly.
+
 @quotation
-@t{@b{libgloss_link_flags}@{@i{args}@}}
+@t{@b{libgloss_link_flags} @i{args} }
 @end quotation
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node libgloss_include_flags procedure, newlib_link_flags procedure, libgloss_link_flags procedure, Libgloss
 @subsubheading libgloss_include_flags Procedure
 @findex libgloss_include_flags
 
+This procedure always returns an empty string. It is provided for
+consistency.
+
 @quotation
-@t{@b{libgloss_include_flags}@{@i{args}@}}
+@t{@b{libgloss_include_flags} @i{args}}
 @end quotation
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node newlib_link_flags procedure, newlib_include_flags procedure, libgloss_include_flags procedure, Libgloss
 @subsubheading newlib_link_flags Procedure
 @findex newlib_link_flags
 
+Return the options needed to link an executable with @code{newlib}. This
+usually means setting the @code{-L} and @code{-B} paths correctly.
+
 @quotation
-@t{@b{newlib_link_flags}@{@i{args}@}}
+@t{@b{newlib_link_flags} @i{args}}
 @end quotation
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node newlib_include_flags procedure, libio_include_flags procedure, newlib_link_flags procedure, Libgloss
 @subsubheading newlib_include_flags Procedure
 @findex newlib_include_flags
+
+Return the options needed to locate the @code{newlib} header files.
 
 @quotation
 @t{@b{newlib_include_flags}@{@i{args}@}}
@@ -5000,6 +5015,7 @@ systems.
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node libio_include_flags procedure, libio_link_flags procedure, newlib_include_flags procedure, Libgloss
@@ -5007,7 +5023,7 @@ systems.
 @findex libio_include_flags
 
 @quotation
-@t{@b{libio_include_flags}@{@i{args}@}}
+@t{@b{libio_include_flags} @i{args}}
 @end quotation
 
 @table @asis
@@ -5102,6 +5118,10 @@ systems.
 @subsubheading find_gcc Procedure
 @findex find_gcc
 
+Looks for a copy of the GNU C compiler in your build tree in the
+@code{PATH}. This will also return the proper transformed name for a
+cross-compiler if the build tree is configured for one.
+
 @quotation
 @t{@b{find_gcc}}
 @end quotation
@@ -5109,6 +5129,10 @@ systems.
 @node find_gcj procedure, find_g++ procedure, find_gcc procedure, Libgloss
 @subsubheading find_gcj Procedure
 @findex find_gcj
+
+Looks for a copy of the GNU Java compiler in your build tree in the
+@code{PATH}. This will also return the proper transformed name for a
+cross-compiler if the build tree is configured for one.
 
 @quotation
 @t{@b{find_gcj}}
@@ -5118,6 +5142,10 @@ systems.
 @subsubheading find_g++ Procedure
 @findex find_g++
 
+Looks for a copy of the GNU C++ compiler in your build tree in the
+@code{PATH}. This will also return the proper transformed name for a
+cross-compiler if the build tree is configured for one.
+
 @quotation
 @t{@b{find_g++}}
 @end quotation
@@ -5126,6 +5154,10 @@ systems.
 @subsubheading find_g77 Procedure
 @findex find_g77
 
+Looks for a copy of the GNU Fortran 77 compiler in your build tree in
+the @code{PATH}. This will also return the proper transformed name for a
+cross-compiler if the build tree is configured for one.
+
 @quotation
 @t{@b{find_g77}}
 @end quotation
@@ -5133,6 +5165,10 @@ systems.
 @node find_gfortran procedure, process_multilib_options procedure, find_g77 procedure, Libgloss
 @subsubheading find_gfortran Procedure
 @findex find_gfortran
+
+Looks for a copy of the GNU Fortran compiler in your build tree in the
+@code{PATH}. This will also return the proper transformed name for a
+cross-compiler if the build tree is configured for one.
 
 @quotation
 @t{@b{find_gfortran}}
@@ -5217,8 +5253,6 @@ systems.
 @node Debugging Procedures, , Libgloss, Built-in Procedures
 @section Procedures for debugging your scripts
 
-@file{lib/debugger.exp} defines the following procedures:
-
 @menu
 * dumpvars Procedure: dumpvars procedure
 * dumplocals Procedure: dumplocals procedure
@@ -5238,66 +5272,64 @@ systems.
 @subsubheading dumpvars Procedure
 @findex dumpvars
 
-This takes a csh style regular expression (glob rules) and prints the
-values of the global variable names that match.  It is abbreviated as
-@emph{dv}.
+This procedure prints the values of the global variables that match a
+glob pattern. Abbreviation: @kbd{dv}.
 
 @quotation
-@t{@b{dumpvars}@{@i{vars}@}}
+@t{@b{dumpvars} @i{pattern}}
 @end quotation
 
 @table @asis
-@item @code{vars}
-The variables to dump.
+@item @code{pattern}
+The global variables to dump.
 @end table
 
 @node dumplocals procedure, dumprocs procedure, dumpvars procedure, Debugging Procedures
 @subsubheading dumplocals Procedure
 @findex dumplocals
 
-This takes a csh style regular expression (glob rules) and prints the
-values of the local variable names that match. It is abbreviated as
-@emph{dl}.
+This procedure prints the values of local variables that match a glob
+pattern. Abbreviation: @kbd{dl}.
 
 @quotation
-@t{@b{dumplocals}@{@i{args}@}}
+@t{@b{dumplocals} @i{pattern} }
 @end quotation
 
 @table @asis
-@item @code{args}
+@item @code{pattern}
+The local variables to dump.
 @end table
 
 @node dumprocs procedure, dumpwatch procedure, dumplocals procedure, Debugging Procedures
 @subsubheading dumprocs Procedure
 @findex dumprocs
 
-This takes a csh style regular expression (glob rules) and prints the
-body of all procs that match. It is abbreviated as @emph{dp}.
+This procedure dumps the body of all procs that match a glob pattern. It
+is abbreviated as @kbd{dp}.
 
 @quotation
-@t{@b{dumprocs}@{@i{ pattern }@}}
+@t{@b{dumprocs}@i{ pattern }}
 @end quotation
 
 @table @asis
 @item @code{pattern}
-The csh "glob" style pattern to look
-for.
+The proc bodies to dump.
 @end table
 
 @node dumpwatch procedure, watcharray procedure, dumprocs procedure, Debugging Procedures
 @subsubheading dumpwatch Procedure
 @findex dumpwatch
 
-This takes a csh style regular expression (glob rules) and prints all
-the watchpoints. It is abbreviated as @emph{dw}.
+This procedure prints all of the watchpoints matching a glob pattern. It
+is abbreviated as @kbd{dw}.
 
 @quotation
-@t{@b{dumpwatch}@{@i{ pattern }@}}
+@t{@b{dumpwatch} @i{ pattern }}
 @end quotation
 
 @table @asis
 @item @code{pattern}
-The csh "glob" style pattern to look for.
+The watchpoints to dump.
 @end table
 
 @node watcharray procedure, watchvar procedure, dumpwatch procedure, Debugging Procedures
@@ -5305,11 +5337,14 @@ The csh "glob" style pattern to look for.
 @findex watcharray
 
 @quotation
-@t{@b{watcharray}@{@i{element}
-@i{type}@}}
+@t{@b{watcharray} @i{array} @i{element} @i{type}}
 @end quotation
 
 @table @asis
+@item @code{array}
+
+@item @code{element}
+
 @item @code{type}
 The csh "glob" style pattern to look for.
 @end table
@@ -5319,27 +5354,28 @@ The csh "glob" style pattern to look for.
 @findex watchvar
 
 @quotation
-@t{@b{watchvar}@{@i{var}
-@i{type}@}}
+@t{@b{watchvar} @i{var} @i{type}}
 @end quotation
 
 @table @asis
-@item @code{}
+@item @code{var}
+
+@item @code{type}
 @end table
 
 @node watchunset procedure, watchwrite procedure, watchvar procedure, Debugging Procedures
 @subsubheading watchunset Procedure
 @findex watchunset
 
-This breaks program execution when the variable @code{var} is unset. It
-is abbreviated as @emph{wu}.
+This breaks program execution when the variable @code{var} is
+unset. Abbreviation: @kbd{wu}.
 
 @quotation
-@t{@b{watchunset}@{@i{arg}@}}
+@t{@b{watchunset} @i{pattern}}
 @end quotation
 
 @table @asis
-@item @code{args}
+@item @code{pattern}
 @end table
 
 @node watchwrite procedure, watchread procedure, watchunset procedure, Debugging Procedures
@@ -5347,10 +5383,10 @@ is abbreviated as @emph{wu}.
 @findex watchwrite
 
 This breaks program execution when the variable @code{var} is
-written. It is abbreviated as @emph{ww}.
+written. Abbreviation: @kbd{ww}.
 
 @quotation
-@t{@b{watchwrite}@{@i{var}@}}
+@t{@b{watchwrite} @i{var}}
 @end quotation
 
 @table @asis
@@ -5362,11 +5398,11 @@ The variable to watch.
 @subsubheading watchread Procedure
 @findex watchread
 
-This breaks program execution when the variable @code{var} is read. It
-is abbreviated as @emph{wr}.
+This breaks program execution when the variable @code{var} is
+read. Abbreviation: @kbd{wr}.
 
 @quotation
-@t{@b{watchread}@{@i{var}@}}
+@t{@b{watchread} @i{var}}
 @end quotation
 
 @table @asis
@@ -5378,45 +5414,40 @@ The variable to watch.
 @subsubheading watchdel Procedure
 @findex watchdel
 
-This deletes a watchpoint from the watch list. It is abbreviated as
-@emph{wd}.
+This deletes a watchpoint from the watch list. Abbreviation: @kbd{wd}.
 
 @quotation
-@t{@b{watchdel}@{@i{args}@}}
+@t{@b{watchdel} @i{pattern}}
 @end quotation
 
 @table @asis
-@item @code{args}
+@item @code{pattern}
 @end table
 
 @node print procedure, quit procedure, watchdel procedure, Debugging Procedures
 @subsubheading print Procedure
 @findex print
 
-This prints the value of the variable @code{var}. It is abbreviated as
-@emph{p}.
+This prints the value of a variable. Abbreviation: @kbd{p}.
 
 @quotation
-@t{@b{print}@{@i{var}@}}
+@t{@b{print}@i{var}}
 @end quotation
 
 @table @asis
 @item @code{var}
+The variable to print.
 @end table
 
 @node quit procedure, , print procedure, Debugging Procedures
 @subsubheading quit Procedure
 @findex quit
 
-This makes runtest exit. It is abbreviated as @emph{q}.
+This makes @code{runtest} exit. Abbreviation: @kbd{q}.
 
 @quotation
 @t{@b{quit}}
 @end quotation
-
-@table @asis
-@item @code{}
-@end table
 
 @node GNU Free Documentation License, Concept Index, Built-in Procedures, Top
 @appendix GNU Free Documentation License
