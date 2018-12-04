@@ -1,5 +1,9 @@
 2018-12-04  Ben Elliston  <bje@gnu.org>
 
+	* lib/debugger.exp (dumprocs): Fix proc comment.
+
+2018-12-04  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi (Utility Procedures): Improve documentation for
 	the procedures in this section.
 

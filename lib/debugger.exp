@@ -48,7 +48,7 @@ proc dumplocals { args } {
 	      ]
 }
 
-# Dump the body of procedures specified by a regexp.
+# Dump the body of procedures specified by a pattern.
 #
 proc dumprocs { args } {
     foreach i [info procs $args] {
