@@ -1,5 +1,10 @@
 2018-12-04  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* NEWS: Document new relative_filename procedure and --local_init/
+	--global_init command line options.
+
+2018-12-04  Jacob Bachmeyer  <jcb62281@gmail.com>
+
     	* lib/utils.exp (relative_filename): New proc.
 	* runtest.exp: Use it.
     	* doc/dejagnu.texi (relative_filename procedure): Document it.

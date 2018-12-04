@@ -5,6 +5,10 @@ Changes since 1.6.2:
 1. The internal proc 'is_remote' has been renamed to 'isremote' for
    consistency with the other similar procs (eg, istarget). Testsuites
    should use this proc. The 'is_remote' proc is deprecated.
+2. runtest now accepts --local_init and --global_init options to override
+   the default of reading "site.exp".  See the manual for details.
+3. A utility procedure relative_filename has been added.  This procedure
+   computes a relative file name to a given destination from a given base.
 
 Changes since 1.6.1:
 
