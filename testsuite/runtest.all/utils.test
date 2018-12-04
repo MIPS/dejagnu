@@ -148,6 +148,23 @@ if {[which make] != 0} {
   fail "which, make"
 }
 
-# grep args
+### Do not adjust the comment on the next line. The grep test case
+### depends on it.
+
+# Test grep!
+if {[llength [grep ${srcdir}/runtest.all/utils.test "^# Test grep!"]] == 1} {
+  pass "grep, no options"
+} else {
+  fail "grep, no options"
+}
+
+# Test grep with line option..
+set result [grep ${srcdir}/runtest.all/utils.test "^# Test grep!" line]
+if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
+  pass "grep, line option"
+} else {
+  fail "grep, line option"
+}
+
 # diff file_1 file_2
 # runtest_file_p

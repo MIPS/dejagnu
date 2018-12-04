@@ -1,5 +1,9 @@
 2018-12-04  Ben Elliston  <bje@gnu.org>
 
+	* testsuite/runtest.all/utils.test: Test grep.
+
+2018-12-04  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/runtest.all/utils.test (which): Fail on the else path,
 	don't pass in either case.
 
