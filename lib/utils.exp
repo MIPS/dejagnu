@@ -85,6 +85,44 @@ proc getdirs { args } {
 }
 
 
+# Given a base and a destination, return a relative file name that refers
+# to the destination when used relative to the given base.
+proc relative_filename { base destination } {
+    if { [file pathtype $base] != "absolute" } {
+	set base [file normalize $base]
+    }
+    if { [file pathtype $destination] != "absolute" } {
+	set destination [file normalize $destination]
+    }
+
+    set base [file split $base]
+    set destination [file split $destination]
+
+    verbose "base: \[[llength $base]\] $base" 3
+    verbose "destination: \[[llength $destination]\] $destination" 3
+
+    set basecount [llength $base]
+    for {set i 0} {$i < $basecount
+		   && [lindex $base $i] == [lindex $destination $i]} {incr i} {}
+    if { $i == $basecount } {
+	set tail [lrange $destination $i end]
+    } else {
+	set tail [lrange $destination $i end]
+	while { [incr i] <= $basecount } {
+	    set tail [linsert $tail 0 ".."]
+	}
+    }
+
+    if { [llength $tail] == 0 } {
+	set result ""
+    } else {
+	set result [eval file join $tail]
+    }
+    verbose "result: $result" 3
+    return $result
+}
+
+
 # Finds paths of all non-directory files, recursively, whose names match
 # a pattern.  Certain directory name are not searched (see proc getdirs).
 #     rootdir - search in this directory and its subdirectories, recursively.

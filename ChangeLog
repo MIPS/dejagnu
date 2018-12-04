@@ -1,3 +1,10 @@
+2018-12-04  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+    	* lib/utils.exp (relative_filename): New proc.
+	* runtest.exp: Use it.
+    	* doc/dejagnu.texi (relative_filename procedure): Document it.
+    	* testsuite/runtest.all/utils.test: Add tests for relative_filename.
+
 2018-12-03  Ben Elliston  <bje@gnu.org>
 
 	* dejagnu.h (TestState): Remove const char * variants of pass(),

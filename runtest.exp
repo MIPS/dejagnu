@@ -1771,15 +1771,8 @@ foreach current_target $target_list {
 		# set subdir to the tail of the dirname after $srcdir,
 		# for the driver files that want it.  XXX this is silly.
 		# drivers should get a single var, not "$srcdir/$subdir"
-		set subdir [file dirname $test_name]
-		set p [expr {[string length $srcdir] - 1}]
-		while {0 < $p && [string index $srcdir $p] == "/"} {
-		    incr p -1
-		}
-		if {[string range $subdir 0 $p] == $srcdir} {
-		    set subdir [string range $subdir [expr {$p + 1}] end]
-		    regsub "^/" $subdir "" subdir
-		}
+		set subdir [relative_filename $srcdir \
+				[file dirname $test_name]]
 
 		# XXX not the right thing to do.
 		set runtests [list [file tail $test_name] ""]
@@ -1860,20 +1853,8 @@ foreach current_target $target_list {
 
 			# Get the path after the $srcdir so we know
 			# the subdir we're in.
-			set subdir [file dirname $test_name]
-			# We used to do
-			# regsub $srcdir [file dirname $test_name] "" subdir
-			# but what if [file dirname $test_name] contains regexp
-			# characters? We lose. Instead...
-			set first [string first $srcdir $subdir]
-			if { $first >= 0 } {
-			    set first [expr {$first + [string length $srcdir]}]
-			    set subdir [string range $subdir $first end]
-			    regsub "^/" "$subdir" "" subdir
-			}
-			if { "$srcdir" == "$subdir" || "$srcdir" == "$subdir/" } {
-			    set subdir ""
-			}
+			set subdir [relative_filename $srcdir \
+					[file dirname $test_name]]
 			# Check to see if the range of tests is limited,
 			# set `runtests' to a list of two elements: the script name
 			# and any arguments ("" if none).

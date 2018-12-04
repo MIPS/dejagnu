@@ -4671,6 +4671,7 @@ tool, and its version number.
 
 @menu
 * getdirs Procedure: getdirs procedure
+* relative_filename Procedure: relative_filename procedure
 * find Procedure: find procedure
 * which Procedure: which procedure
 * grep Procedure: grep procedure
@@ -4683,7 +4684,7 @@ tool, and its version number.
 * prune_system_crud Procedure: prune_system_crud procedure
 @end menu
 
-@node getdirs procedure, find procedure, , Utility Procedures
+@node getdirs procedure, relative_filename procedure, Utility Procedures, Utility Procedures
 @subsubheading getdirs Procedure
 @findex getdirs
 
@@ -4712,7 +4713,26 @@ the pattern. If no directories match the pattern, then an empty list is
 returned.
 @end table
 
-@node find procedure, which procedure, getdirs procedure, Utility Procedures
+@node relative_filename procedure, find procedure, getdirs procedure, Utility Procedures
+@subsubheading relative_filename Procedure
+@findex relative_filename
+
+Return a relative file name, given a starting point.
+
+@quotation
+@t{@b{relative_filename} @i{base} @i{destination}}
+@end quotation
+
+@table @asis
+
+@item @code{base}
+The starting point for relative file name traversal.
+
+@item @code{destination}
+The absolute file name that should be reached by appending the return value to @i{base}.
+@end table
+
+@node find procedure, which procedure, relative_filename procedure, Utility Procedures
 @subsubheading find Procedure
 @findex find
 
@@ -5442,4 +5462,4 @@ This makes runtest exit. It is abbreviated as @emph{q}.
 
 @bye
 
-@c  LocalWords:  subdirectory
+@c  LocalWords:  subdirectory prepend prepended testsuite filename
