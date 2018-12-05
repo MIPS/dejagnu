@@ -23,7 +23,6 @@
 #
 proc telnet_open { hostname args } {
     global verbose
-    global connectmode
     global spawn_id
     global timeout
     global board_info

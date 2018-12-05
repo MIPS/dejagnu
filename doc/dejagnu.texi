@@ -2952,10 +2952,10 @@ either @emph{-1}, when the connection cannot be established, or the
 spawn ID returned by the Expect command @code{spawn}.
 
 It use the value of the @code{connect} field in the @code{target_info}
-array (was @code{connectmode} as the type of connection to make. Current
-supported connection types are ssh, tip, kermit, telnet, rsh, and
-rlogin. If the @code{--reboot} option was used on the runtest command
-line, then the target is rebooted before the connection is made.
+array as the type of connection to make. Current supported connection
+types are ssh, tip, kermit, telnet, rsh, and rlogin. If the
+@code{--reboot} option was used on the runtest command line, then the
+target is rebooted before the connection is made.
 
 @menu
 * call_remote Procedure: call_remote procedure
