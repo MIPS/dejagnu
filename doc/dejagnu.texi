@@ -4252,7 +4252,6 @@ Reboot the target.
 * compile Procedure: compile procedure
 * archive Procedure: archive procedure
 * ranlib Procedure: ranlib procedure
-* execute_anywhere Procedure: execute_anywhere procedure
 @end menu
 
 @node board_info procedure, host_info procedure, , target database library file
@@ -4478,7 +4477,7 @@ on the remote host using @code{execute_anywhere}.
 @item @code{file}
 @end table
 
-@node ranlib procedure, execute_anywhere procedure, archive procedure, target database library file
+@node ranlib procedure, , archive procedure, target database library file
 @subsubheading ranlib Procedure
 @findex ranlib
 
@@ -4492,29 +4491,6 @@ flags.
 
 @table @asis
 @item @code{file}
-@end table
-
-@node execute_anywhere procedure, , ranlib procedure, target database library file
-@subsubheading execute_anywhere Procedure
-@findex execute_anywhere
-
-This executes the @emph{cmdline} on the proper host. This should be used
-as a replacement for the Tcl command @code{exec} as this version
-utilizes the target config info to execute this command on the build
-machine or a remote host. All config information for the remote host
-must be setup to have this command work. If this is a Canadian cross
-(where we test a cross compiler that runs on a different host then where
-DejaGnu is running) then a connection is made to the remote host and the
-command is executed there. It returns either REMOTERROR (for an error)
-or the output produced when the command was executed. This is used for
-running the tool to be tested, not a test case.
-
-@quotation
-@t{@b{execute_anywhere} @i{cmdline}}
-@end quotation
-
-@table @asis
-@item @code{cmdline}
 @end table
 
 @node platform dependent procedures, Utility Procedures, target database library file, Built-in Procedures
