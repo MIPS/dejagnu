@@ -2402,7 +2402,7 @@ globbing to specify a range of triplets). If called with no arguments or
 an empty pattern, this procedure returns the build system triplet.
 
 @quotation
-@t{@b{isbuild} @{@i{ pattern }@}}
+@t{@b{isbuild} @i{pattern}}
 @end quotation
 
 @node isremote procedure, is_remote procedure, isbuild procedure, Core Internal Procedures
@@ -2412,7 +2412,7 @@ an empty pattern, this procedure returns the build system triplet.
 Is @i{board} remote? Return a non-zero value, if so.
 
 @quotation
-@t{@b{isremote} @{@i{ board }@}}
+@t{@b{isremote} @i{ board }}
 @end quotation
 
 This procedure is to be used instead of @code{is_remote}.
@@ -2424,7 +2424,7 @@ This procedure is to be used instead of @code{is_remote}.
 Is @i{board} remote? Return a non-zero value, if so.
 
 @quotation
-@t{@b{is_remote} @{@i{ board }@}}
+@t{@b{is_remote} @i{ board }}
 @end quotation
 
 Note that this procedure is now deprecated. Use @code{isremote} instead.
@@ -2454,7 +2454,7 @@ triplets). If called with no arguments or an empty pattern, this
 procedure returns the host triplet.
 
 @quotation
-@t{@b{ishost} @{@i{ pattern }@}}
+@t{@b{ishost} @i{pattern}}
 @end quotation
 
 @node istarget procedure, isnative procedure, ishost procedure, Core Internal Procedures
@@ -2470,7 +2470,7 @@ range of triplets). If called with no arguments or an empty pattern,
 this procedure returns the target triplet.
 
 @quotation
-@t{@b{istarget} @{ @i{pattern} @}}
+@t{@b{istarget} @{ @i{pattern} }
 @end quotation
 
 @node isnative procedure, log_and_exit procedure, istarget procedure, Core Internal Procedures
@@ -2501,7 +2501,7 @@ This procedure writes out the end of the test log and terminates @code{runtest}.
 @findex log_summary
 
 @quotation
-@t{@b{log_summary} @{@i{args}@}}
+@t{@b{log_summary} @i{args}}
 @end quotation
 
 @table @asis
@@ -2538,8 +2538,8 @@ whatever test runs next, leading to surprising results.
 @end quotation
 
 @quotation
-@t{@b{setup_xfail}@{@i{config}
-@i{bugid}@}}
+@t{@b{setup_xfail} @i{config}
+@i{bugid}}
 @end quotation
 
 @table @asis
@@ -2560,7 +2560,7 @@ message beginning with @emph{PASS} (or @emph{XPASS}, if failure was
 expected), appending the @code{message} argument.
 
 @quotation
-@t{@b{pass} @{ @i{message} @}}
+@t{@b{pass} @i{message} }
 @end quotation
 
 @node fail procedure, xpass procedure, pass procedure, Core Internal Procedures
@@ -2572,7 +2572,7 @@ message beginning with @emph{FAIL} (or @emph{XFAIL}, if failure was
 expected), appending the @code{message} argument.
 
 @quotation
-@t{@b{fail} @{ @i{message} @}}
+@t{@b{fail} @i{message} }
 @end quotation
 
 @node xpass procedure, xfail procedure, fail procedure, Core Internal Procedures
@@ -2585,7 +2585,7 @@ Declares a test to have passed when it was expected to fail.
 @code{message} argument.
 
 @quotation
-@t{@b{xpass} @{ @i{message} @}}
+@t{@b{xpass} @i{message} }
 @end quotation
 
 @node xfail procedure, set_warning_threshold procedure, xpass procedure, Core Internal Procedures
@@ -2597,7 +2597,7 @@ log files a message beginning with @emph{XFAIL} (or @emph{PASS}, if
 success was expected), appending the @code{message} argument.
 
 @quotation
-@t{@b{xpass} @{ @i{message} @}}
+@t{@b{xpass} @i{message} }
 @end quotation
 
 @node set_warning_threshold procedure, get_warning_threshold procedure, xfail procedure, Core Internal Procedures
@@ -2609,7 +2609,7 @@ it: calls to @code{warning} will not turn a @emph{PASS} or @emph{FAIL}
 into an @emph{UNRESOLVED}.
 
 @quotation
-@t{@b{set_warning_threshold}@{@i{threshold}@}}
+@t{@b{set_warning_threshold} @i{threshold}}
 @end quotation
 
 @table @asis
@@ -2652,7 +2652,7 @@ outcome doesn't become @emph{UNRESOLVED}. This can be used for errors
 with no known side effects.
 
 @quotation
-@t{@b{warning} @{ @i{messsage} @i{number} @}}
+@t{@b{warning} @i{messsage} @i{number} }
 @end quotation
 
 @table @asis
@@ -2684,7 +2684,7 @@ function, and the following test outcome doesn't become
 effects.
 
 @quotation
-@t{@b{perror} @{ @i{message} @i{number} @}}
+@t{@b{perror} @i{message} @i{number} }
 @end quotation
 
 @table @asis
@@ -2709,7 +2709,7 @@ needed in the log file regardless of the verbosity level use
 @code{note}.
 
 @quotation
-@t{@b{note} @{ @i{messsage} @}}
+@t{@b{note} @i{messsage} }
 @end quotation
 
 
@@ -2723,7 +2723,7 @@ argument. For example, you might use this in a dummy test whose only
 role is to record that a test does not yet exist for some feature.
 
 @quotation
-@t{@b{untested} @{ @i{message} @}}
+@t{@b{untested} @i{message} }
 @end quotation
 
 
@@ -2738,7 +2738,7 @@ execute as expected, and a human being must go over results to determine
 if it passed or failed (and to improve the test case).
 
 @quotation
-@t{@b{unresolved} @{ @i{message} @}}
+@t{@b{unresolved} @i{message} }
 @end quotation
 
 
@@ -2752,7 +2752,7 @@ message beginning with @emph{UNSUPPORTED}, appending the @code{message}
 argument.
 
 @quotation
-@t{@b{unsupported} @{ @i{message} @}}
+@t{@b{unsupported} @i{message} }
 @end quotation
 
 
@@ -2768,7 +2768,7 @@ conventions: For example, for a cross compiler supporting the
 @code{m68k-vxworks-gcc}.
 
 @quotation
-@t{@b{transform}@{@i{toolname}@}}
+@t{@b{transform} @i{toolname}}
 @end quotation
 
 @table @asis
@@ -2800,10 +2800,7 @@ doesn't effect other tests. It returns @emph{1} if the conditional is
 true, or @emph{0} if the conditional is false.
 
 @quotation
-@t{@b{check_conditional_xfail}@{@i{message}
-@i{targets}
-@i{includes}
-@i{excludes}@}}
+@t{@b{check_conditional_xfail} @i{message} @i{targets} @i{includes} @i{excludes}}
 @end quotation
 
 @table @asis
@@ -2839,12 +2836,12 @@ conditional is de-activated.
           @}
 @end example
 
-What this does is it matches only for these two targets if
-"-Wall -v" or  "-O3" is set, but neither "-O1" or "-Map" is set. For
-a set to match, the options specified are searched for independently
-of each other, so a "-Wall -v" matches either "-Wall -v" or "-v
--Wall". A space separates the options in the string. Glob-style
-regular expressions are also permitted.
+What this does is it matches only for these two targets if @code{-Wall
+-v} or @code{-O3} is set, but neither @code{-O1} or @code{-Map} is
+set. For a set to match, the options specified are searched for
+independently of each other, so a @code{-Wall -v} matches either
+@code{-Wall -v} or @code{-v -Wall}. A space separates the options in the
+string. Glob patterns are also permitted.
 
 @node clear_xfail procedure, verbose procedure, check_conditional_xfail procedure, Core Internal Procedures
 @subsubheading clear_xfail Procedure
@@ -2857,7 +2854,7 @@ list of configuration target names.  It is only necessary to call
 @code{pass} or @code{fail}, after calling @code{setup_xfail}.
 
 @quotation
-@t{@b{clear_xfail}@{@i{config}@}}
+@t{@b{clear_xfail} @i{config}}
 @end quotation
 
 @table @asis
@@ -2878,11 +2875,11 @@ number of @code{-v} options passed is greater than or equal to the
 
 @quotation
 @t{ @b{verbose}
-@{@i{-log}
+@i{-log}
 @i{-x}
 @i{-n}
 @i{message}
-@i{loglevel}@}}
+@i{loglevel}}
 @end quotation
 
 @table @asis
@@ -2921,7 +2918,7 @@ called @file{lib}.  If there are duplicate definitions, the last one
 loaded takes precedence over the earlier ones.
 
 @quotation
-@t{@b{load_lib} @{@i{filespec}@}}
+@t{@b{load_lib} @i{filespec}}
 @end quotation
 
 @table @asis
@@ -2946,8 +2943,8 @@ load_lib foo.exp
 @node Procedures For Remote Communication, connprocs, Core Internal Procedures, Built-in Procedures
 @section Procedures For Remote Communication
 
-@file{lib/remote.exp} defines procedures for establishing and managing
-communications. Each of these procedures tries to establish the
+The file @file{lib/remote.exp} defines procedures for establishing and
+managing communications. Each of these procedures tries to establish the
 connection up to three times before returning. Warnings (if retries will
 continue) or errors (if the attempt is abandoned) report on
 communication failures.  The result for any of these procedures is
@@ -3012,11 +3009,12 @@ line, then the target is rebooted before the connection is made.
 @subsubheading call_remote Procedure
 @findex call_remote
 
+A standard procedure to call the appropriate @i{proc}. This proceure
+first looks for a board-specific version, then a protocol-specific
+version, and finally @code{call_remote} will call @code{standard_$proc}.
+
 @quotation
-@t{@b{call_remote}@{@i{type}
-@i{proc}
-@i{dest}
-@i{args}@}}
+@t{@b{call_remote} @i{type} @i{proc} @i{dest} @i{args}}
 @end quotation
 
 @table @asis
@@ -3030,7 +3028,7 @@ line, then the target is rebooted before the connection is made.
 @findex check_for_board_status
 
 @quotation
-@t{@b{check_for_board_status}@{@i{variable}@}}
+@t{@b{check_for_board_status} @i{variable}}
 @end quotation
 
 @table @asis
@@ -3043,9 +3041,7 @@ line, then the target is rebooted before the connection is made.
 @findex file_on_build
 
 @quotation
-@t{@b{file_on_build}@{@i{op}
-@i{file}
-@i{args}@}}
+@t{@b{file_on_build} @i{op} @i{file} @i{args}}
 @end quotation
 
 @table @asis
@@ -3059,9 +3055,7 @@ line, then the target is rebooted before the connection is made.
 @findex file_on_host
 
 @quotation
-@t{@b{file_on_host}@{@i{op}
-@i{file}
-@i{args}@}}
+@t{@b{file_on_host} @i{op} @i{file} @i{args}}
 @end quotation
 
 @table @asis
@@ -3075,10 +3069,7 @@ line, then the target is rebooted before the connection is made.
 @findex local_exec
 
 @quotation
-@t{@b{local_exec}@{@i{commandline}
-@i{inp}
-@i{outp}
-@i{timeout}@}}
+@t{@b{local_exec} @i{commandline} @i{inp} @i{outp} @i{timeout}}
 @end quotation
 
 @table @asis
@@ -3091,12 +3082,16 @@ line, then the target is rebooted before the connection is made.
 @subsubheading remote_binary Procedure
 @findex remote_binary
 
+This procedure sets the connection into @i{binary} mode. That is, there
+is no processing of input characters.
+
 @quotation
-@t{@b{remote_binary}@{@i{host}@}}
+@t{@b{remote_binary} @i{host}}
 @end quotation
 
 @table @asis
 @item @code{host}
+The host on which to set a binary connection.
 @end table
 
 @node remote_close procedure, remote_download procedure, remote_binary procedure, Procedures For Remote Communication
@@ -3104,7 +3099,7 @@ line, then the target is rebooted before the connection is made.
 @findex remote_close
 
 @quotation
-@t{@b{remote_close}@{@i{shellid}@}}
+@t{@b{remote_close} @i{shellid}}
 @end quotation
 
 @table @asis
@@ -3121,9 +3116,9 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_download
 
 @quotation
-@t{@b{remote_download}@{@i{dest}
+@t{@b{remote_download} @i{dest}
 @i{file}
-@i{args}@}}
+@i{args}}
 @end quotation
 
 @table @asis
@@ -3137,9 +3132,7 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_exec
 
 @quotation
-@t{@b{remote_exec}@{@i{hostname}
-@i{program}
-@i{args}@}}
+@t{@b{remote_exec} @i{hostname} @i{program} @i{args}}
 @end quotation
 
 @table @asis
@@ -3153,9 +3146,7 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_expect
 
 @quotation
-@t{@b{remote_expect}@{@i{board}
-@i{timeout}
-@i{args}@}}
+@t{@b{remote_expect} @i{board} @i{timeout} @i{args}}
 @end quotation
 
 @table @asis
@@ -3169,8 +3160,7 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_file
 
 @quotation
-@t{@b{remote_file}@{@i{dest}
-@i{args}@}}
+@t{@b{remote_file} @i{dest} @i{args}}
 @end quotation
 
 @table @asis
@@ -3185,8 +3175,7 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_ld
 
 @quotation
-@t{@b{remote_ld}@{@i{dest}
-@i{prog}@}}
+@t{@b{remote_ld} @i{dest} @i{prog}}
 @end quotation
 
 @table @asis
@@ -3199,9 +3188,7 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_load
 
 @quotation
-@t{@b{remote_load}@{@i{dest}
-@i{prog}
-@i{args}@}}
+@t{@b{remote_load} @i{dest} @i{prog} @i{args}}
 @end quotation
 
 @table @asis
@@ -3215,7 +3202,7 @@ parameter can be left off if the @code{fileid} field in the
 @findex remote_open
 
 @quotation
-@t{@b{remote_open}@{@i{type}@}}
+@t{@b{remote_open} @i{type}}
 @end quotation
 
 @table @asis
@@ -3236,7 +3223,7 @@ in the @code{target_info} array.
 @findex remote_pop_conn
 
 @quotation
-@t{@b{remote_pop_conn}@{@i{host}@}}
+@t{@b{remote_pop_conn} @i{host}}
 @end quotation
 
 @table @asis
@@ -3248,7 +3235,7 @@ in the @code{target_info} array.
 @findex remote_push_conn
 
 @quotation
-@t{@b{remote_push_conn}@{@i{host}@}}
+@t{@b{remote_push_conn} @i{host}}
 @end quotation
 
 @table @asis
@@ -3260,7 +3247,7 @@ in the @code{target_info} array.
 @findex remote_raw_binary
 
 @quotation
-@t{@b{remote_raw_binary}@{@i{host}@}}
+@t{@b{remote_raw_binary} @i{host}}
 @end quotation
 
 @table @asis
@@ -3272,7 +3259,7 @@ in the @code{target_info} array.
 @findex remote_raw_close
 
 @quotation
-@t{@b{remote_raw_close}@{@i{host}@}}
+@t{@b{remote_raw_close} @i{host}}
 @end quotation
 
 @table @asis
@@ -3284,8 +3271,7 @@ in the @code{target_info} array.
 @findex remote_raw_file
 
 @quotation
-@t{@b{remote_raw_file}@{@i{dest}
-@i{args}@}}
+@t{@b{remote_raw_file} @i{dest} @i{args}}
 @end quotation
 
 @table @asis
@@ -3299,8 +3285,7 @@ in the @code{target_info} array.
 @findex remote_raw_ld
 
 @quotation
-@t{@b{remote_raw_ld}@{@i{dest}
-@i{prog}@}}
+@t{@b{remote_raw_ld} @i{dest} @i{prog}}
 @end quotation
 
 @table @asis
@@ -3313,9 +3298,7 @@ in the @code{target_info} array.
 @findex remote_raw_load
 
 @quotation
-@t{@b{remote_raw_load}@{@i{dest}
-@i{prog}
-@i{args}@}}
+@t{@b{remote_raw_load} @i{dest} @i{prog} @i{args}}
 @end quotation
 
 @table @asis
@@ -3329,7 +3312,7 @@ in the @code{target_info} array.
 @findex remote_raw_open
 
 @quotation
-@t{@b{remote_raw_open}@{@i{args}@}}
+@t{@b{remote_raw_open} @i{args}}
 @end quotation
 
 @table @asis
@@ -3342,8 +3325,7 @@ in the @code{target_info} array.
 
 @quotation
 
-@t{@b{remote_raw_send}@{@i{dest}
-@i{string}@}}
+@t{@b{remote_raw_send} @i{dest} @i{string}}
 @end quotation
 
 @table @asis
@@ -3356,8 +3338,7 @@ in the @code{target_info} array.
 @findex remote_raw_spawn
 
 @quotation
-@t{@b{remote_raw_spawn}@{@i{dest}
-@i{commandline}@}}
+@t{@b{remote_raw_spawn} @i{dest} @i{commandline}}
 @end quotation
 
 @table @asis
@@ -3370,8 +3351,7 @@ in the @code{target_info} array.
 @findex remote_raw_transmit
 
 @quotation
-@t{@b{remote_raw_transmit}@{@i{dest}
-@i{file}@}}
+@t{@b{remote_raw_transmit} @i{dest} @i{file}}
 @end quotation
 
 @table @asis
@@ -3384,8 +3364,7 @@ in the @code{target_info} array.
 @findex remote_raw_wait
 
 @quotation
-@t{@b{remote_raw_wait}@{@i{dest}
-@i{timeout}@}}
+@t{@b{remote_raw_wait} @i{dest} @i{timeout}}
 @end quotation
 
 @table @asis
@@ -3403,7 +3382,7 @@ of reboot that will be used, in practice it is expected that
 on success and @emph{0} on failure.
 
 @quotation
-@t{@b{remote_reboot}@{@i{host}@}}
+@t{@b{remote_reboot} @i{host}}
 @end quotation
 
 @table @asis
@@ -3415,8 +3394,7 @@ on success and @emph{0} on failure.
 @findex remote_send
 
 @quotation
-@t{@b{remote_send}@{@i{dest}
-@i{string}@}}
+@t{@b{remote_send} @i{dest} @i{string}}
 @end quotation
 
 @table @asis
@@ -3429,9 +3407,7 @@ on success and @emph{0} on failure.
 @findex remote_spawn
 
 @quotation
-@t{@b{remote_spawn}@{@i{dest}
-@i{commandline}
-@i{args}@}}
+@t{@b{remote_spawn} @i{dest} @i{commandline} @i{args}}
 @end quotation
 
 @table @asis
@@ -3445,7 +3421,7 @@ on success and @emph{0} on failure.
 @findex remote_swap_conn
 
 @quotation
-@t{@b{remote_swap_conn}@{@i{host}@}}
+@t{@b{remote_swap_conn} @i{host}}
 @end quotation
 
 @table @asis
@@ -3457,8 +3433,7 @@ on success and @emph{0} on failure.
 @findex remote_transmit
 
 @quotation
-@t{@b{remote_transmit}@{@i{dest}
-@i{file}@}}
+@t{@b{remote_transmit} @i{dest} @i{file}}
 @end quotation
 
 @table @asis
@@ -3471,9 +3446,7 @@ on success and @emph{0} on failure.
 @findex remote_upload
 
 @quotation
-@t{@b{remote_upload}@{@i{dest}
-@i{srcfile}
-@i{arg}@}}
+@t{@b{remote_upload} @i{dest} @i{srcfile} @i{arg}}
 @end quotation
 
 @table @asis
@@ -3486,42 +3459,58 @@ on success and @emph{0} on failure.
 @subsubheading remote_wait Procedure
 @findex remote_wait
 
+Wait for the last spawned command on the destination to complete. A list
+of two values is returned: the exit status (-1 if the program timed
+out) and any output produced by the command.
+
 @quotation
-@t{@b{remote_wait}@{@i{dest}
-@i{timeout}@}}
+@t{@b{remote_wait} @i{dest} @i{timeout}}
 @end quotation
 
 @table @asis
 @item @code{dest}
+The destination board.
+
 @item @code{timeout}
+The timeout in seconds.
 @end table
 
 @node standard_close procedure, standard_download procedure, remote_wait procedure, Procedures For Remote Communication
 @subsubheading standard_close Procedure
 @findex standard_close
 
+This procedure closes a connection.
+
 @quotation
-@t{@b{standard_close}@{@i{host}@}}
+@t{@b{standard_close} @i{host}}
 @end quotation
 
 @table @asis
 @item @code{host}
+The host to close the connection to.
 @end table
 
 @node standard_download procedure, standard_exec procedure, standard_close procedure, Procedures For Remote Communication
 @subsubheading standard_download Procedure
 @findex standard_download
 
+Downloads a file to a destination. It returns either the empty string
+(indicating failure) or the name of the file on the destination.
+
 @quotation
-@t{@b{standard_download}@{@i{dest}
-@i{file}
-@i{destfile}@}}
+@t{@b{standard_download} @i{dest} @i{file} @i{destfile}}
 @end quotation
 
 @table @asis
 @item @code{dest}
+Destination board.
+
 @item @code{file}
+The name of the file to download.
+
 @item @code{destfile}
+If the optional @i{destile} is specified, that filename will be used on
+the destination board.
 @end table
 
 @node standard_exec procedure, standard_file procedure, standard_download procedure, Procedures For Remote Communication
@@ -3529,8 +3518,7 @@ on success and @emph{0} on failure.
 @findex standard_exec
 
 @quotation
-@t{@b{standard_exec}@{@i{hostname}
-@i{args}@}}
+@t{@b{standard_exec} @i{hostname} @i{args}}
 @end quotation
 
 @table @asis
@@ -3543,9 +3531,7 @@ on success and @emph{0} on failure.
 @findex standard_file
 
 @quotation
-@t{@b{standard_file}@{@i{dest}
-@i{op}
-@i{args}@}}
+@t{@b{standard_file} @i{dest} @i{op} @i{args}}
 @end quotation
 
 @table @asis
@@ -3557,9 +3543,7 @@ on success and @emph{0} on failure.
 @findex standard_load
 
 @quotation
-@t{@b{standard_load}@{@i{dest}
-@i{prog}
-@i{args}@}}
+@t{@b{standard_load} @i{dest} @i{prog} @i{args}}
 @end quotation
 
 @table @asis
@@ -3578,7 +3562,7 @@ because it has higher priority and @file{base-config.exp} is always
 imported by @code{runtest}.
 
 @quotation
-@t{@b{standard_reboot}@{@i{host}@}}
+@t{@b{standard_reboot} @i{host}}
 @end quotation
 
 @table @asis
@@ -3590,8 +3574,7 @@ imported by @code{runtest}.
 @findex standard_send
 
 @quotation
-@t{@b{standard_send}@{@i{dest}
-@i{string}@}}
+@t{@b{standard_send} @i{dest} @i{string}}
 @end quotation
 
 @table @asis
@@ -3604,8 +3587,7 @@ imported by @code{runtest}.
 @findex standard_spawn
 
 @quotation
-@t{@b{standard_spawn}@{@i{dest}
-@i{commandline}@}}
+@t{@b{standard_spawn} @i{dest} @i{commandline}}
 @end quotation
 
 @table @asis
@@ -3617,14 +3599,18 @@ imported by @code{runtest}.
 @subsubheading standard_transmit Procedure
 @findex standard_transmit
 
+The default transmit procedure if none other exists. This feeds the file
+directly into the connection.
+
 @quotation
-@t{@b{standard_transmit}@{@i{dest}
-@i{file}@}}
+@t{@b{standard_transmit} @i{dest} @i{file}}
 @end quotation
 
 @table @asis
 @item @code{dest}
+
 @item @code{file}
+File to transmit.
 @end table
 
 @node standard_upload procedure, standard_wait procedure, standard_transmit procedure, Procedures For Remote Communication
@@ -3632,7 +3618,7 @@ imported by @code{runtest}.
 @findex standard_upload
 
 @quotation
-@t{@b{standard_upload}@{@i{dest srcfile destfile}@}}
+@t{@b{standard_upload} @i{dest srcfile destfile}}
 @end quotation
 
 @table @asis
@@ -3646,8 +3632,7 @@ imported by @code{runtest}.
 @findex standard_wait
 
 @quotation
-@t{@b{standard_wait}@{@i{dest}
-@i{timeout}@}}
+@t{@b{standard_wait} @i{dest} @i{timeout}}
 @end quotation
 
 @table @asis
@@ -3660,8 +3645,7 @@ imported by @code{runtest}.
 @findex unix_clean_filename
 
 @quotation
-@t{@b{unix_clean_filename}@{@i{dest}
-@i{file}@}}
+@t{@b{unix_clean_filename} @i{dest} @i{file}}
 @end quotation
 
 @table @asis
@@ -3674,6 +3658,7 @@ imported by @code{runtest}.
 
 @menu
 * telnet Procedure: telnet procedure
+* rlogin Procedure: rlogin procedure
 * rsh Procedure: rsh procedure
 * tip Procedure: tip procedure
 * kermit Procedure: kermit procedure
@@ -3702,17 +3687,20 @@ imported by @code{runtest}.
 * tip_download Procedure: tip_download procedure
 @end menu
 
-@node telnet procedure, rsh procedure, , connprocs
+@node telnet procedure, rlogin procedure, , connprocs
 @subsubheading telnet Procedure
 @findex telnet
 
 @quotation
-@t{@b{telnet}@{@i{hostname}
-@i{port}@}}
+@t{@b{telnet} @i{hostname} @i{port}}
 @end quotation
 
+@node rlogin procedure, rsh procedure, telnet procedure, connprocs
+@subsubheading rlogin Procedure
+@findex telnet
+
 @quotation
-@t{@b{rlogin}@{@i{hostname}@}}
+@t{@b{rlogin} @i{hostname}}
 @end quotation
 
 @node rsh procedure, tip procedure, telnet procedure, connprocs
@@ -3720,7 +3708,7 @@ imported by @code{runtest}.
 @findex rsh
 
 @quotation
-@t{@b{rsh}@{@i{hostname}@}}
+@t{@b{rsh} @i{hostname}}
 @end quotation
 
 @table @asis
@@ -3741,7 +3729,7 @@ the config array is used for all information.
 @findex tip
 
 @quotation
-@t{@b{tip}@{@i{port}@}}
+@t{@b{tip} @i{port}}
 @end quotation
 
 @table @asis
@@ -3762,8 +3750,7 @@ information. the config array is used for all information.
 @findex kermit
 
 @quotation
-@t{@b{kermit}@{@i{port}
-@i{bps}@}}
+@t{@b{kermit} @i{port} @i{bps}}
 @end quotation
 
 @table @asis
@@ -3785,8 +3772,7 @@ all information.
 @findex kermit_open
 
 @quotation
-@t{@b{kermit_open}@{@i{dest}
-@i{args}@}}
+@t{@b{kermit_open} @i{dest} @i{args}}
 @end quotation
 
 @table @asis
@@ -3799,8 +3785,7 @@ all information.
 @findex kermit_command
 
 @quotation
-@t{@b{kermit_command}@{@i{dest}
-@i{args}@}}
+@t{@b{kermit_command} @i{dest} @i{args}}
 @end quotation
 
 @table @asis
@@ -3813,7 +3798,7 @@ all information.
 @findex kermit_send
 
 @quotation
-@t{@b{kermit_send}@{@i{dest string args}@}}
+@t{@b{kermit_send} @i{dest string args}}
 @end quotation
 
 @table @asis
@@ -3827,9 +3812,7 @@ all information.
 @findex kermit_transmit
 
 @quotation
-@t{@b{kermit_transmit}@{@i{dest}
-@i{file}
-@i{args}@}}
+@t{@b{kermit_transmit} @i{dest} @i{file} @i{args}}
 @end quotation
 
 @table @asis
@@ -3843,8 +3826,7 @@ all information.
 @findex telnet_open
 
 @quotation
-@t{@b{telnet_open}@{@i{hostname}
-@i{args}@}}
+@t{@b{telnet_open} @i{hostname} @i{args}}
 @end quotation
 
 @table @asis
@@ -3857,7 +3839,7 @@ all information.
 @findex telnet_binary
 
 @quotation
-@t{@b{telnet_binary}@{@i{hostname}@}}
+@t{@b{telnet_binary} @i{hostname}}
 @end quotation
 
 @table @asis
@@ -3869,9 +3851,7 @@ all information.
 @findex telnet_transmit
 
 @quotation
-@t{@b{telnet_transmit}@{@i{dest}
-@i{file}
-@i{args}@}}
+@t{@b{telnet_transmit} @i{dest} @i{file} @i{args}}
 @end quotation
 
 @table @asis
@@ -3885,7 +3865,7 @@ all information.
 @findex tip_open
 
 @quotation
-@t{@b{tip_open}@{@i{hostname}@}}
+@t{@b{tip_open} @i{hostname}}
 @end quotation
 
 @table @asis
@@ -3897,7 +3877,7 @@ all information.
 @findex rlogin_open
 
 @quotation
-@t{@b{rlogin_open}@{@i{arg}@}}
+@t{@b{rlogin_open} @i{arg}}
 @end quotation
 
 @table @asis
@@ -3909,8 +3889,8 @@ all information.
 @findex rlogin_spawn
 
 @quotation
-@t{@b{rlogin_spawn}@{@i{dest}
-@i{cmdline}@}}
+@t{@b{rlogin_spawn} @i{dest}
+@i{cmdline}}
 @end quotation
 
 @table @asis
@@ -3923,7 +3903,7 @@ all information.
 @findex rsh_open
 
 @quotation
-@t{@b{rsh_open}@{@i{hostname}@}}
+@t{@b{rsh_open} @i{hostname}}
 @end quotation
 
 @table @asis
@@ -3935,9 +3915,7 @@ all information.
 @findex rsh_download
 
 @quotation
-@t{@b{rsh_download}@{@i{desthost}
-@i{srcfile}
-@i{destfile}@}}
+@t{@b{rsh_download} @i{desthost} @i{srcfile} @i{destfile}}
 @end quotation
 
 @table @asis
@@ -3951,9 +3929,7 @@ all information.
 @findex rsh_upload
 
 @quotation
-@t{@b{rsh_upload}@{@i{desthost}
-@i{srcfile}
-@i{destfile}@}}
+@t{@b{rsh_upload} @i{desthost} @i{srcfile} @i{destfile}}
 @end quotation
 
 @table @asis
@@ -3967,9 +3943,7 @@ all information.
 @findex rsh_exec
 
 @quotation
-@t{@b{rsh_exec}@{@i{boardname}
-@i{cmd}
-@i{args}@}}
+@t{@b{rsh_exec} @i{boardname} @i{cmd} @i{args}}
 @end quotation
 
 @table @asis
@@ -3983,7 +3957,7 @@ all information.
 @findex ssh_close
 
 @quotation
-@t{@b{ssh_close} @{@i{desthost}@}}
+@t{@b{ssh_close} @i{desthost}}
 @end quotation
 
 @table @asis
@@ -3995,7 +3969,7 @@ all information.
 @findex ssh_exec
 
 @quotation
-@t{@b{ssh_exec}@{@i{boardname program pargs inp outp}@}}
+@t{@b{ssh_exec} @i{boardname} @i{program} @i{pargs} @i{inp} @i{outp}}
 @end quotation
 
 @table @asis
@@ -4011,7 +3985,7 @@ all information.
 @findex ssh_download
 
 @quotation
-@t{@b{ssh_download}@{@i{desthost srcfile destfile}@}}
+@t{@b{ssh_download} @i{desthost} @i{srcfile} @i{destfile}}
 @end quotation
 
 @table @asis
@@ -4025,7 +3999,7 @@ all information.
 @findex ssh_upload
 
 @quotation
-@t{@b{ssh_upload}@{@i{desthost srcfile destfile}@}}
+@t{@b{ssh_upload} @i{desthost} @i{srcfile} @i{destfile}}
 @end quotation
 
 @table @asis
@@ -4039,7 +4013,7 @@ all information.
 @findex ftp_open
 
 @quotation
-@t{@b{ftp_open}@{@i{host}@}}
+@t{@b{ftp_open} @i{host}}
 @end quotation
 
 @table @asis
@@ -4052,9 +4026,7 @@ all information.
 @findex ftp_upload
 
 @quotation
-@t{@b{ftp_upload}@{@i{host}
-@i{remotefile}
-@i{localfile}@}}
+@t{@b{ftp_upload} @i{host} @i{remotefile} @i{localfile}}
 @end quotation
 
 @table @asis
@@ -4068,9 +4040,7 @@ all information.
 @findex ftp_download
 
 @quotation
-@t{@b{ftp_download}@{@i{host}
-@i{localfile}
-@i{remotefile}@}}
+@t{@b{ftp_download} @i{host} @i{localfile} @i{remotefile}}
 @end quotation
 
 @table @asis
@@ -4084,7 +4054,7 @@ all information.
 @findex ftp_close
 
 @quotation
-@t{@b{ftp_close}@{@i{host}@}}
+@t{@b{ftp_close} @i{host}}
 @end quotation
 
 @table @asis
@@ -4096,8 +4066,7 @@ all information.
 @findex tip_download
 
 @quotation
-@t{@b{tip_download}@{@i{spawnid}
-@i{file}@}}
+@t{@b{tip_download} @i{spawnid} @i{file}}
 @end quotation
 
 @table @asis
@@ -4134,10 +4103,7 @@ This is the filename to download.
 @findex default_link
 
 @quotation
-@t{@b{default_link}@{@i{board}
-@i{objects}
-@i{destfile}
-@i{flags}@}}
+@t{@b{default_link} @i{board} @i{objects} @i{destfile} @i{flags}}
 @end quotation
 
 @table @asis
@@ -4152,9 +4118,7 @@ This is the filename to download.
 @findex default_target_assemble
 
 @quotation
-@t{@b{default_target_assemble}@{@i{source}
-@i{destfile}
-@i{flags}@}}
+@t{@b{default_target_assemble} @i{source} @i{destfile} @i{flags}}
 @end quotation
 
 @table @asis
@@ -4168,10 +4132,7 @@ This is the filename to download.
 @findex default_target_compile
 
 @quotation
-@t{@b{default_target_compile}@{@i{source}
-@i{destfile}
-@i{type}
-@i{options}@}}
+@t{@b{default_target_compile} @i{source} @i{destfile} @i{type} @i{options}}
 @end quotation
 
 @table @asis
@@ -4186,7 +4147,7 @@ This is the filename to download.
 @findex pop_config
 
 @quotation
-@t{@b{pop_config}@{@i{type}@}}
+@t{@b{pop_config} @i{type}}
 @end quotation
 
 @table @asis
@@ -4198,7 +4159,7 @@ This is the filename to download.
 @findex prune_warnings
 
 @quotation
-@t{@b{prune_warnings}@{@i{text}@}}
+@t{@b{prune_warnings} @i{text}}
 @end quotation
 
 @table @asis
@@ -4210,7 +4171,7 @@ This is the filename to download.
 @findex push_build
 
 @quotation
-@t{@b{push_build}@{@i{name}@}}
+@t{@b{push_build} @i{name}}
 @end quotation
 
 @table @asis
@@ -4222,8 +4183,8 @@ This is the filename to download.
 @findex push_config
 
 @quotation
-@t{@b{push_config}@{@i{type}
-@i{name}@}}
+@t{@b{push_config} @i{type}
+@i{name}}
 @end quotation
 
 @table @asis
@@ -4247,7 +4208,7 @@ Reboot the target.
 @findex target_assemble
 
 @quotation
-@t{@b{target_assemble}@{@i{source destfile flags}@}}
+@t{@b{target_assemble} @i{source destfile flags}}
 @end quotation
 
 @table @asis
@@ -4261,10 +4222,7 @@ Reboot the target.
 @findex target_compile
 
 @quotation
-@t{@b{target_compile}@{@i{source}
-@i{destfile}
-@i{type}
-@i{options}@}}
+@t{@b{target_compile} @i{source} @i{destfile} @i{type} @i{options}}
 @end quotation
 
 @table @asis
@@ -4302,9 +4260,7 @@ Reboot the target.
 @findex board_info
 
 @quotation
-@t{@b{board_info}@{@i{machine}
-@i{op}
-@i{args}@}}
+@t{@b{board_info} @i{machine} @i{op} @i{args}}
 @end quotation
 
 @table @asis
@@ -4318,8 +4274,7 @@ Reboot the target.
 @findex host_info
 
 @quotation
-@t{@b{host_info}@{@i{op}
-@i{args}@}}
+@t{@b{host_info} @i{op} @i{args}}
 @end quotation
 
 @table @asis
@@ -4335,8 +4290,7 @@ This checks if @code{board_info} array's field @emph{entry} has been set
 already and if not, then sets it to @emph{value}.
 
 @quotation
-@t{@b{set_board_info}@{@i{entry}
-@i{value}@}}
+@t{@b{set_board_info} @i{entry} @i{value}}
 @end quotation
 
 @table @asis
@@ -4357,8 +4311,7 @@ This treats @code{board_info} array's field
 @emph{value} at the end.
 
 @quotation
-@t{@b{add_board_info}@{@i{entry}
-@i{value}@}}
+@t{@b{add_board_info} @i{entry} @i{value}}
 @end quotation
 
 @table @asis
@@ -4375,8 +4328,7 @@ The value to add to the field.
 @findex set_currtarget_info
 
 @quotation
-@t{@b{set_currtarget_info}@{@i{entry}
-@i{value}@}}
+@t{@b{set_currtarget_info} @i{entry} @i{value}}
 @end quotation
 
 @table @asis
@@ -4389,8 +4341,7 @@ The value to add to the field.
 @findex target_info
 
 @quotation
-@t{@b{target_info}@{@i{op}
-@i{args}@}}
+@t{@b{target_info} @i{op} @i{args}}
 @end quotation
 
 @table @asis
@@ -4406,7 +4357,7 @@ This checks if @code{board_info} array's field @emph{entry} has been set
 and if so, then removes it.
 
 @quotation
-@t{@b{unset_board_info}@{@i{entry}@}}
+@t{@b{unset_board_info} @i{entry}}
 @end quotation
 
 @table @asis
@@ -4419,7 +4370,7 @@ The name of a @code{board_info} field to operate on.
 @findex unset_currtarget_info
 
 @quotation
-@t{@b{unset_currtarget_info}@{@i{entry}@}}
+@t{@b{unset_currtarget_info} @i{entry}}
 @end quotation
 
 @table @asis
@@ -4435,7 +4386,7 @@ connection. The value of @emph{name} is an index into the
 @code{target_info} array and is set in the global config file.
 
 @quotation
-@t{@b{push_target}@{@i{name}@}}
+@t{@b{push_target} @i{name}}
 @end quotation
 
 @table @asis
@@ -4472,7 +4423,7 @@ connection. The value of @emph{name} is an index into the
 @code{target_info} array and is set in the global config file.
 
 @quotation
-@t{@b{push_host}@{@i{name}@}}
+@t{@b{push_host} @i{name}}
 @end quotation
 
 @table @asis
@@ -4502,7 +4453,7 @@ array. If the host is not the same as the build machines, then the
 compiler is run on the remote host using @code{execute_anywhere}.
 
 @quotation
-@t{@b{compile}@{@i{file}@}}
+@t{@b{compile} @i{file}}
 @end quotation
 
 @table @asis
@@ -4520,7 +4471,7 @@ the host is not the same as the build machines, then the archiver is run
 on the remote host using @code{execute_anywhere}.
 
 @quotation
-@t{@b{archive}@{@i{file}@}}
+@t{@b{archive} @i{file}}
 @end quotation
 
 @table @asis
@@ -4536,7 +4487,7 @@ POSIX yet. Any parameters passed to @code{ranlib} are used in for the
 flags.
 
 @quotation
-@t{@b{ranlib}@{@i{file}@}}
+@t{@b{ranlib} @i{file}}
 @end quotation
 
 @table @asis
@@ -4559,7 +4510,7 @@ or the output produced when the command was executed. This is used for
 running the tool to be tested, not a test case.
 
 @quotation
-@t{@b{execute_anywhere}@{@i{cmdline}@}}
+@t{@b{execute_anywhere} @i{cmdline}}
 @end quotation
 
 @table @asis
@@ -4861,7 +4812,7 @@ Second file for the comparison.
 Set an environment variable.
 
 @quotation
-@t{@b{setenv}@i{var} @i{val}}
+@t{@b{setenv} @i{var} @i{val}}
 @end quotation
 
 @table @asis
@@ -5013,7 +4964,7 @@ Ignored.
 Return the options needed to locate the @code{newlib} header files.
 
 @quotation
-@t{@b{newlib_include_flags}@{@i{args}@}}
+@t{@b{newlib_include_flags} @i{args}}
 @end quotation
 
 @table @asis
@@ -5029,8 +4980,11 @@ Ignored.
 @t{@b{libio_include_flags} @i{args}}
 @end quotation
 
+Return the options needed to locate the @code{libio} header files.
+
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node libio_link_flags procedure, g++_include_flags procedure, libio_include_flags procedure, Libgloss
@@ -5038,23 +4992,31 @@ Ignored.
 @findex libio_link_flags
 
 @quotation
-@t{@b{libio_link_flags}@{@i{args}@}}
+@t{@b{libio_link_flags} @i{args}}
 @end quotation
+
+Return the options needed to link an executable with @code{libio}. This
+usually means setting the @code{-L} and @code{-B} paths correctly.
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node g++_include_flags procedure, g++_link_flags procedure, libio_link_flags procedure, Libgloss
 @subsubheading g++_include_flags Procedure
 @findex g++_include_flags
 
+Return the options needed to locate the C++ stnadard library header
+files.
+
 @quotation
-@t{@b{g++_include_flags}@{@i{args}@}}
+@t{@b{g++_include_flags} @i{args}}
 @end quotation
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node g++_link_flags procedure, libstdc++_include_flags procedure, g++_include_flags procedure, Libgloss
@@ -5062,11 +5024,15 @@ Ignored.
 @findex g++_link_flags
 
 @quotation
-@t{@b{g++_link_flags}@{@i{args}@}}
+@t{@b{g++_link_flags} @i{args}}
 @end quotation
+
+Return the options needed to link an executable with @code{libg++}. This
+usually means setting the @code{-L} and @code{-B} paths correctly.
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node libstdc++_include_flags procedure, libstdc++_link_flags procedure, g++_link_flags procedure, Libgloss
@@ -5074,11 +5040,15 @@ Ignored.
 @findex libstdc++_include_flags
 
 @quotation
-@t{@b{libstdc++_include_flags}@{@i{args}@}}
+@t{@b{libstdc++_include_flags} @i{args}}
 @end quotation
+
+Return the options needed to locate the C++ stnadard library header
+files.
 
 @table @asis
 @item @code{args}
+Ignored.
 @end table
 
 @node libstdc++_link_flags procedure, get_multilibs procedure, libstdc++_include_flags procedure, Libgloss
@@ -5086,7 +5056,7 @@ Ignored.
 @findex libstdc++_link_flags
 
 @quotation
-@t{@b{libstdc++_link_flags}@{@i{args}@}}
+@t{@b{libstdc++_link_flags} @i{args}}
 @end quotation
 
 @table @asis
@@ -5098,7 +5068,7 @@ Ignored.
 @findex get_multilibs
 
 @quotation
-@t{@b{get_multilibs}@{@i{args}@}}
+@t{@b{get_multilibs} @i{args}}
 @end quotation
 
 @table @asis
@@ -5110,7 +5080,7 @@ Ignored.
 @findex find_binutils_prog
 
 @quotation
-@t{@b{find_binutils_prog}@{@i{name}@}}
+@t{@b{find_binutils_prog} @i{name}}
 @end quotation
 
 @table @asis
@@ -5182,7 +5152,7 @@ cross-compiler if the build tree is configured for one.
 @findex process_multilib_options
 
 @quotation
-@t{@b{process_multilib_options}@{@i{args}@}}
+@t{@b{process_multilib_options} @i{args}}
 @end quotation
 
 @table @asis
@@ -5194,7 +5164,7 @@ cross-compiler if the build tree is configured for one.
 @findex add_multilib_option
 
 @quotation
-@t{@b{add_multilib_option}@{@i{args}@}}
+@t{@b{add_multilib_option} @i{args}}
 @end quotation
 
 @table @asis
@@ -5222,7 +5192,7 @@ cross-compiler if the build tree is configured for one.
 @findex build_wrapper
 
 @quotation
-@t{@b{build_wrapper}@{@i{gluefile}@}}
+@t{@b{build_wrapper} @i{gluefile}}
 @end quotation
 
 @table @asis
@@ -5234,7 +5204,7 @@ cross-compiler if the build tree is configured for one.
 @findex winsup_include_flags
 
 @quotation
-@t{@b{winsup_include_flags}@{@i{args}@}}
+@t{@b{winsup_include_flags} @i{args}}
 @end quotation
 
 @table @asis
@@ -5246,7 +5216,7 @@ cross-compiler if the build tree is configured for one.
 @findex winsup_link_flags
 
 @quotation
-@t{@b{winsup_link_flags}@{@i{args}@}}
+@t{@b{winsup_link_flags} @i{args}}
 @end quotation
 
 @table @asis
@@ -5311,7 +5281,7 @@ This procedure dumps the body of all procs that match a glob pattern. It
 is abbreviated as @kbd{dp}.
 
 @quotation
-@t{@b{dumprocs}@i{ pattern }}
+@t{@b{dumprocs} @i{pattern}}
 @end quotation
 
 @table @asis
@@ -5327,7 +5297,7 @@ This procedure prints all of the watchpoints matching a glob pattern. It
 is abbreviated as @kbd{dw}.
 
 @quotation
-@t{@b{dumpwatch} @i{ pattern }}
+@t{@b{dumpwatch} @i{pattern}}
 @end quotation
 
 @table @asis
@@ -5434,7 +5404,7 @@ This deletes a watchpoint from the watch list. Abbreviation: @kbd{wd}.
 This prints the value of a variable. Abbreviation: @kbd{p}.
 
 @quotation
-@t{@b{print}@i{var}}
+@t{@b{print} @i{var}}
 @end quotation
 
 @table @asis

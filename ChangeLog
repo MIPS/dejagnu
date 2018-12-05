@@ -1,5 +1,9 @@
 2018-12-05  Ben Elliston  <bje@gnu.org>
 
+	* doc/dejagnu.texi: Add more missing material.
+
+2018-12-05  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/runtest.all/utils.test: Test runtest_file_p.
 
 2018-12-05  Jacob Bachmeyer  <jcb62281@gmail.com>
