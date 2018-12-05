@@ -1,3 +1,10 @@
+2018-12-05  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* runtest.exp (load_config): Remove unused globals.
+	(load_generic_config): Likewise.
+	(load_board_description): Likewise.
+	(load_base_board_description): Likewise.
+
 2018-12-05  Ben Elliston  <bje@gnu.org>
 
 	* lib/utils.exp (grep): Handle -n.

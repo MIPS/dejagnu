@@ -1255,9 +1255,7 @@ clone_output "\n\t\t=== $tool tests ===\n"
 #
 
 proc load_generic_config { name } {
-    global srcdir
     global libdir
-    global env
     global board
     global board_info
     global boards_dir
@@ -1286,7 +1284,6 @@ proc load_generic_config { name } {
 #
 proc load_config { args } {
     global srcdir
-    global board_type
 
     set found 0
 
@@ -1330,9 +1327,7 @@ proc load_tool_target_config { name } {
 #
 
 proc load_board_description { board_name args } {
-    global srcdir
     global libdir
-    global env
     global board
     global board_info
     global boards_dir
@@ -1398,9 +1393,7 @@ proc load_board_description { board_name args } {
 #
 
 proc load_base_board_description { board_name } {
-    global srcdir
     global libdir
-    global env
     global board
     global board_info
     global board_type
