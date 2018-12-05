@@ -211,3 +211,30 @@ if {[diff diff1.txt diff2.txt] == -1} {
 
 # diff teardown.
 file delete -force diff1.txt diff2.txt
+
+
+# Test runtest_file_p.
+
+if {[runtest_file_p {foo.exp} foo.c]} {
+  pass "runtest_file_p, bare foo.exp matches foo.c"
+} else {
+  fail "runtest_file_p, bare foo.exp matches foo.c"
+}
+
+if {[runtest_file_p {foo.exp foo.c} foo.c]} {
+  pass "runtest_file_p, foo.exp=foo.c matches foo.c"
+} else {
+  fail "runtest_file_p, foo.exp=foo.c matches foo.c"
+}
+
+if {[runtest_file_p {foo.exp foo.*} foo.c]} {
+  pass "runtest_file_p, foo.exp=foo.* matches foo.c"
+} else {
+  fail "runtest_file_p, foo.exp=foo.* matches foo.c"
+}
+
+if {![runtest_file_p {foo.exp bar.*} foo.c]} {
+  pass "runtest_file_p, foo.exp=bar.* excludes foo.c"
+} else {
+  fail "runtest_file_p, foo.exp=bar.* excludes foo.c"
+}
