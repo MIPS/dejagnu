@@ -199,16 +199,16 @@ proc transform { name } {
     global host_triplet
     global board
 
-    if {[string match $target_triplet $host_triplet]} {
+    if { $target_triplet eq $host_triplet } {
 	return $name
     }
-    if {[string match "native" $target_triplet]} {
+    if { $target_triplet eq "native" } {
 	return $name
     }
     if {[board_info host exists no_transform_name]} {
 	return $name
     }
-    if {[string match "" $target_triplet]} {
+    if { $target_triplet eq "" } {
 	return $name
     } else {
 	if {[info exists board]} {
@@ -536,7 +536,7 @@ verbose "Verbose level is $verbose"
 #
 # get the users login name
 #
-if {[string match "" $logname]} {
+if { $logname eq "" } {
     if {[info exists env(USER)]} {
 	set logname $env(USER)
     } else {
@@ -623,7 +623,7 @@ load_file [file join $base_dir $local_init_file]
 # command line.
 #
 
-if {[expr {[string match "." $objdir] || [string match $srcdir $objdir]}]} {
+if { $objdir eq "." || $objdir eq $srcdir } {
     set objdir $base_dir
 } else {
     load_file [file join $objdir $local_init_file]
