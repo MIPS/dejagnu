@@ -1107,7 +1107,7 @@ proc standard_load { dest prog args } {
     set status [lindex $status 0]
 
     verbose -log "Executed $prog, status $status" 2
-    if {![string match "" $output]} {
+    if {$output ne ''} {
 	verbose -log -- "$output" 2
     }
     if { $status == 0 } {

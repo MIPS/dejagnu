@@ -63,13 +63,13 @@ proc dumpwatch { args } {
 	set tmp ""
 	if { [catch "uplevel 1 array name $i" names] } {
 	    set tmp [uplevel 1 trace vinfo $i]
-	    if {![string match "" $tmp]} {
+	    if {$tmp ne ""} {
 		puts "$i $tmp"
 	    }
 	} else {
 	    foreach k $names {
 		set tmp [uplevel 1 trace vinfo [set i]($k)]
-		if {![string match "" $tmp]} {
+		if {$tmp ne ""} {
 		    puts "[set i]($k) = $tmp"
 		}
 	    }

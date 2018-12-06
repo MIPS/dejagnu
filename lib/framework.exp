@@ -103,7 +103,7 @@ proc isbuild { { pattern "" } } {
     if {![info exists build_triplet]} {
 	set build_triplet ${host_triplet}
     }
-    if {[string match "" $pattern]} {
+    if {$pattern eq ""} {
 	return $build_triplet
     }
     verbose "Checking pattern \"$pattern\" with $build_triplet" 2
@@ -198,7 +198,7 @@ proc is3way {} {
 proc ishost { { pattern "" } } {
     global host_triplet
 
-    if {[string match "" $pattern]} {
+    if {$pattern eq ""} {
 	return $host_triplet
     }
     verbose "Checking pattern \"$pattern\" with $host_triplet" 2
@@ -219,7 +219,7 @@ proc istarget { { args "" } } {
     global target_triplet
 
     # if no arg, return the config string
-    if {[string match "" $args]} {
+    if {$args eq ""} {
 	if {[info exists target_triplet]} {
 	    return $target_triplet
 	} else {
@@ -248,10 +248,7 @@ proc isnative { } {
     global target_triplet
     global build_triplet
 
-    if {[string match $build_triplet $target_triplet]} {
-	return 1
-    }
-    return 0
+    return [string equal $build_triplet $target_triplet]
 }
 
 # unknown -- called by expect if a proc is called that doesn't exist

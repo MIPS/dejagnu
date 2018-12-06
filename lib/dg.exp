@@ -186,7 +186,7 @@ proc dg-get-options { prog } {
     set result ""
 
     set tmp [grep $prog "{\[ \t\]\+dg-\[-a-z\]\+\[ \t\]\+.*\[ \t\]\+}" line]
-    if {![string match "" $tmp]} {
+    if {$tmp ne ""} {
 	foreach i $tmp {
 	    regexp "(\[0-9\]+)\[ \t\]+{\[ \t\]+(dg-\[-a-z\]+)\[ \t\]+(.*)\[ \t\]+}\[^\}\]*(\n|$)" $i i line cmd args
 	    append result " { $cmd $line $args }"
@@ -783,7 +783,7 @@ proc dg-test { args } {
 	if {${dg-excess-errors-flag}} {
 	    setup_xfail "*-*-*"
 	}
-	if {![string match "" $comp_output]} {
+	if {$comp_output ne ""} {
 	    fail "$name (test for excess errors)"
 	    send_log "Excess errors:\n$comp_output\n"
 	} else {
@@ -842,7 +842,7 @@ proc dg-test { args } {
     # of the program can be delayed until here.  Ditto for other situations.
     # It would be a bit cumbersome though.
 
-    if {![string match ${dg-final-code} ""]} {
+    if {${dg-final-code} ne ""} {
 	regsub -all "\\\\(\[{}\])" ${dg-final-code} "\\1" dg-final-code
 	# Note that the use of `args' here makes this a varargs proc.
 	proc dg-final-proc { args } ${dg-final-code}
@@ -879,7 +879,7 @@ proc dg-finish { } {
     # There may be a bit of duplication (eg: resetting prms_id), leave it.
     # Let's keep these procs robust.
     global tool
-    if {![string match "" [info procs ${tool}_finish]]} {
+    if {[info procs ${tool}_finish] ne ""} {
 	${tool}_finish
     }
 }

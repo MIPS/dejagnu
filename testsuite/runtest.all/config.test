@@ -53,7 +53,7 @@ if [isbuild hppa-ibm-macos ] {
 }
 
 # test default argument for isbuild
-if [string compare [isbuild] $build_triplet] {
+if {[isbuild] eq $build_triplet} {
    puts "FAILED: isbuild with no arguments"
 } else {
    puts "PASSED: isbuild with no arguments"
@@ -79,7 +79,7 @@ if [ishost hppa-ibm-macos] {
 }
 
 # test default argument for ishost
-if [string compare [ishost] $host_triplet] {
+if {[ishost] eq $host_triplet} {
    puts "FAILED: ishost with no arguments"
 } else {
    puts "PASSED: ishost with no arguments"
@@ -105,7 +105,7 @@ if [istarget hppa-ibm-macos] {
 }
 
 # test default argument for istarget
-if [string compare [istarget] $target_triplet] {
+if {[istarget] eq $target_triplet} {
    puts "FAILED: istarget with no arguments"
 } else {
    puts "PASSED: istarget with no arguments"

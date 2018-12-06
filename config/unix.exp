@@ -133,7 +133,7 @@ proc unix_load { dest prog args } {
     setenv SHLIB_PATH $orig_ld_library_path
 
     verbose "Executed $prog, status $status" 2
-    if {![string match "" $output]} {
+    if {$output ne ""} {
 	verbose -- "$output" 2
     }
     if { $status == 0 } {

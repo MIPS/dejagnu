@@ -1,3 +1,19 @@
+2018-12-06  Ben Elliston  <bje@gnu.org>
+
+	* runtest.exp: Replace [string match] commands involving literal
+	strings and variables known to not be Tcl glob patterns with eq
+	and ne.
+	* config/unix.exp: Likewise.
+	* lib/debugger.exp: Likewise.
+	* lib/dg.exp: Likewise.
+	* lib/framework.exp: Likewise.
+	* lib/remote.exp: Likewise.
+	* lib/utils.exp: Likewise.
+	* baseboards/androideabi.exp: Likewise.
+	* baseboards/multi-sim.exp: Likewise.
+	* testsuite/lib/util-defs.exp: Likewise.
+	* testsuite/runtest.all/config.test: Likewise.
+
 2018-12-06  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.all/utils.test: Add Tcl mode marker for Emacs.

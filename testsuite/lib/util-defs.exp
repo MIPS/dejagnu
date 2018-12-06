@@ -46,7 +46,7 @@ proc util_test { args } {
     verbose	"The pattern to match is \"$pattern\"" 2
 
     if [info exists file] {
-	if ![string match "" $file] {
+	if {$file ne ""} {
 	    if ![file exists $file] {
 		perror "$file doesn't exist"
 		return -1
@@ -93,7 +93,7 @@ proc util_start { args } {
 	send_log "Spawning \"$cmd $cmd_arg $file\"\n"
     }
     catch "exec $cmd $cmd_arg $file" comp_output
-    if ![string match "" $comp_output] {	
+    if {$comp_output ne ""} {
         send_log "$comp_output\n"
     }
     return $comp_output

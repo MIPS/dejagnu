@@ -231,7 +231,7 @@ proc grep { args } {
     while { [gets $fd cur_line]>=0 } {
 	incr i
 	if {[regexp -- "$pattern" $cur_line match]} {
-	    if {![string match "" $options]} {
+	    if {$options ne ""} {
 		foreach opt $options {
 		    switch -- $opt {
 			"line" {
@@ -285,7 +285,7 @@ proc prune { lst pattern } {
 # Eg: RUNTESTFLAGS="bar.exp=foo1.c foo2.c foo3*.c bar/baz*.c"
 #
 proc runtest_file_p { runtests testcase } {
-    if {[string length [lindex $runtests 1]]} {
+    if {[lindex $runtests 1] ne ""} {
 	foreach ptn [lindex $runtests 1] {
 	    if {[string match "*/$ptn" $testcase]} {
 		return 1
@@ -352,7 +352,7 @@ proc diff { file_1 file_2 } {
 	set line_a [lindex ${list_a} ${i}]
 	set line_b [lindex ${list_b} ${i}]
 
-	if {[string compare ${line_a} ${line_b}]} {
+	if {$line_a eq $line_b} {
 	    verbose -log "line #${i}" 2
 	    verbose -log "\< ${line_a}" 2
 	    verbose -log "\> ${line_b}" 2
