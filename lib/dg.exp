@@ -592,14 +592,14 @@ proc dg-test { args } {
     set keep 0
     set i 0
 
-    if { [string index [lindex $args 0] 0] == "-" } {
+    if { [string index [lindex $args 0] 0] eq "-" } {
 	for { set i 0 } { $i < [llength $args] } { incr i } {
 	    if { [lindex $args $i] == "--" } {
 		incr i
 		break
 	    } elseif { [lindex $args $i] == "-keep-output" } {
 		set keep 1
-	    } elseif { [string index [lindex $args $i] 0] == "-" } {
+	    } elseif { [string index [lindex $args $i] 0] eq "-" } {
 		clone_output "ERROR: dg-test: illegal argument: [lindex $args $i]"
 		return
 	    } else {
@@ -805,7 +805,7 @@ proc dg-test { args } {
 	    if { [lindex ${dg-do-what} 2] == "F" } {
 		setup_xfail "*-*-*"
 	    }
-	    if { "$status" == "pass" } {
+	    if { "$status" eq "pass" } {
 		pass "$name execution test"
 		verbose "Exec succeeded." 3
 		if { [llength ${dg-output-text}] > 1 } {
@@ -823,7 +823,7 @@ proc dg-test { args } {
 		    }
 		    unset texttmp
 		}
-	    } elseif { "$status" == "fail" } {
+	    } elseif { "$status" eq "fail" } {
 		# It would be nice to get some info out of errorCode.
 		if {[info exists errorCode]} {
 		    verbose "Exec failed, errorCode: $errorCode" 3

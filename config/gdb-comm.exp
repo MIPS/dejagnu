@@ -219,7 +219,7 @@ proc quit_gdb { } {
     set spawn_id [board_info host fileid]
 
     if { $spawn_id != "" && $spawn_id > -1 } {
-	if { [remote_send host "quit\n"] == "" } {
+	if { [remote_send host "quit\n"] eq "" } {
 	    remote_expect host 10 {
 		-re ".*y or n.*$" {
 		    remote_send host "y\n"

@@ -141,7 +141,7 @@ proc verbose { args } {
     set logfile 0
 
     set i 0
-    if { [string index [lindex $args 0] 0] == "-" } {
+    if { [string index [lindex $args 0] 0] eq "-" } {
 	for { set i 0 } { $i < [llength $args] } { incr i } {
 	    if { [lindex $args $i] == "--" } {
 		incr i
@@ -152,7 +152,7 @@ proc verbose { args } {
 		set logfile 1
 	    } elseif { [lindex $args $i] == "-x" } {
 		set xml 1
-	    } elseif { [string index [lindex $args $i] 0] == "-" } {
+	    } elseif { [string index [lindex $args $i] 0] eq "-" } {
 		clone_output "ERROR: verbose: illegal argument: [lindex $args $i]"
 		return
 	    } else {
@@ -665,11 +665,11 @@ if { $arg_build_triplet != "" } {
 
 # If we only specify --host, then that must be the build machine too,
 # and we're stuck using the old functionality of a simple cross test.
-if {[expr { $build_triplet == ""  &&  $host_triplet != "" } ]} {
+if {[expr { $build_triplet eq ""  &&  $host_triplet ne "" } ]} {
     set build_triplet $host_triplet
 }
 # If we only specify --build, then we'll use that as the host too.
-if {[expr { $build_triplet != "" && $host_triplet == "" } ]} {
+if {[expr { $build_triplet ne "" && $host_triplet eq "" } ]} {
     set host_triplet $build_triplet
 }
 unset arg_host_triplet arg_build_triplet
@@ -678,7 +678,7 @@ unset arg_host_triplet arg_build_triplet
 # If the build machine type hasn't been specified by now, use config.guess.
 #
 
-if {[expr {$build_triplet == "" && $host_triplet == ""}]} {
+if {[expr {$build_triplet eq "" && $host_triplet eq ""}]} {
     # find config.guess
     foreach dir "$libdir $libdir/libexec $libdir/.. $execpath $srcdir $srcdir/.. $srcdir/../.." {
 	verbose "Looking for ${dir}/config.guess" 2

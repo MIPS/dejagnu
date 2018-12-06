@@ -131,7 +131,7 @@ proc relative_filename { base destination } {
 #
 proc find { rootdir pattern } {
     set files [list]
-    if { [string length $rootdir] == 0 || [string length $pattern] == 0 } {
+    if { $rootdir eq "" || $pattern eq "" } {
 	return $files
     }
 

@@ -1,3 +1,16 @@
+2018-12-06  Ben Elliston  <bje@gnu.org>
+
+	* runtest.exp: Replace '==' with 'eq' for string compares.
+	Likewise, replace '!=' with 'ne'. Replace a few instances of
+	[string length $str] == 0 with $str eq "".
+	* config/gdb-comm.exp: Likewise.
+	* lib/dg.exp: Likewise.
+	* lib/framework.exp: Likewise.
+	* lib/libgloss.exp: Likewise.
+	* lib/remote.exp: Likewise.
+	* lib/target.exp: Likewise.
+	* lib/utils.exp: Likewise.
+
 2018-12-06  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* runtest.exp: Replace archaic use of [string match] with "eq".

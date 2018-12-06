@@ -673,7 +673,7 @@ proc default_target_compile {source destfile type options} {
     if { [lindex $status 1] != "" } {
 	verbose "output is:\n[lindex $status 1]" 2
     }
-    if { [lindex $status 0] != 0 && "${comp_output}" == "" } {
+    if { [lindex $status 0] != 0 && "${comp_output}" eq "" } {
 	set comp_output "exit status is [lindex $status 0]"
     }
     return ${comp_output}
@@ -756,7 +756,7 @@ proc default_link { board objects destfile flags } {
 	    regsub "^-Wl," $arg "" arg
 	    if {[regexp "^-L" $arg]} {
 		# Is the directory in the next arg, or part of this one?
-		if { "$arg" == "-L" } {
+		if { $arg eq "-L" } {
 		    if { $i + 1 < $len } {
 			append result " -L [lindex $ldflags $i+1]"
 			incr i

@@ -142,7 +142,7 @@ proc is_remote { board } {
     # We're on the "build". The check for the empty string is just for
     # paranoia's sake--we shouldn't ever get one. "unix" is a magic
     # string that should really go away someday.
-    if { $board == "build" || $board == "unix" || $board == "" } {
+    if { $board eq "build" || $board eq "unix" || $board eq "" } {
 	verbose "board is $board, not remote" 3
 	return 0
     }
@@ -186,7 +186,7 @@ proc is3way {} {
 	set build_triplet ${host_triplet}
     }
     verbose "Checking $host_triplet against $build_triplet" 2
-    if { "$build_triplet" == "$host_triplet" } {
+    if { "$build_triplet" eq "$host_triplet" } {
 	return 0
     }
     return 1

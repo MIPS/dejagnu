@@ -156,7 +156,7 @@ proc local_exec { commandline inp outp timeout } {
     # cause it to exit before it can exit normally.  The child should
     # ignore SIGHUP.
     global errorInfo
-    if { "$inp" == "" && "$outp" == "" } {
+    if { "$inp" eq "" && "$outp" eq "" } {
 	set id -1
 	set result [catch "eval spawn -ignore SIGHUP \{${commandline}\}" pid]
 	if { $result == 0 } {
@@ -265,7 +265,7 @@ proc local_exec { commandline inp outp timeout } {
 	set status 0
     }
     verbose "output is $output status $status"
-    if { $outp == "" || $outp == "|& cat" } {
+    if { $outp eq "" || $outp eq "|& cat" } {
 	return [list $status $output]
     } else {
 	return [list $status ""]
@@ -613,7 +613,7 @@ proc call_remote { type proc dest args } {
 
     verbose "call_remote $type $proc $dest $args " 3
     # Close has to be handled specially.
-    if { $proc == "close" || $proc == "open" } {
+    if { $proc eq "close" || $proc eq "open" } {
 	foreach try "$high_prot [board_info $dest connect] telnet standard" {
 	    if { $try != "" } {
 		if { [info procs "${try}_${proc}"] != "" } {
@@ -819,7 +819,7 @@ proc unix_clean_filename { dest file } {
     }
     set result ""
     foreach x [split $file "/"] {
-	if { $x == "." || $x == "" } {
+	if { $x eq "." || $x eq "" } {
 	    continue
 	}
 	if { $x == ".." } {
@@ -906,7 +906,7 @@ proc remote_spawn { dest commandline args } {
     }
 
     # Seems to me there should be a cleaner way to do this.
-    if { "$args" == "" } {
+    if { $args eq "" } {
 	return [call_remote "" spawn "$dest" "$commandline"]
     } else {
 	return [call_remote "" spawn "$dest" "$commandline" $args]
@@ -1273,14 +1273,14 @@ proc remote_expect { board timeout args } {
 	set x "[lrange $args $i $i]"
 	regsub "^\n*\[ \t\]*" "$x" "" x
 
-	if { $x == "-i" || $x == "-timeout" || $x == "-ex" } {
+	if { $x eq "-i" || $x eq "-timeout" || $x eq "-ex" } {
 	    append res "$x "
 	    set next [expr {$i + 1}]
 	    append res "[lrange $args $next $next]"
 	    incr i
 	    continue
 	}
-	if { $x == "-n" || $x == "-notransfer" || $x == "-nocase" || $x == "-indices" } {
+	if { $x eq "-n" || $x eq "-notransfer" || $x eq "-nocase" || $x eq "-indices" } {
 	    append res "${x} "
 	    continue
 	}
@@ -1304,7 +1304,7 @@ proc remote_expect { board timeout args } {
 	} else {
 	    if { ${x} == "eof" } {
 		set save_next 1
-	    } elseif { ${x} == "default" || ${x} == "timeout" } {
+	    } elseif { ${x} eq "default" || ${x} eq "timeout" } {
 		if { $error_sect == "" } {
 		    set save_next 1
 		}
