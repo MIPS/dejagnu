@@ -1727,8 +1727,8 @@ foreach current_target $target_list {
 	    set temp_top_dirs ""
 	    set prev_dir ""
 	    foreach dir "${test_top_dirs}" {
-		if {$prev_dir eq "" || \
-			[string first "${prev_dir}/" ${dir}] == -1} {
+		if { $prev_dir eq ""
+		     || [string first "${prev_dir}/" ${dir}] == -1 } {
 		    # the first top dir entry, or an entry that
 		    # does not share the previous entry's entire
 		    # pathname, record it as a valid top dir entry.
