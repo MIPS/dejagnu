@@ -1532,6 +1532,9 @@ as rsh is mostly used to test Unix machines within a local network.
 @cindex extensions
 @cindex extending DejaGnu
 
+This chapter describes how to extend DejaGnu with new testsuites, new
+tools, new targets and new boards.
+
 @menu
 * Adding a new testsuite::
 * Adding a new tool::
@@ -1548,12 +1551,13 @@ as rsh is mostly used to test Unix machines within a local network.
 @section Adding a new testsuite
 @cindex adding, testsuite
 
-The testsuite for a new tool should always be located in that tools
-source directory. DejaGnu require the directory be named
-@file{testsuite}. Under this directory, the test cases go in a
-subdirectory whose name begins with the tool name. For example, for a
-tool named @emph{gdb}, each subdirectory containing testsuites must
-start with @samp{gdb.}.
+The testsuite for a new package should always be located in the source
+directory of that package. DejaGnu requires this directory to be named
+@file{testsuite}. Under this directory, the test cases go in various
+subdirectories whose name begins with the tool name. The organization of
+the various testsuite subdirectories is up to you. For a tool named
+@code{gdb}, for instance, each subdirectory containing tests must start
+with @samp{gdb.}.
 
 @node Adding a new tool, Adding a new target, Adding a new testsuite, Extending DejaGnu
 @section Adding a new tool
@@ -1684,7 +1688,7 @@ proc myprog_start @{@} @{
      global $@{examplename@}
      spawn $@{examplename@}
      expect @{
-	-re "" @{@}
+        -re "" @{@}
      @}
 @}
 
@@ -1693,10 +1697,11 @@ myprog_start
 @end example
 
 Create a directory whose name begins with your tool's name, to contain
-tests. For example, if your tool's name is @emph{example}, then the
+tests. For example, if the tool name is @emph{example}, then the
 directories all need to start with @samp{example.}.  Create a sample
-test file ending in @file{.exp}. You can use @file{first-try.exp}. To
-begin with, just write one line of Tcl code to issue a message:
+test file ending in @file{.exp}. You can name the file
+@file{first-try.exp}. To begin with, just write one line of Tcl code to
+issue a message:
 
 @example
 send_user "Testing: one, two...\n"
@@ -1791,13 +1796,13 @@ are similar target environments with just different processors.
 make check RUNTESTFLAGS="--target_board=newboardfile".
 @end example
 
-Here's an example of a board config file. There are several @emph{helper
-procedures} used in this example. A helper procedure is one that look
-for a tool of files in commonly installed locations. These are mostly
-used when testing in the build tree, because the executables to be
-tested are in the same tree as the new dejagnu files. The helper
-procedures are the ones in square braces @emph{[]}, which is the Tcl
-execution characters.
+Here's an example of a board configuration file. There are several
+@emph{helper procedures} used in this example. A helper procedure is one
+that look for a tool of files in commonly installed locations. These are
+mostly used when testing in the build tree, because the executables to
+be tested are in the same tree as the new DejaGnu files. The helper
+procedures are the ones in brackets, which indicates a Tcl procedure
+call.
 
 @strong{Example Board Configuration File}
 
@@ -1847,23 +1852,23 @@ common board info fields are shown below.
 @item
 @strong{Field} @tab @strong{Example value} @tab @strong{Description}
 @item
-compiler@tab "[find_gcc]"@tab The path to the compiler to use.
+compiler@tab @code{[find_gcc]}@tab The path to the compiler to use.
 @item
-cflags@tab "-mca"@tab Compilation flags for the compiler.
+cflags@tab @code{-mca}@tab Compilation flags for the compiler.
 @item
-ldflags@tab "[libgloss_link_flags] [newlib_link_flags]"@tab Linking flags for the compiler.
+ldflags@tab @code{[libgloss_link_flags] [newlib_link_flags]}@tab Linking flags for the compiler.
 @item
-ldscript@tab "-Wl,-Tidt.ld"@tab The linker script to use when cross compiling.
+ldscript@tab @code{-Wl,-Tidt.ld}@tab The linker script to use when cross compiling.
 @item
-libs@tab "-lgcc"@tab Any additional libraries to link in.
+libs@tab @code{-lgcc}@tab Any additional libraries to link in.
 @item
-shell_prompt@tab "cygmon>"@tab The command prompt of the remote shell.
+shell_prompt@tab @code{cygmon>}@tab The command prompt of the remote shell.
 @item
-hex_startaddr@tab "0xa0020000"@tab The Starting address as a string.
+hex_startaddr@tab @code{0xa0020000}@tab The Starting address as a string.
 @item
 start_addr@tab 0xa0008000@tab The starting address as a value.
 @item
-startaddr@tab "a0020000"@tab 
+startaddr@tab @code{a0020000}@tab 
 @item
 exit_statuses_bad@tab 1@tab Whether there is an accurate exit status.
 @item
@@ -1875,11 +1880,11 @@ sim@tab [find_sim]@tab The path to the simulator to use.
 @item
 objcopy@tab $tempfil@tab The path to the @code{objcopy} program.
 @item
-support_libs@tab "$@{prefix_dir@}/i386-coff/"@tab Support libraries needed for cross compiling.
+support_libs@tab @code{$@{prefix_dir@}/i386-coff/}@tab Support libraries needed for cross compiling.
 @item
-addl_link_flags@tab "-N"@tab Additional link flags, rarely used.
+addl_link_flags@tab @code{-N}@tab Additional link flags, rarely used.
 @item
-remotedir@tab "/tmp/runtest.[pid]"@tab Directory on the remote target in which executables are downloaded and executed.
+remotedir@tab @code{/tmp/runtest.[pid]}@tab Directory on the remote target in which executables are downloaded and executed.
 @end multitable
 
 These fields are used by the GCC and GDB tests, and are mostly only
@@ -2954,8 +2959,8 @@ spawn ID returned by the Expect command @code{spawn}.
 It use the value of the @code{connect} field in the @code{target_info}
 array as the type of connection to make. Current supported connection
 types are ssh, tip, kermit, telnet, rsh, and rlogin. If the
-@code{--reboot} option was used on the runtest command line, then the
-target is rebooted before the connection is made.
+@code{--reboot} option was used on the @command{runtest} command line,
+then the target is rebooted before the connection is made.
 
 @menu
 * call_remote Procedure: call_remote procedure
@@ -3027,13 +3032,20 @@ version, and finally @code{call_remote} will call @code{standard_$proc}.
 @subsubheading check_for_board_status Procedure
 @findex check_for_board_status
 
+This procedure inspected the named variable within the calling procedure
+for the expected output from the status wrapper. A non-negative value is
+returned if it exists. Otherwise, it returns -1. The output from the
+status wrapper is removed from the variable.
+
 @quotation
 @t{@b{check_for_board_status} @i{variable}}
 @end quotation
 
 @table @asis
-
 @item @code{variable}
+The name of the variable to check in the calling procedure. Be sure to
+pass the name of the variable (@code{var}) and not the value of the
+variable (@code{$var}).
 @end table
 
 @node file_on_build procedure, file_on_host procedure, check_for_board_status procedure, Procedures For Remote Communication
@@ -3201,10 +3213,13 @@ parameter can be left off if the @code{fileid} field in the
 @subsubheading remote_open Procedure
 @findex remote_open
 
+Open connection to a remote host or target. This requires the
+@code{target_info} array be filled in with the proper information to
+work. It returns the spawn id of the process that is the connection.
+
 @quotation
 @t{@b{remote_open} @i{type}}
 @end quotation
-
 @table @asis
 
 @item @code{type}
@@ -3222,6 +3237,10 @@ in the @code{target_info} array.
 @subsubheading remote_pop_conn Procedure
 @findex remote_pop_conn
 
+Pop a previously-pushed connection from the stack. You should have
+closed the current connection before calling this procedure. Returns
+@code{pass} or @code{fail}.
+
 @quotation
 @t{@b{remote_pop_conn} @i{host}}
 @end quotation
@@ -3233,6 +3252,9 @@ in the @code{target_info} array.
 @node remote_push_conn procedure, remote_raw_binary procedure, remote_pop_conn procedure, Procedures For Remote Communication
 @subsubheading remote_push_conn Procedure
 @findex remote_push_conn
+
+Pushes the current connection onto a stack. Returns @code{pass} or
+@code{fail}.
 
 @quotation
 @t{@b{remote_push_conn} @i{host}}
@@ -3376,10 +3398,10 @@ in the @code{target_info} array.
 @subsubheading remote_reboot Procedure
 @findex remote_reboot
 
-Return value of this function depends on actual implementation
-of reboot that will be used, in practice it is expected that
-@code{remote_reboot} returns @emph{1}
-on success and @emph{0} on failure.
+Reboot the host. The return value of this procedure depends on the
+actual implementation of reboot that will be used, in practice it is
+expected that @code{remote_reboot} returns @b{1} on success and @b{0} on
+failure.
 
 @quotation
 @t{@b{remote_reboot} @i{host}}
@@ -3406,19 +3428,34 @@ on success and @emph{0} on failure.
 @subsubheading remote_spawn Procedure
 @findex remote_spawn
 
+Start a command on the destination. By default it is not possible to
+redirect I/O. If the command is successfully started, a positive spawn
+ID is returned.  If the spawn fails, a negative value will be
+returned. Once the command has started, you can interact with it using
+@code{remote_expect} and @code{remote_wait} procedures.
+
 @quotation
 @t{@b{remote_spawn} @i{dest} @i{commandline} @i{args}}
 @end quotation
 
 @table @asis
 @item @code{dest}
+The destination.
+
 @item @code{commandline}
+The command to execute.
+
 @item @code{args}
+If the optional keyword @code{readonly} is specified, input to the
+command may be redirected.
 @end table
 
 @node remote_swap_conn procedure, remote_transmit procedure, remote_spawn procedure, Procedures For Remote Communication
 @subsubheading remote_swap_conn Procedure
 @findex remote_swap_conn
+
+Swap the current connection with the topmost one on the stack. Returns
+@code{pass} or @code{fail}.
 
 @quotation
 @t{@b{remote_swap_conn} @i{host}}
@@ -3644,6 +3681,9 @@ File to transmit.
 @subsubheading unix_clean_filename Procedure
 @findex unix_clean_filename
 
+This procedure returns an absolute version of the filename argument with
+@samp{.} and @samp{..} removed.
+
 @quotation
 @t{@b{unix_clean_filename} @i{dest} @i{file}}
 @end quotation
@@ -3651,6 +3691,7 @@ File to transmit.
 @table @asis
 @item @code{dest}
 @item @code{file}
+The filename.
 @end table
 
 @node connprocs, Procedures For Target Boards, Procedures For Remote Communication, Built-in Procedures
@@ -3668,7 +3709,6 @@ File to transmit.
 * kermit_transmit Procedure: kermit_transmit procedure
 * telnet_open Procedure: telnet_open procedure
 * telnet_binary Procedure: telnet_binary procedure
-* telnet_transmit Procedure: telnet_transmit procedure
 * tip_open Procedure: tip_open procedure
 * rlogin_open Procedure: rlogin_open procedure
 * rlogin_spawn Procedure: rlogin_spawn procedure
@@ -3825,18 +3865,27 @@ all information.
 @subsubheading telnet_open Procedure
 @findex telnet_open
 
+This procedure opens a connection to a remote host using TELNET.  This
+procedure sets the @code{fileid} field in the @code{board_info} array
+and returns the spawn id (or -1 for error).
+
 @quotation
 @t{@b{telnet_open} @i{hostname} @i{args}}
 @end quotation
 
 @table @asis
 @item @code{hostname}
+The host to connect to with TELNET.
+
 @item @code{args}
+A list of options. Currently the only supported option is @code{raw}.
 @end table
 
-@node telnet_binary procedure, telnet_transmit procedure, telnet_open procedure, connprocs
+@node telnet_binary procedure, tip_open procedure, telnet_open procedure, connprocs
 @subsubheading telnet_binary Procedure
 @findex telnet_binary
+
+Puts an existing TELNET connection into binary mode.
 
 @quotation
 @t{@b{telnet_binary} @i{hostname}}
@@ -3844,25 +3893,16 @@ all information.
 
 @table @asis
 @item @code{hostname}
+Hostname for the connection.
 @end table
 
-@node telnet_transmit procedure, tip_open procedure, telnet_binary procedure, connprocs
-@subsubheading telnet_transmit Procedure
-@findex telnet_transmit
-
-@quotation
-@t{@b{telnet_transmit} @i{dest} @i{file} @i{args}}
-@end quotation
-
-@table @asis
-@item @code{dest}
-@item @code{file}
-@item @code{args}
-@end table
-
-@node tip_open procedure, rlogin_open procedure, telnet_transmit procedure, connprocs
+@node tip_open procedure, rlogin_open procedure, telnet_binary procedure, connprocs
 @subsubheading tip_open Procedure
 @findex tip_open
+
+Connect to a host using @code{tip(1)}. This procedure sets the board
+@code{fileid} field with the @code{spawn_id} on success and, otherwise,
+returns -1.
 
 @quotation
 @t{@b{tip_open} @i{hostname}}
@@ -3870,6 +3910,7 @@ all information.
 
 @table @asis
 @item @code{hostname}
+Hostname to connect to.
 @end table
 
 @node rlogin_open procedure, rlogin_spawn procedure, tip_open procedure, connprocs
@@ -4012,18 +4053,22 @@ all information.
 @subsubheading ftp_open Procedure
 @findex ftp_open
 
+Open an FTP connection.
+
 @quotation
 @t{@b{ftp_open} @i{host}}
 @end quotation
 
 @table @asis
-
 @item @code{host}
+The host to open the FTP connection to.
 @end table
 
 @node ftp_upload procedure, ftp_download procedure, ftp_open procedure, connprocs
 @subsubheading ftp_upload Procedure
 @findex ftp_upload
+
+Fetches a file from a remote host using FTP.
 
 @quotation
 @t{@b{ftp_upload} @i{host} @i{remotefile} @i{localfile}}
@@ -4031,13 +4076,21 @@ all information.
 
 @table @asis
 @item @code{host}
+The host to transfer the file from.
+
 @item @code{remotefile}
+The filename at the remote end.
+
 @item @code{localfile}
+The filename to store locally.
+
 @end table
 
 @node ftp_download procedure, ftp_close procedure, ftp_upload procedure, connprocs
 @subsubheading ftp_download Procedure
 @findex ftp_download
+
+Sends a file to a remote host using FTP.
 
 @quotation
 @t{@b{ftp_download} @i{host} @i{localfile} @i{remotefile}}
@@ -4045,13 +4098,20 @@ all information.
 
 @table @asis
 @item @code{host}
+The host to transfer the file from.
+
 @item @code{localfile}
+The filename on the local system.
+
 @item @code{remotefile}
+The filename at the remote end.
 @end table
 
 @node ftp_close procedure, tip_download procedure, ftp_download procedure, connprocs
 @subsubheading ftp_close Procedure
 @findex ftp_close
+
+Closes the FTP connection to a host.
 
 @quotation
 @t{@b{ftp_close} @i{host}}
@@ -4059,6 +4119,7 @@ all information.
 
 @table @asis
 @item @code{host}
+The host connection to close.
 @end table
 
 @node tip_download procedure, , ftp_close procedure, connprocs
@@ -4255,6 +4316,8 @@ Reboot the target.
 @subsubheading board_info Procedure
 @findex board_info
 
+Searches the @code{board_info} array for the specified information.
+
 @quotation
 @t{@b{board_info} @i{machine} @i{op} @i{args}}
 @end quotation
@@ -4282,20 +4345,19 @@ Reboot the target.
 @subsubheading set_board_info Procedure
 @findex set_board_info
 
-This checks if @code{board_info} array's field @emph{entry} has been set
-already and if not, then sets it to @emph{value}.
+This checks if the @code{board_info} array entry has been set already
+and, if not, sets it to given value.
 
 @quotation
 @t{@b{set_board_info} @i{entry} @i{value}}
 @end quotation
 
 @table @asis
-
 @item @code{entry}
-The name of a @code{board_info} field to operate on.
+Field of the @code{board_info} to set.
 
 @item @code{value}
-The value to set the field to.
+Value to set the field to.
 @end table
 
 @node add_board_info procedure, set_currtarget_info procedure, set_board_info procedure, target database library file
@@ -4378,8 +4440,7 @@ The name of a @code{board_info} field to operate on.
 @findex push_target
 
 This makes the target named @emph{name} be the current target
-connection. The value of @emph{name} is an index into the
-@code{target_info} array and is set in the global config file.
+connection.
 
 @quotation
 @t{@b{push_target} @i{name}}
@@ -4387,7 +4448,7 @@ connection. The value of @emph{name} is an index into the
 
 @table @asis
 @item @code{name}
-The name of the target to make current connection.
+Name of the target to make the current connection.
 @end table
 
 @node pop_target procedure, list_targets procedure, push_target procedure, target database library file
@@ -4414,9 +4475,8 @@ This lists all the supported targets for this architecture.
 @subsubheading push_host Procedure
 @findex push_host
 
-This makes the host named @emph{name} be the current remote host
-connection. The value of @emph{name} is an index into the
-@code{target_info} array and is set in the global config file.
+This procedure makes the host named @emph{name} be the current remote
+host connection.
 
 @quotation
 @t{@b{push_host} @i{name}}
@@ -4424,6 +4484,7 @@ connection. The value of @emph{name} is an index into the
 
 @table @asis
 @item @code{name}
+Name of the host to make the current connection.
 @end table
 
 @node pop_host procedure,  , push_host procedure, target database library file
