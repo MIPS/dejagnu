@@ -4249,9 +4249,6 @@ Reboot the target.
 * list_targets Procedure: list_targets procedure
 * push_host Procedure: push_host procedure
 * pop_host Procedure: pop_host procedure
-* compile Procedure: compile procedure
-* archive Procedure: archive procedure
-* ranlib Procedure: ranlib procedure
 @end menu
 
 @node board_info procedure, host_info procedure, , target database library file
@@ -4429,7 +4426,7 @@ connection. The value of @emph{name} is an index into the
 @item @code{name}
 @end table
 
-@node pop_host procedure, compile procedure, push_host procedure, target database library file
+@node pop_host procedure,  , push_host procedure, target database library file
 @subsubheading pop_host Procedure
 @findex pop_host
 
@@ -4438,60 +4435,6 @@ This unsets the current host connection.
 @quotation
 @t{@b{pop_host}}
 @end quotation
-
-@node compile procedure, archive procedure, pop_host procedure, target database library file
-@subsubheading compile Procedure
-@findex compile
-
-This invokes the compiler as set by CC to compile the file @file{file}.
-The default options for many cross-compilation targets are
-@emph{guessed} by DejaGnu, and these options can be added to by passing
-in more parameters as arguments to @code{compile}. Optionally, this will
-also use the value of the @emph{cflags} field in the target config
-array. If the host is not the same as the build machines, then the
-compiler is run on the remote host using @code{execute_anywhere}.
-
-@quotation
-@t{@b{compile} @i{file}}
-@end quotation
-
-@table @asis
-@item @code{file}
-@end table
-
-@node archive procedure, ranlib procedure, compile procedure, target database library file
-@subsubheading archive Procedure
-@findex archive
-
-This produces an archive file. Any parameters passed to @code{archive}
-are used in addition to the default flags. Optionally, this will also
-use the value of the @emph{arflags} field in the target config array. If
-the host is not the same as the build machines, then the archiver is run
-on the remote host using @code{execute_anywhere}.
-
-@quotation
-@t{@b{archive} @i{file}}
-@end quotation
-
-@table @asis
-@item @code{file}
-@end table
-
-@node ranlib procedure, , archive procedure, target database library file
-@subsubheading ranlib Procedure
-@findex ranlib
-
-This generates an index for the archive file for systems that aren't
-POSIX yet. Any parameters passed to @code{ranlib} are used in for the
-flags.
-
-@quotation
-@t{@b{ranlib} @i{file}}
-@end quotation
-
-@table @asis
-@item @code{file}
-@end table
 
 @node platform dependent procedures, Utility Procedures, target database library file, Built-in Procedures
 @section Platform Dependent Procedures

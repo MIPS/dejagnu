@@ -1,5 +1,11 @@
 2018-12-06  Ben Elliston  <bje@gnu.org>
 
+	* doc/dejagnu.texi (compile Procedure): Remove old node.
+	(archive Procedure): Likewise.
+	(ranlib Procedure): Likewise.
+
+2018-12-06  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi (rsh procedure): Fix node connectivity.
 
 2018-12-06  Ben Elliston  <bje@gnu.org>
