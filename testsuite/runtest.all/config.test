@@ -1,4 +1,4 @@
-# test clone_output
+# test configuration support					-*- Tcl -*-
 
 set srcdir [lindex $argv 0]
 set subdir [lindex $argv 1]

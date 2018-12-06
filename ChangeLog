@@ -1,3 +1,11 @@
+2018-12-06  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* testsuite/runtest.all/utils.test: Add Tcl mode marker for Emacs.
+	* testsuite/runtest.all/target.test: Likewise.
+	* testsuite/runtest.all/remote.test: Likewise.
+	* testsuite/runtest.all/config.test: Likewise.
+	* testsuite/runtest.all/clone_output.test: Likewise.
+
 2018-12-06  Ben Elliston  <bje@gnu.org>
 
 	* runtest.exp: Replace '==' with 'eq' for string compares.

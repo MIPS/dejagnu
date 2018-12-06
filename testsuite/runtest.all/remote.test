@@ -1,3 +1,5 @@
+# Test procedures in lib/remote.exp.				-*- Tcl -*-
+
 set srcdir [lindex $argv 0]
 set subdir [lindex $argv 1]
 set objdir [lindex $argv 2]
