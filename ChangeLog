@@ -1,5 +1,9 @@
 2018-12-06  Ben Elliston  <bje@gnu.org>
 
+	* doc/dejagnu.texi (rsh procedure): Fix node connectivity.
+
+2018-12-06  Ben Elliston  <bje@gnu.org>
+
  	* lib/telnet.exp (telnet_open): Remove connectmode global.
 	* doc/dejagnu.texi (Procedures For Remote Communication): Remove
 	mention of connectmode.

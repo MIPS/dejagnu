@@ -3703,7 +3703,7 @@ File to transmit.
 @t{@b{rlogin} @i{hostname}}
 @end quotation
 
-@node rsh procedure, tip procedure, telnet procedure, connprocs
+@node rsh procedure, tip procedure, rlogin procedure, connprocs
 @subsubheading rsh Procedure
 @findex rsh
 
