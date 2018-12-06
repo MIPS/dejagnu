@@ -24,19 +24,19 @@ if [ file exists $file] {
 
 # Test getdirs:
 #
-if [lib_pat_test "getdirs" "${srcdir}/runtest.all" "runtest.all/topdir" ] {
+if [lib_pat_test "getdirs" {"${srcdir}/runtest.all"} "runtest.all/topdir" ] {
     puts "FAILED: getdirs toplevel, no arguments"
 } else {
     puts "PASSED: getdirs toplevel, no arguments"
 }
 
-if [lib_pat_test "getdirs" "${srcdir}/runtest.all top*" "runtest.all/topdir" ] {
+if [lib_pat_test "getdirs" {"${srcdir}/runtest.all top*"} "runtest.all/topdir" ] {
     puts "FAILED: getdirs toplevel, one subdir"
 } else {
     puts "PASSED: getdirs toplevel, one subdir"
 }
 
-if [lib_pat_test "getdirs" "${srcdir}/runtest.all/topdir" "subdir1*subdir2" ] {
+if [lib_pat_test "getdirs" {"${srcdir}/runtest.all/topdir"} "subdir1*subdir2" ] {
     puts "FAILED: getdirs toplevel, two subdirs"
 } else {
     puts "PASSED: getdirs toplevel, two subdirs"
@@ -91,9 +91,9 @@ if [info exists env(TESTRUN)] {
 setenv TESTRUN FooBar
 if [info exists env(TESTRUN)] {
     if { $env(TESTRUN) == "FooBar" } {
-        pass "setenv, set an environment variable"
+	pass "setenv, set an environment variable"
     } else {
-        fail "setenv, set an environment variable"
+	fail "setenv, set an environment variable"
     }
 } else {
     fail "setenv, set an environment variable"
@@ -103,9 +103,9 @@ if [info exists env(TESTRUN)] {
 #
 if [info exists env(TESTRUN)] {
     if { [getenv TESTRUN] == "FooBar" } {
-        pass "getenv, get an environment variable"
+	pass "getenv, get an environment variable"
     } else {
-        fail "getenv, get an environment variable"
+	fail "getenv, get an environment variable"
     }
 } else {
     untested "getenv, get an environment variable"
@@ -116,9 +116,9 @@ if [info exists env(TESTRUN)] {
 if [info exists env(TESTRUN)] {
     unsetenv TESTRUN
     if [info exists env(TESTRUN)] {
-        fail "unsetenv, unset an environment variable"
+	fail "unsetenv, unset an environment variable"
     } else {
-        pass "unsetenv, unset an environment variable"
+	pass "unsetenv, unset an environment variable"
     }
 } else {
     untested "unsetenv, unset an environment variable"

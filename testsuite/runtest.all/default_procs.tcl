@@ -3,26 +3,26 @@ set reboot 0
 set errno ""
 
 # this tests a proc for a returned pattern
-proc lib_pat_test { cmd arg pattern } {
-    catch "$cmd \"$arg\"" result
-    puts "CMD(lib_pat_test) was: $cmd \"$arg\""
+proc lib_pat_test { cmd arglist pattern } {
+    catch { eval [list $cmd] $arglist } result
+    puts "CMD(lib_pat_test) was: $cmd \"$arglist\""
     puts "RESULT(lib_pat_test) was: \"${result}\" for pattern \"$pattern\"."
     if [ regexp -- "with too many" $result ] {
 	return -1
     }
     if [ string match "$pattern" $result ] {
- 	return 1
+	return 1
     } else {
 	return 0
     }
 }
 
 # this tests a proc for a returned value
-proc lib_ret_test { cmd arg val } {
-    catch "$cmd \"$arg\"" result
+proc lib_ret_test { cmd arglist val } {
+    catch { eval [list $cmd] $arglist } result
 #    catch "set result [$cmd $arg]" output
 #    set result "$cmd [eval $arg]
-    puts "CMD(lib_ret_test) was: $cmd $arg"
+    puts "CMD(lib_ret_test) was: $cmd $arglist"
     puts "RESULT(lib_ret_test) was: $result"
 #    puts "OUTPUT(lib_ret_test) was: $output"
 

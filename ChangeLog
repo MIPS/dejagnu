@@ -1,5 +1,15 @@
 2018-12-06  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* testsuite/runtest.all/default_procs.tcl: Whitespace clean up.
+	(lib_pat_test): Handle an argument list instead of only a single
+	argument for the procedure under test.
+	(lib_ret_test): Likewise.
+	* testsuite/runtest.all/utils.test: Whitespace clean up.
+	Adjust to pass argument lists for improved lib_pat_test.
+	* testsuite/runtest.all/clone_output.test: Likewise.
+
+2018-12-06  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* lib/remote.exp (standard_load): Fix typo on empty string.
 	* runtest.exp: Adjust expression to follow GNU conventions.
 	* lib/utils.exp (diff): Fix mistake in replacing [string compare]

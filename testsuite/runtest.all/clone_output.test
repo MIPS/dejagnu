@@ -26,43 +26,40 @@ set errno ""
 
 # stuff that shouldn't print anything without all_flag set
 set all_flag 0
-set tests {
-    { "lib_pat_test" "clone_output" "PASS: Foo" "" "clone_output(pass) without all_flag set" }
-    { "lib_pat_test" "clone_output" "UNRESOLVED: Foo" "" "clone_output(unresolved) without all_flag set" }
-    { "lib_pat_test" "clone_output" "UNSUPPORTED: Foo" "" "clone_output(unsupported) without all_flag set" }
-    { "lib_pat_test" "clone_output" "UNTESTED: Foo" "" "clone_output(untested) without all_flag set" }
-    { "lib_pat_test" "clone_output" "ERROR: Bar" "ERROR: Bar" "clone_output(error) without all_flag set" }
-    { "lib_pat_test" "clone_output" "WARNING: Bar" "WARNING: Bar" "clone_output(warning) without all_flag set" }
-    { "lib_pat_test" "clone_output" "NOTE: Bar" "NOTE: Bar" "clone_output(note) without all_flag set" }
+run_tests {
+    { lib_pat_test clone_output {"PASS: Foo"} ""
+	"clone_output(pass) without all_flag set" }
+    { lib_pat_test clone_output {"UNRESOLVED: Foo"} ""
+	"clone_output(unresolved) without all_flag set" }
+    { lib_pat_test clone_output {"UNSUPPORTED: Foo"} ""
+	"clone_output(unsupported) without all_flag set" }
+    { lib_pat_test clone_output {"UNTESTED: Foo"} ""
+	"clone_output(untested) without all_flag set" }
+    { lib_pat_test clone_output {"ERROR: Bar"} "ERROR: Bar"
+	"clone_output(error) without all_flag set" }
+    { lib_pat_test clone_output {"WARNING: Bar"} "WARNING: Bar"
+	"clone_output(warning) without all_flag set" }
+    { lib_pat_test clone_output {"NOTE: Bar"} "NOTE: Bar"
+	"clone_output(note) without all_flag set" }
 }
-
-run_tests $tests
 
 # tests for all_flag set to 1
 set all_flag 1
-set tests {
-    { "lib_pat_test" "clone_output" "PASS: Foo" "PASS: Foo" "clone_output(pass) with all_flag set" }
-    { "lib_pat_test" "clone_output" "XFAIL: Foo" "XFAIL: Foo" "clone_output(xfail) with all_flag set" }
-    { "lib_pat_test" "clone_output" "UNRESOLVED: Foo" "UNRESOLVED: Foo" "clone_output(unresolved) with all_flag set" }
-    { "lib_pat_test" "clone_output" "UNSUPPORTED: Foo" "UNSUPPORTED: Foo" "clone_output(unsupported) with all_flag set" }
-    { "lib_pat_test" "clone_output" "UNTESTED: Foo" "UNTESTED: Foo" "clone_output(untested) with all_flag set" }
-    { "lib_pat_test" "clone_output" "ERROR: Foo" "ERROR: Foo" "clone_output(error) with all_flag set" }
-    { "lib_pat_test" "clone_output" "WARNING: Foo" "WARNING: Foo" "clone_output(warning) with all_flag set" }
-    { "lib_pat_test" "clone_output" "NOTE: Foo" "NOTE: Foo" "clone_output(note) with all_flag set" }
+run_tests {
+    { lib_pat_test clone_output {"PASS: Foo"} "PASS: Foo"
+	"clone_output(pass) with all_flag set" }
+    { lib_pat_test clone_output {"XFAIL: Foo"} "XFAIL: Foo"
+	"clone_output(xfail) with all_flag set" }
+    { lib_pat_test clone_output {"UNRESOLVED: Foo"} "UNRESOLVED: Foo"
+	"clone_output(unresolved) with all_flag set" }
+    { lib_pat_test clone_output {"UNSUPPORTED: Foo"} "UNSUPPORTED: Foo"
+	"clone_output(unsupported) with all_flag set" }
+    { lib_pat_test clone_output {"UNTESTED: Foo"} "UNTESTED: Foo"
+	"clone_output(untested) with all_flag set" }
+    { lib_pat_test clone_output {"ERROR: Foo"} "ERROR: Foo"
+	"clone_output(error) with all_flag set" }
+    { lib_pat_test clone_output {"WARNING: Foo"} "WARNING: Foo"
+	"clone_output(warning) with all_flag set" }
+    { lib_pat_test clone_output {"NOTE: Foo"} "NOTE: Foo"
+	"clone_output(note) with all_flag set" }
 }
-
-run_tests $tests
-
-
-
-
-
-
-
-
-
-
-
-
-
-
