@@ -1,12 +1,8 @@
 2018-12-07  Jacob Bachmeyer  <jcb62281@gmail.com>
 
-	* testsuite/runtest.all/default_procs.tcl: Whitespace clean up.
-	(lib_pat_test): Handle an argument list instead of only a single
-	argument for the procedure under test.
-	(lib_ret_test): Likewise.
-	* testsuite/runtest.all/utils.test: Whitespace clean up.  Adjust
-	to pass argument lists for improved lib_pat_test.
-	* testsuite/runtest.all/clone_output.test: Likewise.
+	* testsuite/runtest.all/default_procs.tcl (lib_ret_test): Tidy.
+	(run_tests): Replace implicit "eval" with explicit "eval".  Tidy.
+	(verbose): Remove unnecessary quotes.
 
 2018-12-06  Ben Elliston  <bje@gnu.org>
 
