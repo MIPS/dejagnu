@@ -3080,14 +3080,28 @@ variable (@code{$var}).
 @subsubheading local_exec Procedure
 @findex local_exec
 
+Run the specified command on the local machine, redirecting input from
+file @code{inp} (if non-empty), redirecting output to file @code{outp}
+(if non-empty), and waiting @code{timeout} seconds for the command to
+complete before killing it. A two-element list is returned: the exit
+status of the command and any output produced by the command. If output
+is redirected, this may or may not be empty. If output is redirected,
+both stdout and stderr will appear in the specified file.
+
 @quotation
 @t{@b{local_exec} @i{commandline} @i{inp} @i{outp} @i{timeout}}
 @end quotation
 
 @table @asis
 @item @code{inp}
+Redirect input into the input filename if not set to @code{""}.
+
 @item @code{outp}
+Redirect output into the output filename if not set to @code{""}.
+
 @item @code{timeout}
+Timeout in seconds.
+
 @end table
 
 @node remote_binary procedure, remote_close procedure, local_exec procedure, Procedures For Remote Communication
@@ -3127,6 +3141,10 @@ parameter can be left off if the @code{fileid} field in the
 @subsubheading remote_download Procedure
 @findex remote_download
 
+Download a file to a destination machine. This procedure returns either
+an empty string (indicating failure) or the name of the file on the
+destination macine.
+
 @quotation
 @t{@b{remote_download} @i{dest}
 @i{file}
@@ -3135,13 +3153,25 @@ parameter can be left off if the @code{fileid} field in the
 
 @table @asis
 @item @code{dest}
+Destination machine name.
+
 @item @code{file}
+Filename.
+
 @item @code{args}
+If the optional destination filename is specified, that filename will be
+used on the destination machine.
 @end table
 
 @node remote_exec procedure, remote_expect procedure, remote_download procedure, Procedures For Remote Communication
 @subsubheading remote_exec Procedure
 @findex remote_exec
+
+Execute the supplied program on a remote host. A two-element list is
+returned. The first element is the exit status of the program or -1 if
+execution failed. The second element is any output produced by the
+program. This may be an empty string if output from the program was
+redirected.
 
 @quotation
 @t{@b{remote_exec} @i{hostname} @i{program} @i{args}}
@@ -3149,8 +3179,20 @@ parameter can be left off if the @code{fileid} field in the
 
 @table @asis
 @item @code{hostname}
+Name of the host to execute the command on.
+
 @item @code{program}
+Command 
 @item @code{args}
+There are four optional arguments:
+
+@enumerate
+@item arguments to pass to the program;
+@item an input filename to feed to stanard input of the command;
+@item an output filename where the output from the command should be written; and
+@item timeout value in seconds.
+@end enumerate
+
 @end table
 
 @node remote_expect procedure, remote_file procedure, remote_exec procedure, Procedures For Remote Communication

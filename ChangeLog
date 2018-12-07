@@ -1,3 +1,7 @@
+2018-12-07  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi: Add more missing material.
+
 2018-12-07  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.all/default_procs.tcl (lib_ret_test): Tidy.
