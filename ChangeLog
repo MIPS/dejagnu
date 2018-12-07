@@ -1,3 +1,16 @@
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
+	* runtest.exp, lib/utils.exp, lib/target.exp, lib/ssh.exp,
+	lib/rsh.exp, lib/rlogin.exp, lib/remote.exp, lib/libgloss.exp,
+	lib/framework.exp, lib/dg.exp, lib/dejagnu.exp,
+	config/vxworks.exp, config/unix.exp, config/sim.exp,
+	config/gdb_stub.exp, config/gdb-comm.exp, config/adb.exp,
+	baseboards/multi-sim.exp, baseboards/cris-sim.exp,
+	baseboards/basic-sim.exp, baseboards/basic-sid.exp,
+	baseboards/androideabi.exp, testsuite/runtest.all/load_lib.exp,
+	testsuite/libdejagnu/tunit.exp: Replace empty string comparisons
+	using == and != with 'eq' and 'ne'.
+
 2018-12-07  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.all/default_procs.tcl (lib_bool_test): New.

@@ -29,7 +29,7 @@ proc gdb_stub_init { dest args } {
 
     if {![info exists GDB]} then {
 	set GDB "[lookfor_file ${tool_root_dir} gdb/gdb]"
-	if { $GDB == "" } {
+	if { $GDB eq "" } {
 	    set GDB [transform gdb]
 	}
     }
@@ -475,7 +475,7 @@ proc gdb_stub_load { dest prog args } {
     set argnames { "command-line arguments" "input file" "output file" }
 
     for { set x 0 } { $x < [llength $args] } { incr x } {
-	if { [lindex $args $x] != "" } {
+	if { [lindex $args $x] ne "" } {
 	    return [list "unsupported" "no support for [lindex $argnames $x] on this target"]
 	}
     }

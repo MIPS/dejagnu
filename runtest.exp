@@ -385,7 +385,7 @@ proc usage { } {
     send_user "\t--D\[0-1\]\t\tTcl debugger\n"
     send_user "\tscript.exp\[=arg(s)\]\tRun these tests only\n"
     if { [info exists tool] } {
-	if { [info procs ${tool}_option_help] != "" } {
+	if { [info procs ${tool}_option_help] ne "" } {
 	    ${tool}_option_help
 	}
     }
@@ -656,10 +656,10 @@ verbose "Using $libdir to find libraries"
 # config files.  We allow $DEJAGNU to massage them though in case it would
 # ever want to do such a thing.
 #
-if { $arg_host_triplet != "" } {
+if { $arg_host_triplet ne "" } {
     set host_triplet $arg_host_triplet
 }
-if { $arg_build_triplet != "" } {
+if { $arg_build_triplet ne "" } {
     set build_triplet $arg_build_triplet
 }
 
@@ -703,7 +703,7 @@ if {[expr {$build_triplet eq "" && $host_triplet eq ""}]} {
 	}
     }
     verbose "Assuming build host is $build_triplet"
-    if { $host_triplet == "" } {
+    if { $host_triplet eq "" } {
 	set host_triplet $build_triplet
     }
 }
@@ -712,9 +712,9 @@ if {[expr {$build_triplet eq "" && $host_triplet eq ""}]} {
 # Figure out the target. If the target hasn't been specified, then we have to
 # assume we are native.
 #
-if { $arg_target_triplet != "" } {
+if { $arg_target_triplet ne "" } {
     set target_triplet $arg_target_triplet
-} elseif { $target_triplet == "" } {
+} elseif { $target_triplet eq "" } {
     set target_triplet $build_triplet
     verbose "Assuming native target is $target_triplet" 2
 }
@@ -778,7 +778,7 @@ proc setup_target_hook { whole_name name } {
 
     push_target $whole_name
 
-    if { [info procs ${whole_name}_init] != "" } {
+    if { [info procs ${whole_name}_init] ne "" } {
 	${whole_name}_init $whole_name
     }
 
@@ -796,12 +796,12 @@ proc setup_target_hook { whole_name name } {
 proc cleanup_target_hook { name } {
     global tool
     # Clean up the target board.
-    if { [info procs "${name}_exit"] != "" } {
+    if { [info procs "${name}_exit"] ne "" } {
 	${name}_exit
     }
     # We also call the tool exit routine here.
     if {[info exists tool]} {
-	if { [info procs "${tool}_exit"] != "" } {
+	if { [info procs "${tool}_exit"] ne "" } {
 	    ${tool}_exit
 	}
     }
@@ -821,7 +821,7 @@ proc setup_host_hook { name } {
     unset board
     unset board_type
     push_host $name
-    if { [info procs ${name}_init] != "" } {
+    if { [info procs ${name}_init] ne "" } {
 	${name}_init $name
     }
 }
@@ -838,7 +838,7 @@ proc setup_build_hook { name } {
     unset board
     unset board_type
     push_build $name
-    if { [info procs ${name}_init] != "" } {
+    if { [info procs ${name}_init] ne "" } {
 	${name}_init $name
     }
 }
@@ -884,38 +884,38 @@ if {![info exists boards_dir]} {
 #
 
 # build values
-if { $build_cpu == "" } {
+if { $build_cpu eq "" } {
     regsub -- "-.*-.*" ${build_triplet} "" build_cpu
 }
-if { $build_vendor == "" } {
+if { $build_vendor eq "" } {
     regsub -- "^\[a-z0-9\]*-" ${build_triplet} "" build_vendor
     regsub -- "-.*" ${build_vendor} "" build_vendor
 }
-if { $build_os == "" } {
+if { $build_os eq "" } {
     regsub -- ".*-.*-" ${build_triplet} "" build_os
 }
 
 # host values
-if { $host_cpu == "" } {
+if { $host_cpu eq "" } {
     regsub -- "-.*-.*" ${host_triplet} "" host_cpu
 }
-if { $host_vendor == "" } {
+if { $host_vendor eq "" } {
     regsub -- "^\[a-z0-9\]*-" ${host_triplet} "" host_vendor
     regsub -- "-.*" ${host_vendor} "" host_vendor
 }
-if { $host_os == "" } {
+if { $host_os eq "" } {
     regsub -- ".*-.*-" ${host_triplet} "" host_os
 }
 
 # target values
-if { $target_cpu == "" } {
+if { $target_cpu eq "" } {
     regsub -- "-.*-.*" ${target_triplet} "" target_cpu
 }
-if { $target_vendor == "" } {
+if { $target_vendor eq "" } {
     regsub -- "^\[a-z0-9\]*-" ${target_triplet} "" target_vendor
     regsub -- "-.*" ${target_vendor} "" target_vendor
 }
-if { $target_os == "" } {
+if { $target_os eq "" } {
     regsub -- ".*-.*-" ${target_triplet} "" target_os
 }
 
@@ -1193,7 +1193,7 @@ for { set i 0 } { $i < $argc } { incr i } {
 
 	default {
 	    if {[info exists tool]} {
-		if { [info procs ${tool}_option_proc] != "" } {
+		if { [info procs ${tool}_option_proc] ne "" } {
 		    if {[${tool}_option_proc $option]} {
 			continue
 		    }
@@ -1352,7 +1352,7 @@ proc load_board_description { board_name args } {
     set dirlist {}
     if { [llength $args] > 1 } {
 	set suffix [lindex $args 1]
-	if { ${suffix} != "" } {
+	if { ${suffix} ne "" } {
 	    foreach x ${boards_dir} {
 		lappend dirlist ${x}/${suffix}
 	    }
@@ -1450,7 +1450,7 @@ proc runtest { test_file_name } {
 	set timestart [timestamp]
 
 	if {[info exists tool]} {
-	    if { [info procs "${tool}_init"] != "" } {
+	    if { [info procs "${tool}_init"] ne "" } {
 		${tool}_init $test_file_name
 	    }
 	}
@@ -1475,7 +1475,7 @@ proc runtest { test_file_name } {
 	}
 
 	if {[info exists tool]} {
-	    if { [info procs "${tool}_finish"] != "" } {
+	    if { [info procs "${tool}_finish"] ne "" } {
 		${tool}_finish
 	    }
 	}
@@ -1526,7 +1526,7 @@ proc process_target_variants { target_list } {
 	    foreach x $list {
 		foreach i [split $variant_list ","] {
 		    set name $x
-		    if { $i != "" } {
+		    if { $i ne "" } {
 			append name "/" $i
 		    }
 		    lappend result $name
@@ -1560,7 +1560,7 @@ proc iterate_target_variants_two { orig_target target variants } {
 		set result {}
 	    }
 	}
-	if { [lindex $variants 0] != "" } {
+	if { [lindex $variants 0] ne "" } {
 	    append target "/" [lindex $variants 0]
 	    return [concat $result [iterate_target_variants_two $orig_target $target [lrange $variants 1 end]]]
 	} else {
@@ -1575,7 +1575,7 @@ if {[info exists host_board]} {
     setup_host_hook $host_board
 } else {
     set hb [get_local_hostname]
-    if { $hb != "" } {
+    if { $hb ne "" } {
 	setup_host_hook $hb
     }
 }
@@ -1637,7 +1637,7 @@ foreach current_target $target_list {
     if { [info exists MULTIPASS] } {
 	set multipass $MULTIPASS
     }
-    if { $multipass == "" } {
+    if { $multipass eq "" } {
 	set multipass { "" }
     }
 
@@ -1650,7 +1650,7 @@ foreach current_target $target_list {
 	set pass ""
     }
 
-    if {$pass != ""} {
+    if {$pass ne ""} {
 	set passes [list]
 	foreach p $pass {
 	    foreach multipass_elem $multipass {
@@ -1667,7 +1667,7 @@ foreach current_target $target_list {
     foreach pass $multipass {
 
 	# multipass_name is set for `record_test' to use (see framework.exp).
-	if { [lindex $pass 0] != "" } {
+	if { [lindex $pass 0] ne "" } {
 	    set multipass_name [lindex $pass 0]
 	    clone_output "Running pass `$multipass_name' ..."
 	} else {
@@ -1693,7 +1693,7 @@ foreach current_target $target_list {
 	# exist and there are no subdirectories in $srcdir, then
 	# we default to srcdir.
 	set test_top_dirs [lsort [getdirs -all ${srcdir} "${tool}*"]]
-	if { ${test_top_dirs} == "" } {
+	if { ${test_top_dirs} eq "" } {
 	    set test_top_dirs ${srcdir}
 	} else {
 	    # JYG:
@@ -1745,7 +1745,7 @@ foreach current_target $target_list {
 	    foreach x [array names all_runtests] {
 		verbose "trying to glob ${srcdir}/${x}" 2
 		set s [glob -nocomplain ${srcdir}/$x]
-		if { $s != "" } {
+		if { $s ne "" } {
 		    set testlist [concat $testlist $s]
 		}
 	    }
@@ -1753,9 +1753,9 @@ foreach current_target $target_list {
 	#
 	# If we have a list of tests, run all of them.
 	#
-	if { $testlist != "" } {
+	if { $testlist ne "" } {
 	    foreach test_name $testlist {
-		if { ${ignoretests} != "" } {
+		if { ${ignoretests} ne "" } {
 		    if { 0 <= [lsearch ${ignoretests} [file tail ${test_name}]]} {
 			continue
 		    }
@@ -1780,7 +1780,7 @@ foreach current_target $target_list {
 		if { ${dir} != ${srcdir} } {
 		    # Ignore this directory if is a directory to be
 		    # ignored.
-		    if {[info exists ignoredirs] && $ignoredirs != ""} {
+		    if {[info exists ignoredirs] && $ignoredirs ne ""} {
 			set found 0
 			foreach directory $ignoredirs {
 			    if {[string match "*${directory}*" $dir]} {
@@ -1796,7 +1796,7 @@ foreach current_target $target_list {
 		    # Run the test if dir_to_run was specified as a
 		    # value (for example in MULTIPASS) and the test
 		    # directory matches that directory.
-		    if {[info exists dir_to_run] && $dir_to_run != ""} {
+		    if {[info exists dir_to_run] && $dir_to_run ne ""} {
 			# JYG: dir_to_run might be a space delimited list
 			# of directories.  Look for match on each item.
 			set found 0
@@ -1815,7 +1815,7 @@ foreach current_target $target_list {
 		    # by the user using --directory and the test
 		    # directory matches that directory
 		    if {[info exists cmdline_dir_to_run] \
-			    && $cmdline_dir_to_run != ""} {
+			    && $cmdline_dir_to_run ne ""} {
 			# JYG: cmdline_dir_to_run might be a space delimited
 			# list of directories.  Look for match on each item.
 			set found 0
@@ -1834,11 +1834,11 @@ foreach current_target $target_list {
 		    }
 
 		    foreach test_name [lsort [find ${dir} *.exp]] {
-			if { ${test_name} == "" } {
+			if { ${test_name} eq "" } {
 			    continue
 			}
 			# Ignore this one if asked to.
-			if { ${ignoretests} != "" } {
+			if { ${ignoretests} ne "" } {
 			    if { 0 <= [lsearch ${ignoretests} [file tail ${test_name}]]} {
 				continue
 			    }

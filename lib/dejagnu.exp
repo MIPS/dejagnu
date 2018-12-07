@@ -89,7 +89,7 @@ proc host_compile {compline} {
     if { [lindex $status 0] != 0 } {
 	verbose -log "compiler exited with status [lindex $status 0]"
     }
-    if { [lindex $status 1] != "" } {
+    if { [lindex $status 1] ne "" } {
 	verbose -log "output is:\n[lindex $status 1]" 2
     }
 

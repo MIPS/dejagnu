@@ -45,7 +45,7 @@ proc getdirs { args } {
     }
     verbose "Looking in ${path} for directories that match \"${pattern}\"" 3
     catch "glob ${path}/${pattern}" tmp
-    if { ${tmp} != "" } {
+    if { ${tmp} ne "" } {
 	foreach i ${tmp} {
 	    if {[file isdirectory $i]} {
 		switch -- "[file tail $i]" {

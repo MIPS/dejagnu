@@ -34,7 +34,7 @@ verbose "now added libdirs: $libdirs" 2
 # the search_dirs again. Use another file for testing the lappend
 # worked.
 
-if { [load_lib "subfile2"] == ""} {
+if { [load_lib "subfile2"] eq ""} {
     pass "load_lib subfile2 loaded"
 } else {
     fail "load_lib subfile2 not found"

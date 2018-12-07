@@ -23,7 +23,7 @@ proc adb_serial {} {
     # If the user has ADB_SERIAL set, use that, otherwise default to the
     # only device.
     set serial "[getenv ADB_SERIAL]"
-    if { $serial == "" } {
+    if { $serial eq "" } {
 	set status [catch "exec adb devices |& wc -l" output]
 	if { $output > 3 } {
 	    perror "Set ADB_SERIAL in your environment to specify the correct target device!"
@@ -54,7 +54,7 @@ proc adb_open { hostname } {
     }
 
     set serial [adb_serial]
-    if { $serial != "" } {
+    if { $serial ne "" } {
       spawn adb [adb_serial] shell
     } else {
       spawn adb shell
@@ -159,7 +159,7 @@ proc adb_exec { boardname cmd args } {
     # If CMD sends any output to stderr, exec will think it failed.  More often
     # than not that will be true, but it doesn't catch the case where there is
     # no output but the exit code is non-zero.
-    if { $inp == "" } {
+    if { $inp eq "" } {
 	set inp "/dev/null"
     }
 
@@ -178,7 +178,7 @@ proc adb_exec { boardname cmd args } {
 
     regexp "XYZ(\[0-9\]*)ZYX" $output junk status
     verbose "adb_exec: status:$status text:$output" 4
-    if { $status == "" } {
+    if { $status eq "" } {
 	return [list -1 "Couldn't parse adb output, $output."]
     }
     regsub "XYZ(\[0-9\]*)ZYX\n?" $output "" output

@@ -30,7 +30,7 @@ proc ${board}_init { dest } {
 
     set desired_kernel [board_info $dest "kernel,$target_os"]
 
-    if { $desired_kernel == "" } {
+    if { $desired_kernel eq "" } {
 	vxworks_final_init $dest
 	# Nothing to see here, nothing to do. Move along.
 	return
@@ -112,7 +112,7 @@ proc ${board}_init { dest } {
 
 proc vxworks_final_init { dest } {
     if {[board_info $dest exists preload_obj]} {
-	if { [target_compile [board_info $dest preload_obj] foo.out object [board_info $dest preload_obj_flags]] == "" } {
+	if { [target_compile [board_info $dest preload_obj] foo.out object [board_info $dest preload_obj_flags]] eq "" } {
 	    vxworks_ld $dest foo.out
 	}
 	remote_file build delete foo.out
@@ -130,7 +130,7 @@ proc vxworks_exec { dest program pargs inp outp } {
 	return [list -1 "open failure"]
     }
 
-    if { $inp != "" } {
+    if { $inp ne "" } {
 	set inp [remote_download $dest $inp]
 	set suffix " < $inp"
     } else {
@@ -159,7 +159,7 @@ proc vxworks_exec { dest program pargs inp outp } {
 	    set result [list -1 "unable to execute command"]
 	}
     }
-    if { $suffix != "" } {
+    if { $suffix ne "" } {
 	remote_file $dest delete $inp
     }
     return $result
@@ -213,7 +213,7 @@ proc vxworks_open { dest args } {
 
     set shell_id [remote_raw_open $dest]
 
-    if { $shell_id == "" || $shell_id < 0 } {
+    if { $shell_id eq "" || $shell_id < 0 } {
 	return -1
     }
 
@@ -243,7 +243,7 @@ proc vxworks_open { dest args } {
     if {[board_info $dest exists vxworks_homedir]} {
 	set dir [board_info $dest vxworks_homedir]
     }
-    if { $dir != "" } {
+    if { $dir ne "" } {
 	set status [remote_exec $dest "cd" "\"$dir\""]
 	if {[lindex $status 0]} {
 	    perror "Error in cd to $dir--[lindex $status 1]"
@@ -264,7 +264,7 @@ proc vxworks_ld { dest prog } {
     global decimal hex
     global board_info
 
-    if { $prog == "" } {
+    if { $prog eq "" } {
 	return 1
     }
 
@@ -479,7 +479,7 @@ proc vxworks_load {dest prog args} {
 		}
 	    }
 	}
-	if { $result != "" } {
+	if { $result ne "" } {
 	    vxworks_unld $dest
 	    return [list $result $output]
 	}

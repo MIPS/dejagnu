@@ -140,7 +140,7 @@ proc rlogin_spawn { dest cmdline } {
     set ok 0
     for { set i 0 } {$i <= 2 && ! $ok} { incr i } {
 	set shell_id [remote_open $dest]
-	if { $shell_id != "" && $shell_id > 0 } {
+	if { $shell_id ne "" && $shell_id > 0 } {
 	    remote_send $dest "echo k\r"
 	    remote_expect $dest 20 {
 		-re "\\(gdb\\)" {

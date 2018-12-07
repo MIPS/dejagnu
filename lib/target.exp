@@ -293,7 +293,7 @@ proc prune_warnings { text } {
 #
 proc target_compile {source destfile type options} {
     set target [target_info name]
-    if { [info procs ${target}_compile] != "" } {
+    if { [info procs ${target}_compile] ne "" } {
 	return [${target}_compile $source $destfile $type $options]
     } else {
 	return [default_target_compile $source $destfile $type $options]
@@ -307,7 +307,7 @@ proc default_target_compile {source destfile type options} {
     global LDFLAGS_FOR_TARGET
     global compiler_flags
 
-    if { $destfile == "" && $type != "preprocess" && $type != "none" } {
+    if { $destfile eq "" && $type != "preprocess" && $type != "none" } {
 	error "Must supply an output filename for the compile to default_target_compile"
     }
 
@@ -459,7 +459,7 @@ proc default_target_compile {source destfile type options} {
     }
 
     if {[info exists CC_FOR_TARGET]} {
-	if { $compiler == "" } {
+	if { $compiler eq "" } {
 	    set compiler $CC_FOR_TARGET
 	}
     }
@@ -488,9 +488,9 @@ proc default_target_compile {source destfile type options} {
 	}
     }
 
-    if { $compiler == "" } {
+    if { $compiler eq "" } {
 	set compiler [board_info $dest compiler]
-	if { $compiler == "" } {
+	if { $compiler eq "" } {
 	    return "default_target_compile: No compiler to compile with"
 	}
     }
@@ -527,7 +527,7 @@ proc default_target_compile {source destfile type options} {
 	if {[isnative]} {
 	    # This is a lose.
 	    catch "glob -nocomplain $tool_root_dir/libstdc++/libstdc++.so* $tool_root_dir/libstdc++/libstdc++.sl" tmp
-	    if { ${tmp} != "" } {
+	    if { ${tmp} ne "" } {
 		if {[regexp ".*solaris2.*" $target_triplet]} {
 		    # Solaris 2
 		    append add_flags " -R$tool_root_dir/libstdc++"
@@ -607,7 +607,7 @@ proc default_target_compile {source destfile type options} {
     if {[isremote host]} {
 	foreach x $source {
 	    set file [remote_download host $x]
-	    if { $file == "" } {
+	    if { $file eq "" } {
 		warning "Unable to download $x to host."
 		return "Unable to download $x to host."
 	    } else {
@@ -622,7 +622,7 @@ proc default_target_compile {source destfile type options} {
 	append add_flags " -o a.out"
 	remote_file host delete a.out
     } else {
-	if { $destfile != "" } {
+	if { $destfile ne "" } {
 	    append add_flags " -o $destfile"
 	}
     }
@@ -670,7 +670,7 @@ proc default_target_compile {source destfile type options} {
     if { [lindex $status 0] != 0 } {
 	verbose -log "compiler exited with status [lindex $status 0]"
     }
-    if { [lindex $status 1] != "" } {
+    if { [lindex $status 1] ne "" } {
 	verbose "output is:\n[lindex $status 1]" 2
     }
     if { [lindex $status 0] != 0 && "${comp_output}" eq "" } {
@@ -726,7 +726,7 @@ proc default_target_assemble { source destfile flags } {
     if { [lindex $status 0] != 0 } {
 	verbose -log "assembler exited with status [lindex $status 0]"
     }
-    if { [lindex $status 1] != "" } {
+    if { [lindex $status 1] ne "" } {
 	verbose "assembler output is:\n[lindex $status 1]" 2
     }
     return ${comp_output}
@@ -818,7 +818,7 @@ proc default_link { board objects destfile flags } {
     if { [lindex $status 0] != 0 } {
 	verbose -log "linker exited with status [lindex $status 0]"
     }
-    if { [lindex $status 1] != "" } {
+    if { [lindex $status 1] ne "" } {
 	verbose "linker output is:\n[lindex $status 1]" 2
     }
     return ${comp_output}

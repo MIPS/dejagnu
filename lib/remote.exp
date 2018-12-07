@@ -60,7 +60,7 @@ proc remote_raw_open { args } {
 # -1, then the process is killed if it doesn't exit gracefully.
 #
 proc close_wait_program { program_id pid {wres_varname ""} } {
-    if {$wres_varname != "" } {
+    if {$wres_varname ne "" } {
 	upvar 1 $wres_varname wres
     }
 
@@ -167,7 +167,7 @@ proc local_exec { commandline inp outp timeout } {
 	}
     } else {
 	# Use a command pipeline with open.
-	if { $inp != "" } {
+	if { $inp ne "" } {
 	    set inp "< $inp"
 	    set mode "r"
 	} else {
@@ -177,12 +177,12 @@ proc local_exec { commandline inp outp timeout } {
 	set use_tee 0
 	# We add |& cat so that Tcl exec doesn't freak out if the
 	# program writes to stderr.
-	if { $outp == "" } {
+	if { $outp eq "" } {
 	    set outp "|& cat"
 	} else {
 	    set outpf "$outp"
 	    set outp "> $outp"
-	    if { $inp != "" } {
+	    if { $inp ne "" } {
 		set use_tee 1
 	    }
 	}
@@ -258,7 +258,7 @@ proc local_exec { commandline inp outp timeout } {
 	    set res "wait failed"
 	}
     }
-    if { $r2 != 0 || $res != "" || ! $got_eof } {
+    if { $r2 != 0 || $res ne "" || ! $got_eof } {
 	verbose "close result is $res"
 	set status 1
     } else {
@@ -418,7 +418,7 @@ proc remote_reboot { host } {
     if {[board_info $host exists name]} {
 	set host [board_info $host name]
     }
-    if { [info procs ${host}_init] != "" } {
+    if { [info procs ${host}_init] ne "" } {
 	${host}_init $host
     }
     return $status
@@ -446,7 +446,7 @@ proc remote_download { dest file args } {
     }
 
     if { ![isremote $dest] } {
-	if { $destfile == "" || $destfile == $file } {
+	if { $destfile eq "" || $destfile == $file } {
 	    return $file
 	} else {
 	    verbose -log "Downloading on $dest to $destfile: $file" 2
@@ -459,7 +459,7 @@ proc remote_download { dest file args } {
 		# and write it (in case we copy onto it again)
 		catch {exec chmod u+rw $destfile}
 	    }
-	    if { $result != 0 || $output != "" } {
+	    if { $result != 0 || $output ne "" } {
 		perror "remote_download to $dest of $file to $destfile: $output"
 		return ""
 	    } else {
@@ -495,7 +495,7 @@ proc standard_download {dest file destfile} {
 	set destfile "$destdir/$destfile"
     }
 
-    if { "$dest" != "" } {
+    if { "$dest" ne "" } {
 	set result [rsh_download $dest $file $destfile]
 	if { $result == $destfile } {
 	    return $orig_destfile
@@ -513,7 +513,7 @@ proc standard_download {dest file destfile} {
 	# and write it (in case we copy onto it again)
 	catch {exec chmod u+rw $destfile}
     }
-    if { $result != 0 || $output != "" } {
+    if { $result != 0 || $output ne "" } {
 	perror "remote_download to $dest of $file to $destfile: $output"
 	return ""
     } else {
@@ -529,7 +529,7 @@ proc remote_upload {dest srcfile args} {
     }
 
     if { ![isremote $dest] } {
-	if { $destfile == "" || $srcfile == $destfile } {
+	if { $destfile eq "" || $srcfile == $destfile } {
 	    return $srcfile
 	}
 	set result [catch "exec cp -p $srcfile $destfile" output]
@@ -552,7 +552,7 @@ proc standard_upload { dest srcfile destfile } {
 	set srcfile "$destdir/$srcfile"
     }
 
-    if { "$dest" != "" } {
+    if { "$dest" ne "" } {
 	return [rsh_upload $dest $srcfile $destfile]
     }
 
@@ -565,7 +565,7 @@ proc standard_upload { dest srcfile destfile } {
 	# and write it (in case we copy onto it again)
 	catch {exec chmod u+rw $destfile}
     }
-    if { $result != 0 || $output != "" } {
+    if { $result != 0 || $output ne "" } {
 	perror "remote_upload to $dest of $srcfile to $destfile: $output"
 	return ""
     } else {
@@ -615,8 +615,8 @@ proc call_remote { type proc dest args } {
     # Close has to be handled specially.
     if { $proc eq "close" || $proc eq "open" } {
 	foreach try "$high_prot [board_info $dest connect] telnet standard" {
-	    if { $try != "" } {
-		if { [info procs "${try}_${proc}"] != "" } {
+	    if { $try ne "" } {
+		if { [info procs "${try}_${proc}"] ne "" } {
 		    verbose "call_remote calling ${try}_${proc}" 3
 		    set result [eval ${try}_${proc} \"$dest\" $args]
 		    break
@@ -624,7 +624,7 @@ proc call_remote { type proc dest args } {
 	    }
 	}
 	set ft "[board_info $dest file_transfer]"
-	if { [info procs "${ft}_${proc}"] != "" } {
+	if { [info procs "${ft}_${proc}"] ne "" } {
 	    verbose "calling ${ft}_${proc} $dest $args" 3
 	    set result2 [eval ${ft}_${proc} \"$dest\" $args]
 	}
@@ -639,8 +639,8 @@ proc call_remote { type proc dest args } {
     }
     foreach try "${high_prot} [board_info $dest file_transfer] [board_info $dest connect] telnet standard" {
 	verbose "looking for ${try}_${proc}" 4
-	if { $try != "" } {
-	    if { [info procs "${try}_${proc}"] != "" } {
+	if { $try ne "" } {
+	    if { [info procs "${try}_${proc}"] ne "" } {
 		verbose "call_remote calling ${try}_${proc}" 3
 		return [eval ${try}_${proc} \"$dest\" $args]
 	    }
@@ -767,7 +767,7 @@ proc standard_file { dest op args } {
 		    set file [remote_file $dest absolute $file]
 		}
 		set result [file dirname $file]
-		if { $result == "" } {
+		if { $result eq "" } {
 		    return "/"
 		}
 		return $result
@@ -960,11 +960,11 @@ proc remote_load { dest prog args } {
     set dname [board_info $dest name]
     set cache "[getenv REMOTELOAD_CACHE]/$tool/$dname/[file tail $prog]"
     set empty [isremote $dest]
-    if { [board_info $dest exists is_simulator] || [getenv REMOTELOAD_CACHE] == "" } {
+    if { [board_info $dest exists is_simulator] || [getenv REMOTELOAD_CACHE] eq "" } {
 	set empty 0
     } else {
 	for { set x 0 } {$x < [llength $args] } {incr x} {
-	    if { [lindex $args $x] != "" } {
+	    if { [lindex $args $x] ne "" } {
 		set empty 0
 		break
 	    }
@@ -1024,7 +1024,7 @@ proc remote_load { dest prog args } {
 	# Not quite happy about the "pass" condition, but it makes sense if
 	# you think about it for a while-- *why* did the test not pass?
 	if { $empty && [lindex $result 0] == "pass" } {
-	    if { [getenv LOAD_REMOTECACHE] != "" } {
+	    if { [getenv LOAD_REMOTECACHE] ne "" } {
 		set dir "[getenv REMOTELOAD_CACHE]/$tool/$dname"
 		if {![file exists $dir]} {
 		    file mkdir $dir
@@ -1083,7 +1083,7 @@ proc standard_load { dest prog args } {
 	}
 	set remotefile [file tail $prog]
 	set remotefile [remote_download $dest $prog $remotefile]
-	if { $remotefile == "" } {
+	if { $remotefile eq "" } {
 	    verbose -log "Download of $prog to [board_info $dest name] failed." 3
 	    return "unresolved"
 	}
@@ -1211,7 +1211,7 @@ proc check_for_board_status  { variable } {
     # status message, then the absence of it means that the program
     # crashed, regardless of status found elsewhere (e.g. simulator exit
     # code).
-    if { [target_info needs_status_wrapper] != "" } then {
+    if { [target_info needs_status_wrapper] ne "" } then {
 	set nomatch_return 2
     } else {
 	set nomatch_return -1
@@ -1225,7 +1225,7 @@ proc check_for_board_status  { variable } {
 	regsub "\[^0-9\]*$" $result "" result
 	verbose "got board status $result" 3
 	verbose "output is $output" 3
-	if { $result == "" } {
+	if { $result eq "" } {
 	    return $nomatch_return
 	} else {
 	    return [expr {$result}]
@@ -1259,7 +1259,7 @@ proc remote_expect { board timeout args } {
     set error_sect ""
     set save_next 0
 
-    if { $spawn_id == "" } {
+    if { $spawn_id eq "" } {
 	# This should be an invalid spawn id.
 	set spawn_id 1000
     }
@@ -1305,7 +1305,7 @@ proc remote_expect { board timeout args } {
 	    if { ${x} == "eof" } {
 		set save_next 1
 	    } elseif { ${x} eq "default" || ${x} eq "timeout" } {
-		if { $error_sect == "" } {
+		if { $error_sect eq "" } {
 		    set save_next 1
 		}
 	    }
@@ -1330,7 +1330,7 @@ proc remote_expect { board timeout args } {
 	    perror "$errorInfo $errorCode $string"
 	}
 
-	if { $error_sect != "" } {
+	if { $error_sect ne "" } {
 	    set code [catch {uplevel $error_sect} string]
 	} else {
 	    warning "remote_expect statement without a default case"
@@ -1352,7 +1352,7 @@ proc remote_push_conn { host } {
 
     set name [board_info $host name]
 
-    if { $name == "" } {
+    if { $name eq "" } {
 	return "fail"
     }
 
@@ -1381,7 +1381,7 @@ proc remote_pop_conn { host } {
 
     set name [board_info $host name]
 
-    if { $name == "" } {
+    if { $name eq "" } {
 	return "fail"
     }
     if {![info exists board_info($name,fileid_stack)]} {

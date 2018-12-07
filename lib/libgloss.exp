@@ -85,7 +85,7 @@ proc libgloss_link_flags { args } {
 
     # set the proper paths for gcc if the target subdir exists, else assume we
     # have no libgloss support for this target.
-    if { $gloss_srcdir == "" } {
+    if { $gloss_srcdir eq "" } {
 	return ""
     }
     if {[file exists [file join $gccpath libgloss $cpu]]} {
@@ -120,7 +120,7 @@ proc newlib_link_flags { args } {
     }
 
     set ld_script_path [lookfor_file ${tool_root_dir} "ld/ldscripts"]
-    if { $ld_script_path != "" } {
+    if { $ld_script_path ne "" } {
 	set result "-L[file dirname $ld_script_path]"
     } else {
 	set result ""
@@ -155,7 +155,7 @@ proc newlib_include_flags { args } {
 	verbose "Newlib path is $gccpath/newlib"
 
 	set newlib_dir [lookfor_file ${srcdir} newlib/libc/include/assert.h]
-	if { ${newlib_dir} != "" } {
+	if { ${newlib_dir} ne "" } {
 	    set newlib_dir [file dirname ${newlib_dir}]
 	}
 	# Note - we use -isystem rather than -I because newlib contains
@@ -180,7 +180,7 @@ proc libio_include_flags { args } {
 
     set gccpath "[get_multilibs]"
 
-    if { $gccpath == "" } {
+    if { $gccpath eq "" } {
 	set gccpath "$tool_root_dir"
     }
 
@@ -188,12 +188,12 @@ proc libio_include_flags { args } {
 
     # linux doesn't build _G_config.h and the test above fails, so
     # we search for iostream.list too.
-    if { $libio_bin_dir == "" } {
+    if { $libio_bin_dir eq "" } {
 	set libio_bin_dir [lookfor_file ${gccpath} libio/iostream.list]
     }
 
     set libio_src_dir [lookfor_file ${srcdir} libio/Makefile.in]
-    if { $libio_bin_dir != "" && $libio_src_dir != "" } {
+    if { $libio_bin_dir ne "" && $libio_src_dir ne "" } {
 	set libio_src_dir [file dirname ${libio_src_dir}]
 	set libio_bin_dir [file dirname ${libio_bin_dir}]
 	# Note - unlike the newlib_include_flags proc above we use the -I
@@ -215,7 +215,7 @@ proc libio_link_flags { args } {
     set gccpath "[get_multilibs]"
 
     set libio_dir [lookfor_file ${gccpath} libio/libio.a]
-    if { $libio_dir != "" } {
+    if { $libio_dir ne "" } {
 	return "-L[file dirname ${libio_dir}]"
     } else {
 	return ""
@@ -235,23 +235,23 @@ proc g++_include_flags { args } {
     set flags ""
 
     set dir [lookfor_file ${srcdir} libg++]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	# See comment in libio_include_flags about using -I.
 	append flags " -I${dir} -I${dir}/src"
     }
 
     set dir [lookfor_file ${srcdir} libstdc++-v3]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	append flags " -I${dir}/include -I${dir}/include/std -I${dir}/include/c_std -I${dir}/libsupc++"
     }
 
     set dir [lookfor_file ${gccpath} libstdc++-v3]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	append flags " -I${dir}/include -I${dir}/include/${target_alias}"
     }
 
     set dir [lookfor_file ${srcdir} libstdc++]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	append flags " -I${dir} -I${dir}/stl"
     }
 
@@ -267,7 +267,7 @@ proc g++_link_flags { args } {
     set flags ""
     set ld_library_path "."
 
-    if { $gccpath != "" } {
+    if { $gccpath ne "" } {
 	if {[file exists [file join ${gccpath} lib libstdc++.a]]} {
 	    append ld_library_path ":${gccpath}/lib"
 	}
@@ -293,21 +293,21 @@ proc g++_link_flags { args } {
 	global tool_root_dir
 
 	set libgpp [lookfor_file ${tool_root_dir} libg++]
-	if { $libgpp != "" } {
+	if { $libgpp ne "" } {
 	    append flags "-L${libgpp} "
 	    append ld_library_path ":${libgpp}"
 	}
 	set libstdcpp [lookfor_file ${tool_root_dir} libstdc++]
-	if { $libstdcpp != "" } {
+	if { $libstdcpp ne "" } {
 	    append flags "-L${libstdcpp} "
 	    append ld_library_path ":${libstdcpp}"
 	}
 	set libiberty [lookfor_file ${tool_root_dir} libiberty]
-	if { $libiberty != "" } {
+	if { $libiberty ne "" } {
 	    append flags "-L${libiberty} "
 	}
 	set librx [lookfor_file ${tool_root_dir} librx]
-	if { $librx != "" } {
+	if { $librx ne "" } {
 	    append flags "-L${librx} "
 	}
     }
@@ -327,7 +327,7 @@ proc libstdc++_include_flags { args } {
     set flags ""
 
     set dir [lookfor_file ${srcdir} libstdc++-v3]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	# See comment in libio_include_flags about using -I.
 	append flags " -I${dir}/include -I${dir}/include/std -I${dir}/include/c_std -I${dir}/libsupc++"
     }
@@ -335,12 +335,12 @@ proc libstdc++_include_flags { args } {
     set gccpath [get_multilibs]
 
     set dir [lookfor_file ${gccpath} libstdc++-v3]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	append flags " -I${dir}/include -I${dir}/include/${target_alias}"
     }
 
     set dir [lookfor_file ${srcdir} libstdc++]
-    if { ${dir} != "" } {
+    if { ${dir} ne "" } {
 	append flags " -I${dir} -I${dir}/stl"
     }
 
@@ -355,7 +355,7 @@ proc libstdc++_link_flags { args } {
     set libio_dir ""
     set flags ""
 
-    if { $gccpath != "" } {
+    if { $gccpath ne "" } {
 	if {[file exists [file join ${gccpath} libstdc++ libstdc++.a]]} {
 	    append flags "-L${gccpath}/libstdc++ "
 	    append ld_library_path ":${gccpath}/libstdc++"
@@ -370,16 +370,16 @@ proc libstdc++_link_flags { args } {
 	global tool_root_dir
 
 	set libstdcpp [lookfor_file ${tool_root_dir} libstdc++]
-	if { $libstdcpp != "" } {
+	if { $libstdcpp ne "" } {
 	    append flags "-L${libstdcpp} "
 	    append ld_library_path ":${libstdcpp}"
 	}
 	set libiberty [lookfor_file ${tool_root_dir} libiberty]
-	if { $libiberty != "" } {
+	if { $libiberty ne "" } {
 	    append flags "-L${libiberty} "
 	}
 	set librx [lookfor_file ${tool_root_dir} librx]
-	if { $librx != "" } {
+	if { $librx ne "" } {
 	    append flags "-L${librx} "
 	}
     }
@@ -421,7 +421,7 @@ proc get_multilibs { args } {
 	set compiler [find_gcc]
     }
 
-    if { $compiler == "" } {
+    if { $compiler eq "" } {
 	return ""
     }
 
@@ -457,7 +457,7 @@ proc get_multilibs { args } {
 
     # extract the options and their directory names as know by gcc
     foreach i "[exec $compiler --print-multi-lib]" {
-	if {$extra != ""} {
+	if {$extra ne ""} {
 	    # string trimright would do the wrong thing if we included
 	    # the leading @@ in $extra
 	    set i [string trimright $i $extra]
@@ -487,7 +487,7 @@ proc get_multilibs { args } {
     regsub -all " -" $moptions " " dirty_moptions
     set moptions ""
     foreach x [split $dirty_moptions " "] {
-	if { $x != "" && [lsearch -exact $moptions $x] < 0 } {
+	if { $x ne "" && [lsearch -exact $moptions $x] < 0 } {
 	    lappend moptions $x
 	}
     }
@@ -498,11 +498,11 @@ proc get_multilibs { args } {
 
     # search for the top level multilib directory
     set multitop [lookfor_file "${comp_base_dir}" "${target_alias}"]
-    if { $multitop == "" } {
+    if { $multitop eq "" } {
 	set multitop [lookfor_file "${comp_base_dir}" "libraries"]
-	if { $multitop == "" } {
+	if { $multitop eq "" } {
 	    set multitop "[lookfor_file ${comp_base_dir} gcc/xgcc]"
-	    if { $multitop != "" } {
+	    if { $multitop ne "" } {
 		set multitop [file dirname [file dirname $multitop]]
 	    } else {
 		return ""
@@ -512,7 +512,7 @@ proc get_multilibs { args } {
 
     set gccpath [eval exec "$compiler" --print-multi-directory $mopts]
     set gccpath [lindex $gccpath 0]
-    if { $gccpath != "" } {
+    if { $gccpath ne "" } {
 	verbose "GCC path is $gccpath"
 	if { [llength $args] == 0 } {
 	    set board_info($target_board,multitop) "$multitop/$gccpath"
@@ -530,7 +530,7 @@ proc get_multilibs { args } {
 	}
     }
     # if we find some
-    if {$multimatches != ""} {
+    if {$multimatches ne ""} {
 	# Split it into a list of pairs. If an moptions are the first
 	# of a pair, then replace it with the second.  If an moption
 	# is not in multimatches, we assume it's not a multilib option
@@ -608,16 +608,16 @@ proc find_binutils_prog { name } {
     if {![isremote host]} {
 
 	set file [lookfor_file $tool_root_dir $name]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir ${name}-new]
 	}
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir binutils/$name]
 	}
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir binutils/${name}-new]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set NAME "$file"
 	} else {
 	    set NAME [transform $name]
@@ -633,10 +633,10 @@ proc find_gcc {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir xgcc]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/xgcc]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set CC "$file -B[file dirname $file]/"
 	} else {
 	    set CC [transform gcc]
@@ -652,10 +652,10 @@ proc find_gcj {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gcj]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gcj]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set CC "$file -B[file dirname $file]/"
 	} else {
 	    set CC [transform gcj]
@@ -671,13 +671,13 @@ proc find_g++ {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir xg++]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/xg++]
 	}
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir g++]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set CC "$file -B[file dirname $file]/"
 	} else {
 	    set CC [transform g++]
@@ -693,10 +693,10 @@ proc find_gdc {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gdc]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gdc]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set CC "$file -B[file dirname $file]/"
 	} else {
 	    set CC [transform gdc]
@@ -712,10 +712,10 @@ proc find_g77 {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir g77]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/g77]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set CC "$file -B[file dirname $file]/"
 	} else {
 	    set CC [transform g77]
@@ -731,10 +731,10 @@ proc find_gfortran {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gfortran]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gfortran]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set CC "$file -B[file dirname $file]/"
 	} else {
 	    set CC [transform gfortran]
@@ -750,10 +750,10 @@ proc find_gnatmake {} {
 
     if {![isremote host]} {
 	set file [lookfor_file $tool_root_dir gnatmake]
-	if { $file == "" } {
+	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir gcc/gnatmake]
 	}
-	if { $file != "" } {
+	if { $file ne "" } {
 	    set root [file dirname $file]
 	    set CC "$file -I$root/ada/rts --GCC=$root/xgcc --GNATBIND=$root/gnatbind --GNATLINK=$root/gnatlink -cargs -B$root -largs --GCC=$root/xgcc -B$root -margs"
 	} else {
@@ -771,11 +771,11 @@ proc find_nm {} {
     set NM ""
     if {![isremote host]} {
 	set NM [lookfor_file $tool_root_dir nm-new]
-	if {$NM == ""} {
+	if {$NM eq ""} {
 	    set NM [lookfor_file $tool_root_dir binutils/nm-new]
 	}
     }
-    if { $NM == ""} {
+    if { $NM eq ""} {
 	set NM [transform nm]
     }
     return $NM
@@ -799,7 +799,7 @@ proc process_multilib_options { args } {
 	regsub -all "^\[ \t\]*" "$x" "" x
 	regsub -all "\[ \t\]*$" "$x" "" x
 
-	if { $x == "" } {
+	if { $x eq "" } {
 	    continue
 	}
 	switch -glob -- $x {
@@ -869,11 +869,11 @@ proc find_gas { } {
 
     if {![isremote host]} {
 	set AS [lookfor_file $tool_root_dir as-new]
-	if { $AS == "" } {
+	if { $AS eq "" } {
 	    set AS [lookfor_file $tool_root_dir gas/as-new]
 	}
     }
-    if { $AS == "" } {
+    if { $AS eq "" } {
 	set AS [transform as]
     }
     return $AS
@@ -886,11 +886,11 @@ proc find_ld { } {
 
     if {![isremote host]} {
 	set LD [lookfor_file $tool_root_dir ld-new]
-	if { $LD == "" } {
+	if { $LD eq "" } {
 	    set LD [lookfor_file $tool_root_dir ld/ld-new]
 	}
     }
-    if { $LD == "" } {
+    if { $LD eq "" } {
 	set LD [transform ld]
     }
     return $LD
@@ -919,7 +919,7 @@ proc build_wrapper { gluefile } {
     if {[target_info exists wrap_compile_flags]} {
 	lappend flags "additional_flags=[target_info wrap_compile_flags]"
     }
-    if { [target_compile ${libdir}/testglue.c ${gluefile} object $flags] == "" } {
+    if { [target_compile ${libdir}/testglue.c ${gluefile} object $flags] eq "" } {
 	set gluefile [remote_download host ${gluefile} ${tool}_tg.o]
 	return [list $gluefile $result]
     } else {
@@ -945,7 +945,7 @@ proc winsup_include_flags { args } {
 	verbose "Winsup path is $gccpath/winsup"
 
 	set winsup_dir [lookfor_file ${srcdir} winsup/include/windows.h]
-	if { ${winsup_dir} != "" } {
+	if { ${winsup_dir} ne "" } {
 	    set winsup_dir [file dirname ${winsup_dir}]
 	    # See comment in libio_include_flags about using -I.
 	    return " -I${winsup_dir}"

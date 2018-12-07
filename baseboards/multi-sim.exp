@@ -58,7 +58,7 @@ proc dynamic_linker_flag { args } {
     set mflags "[board_info $board multilib_flags]"
     foreach i [get_library_dirlist] {
 	set dynlinker [glob -nocomplain -directory $i ld-*.so]
-	if { $dynlinker != "" } break
+	if { $dynlinker ne "" } break
     }
     verbose "dynamic_linker_flag: -Wl,--dynamic-linker=$dynlinker"
     return "-Wl,--dynamic-linker=$dynlinker"

@@ -36,7 +36,7 @@ proc adb_load { dest prog args } {
     # Default directory uses tmpfs, so it is the best place to run
     # tests to avoid excessive wear of flash.
     global android_tmp_dir
-    if { $android_tmp_dir != "" } {
+    if { $android_tmp_dir ne "" } {
 	verbose -log "android temporary directory is set to $android_tmp_dir" 3
     } else {
 	set android_tmp_dir "/mnt/sdcard/.android_secure"
@@ -66,7 +66,7 @@ proc adb_load { dest prog args } {
 	set localfile "./[file tail $prog].[pid]"
 	set remotefile "$android_tmp_dir/[file tail $prog].[pid]"
 	set remotefile [remote_download $dest $prog $remotefile]
-	if { $remotefile == "" } {
+	if { $remotefile eq "" } {
 	    verbose -log "Download of $prog to [board_info $dest name] failed." 3
 	    return "unresolved"
 	}

@@ -62,7 +62,7 @@ proc unix_load { dest prog args } {
     }
     verbose "loading to $dest" 2
     if {![isremote $dest]} {
-	if { "$inp" != "" } {
+	if { "$inp" ne "" } {
 	    set command "$prog $parg < $inp"
 	} else {
 	    set command "$prog $parg"
@@ -98,7 +98,7 @@ proc unix_load { dest prog args } {
     } else {
 	set remotefile [file tail $prog]
 	set remotefile [remote_download $dest $prog $remotefile]
-	if { $remotefile == "" } {
+	if { $remotefile eq "" } {
 	    verbose -log "Download of $prog to [board_info $dest name] failed." 3
 	    return [list "unresolved" ""]
 	}

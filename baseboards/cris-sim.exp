@@ -69,7 +69,7 @@ foreach x $board_variant_list {
     }
 }
 
-if { ![board_info $board exists sim,options] && $cris_simopt != "" } {
+if { ![board_info $board exists sim,options] && $cris_simopt ne "" } {
     set_board_info sim,options $cris_simopt
 }
 

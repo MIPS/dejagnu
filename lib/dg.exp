@@ -629,7 +629,7 @@ proc dg-test { args } {
 
     # We append the compilation flags, if any, to ensure that the test case
     # names are unique.
-    if { "$tool_flags" != "" } {
+    if { "$tool_flags" ne "" } {
 	set name "$name $tool_flags"
     }
 
@@ -751,7 +751,7 @@ proc dg-test { args } {
     # Remove messages from the tool that we can ignore.
     set comp_output [prune_warnings $comp_output]
 
-    if { [info procs ${tool}-dg-prune] != "" } {
+    if { [info procs ${tool}-dg-prune] ne "" } {
 	set comp_output [${tool}-dg-prune $target_triplet $comp_output]
 	switch -glob -- $comp_output {
 	    "::untested::*" {

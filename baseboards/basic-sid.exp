@@ -27,9 +27,9 @@ proc find_sid { target_alias } {
     global tool_root_dir
 
     set try [lookfor_file ${tool_root_dir} sid/bsp/${target_alias}-sid]
-    if { $try != "" } {
+    if { $try ne "" } {
 	set sid_build [lookfor_file ${tool_root_dir} sid/main/dynamic/sid]
-	if { $sid_build != "" } { set env(SID) $sid_build }
+	if { $sid_build ne "" } { set env(SID) $sid_build }
 	return $try
     }
 
@@ -45,7 +45,7 @@ proc find_sid_conf { config } {
     global srcdir
 
     set try [lookfor_file ${srcdir} sid/bsp/pregen/${config}.conf]
-    if { $try == "" } then { return ${config}.conf } else { return $try }
+    if { $try eq "" } then { return ${config}.conf } else { return $try }
 }
 
 # find_rawsid -- find a usable SID simulator.
@@ -58,7 +58,7 @@ proc find_rawsid { } {
     global srcdir
 
     set try [lookfor_file ${tool_root_dir} sid/main/dynamic/sid]
-    if { $try == "" } {
+    if { $try eq "" } {
 	set try "sid"
     } else {
 	# testing build tree

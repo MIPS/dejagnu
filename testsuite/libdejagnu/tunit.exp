@@ -19,6 +19,6 @@
 load_lib "dejagnu.exp"
 
 # Execute the test case, and analyse the output
-if { [host_execute "unit"] != "" } {
+if { [host_execute "unit"] ne "" } {
     perror "unit had an execution error" 0
 }

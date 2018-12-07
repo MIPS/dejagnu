@@ -57,7 +57,7 @@ proc open_logs { } {
     global xml_file
     global xml
 
-    if { ${tool} ==  "" } {
+    if { ${tool} eq "" } {
 	set tool testrun
     }
     catch "file delete -force -- $outdir/$tool.sum"
@@ -148,7 +148,7 @@ proc is_remote { board } {
     }
 
     if { $board == "host" } {
-	if { [info exists host_board] && $host_board != "" } {
+	if { [info exists host_board] && $host_board ne "" } {
 	    verbose "board is $board, is remote" 3
 	    return 1
 	} else {
@@ -288,7 +288,7 @@ proc clone_output { message } {
     global sum_file
     global all_flag
 
-    if { $sum_file != "" } {
+    if { $sum_file ne "" } {
 	puts $sum_file "$message"
     }
 
@@ -349,7 +349,7 @@ proc log_and_exit {} {
 
     log_summary total
     # extract version number
-    if {[info procs ${tool}_version] != ""} {
+    if {[info procs ${tool}_version] ne ""} {
 	if {[catch "${tool}_version" output]} {
 	    warning "${tool}_version failed:\n$output"
 	}
@@ -357,7 +357,7 @@ proc log_and_exit {} {
     close_logs
     verbose -log "runtest completed at [timestamp -format %c]"
     if {$mail_logs} {
-	if { ${tool} ==  "" } {
+	if { ${tool} eq "" } {
 	    set tool testrun
 	}
 	mail_file $outdir/$tool.sum $mailing_list "Dejagnu Summary Log"
@@ -385,7 +385,7 @@ proc xml_tag { tag body } {
 
 proc xml_output { message } {
     global xml_file
-    if { $xml_file != "" } {
+    if { $xml_file ne "" } {
 	puts $xml_file $message
     }
 }
@@ -803,7 +803,7 @@ proc record_test { type message args } {
     }
 
     global multipass_name
-    if { $multipass_name != "" } {
+    if { $multipass_name ne "" } {
 	set message [format "%s: %s: %s" "$type" "$multipass_name" "$message"]
     } else {
 	set message "$type: $message"

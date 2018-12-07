@@ -165,7 +165,7 @@ proc gdb_comm_start { dest } {
     # provided with one.
     if {![info exists GDB]} then {
 	set GDB "[lookfor_file ${tool_root_dir} gdb/gdb]"
-	if { $GDB == "" } {
+	if { $GDB eq "" } {
 	    set GDB [transform gdb]
 	}
     }
@@ -218,7 +218,7 @@ proc quit_gdb { } {
 
     set spawn_id [board_info host fileid]
 
-    if { $spawn_id != "" && $spawn_id > -1 } {
+    if { $spawn_id ne "" && $spawn_id > -1 } {
 	if { [remote_send host "quit\n"] eq "" } {
 	    remote_expect host 10 {
 		-re ".*y or n.*$" {
@@ -257,7 +257,7 @@ proc gdb_comm_load { dest prog args } {
     set argnames { "command-line arguments" "input file" "output file" }
 
     for { set x 0 } { $x < [llength $args] } { incr x } {
-	if { [lindex $args $x] != "" } {
+	if { [lindex $args $x] ne "" } {
 	    return [list "unsupported" "no support for [lindex $argnames $x] on this target"]
 	}
     }
@@ -399,7 +399,7 @@ proc gdb_comm_load { dest prog args } {
     # work would be necessary for things like the g++ testsuite which
     # use printf to indicate pass/fail status.
 
-    if { [gdb_comm_add_breakpoint _exit] != "" } {
+    if { [gdb_comm_add_breakpoint _exit] ne "" } {
 	gdb_comm_add_breakpoint exit
     }
     gdb_comm_add_breakpoint abort
@@ -528,7 +528,7 @@ proc gdb_comm_reload { dest prog aargs } {
 
     # how many times have we done this?
     set n_reloads [board_info $dest n_reloads]
-    if {$n_reloads == ""} {
+    if {$n_reloads eq ""} {
 	set n_reloads 0
     }
 
@@ -539,7 +539,7 @@ proc gdb_comm_reload { dest prog aargs } {
 
     # how many times are we allowed to do this?
     set max [board_info $dest max_reload_reboots]
-    if {$max == ""} {
+    if {$max eq ""} {
 	set max 15
     }
 
