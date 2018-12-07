@@ -32,7 +32,7 @@ proc ${board}_download { dest file args } {
     # Extract the endianess of the executable
     set status [catch "exec od -An -v -j5 -N1 -t x1 $file" bigendian]
     set args "--quiet"
-    if { $bigendian == "02"} {
+    if { $bigendian eq "02"} {
 	set args "$args --bigendian"
     }
 

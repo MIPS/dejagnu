@@ -76,7 +76,7 @@ if [info exists env(TESTRUN)] {
 #
 setenv TESTRUN FooBar
 if [info exists env(TESTRUN)] {
-    if { $env(TESTRUN) == "FooBar" } {
+    if { $env(TESTRUN) eq "FooBar" } {
 	pass "setenv, set an environment variable"
     } else {
 	fail "setenv, set an environment variable"
@@ -88,7 +88,7 @@ if [info exists env(TESTRUN)] {
 # Test getenv:
 #
 if [info exists env(TESTRUN)] {
-    if { [getenv TESTRUN] == "FooBar" } {
+    if { [getenv TESTRUN] eq "FooBar" } {
 	pass "getenv, get an environment variable"
     } else {
 	fail "getenv, get an environment variable"

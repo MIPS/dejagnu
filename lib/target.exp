@@ -183,7 +183,7 @@ proc prune_warnings { text } {
       # Remove the lines that are output by the HP F77 compiler to
       # indicate the functions that are being compiled.
       upvar compiler_type compiler_type
-      if { [info exists compiler_type] && $compiler_type == "f77" } {
+      if { [info exists compiler_type] && $compiler_type eq "f77" } {
 	  regsub -all "\[ \ta-zA-Z_0-9\./\]*:\[\r\n\]+" $text "" text
       }
 
@@ -307,7 +307,7 @@ proc default_target_compile {source destfile type options} {
     global LDFLAGS_FOR_TARGET
     global compiler_flags
 
-    if { $destfile eq "" && $type != "preprocess" && $type != "none" } {
+    if { $destfile eq "" && $type ne "preprocess" && $type ne "none" } {
 	error "Must supply an output filename for the compile to default_target_compile"
     }
 
@@ -334,7 +334,7 @@ proc default_target_compile {source destfile type options} {
 
     foreach i $options {
 
-	if { $i == "ada" } {
+	if { $i eq "ada" } {
 	    set compiler_type "ada"
 	    if {[board_info $dest exists adaflags]} {
 		append add_flags " [target_info adaflags]"
@@ -346,7 +346,7 @@ proc default_target_compile {source destfile type options} {
 	    }
 	}
 
-	if { $i == "c++" } {
+	if { $i eq "c++" } {
 	    set compiler_type "c++"
 	    if {[board_info $dest exists cxxflags]} {
 		append add_flags " [target_info cxxflags]"
@@ -359,7 +359,7 @@ proc default_target_compile {source destfile type options} {
 	    }
 	}
 
-	if { $i == "d" } {
+	if { $i eq "d" } {
 	    set compiler_type "d"
 	    if {[board_info $dest exists dflags]} {
 		append add_flags " [target_info dflags]"
@@ -371,7 +371,7 @@ proc default_target_compile {source destfile type options} {
 	    }
 	}
 
-	if { $i == "f77" } {
+	if { $i eq "f77" } {
 	    set compiler_type "f77"
 	    if {[board_info $dest exists f77flags]} {
 		append add_flags " [target_info f77flags]"
@@ -383,7 +383,7 @@ proc default_target_compile {source destfile type options} {
 	    }
 	}
 
-	if { $i == "f90" } {
+	if { $i eq "f90" } {
 	    set compiler_type "f90"
 	    if {[board_info $dest exists f90flags]} {
 		append add_flags " [target_info f90flags]"
@@ -453,7 +453,7 @@ proc default_target_compile {source destfile type options} {
     global GNATMAKE_FOR_TARGET
 
     if {[info exists GNATMAKE_FOR_TARGET]} {
-	if { $compiler_type == "ada" } {
+	if { $compiler_type eq "ada" } {
 	    set compiler $GNATMAKE_FOR_TARGET
 	}
     }
@@ -465,25 +465,25 @@ proc default_target_compile {source destfile type options} {
     }
 
     if {[info exists CXX_FOR_TARGET]} {
-	if { $compiler_type == "c++" } {
+	if { $compiler_type eq "c++" } {
 	    set compiler $CXX_FOR_TARGET
 	}
     }
 
     if {[info exists D_FOR_TARGET]} {
-	if { $compiler_type == "d" } {
+	if { $compiler_type eq "d" } {
 	    set compiler $D_FOR_TARGET
 	}
     }
 
     if {[info exists F77_FOR_TARGET]} {
-	if { $compiler_type == "f77" } {
+	if { $compiler_type eq "f77" } {
 	    set compiler $F77_FOR_TARGET
 	}
     }
 
     if {[info exists F90_FOR_TARGET]} {
-	if { $compiler_type == "f90" } {
+	if { $compiler_type eq "f90" } {
 	    set compiler $F90_FOR_TARGET
 	}
     }
@@ -501,15 +501,15 @@ proc default_target_compile {source destfile type options} {
 	}
     }
 
-    if {$type == "object"} {
+    if {$type eq "object"} {
 	append add_flags " -c"
     }
 
-    if { $type == "preprocess" } {
+    if { $type eq "preprocess" } {
 	append add_flags " -E"
     }
 
-    if { $type == "assembly" } {
+    if { $type eq "assembly" } {
 	append add_flags " -S"
     }
 
@@ -517,11 +517,11 @@ proc default_target_compile {source destfile type options} {
 	append add_flags " [board_info $dest cflags]"
     }
 
-    if { $type == "executable" } {
+    if { $type eq "executable" } {
 	if {[board_info $dest exists ldflags]} {
 	    append add_flags " [board_info $dest ldflags]"
 	}
-	if { $compiler_type == "c++" } {
+	if { $compiler_type eq "c++" } {
 	    append add_flags " [g++_link_flags]"
 	}
 	if {[isnative]} {
@@ -547,7 +547,7 @@ proc default_target_compile {source destfile type options} {
     }
 
     foreach i $options {
-	if { $i == "debug" } {
+	if { $i eq "debug" } {
 	    if {[board_info $dest exists debug_flags]} {
 		append add_flags " [board_info $dest debug_flags]"
 	    } else {
@@ -560,7 +560,7 @@ proc default_target_compile {source destfile type options} {
 	append add_flags " $optimize"
     }
 
-    if { $type == "executable" } {
+    if { $type eq "executable" } {
 	append add_flags " $ldflags"
 	foreach x $libs {
 	    if {[file exists $x]} {
@@ -630,7 +630,7 @@ proc default_target_compile {source destfile type options} {
     # This is obscure: we put SOURCES at the end when building an
     # object, because otherwise, in some situations, libtool will
     # become confused about the name of the actual source file.
-    if {$type == "object"} {
+    if {$type eq "object"} {
 	set opts "$add_flags $sources"
     } else {
 	set opts "$sources $add_flags"

@@ -1,5 +1,20 @@
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
+	* runtest.exp, lib/utils.exp, lib/targetdb.exp, lib/target.exp,
+	lib/remote.exp, lib/framework.exp, lib/dg.exp, config/vxworks.exp,
+	config/sim.exp, config/gdb_stub.exp, config/aarch64-fv8.exp,
+	baseboards/vr4300-sim.exp, baseboards/vr4111-sim.exp,
+	baseboards/vr4100-sim.exp, baseboards/sh-sid.exp,
+	baseboards/mt-sid.exp, baseboards/mips-sim.exp,
+	baseboards/mips-sim-idt64.exp, baseboards/mips-sim-idt32.exp,
+	baseboards/i386-sid.exp, baseboards/arm-sim.exp,
+	baseboards/arm-ice.exp, baseboards/androideabi.exp,
+	testsuite/runtest.all/utils.test,
+	testsuite/runtest.all/target.test: Replace string literal
+	comparisons using == and != with 'eq' and 'ne'.
+
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
 	* runtest.exp, lib/utils.exp, lib/target.exp, lib/ssh.exp,
 	lib/rsh.exp, lib/rlogin.exp, lib/remote.exp, lib/libgloss.exp,
 	lib/framework.exp, lib/dg.exp, lib/dejagnu.exp,

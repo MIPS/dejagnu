@@ -23,7 +23,7 @@ load_generic_config "sim"
 # No multilib flags needed by default.
 process_multilib_options ""
 
-if { [board_info $board obj_format] == "pe" } {
+if { [board_info $board obj_format] eq "pe" } {
     set additional_options "-Wl,-oformat,pe-arm-little,--image-base,0"
     #    set_board_info uses_underscores 1
 } else {

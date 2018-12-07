@@ -66,7 +66,7 @@ set target_info(mvme,baud)      "9600"
 
 # test push_config target
 push_config target idp
-if { $target_info(target,name) == "idp" } {
+if { $target_info(target,name) eq "idp" } {
     puts "PASSED: push_config target"
 } else {
     puts "FAILED: push_config target"
@@ -81,7 +81,7 @@ if { ![info exists target_info(target,name)] } {
 }
 
 push_config host idp
-if { $target_info(host,name) == "idp" } {
+if { $target_info(host,name) eq "idp" } {
     puts "PASSED: push_config target"
 } else {
     puts "FAILED: push_config target"

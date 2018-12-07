@@ -17,7 +17,7 @@
 # Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
 # DDB linker script.
-if { [board_info $board obj_format] == "ecoff" } {
+if { [board_info $board obj_format] eq "ecoff" } {
     set_board_info ldscript "-Tddbecoff.ld"
 } else {
     set_board_info ldscript "-Tddb.ld"

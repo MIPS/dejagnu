@@ -71,10 +71,10 @@ proc adb_load { dest prog args } {
 	    return "unresolved"
 	}
 	set retval [remote_exec $dest "test -x $remotefile"]
-	if { $retval != "0 {}" } {
+	if { $retval ne "0 {}" } {
 	    # Android doesn't support symbolic input for chmod, therefore set executable permission by number
 	    set retval [remote_exec $dest "chmod 755 $remotefile"]
-	    if { $retval != "0 {}" } {
+	    if { $retval ne "0 {}" } {
 		verbose -log "Setting executable permissions of $prog on [board_info $dest name] failed." 3
 		return "unresolved"
 	    }

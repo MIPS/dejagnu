@@ -26,7 +26,7 @@ set_board_info ldflags "-msim [libgloss_link_flags] [newlib_link_flags]"
 
 verbose "Using simulator [board_info $board sim]\n"
 set_board_info sim [find_rawsid]
-if { ${tool} == "gdb" } {
+if { ${tool} eq "gdb" } {
     set_board_info sim,options "-f [find_sid_conf mt-gdb]"
 } else {
     set_board_info sim,options "-f [find_sid_conf mt-gloss]"

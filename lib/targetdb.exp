@@ -28,7 +28,7 @@ proc board_info { machine op args } {
     if {[info exists target_info($machine,name)]} {
 	set machine $target_info($machine,name)
     }
-    if { $op == "exists" } {
+    if { $op eq "exists" } {
 	if { [llength $args] == 0 } {
 	    return [info exists board_info($machine,name)]
 	} else {

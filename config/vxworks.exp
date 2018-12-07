@@ -425,7 +425,7 @@ proc vxworks_unld { dest } {
 
     if {[board_info $dest exists vx_module]} {
 	# Vxworks5.0 does not have the unld command.
-	if { [board_info $dest os] != "vxworks5.0" } {
+	if { [board_info $dest os] ne "vxworks5.0" } {
 	    remote_exec $dest "unld" "[board_info $dest vx_module]"
 	}
 	unset board_info([board_info $dest name],vx_module)

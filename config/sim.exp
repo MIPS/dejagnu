@@ -81,9 +81,9 @@ proc sim_load { dest prog args } {
 
     set output ""
 
-    if { [board_info target sim,protocol] == "sid" } {
+    if { [board_info target sim,protocol] eq "sid" } {
 	set cmd "-e \"set cpu-loader file [list $prog]\""
-    } elseif { [board_info target sim,protocol] == "rawsid" } {
+    } elseif { [board_info target sim,protocol] eq "rawsid" } {
 	set cmd "--load=$prog"
     } else {
 	set cmd $prog

@@ -227,7 +227,7 @@ proc dg-process-target { selector } {
 	foreach triplet $selector {
 	    if {[string match $triplet $target_triplet]} {
 		set triplet_match 1
-	    } elseif { $isnative && $triplet == "native" } {
+	    } elseif { $isnative && $triplet eq "native" } {
 		set triplet_match 1
 	    }
 	}
@@ -236,9 +236,9 @@ proc dg-process-target { selector } {
     }
 
     if { $triplet_match } {
-	return [expr { $what == "xfail" ? "F" : "S" }]
+	return [expr { $what eq "xfail" ? "F" : "S" }]
     } else {
-	return [expr { $what == "xfail" ? "P" : "N" }]
+	return [expr { $what eq "xfail" ? "P" : "N" }]
     }
 }
 
@@ -313,7 +313,7 @@ proc dg-do { args } {
 		# The user really shouldn't have multiple lines of target
 		# selectors, but try to do the intuitive thing (multiple lines
 		# are OR'd together).
-		if { $selected != "S" } {
+		if { $selected ne "S" } {
 		    set selected "N"
 		} else {
 		    set doaction [lindex ${do-what} 0]
@@ -594,10 +594,10 @@ proc dg-test { args } {
 
     if { [string index [lindex $args 0] 0] eq "-" } {
 	for { set i 0 } { $i < [llength $args] } { incr i } {
-	    if { [lindex $args $i] == "--" } {
+	    if { [lindex $args $i] eq "--" } {
 		incr i
 		break
-	    } elseif { [lindex $args $i] == "-keep-output" } {
+	    } elseif { [lindex $args $i] eq "-keep-output" } {
 		set keep 1
 	    } elseif { [string index [lindex $args $i] 0] eq "-" } {
 		clone_output "ERROR: dg-test: illegal argument: [lindex $args $i]"
@@ -680,7 +680,7 @@ proc dg-test { args } {
     }
 
     # If we're not supposed to try this test on this target, we're done.
-    if { [lindex ${dg-do-what} 1] == "N" } {
+    if { [lindex ${dg-do-what} 1] eq "N" } {
 	unsupported "$name"
 	verbose "$name not supported on this target, skipping it" 3
 	return
@@ -794,7 +794,7 @@ proc dg-test { args } {
     # Run the executable image if asked to do so.
     # FIXME: This is the only place where we assume a standard meaning to
     # the `keyword' argument of dg-do.  This could be cleaned up.
-    if { [lindex ${dg-do-what} 0] == "run" } {
+    if { [lindex ${dg-do-what} 0] eq "run" } {
 	if {![file exists $output_file]} {
 	    unresolved "$name compilation failed to produce executable"
 	} else {
@@ -802,14 +802,14 @@ proc dg-test { args } {
 	    set result [${tool}_load $output_file]
 	    set status [lindex $result 0]
 	    set output [lindex $result 1]
-	    if { [lindex ${dg-do-what} 2] == "F" } {
+	    if { [lindex ${dg-do-what} 2] eq "F" } {
 		setup_xfail "*-*-*"
 	    }
 	    if { "$status" eq "pass" } {
 		pass "$name execution test"
 		verbose "Exec succeeded." 3
 		if { [llength ${dg-output-text}] > 1 } {
-		    if { [lindex ${dg-output-text} 0] == "F" } {
+		    if { [lindex ${dg-output-text} 0] eq "F" } {
 			setup_xfail "*-*-*"
 		    }
 		    set texttmp [lindex ${dg-output-text} 1]

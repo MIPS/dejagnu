@@ -28,7 +28,7 @@ set_board_info ldflags "-nostdlib [libgloss_link_flags] [newlib_link_flags]"
 set_board_info ldscript "-Tcygmon.ld"
 set_board_info gdb,start_symbol "__start"
 
-if { ${tool} == "gdb" } {
+if { ${tool} eq "gdb" } {
     set_board_info sim,options "-f [find_sid_conf i386-gdb]"
 } else {
     set_board_info sim,options "-f [find_sid_conf i386-gloss]"

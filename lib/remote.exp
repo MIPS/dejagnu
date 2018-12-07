@@ -45,7 +45,7 @@ proc remote_open { args } {
     }
 
     # Shudder...
-    if { $reboot && $type == "target" } {
+    if { $reboot && $type eq "target" } {
 	reboot_target
     }
 
@@ -245,7 +245,7 @@ proc local_exec { commandline inp outp timeout } {
 	if { $r2 == 0 } {
 	    set r2 [lindex $wres 3]
 	    if { [llength $wres] > 4 } {
-		if { [lindex $wres 4] == "CHILDKILLED" } {
+		if { [lindex $wres 4] eq "CHILDKILLED" } {
 		    set r2 1
 		}
 	    }
@@ -348,7 +348,7 @@ proc standard_exec { hostname args } {
 proc remote_close { host } {
     while { 1 } {
 	set result [call_remote "" close "$host"]
-	if { [remote_pop_conn $host] != "pass" } {
+	if { [remote_pop_conn $host] ne "pass" } {
 	    break
 	}
     }
@@ -582,12 +582,12 @@ proc call_remote { type proc dest args } {
 	set dest [board_info $dest name]
     }
 
-    if { $proc == "reboot" } {
+    if { $proc eq "reboot" } {
 	regsub {/.*} "$dest" "" dest
 	verbose "Changed dest to $dest"
     }
 
-    if { $dest != "host" && $dest != "build" && $dest != "target" } {
+    if { $dest ne "host" && $dest ne "build" && $dest ne "target" } {
 	if { ![board_info $dest exists name] } {
 	    global board
 
@@ -595,7 +595,7 @@ proc call_remote { type proc dest args } {
 		error "board exists"
 	    }
 	    load_board_description $dest
-	    if { $proc == "reboot" } {
+	    if { $proc eq "reboot" } {
 		regsub {/.*} "$dest" "" dest
 		verbose "Changed dest to $dest"
 	    }
@@ -603,7 +603,7 @@ proc call_remote { type proc dest args } {
     }
 
     set high_prot ""
-    if { $type != "raw" } {
+    if { $type ne "raw" } {
 	if {[board_info $dest exists protocol]} {
 	    set high_prot "${dest} [board_info $dest protocol]"
 	} else {
@@ -646,7 +646,7 @@ proc call_remote { type proc dest args } {
 	    }
 	}
     }
-    if { $proc == "close" } {
+    if { $proc eq "close" } {
 	return ""
     }
     error "No procedure for '$proc' in call_remote"
@@ -763,7 +763,7 @@ proc standard_file { dest op args } {
 		return [file tail $file]
 	    }
 	    dirname {
-		if { [file pathtype $file] == "relative" } {
+		if { [file pathtype $file] eq "relative" } {
 		    set file [remote_file $dest absolute $file]
 		}
 		set result [file dirname $file]
@@ -814,7 +814,7 @@ proc standard_file { dest op args } {
 # removed.
 #
 proc unix_clean_filename { dest file } {
-    if { [file pathtype $file] == "relative" } {
+    if { [file pathtype $file] eq "relative" } {
 	set file [remote_file $dest join [pwd] $file]
     }
     set result ""
@@ -822,7 +822,7 @@ proc unix_clean_filename { dest file } {
 	if { $x eq "." || $x eq "" } {
 	    continue
 	}
-	if { $x == ".." } {
+	if { $x eq ".." } {
 	    set rlen [expr {[llength $result] - 2}]
 	    if { $rlen >= 0 } {
 		set result [lrange $result 0 $rlen]
@@ -863,7 +863,7 @@ proc remote_spawn { dest commandline args } {
 	verbose "spawning command $commandline"
 
 	if { [llength $args] > 0 } {
-	    if { [lindex $args 0] == "readonly" } {
+	    if { [lindex $args 0] eq "readonly" } {
 		set result [catch { open "| ${commandline} |& cat" "r" } id]
 		if { $result != 0 } {
 		    return -1
@@ -1023,7 +1023,7 @@ proc remote_load { dest prog args } {
 	set result [eval call_remote \"\" load \"$dname\" \"$prog\" $args]
 	# Not quite happy about the "pass" condition, but it makes sense if
 	# you think about it for a while-- *why* did the test not pass?
-	if { $empty && [lindex $result 0] == "pass" } {
+	if { $empty && [lindex $result 0] eq "pass" } {
 	    if { [getenv LOAD_REMOTECACHE] ne "" } {
 		set dir "[getenv REMOTELOAD_CACHE]/$tool/$dname"
 		if {![file exists $dir]} {
@@ -1186,7 +1186,7 @@ proc standard_wait { dest timeout } {
 		if { [lindex $s 0] != 0 && [lindex $s 2] == 0 } {
 		    set status [lindex $s 3]
 		    if { [llength $s] > 4 } {
-			if { [lindex $s 4] == "CHILDKILLED" } {
+			if { [lindex $s 4] eq "CHILDKILLED" } {
 			    set status 1
 			}
 		    }
@@ -1284,7 +1284,7 @@ proc remote_expect { board timeout args } {
 	    append res "${x} "
 	    continue
 	}
-	if { $x == "-re" } {
+	if { $x eq "-re" } {
 	    append res "${x} "
 	    set next [expr {$i + 1}]
 	    set y [lrange $args $next $next]
@@ -1302,7 +1302,7 @@ proc remote_expect { board timeout args } {
 		set error_sect [lindex $args $i]
 	    }
 	} else {
-	    if { ${x} == "eof" } {
+	    if { ${x} eq "eof" } {
 		set save_next 1
 	    } elseif { ${x} eq "default" || ${x} eq "timeout" } {
 		if { $error_sect eq "" } {
@@ -1413,7 +1413,7 @@ proc remote_swap_conn { host } {
     } else {
 	set conninfo {}
     }
-    if { [remote_pop_conn $host] != "pass" } {
+    if { [remote_pop_conn $host] ne "pass" } {
 	set board_info($name,fileid) $fileid
 	set board_info($name,conninfo) $conninfo
 	return "fail"

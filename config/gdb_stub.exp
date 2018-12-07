@@ -347,7 +347,7 @@ proc gdb_stub_start { dest } {
     global gdb_prompt
 
     set exit_brnum [gdb_stub_add_breakpoint _exit]
-    if { $exit_brnum == "undef" || [board_info $dest exists always_break_exit] } {
+    if { $exit_brnum eq "undef" || [board_info $dest exists always_break_exit] } {
 	set exit_brnum [gdb_stub_add_breakpoint exit]
     }
     set abort_brnum [gdb_stub_add_breakpoint abort]
@@ -399,7 +399,7 @@ proc gdb_stub_spawn { dest prog args } {
 	}
 
 	set result [gdb_stub_start $dest]
-	if { [lindex $result 0] != "pass" } {
+	if { [lindex $result 0] ne "pass" } {
 	    remote_reboot target
 	} else {
 	    return 666;		# does anyone use this value?

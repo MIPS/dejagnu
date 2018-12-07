@@ -143,14 +143,14 @@ proc verbose { args } {
     set i 0
     if { [string index [lindex $args 0] 0] eq "-" } {
 	for { set i 0 } { $i < [llength $args] } { incr i } {
-	    if { [lindex $args $i] == "--" } {
+	    if { [lindex $args $i] eq "--" } {
 		incr i
 		break
-	    } elseif { [lindex $args $i] == "-n" } {
+	    } elseif { [lindex $args $i] eq "-n" } {
 		set newline 0
-	    } elseif { [lindex $args $i] == "-log" } {
+	    } elseif { [lindex $args $i] eq "-log" } {
 		set logfile 1
-	    } elseif { [lindex $args $i] == "-x" } {
+	    } elseif { [lindex $args $i] eq "-x" } {
 		set xml 1
 	    } elseif { [string index [lindex $args $i] 0] eq "-" } {
 		clone_output "ERROR: verbose: illegal argument: [lindex $args $i]"
@@ -281,11 +281,11 @@ proc findfile { args } {
 proc load_file { args } {
     set i 0
     set only_one 0
-    if { [lindex $args $i] == "-1" } {
+    if { [lindex $args $i] eq "-1" } {
 	set only_one 1
 	incr i
     }
-    if { [lindex $args $i] == "--" } {
+    if { [lindex $args $i] eq "--" } {
 	incr i
     }
 
@@ -326,7 +326,7 @@ proc search_and_load_file { type filelist dirlist } {
 	    if {[file exists [file join ${dir} ${initfile}]]} {
 		set found 1
 		set error ""
-		if { ${type} != "library file" } {
+		if { ${type} ne "library file" } {
 		    send_user "Using ${dir}/${initfile} as ${type}.\n"
 		} else {
 		    verbose "Loading ${dir}/${initfile}"
@@ -761,7 +761,7 @@ proc setup_target_hook { whole_name name } {
 
     load_config base-config.exp
     if {![load_board_description ${name} ${whole_name} ${hb}]} {
-	if { $name != "unix" } {
+	if { $name ne "unix" } {
 	    perror "couldn't load description file for ${name}"
 	    exit 1
 	} else {
@@ -933,7 +933,7 @@ proc load_tool_init { file } {
 
     set loaded_libs(tool/$file) ""
 
-    if { [lindex [file split $srcdir] end] != "testsuite" } {
+    if { [lindex [file split $srcdir] end] ne "testsuite" } {
 	lappend searchpath [file join $srcdir testsuite lib tool]
 	lappend searchpath [file join $srcdir testsuite lib]
     } else {
@@ -1370,7 +1370,7 @@ proc load_board_description { board_name args } {
     if {![info exists board_info($whole_name,isremote)]} {
 	set board_info($whole_name,isremote) 1
 	if {[info exists board_type]} {
-	    if { $board_type == "build" } {
+	    if { $board_type eq "build" } {
 		set board_info($whole_name,isremote) 0
 	    }
 	}
@@ -1412,7 +1412,7 @@ proc load_base_board_description { board_name } {
     if {![info exists board_info($board_name,isremote)]} {
 	set board_info($board_name,isremote) 1
 	if {[info exists board_type]} {
-	    if { $board_type == "build" } {
+	    if { $board_type eq "build" } {
 		set board_info($board_name,isremote) 0
 	    }
 	}

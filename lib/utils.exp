@@ -30,7 +30,7 @@
 #     returns: a list of directories excluding the root directory
 #
 proc getdirs { args } {
-    if { [lindex $args 0] == "-all" } {
+    if { [lindex $args 0] eq "-all" } {
 	set alldirs 1
 	set args [lrange $args 1 end]
     } else {
@@ -88,10 +88,10 @@ proc getdirs { args } {
 # Given a base and a destination, return a relative file name that refers
 # to the destination when used relative to the given base.
 proc relative_filename { base destination } {
-    if { [file pathtype $base] != "absolute" } {
+    if { [file pathtype $base] ne "absolute" } {
 	set base [file normalize $base]
     }
-    if { [file pathtype $destination] != "absolute" } {
+    if { [file pathtype $destination] ne "absolute" } {
 	set destination [file normalize $destination]
     }
 
@@ -211,7 +211,7 @@ proc which { file } {
 
 proc grep { args } {
     set options ""
-    if { [lindex $args 0] == "-n" } {
+    if { [lindex $args 0] eq "-n" } {
 	append options "line "
 	set args [lrange $args 1 end]
     }
