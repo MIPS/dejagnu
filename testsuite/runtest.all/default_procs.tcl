@@ -20,13 +20,10 @@ proc lib_pat_test { cmd arglist pattern } {
 # this tests a proc for a returned value
 proc lib_ret_test { cmd arglist val } {
     catch { eval [list $cmd] $arglist } result
-#    catch "set result [$cmd $arg]" output
-#    set result "$cmd [eval $arg]
     puts "CMD(lib_ret_test) was: $cmd $arglist"
     puts "RESULT(lib_ret_test) was: $result"
-#    puts "OUTPUT(lib_ret_test) was: $output"
 
-    if { $result == $val } {
+    if { $result eq $val } {
 	return 1
     } else {
 	return 0
@@ -39,20 +36,20 @@ proc lib_ret_test { cmd arglist val } {
 # test proc is something like lib_pat_test or lib_ret_test.
 #
 proc run_tests { tests } {
-    foreach i "$tests" {
-	set result [ [lindex $i 0] "[lindex $i 1]" "[lindex $i 2]" "[lindex $i 3]" ]
+    foreach test $tests {
+	set result [eval [lrange $test 0 3]]
 	switch -- $result {
 	    "-1" {
-		puts "ERRORED: [lindex $i 4]"
+		puts "ERRORED: [lindex $test 4]"
 	    }
 	    "1" {
-		puts "PASSED: [lindex $i 4]"
+		puts "PASSED: [lindex $test 4]"
 	    }
 	    "0" {
-		puts "FAILED: [lindex $i 4]"
+		puts "FAILED: [lindex $test 4]"
 	    }
 	    default {
-		puts "BAD VALUE: [lindex $i 4]"
+		puts "BAD VALUE: [lindex $test 4]"
 	    }
 	}
     }
@@ -90,5 +87,5 @@ proc unsupported { msg } {
     puts "NOTSUPPORTED: $msg"
 }
 proc verbose { args } {
-    puts "[lindex $args 0]"
+    puts [lindex $args 0]
 }
