@@ -1,5 +1,9 @@
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
+	* lib/tip.exp (tip_open): Put braces around if expression.
+
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
 	* runtest.exp, lib/utils.exp, lib/targetdb.exp, lib/target.exp,
 	lib/remote.exp, lib/framework.exp, lib/dg.exp, config/vxworks.exp,
 	config/sim.exp, config/gdb_stub.exp, config/aarch64-fv8.exp,

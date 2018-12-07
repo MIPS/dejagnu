@@ -59,7 +59,7 @@ proc tip_open { hostname } {
 		    warning "Never got prompt."
 		    set result -1
 		    incr tries
-		    if $tries<=2 {
+		    if { $tries <= 2 } {
 			exp_continue
 		    }
 		}
