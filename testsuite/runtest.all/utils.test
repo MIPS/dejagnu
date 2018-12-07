@@ -24,60 +24,46 @@ if [ file exists $file] {
 
 # Test getdirs:
 #
-if [lib_pat_test "getdirs" {"${srcdir}/runtest.all"} "runtest.all/topdir" ] {
-    puts "FAILED: getdirs toplevel, no arguments"
-} else {
-    puts "PASSED: getdirs toplevel, no arguments"
-}
-
-if [lib_pat_test "getdirs" {"${srcdir}/runtest.all top*"} "runtest.all/topdir" ] {
-    puts "FAILED: getdirs toplevel, one subdir"
-} else {
-    puts "PASSED: getdirs toplevel, one subdir"
-}
-
-if [lib_pat_test "getdirs" {"${srcdir}/runtest.all/topdir"} "subdir1*subdir2" ] {
-    puts "FAILED: getdirs toplevel, two subdirs"
-} else {
-    puts "PASSED: getdirs toplevel, two subdirs"
-}
+run_tests [subst {
+    { lib_pat_test getdirs
+	{[file join ${srcdir} runtest.all]}
+	[file join ${srcdir} runtest.all topdir]
+	"getdirs toplevel, no arguments" }
+    { lib_pat_test getdirs
+	{[file join ${srcdir} runtest.all] "top*"}
+	[file join ${srcdir} runtest.all topdir]
+	"getdirs toplevel, one subdir" }
+    { lib_pat_test getdirs
+	{[file join ${srcdir} runtest.all topdir]}
+	"*topdir*subdir\[12\]*topdir*subdir\[12\]"
+	"getdirs toplevel, two subdirs" }
+}]
 
 # Test relative_filename:
 #
-if { [relative_filename "/foo/test" "/foo/test/bar/baz" ] == "bar/baz" } {
-    puts "PASSED: relative_filename, simple prefix"
-} else {
-    puts "FAILED: relative_filename, simple prefix"
-}
-if { [relative_filename "/foo/test" "/bar/test" ] == "../../bar/test" } {
-    puts "PASSED: relative_filename, up to top"
-} else {
-    puts "FAILED: relative_filename, up to top"
-}
-if { [relative_filename "/tmp/foo-test" "/tmp/bar/test" ] == "../bar/test" } {
-    puts "PASSED: relative_filename, up one level"
-} else {
-    puts "FAILED: relative_filename, up one level"
-}
-if { [relative_filename "/tmp/foo-test" "/tmp/foo-test" ] == "" } {
-    puts "PASSED: relative_filename, same name"
-} else {
-    puts "FAILED: relative_filename, same name"
+run_tests {
+    { lib_ret_test relative_filename {"/foo/test" "/foo/test/bar/baz"} "bar/baz"
+	"relative_filename, simple prefix" }
+    { lib_ret_test relative_filename {"/foo/test" "/bar/test"} "../../bar/test"
+	"relative_filename, up to top" }
+    { lib_ret_test relative_filename {"/tmp/foo-test" "/tmp/bar/test"} "../bar/test"
+	"relative_filename, up one level" }
+    { lib_ret_test relative_filename {"/tmp/foo-test" "/tmp/foo-test"} ""
+	"relative_filename, same name" }
 }
 
 # Test find:
 #
-if [string match "*/subdir2/subfile2" "[find ${srcdir}/runtest.all/topdir/subdir2 sub*]"] {
-    puts "PASSED: find, only one level deep"
-} else {
-    puts "FAILED: find, only one level deep"
-}
-
-if [regexp ".*/subdir1/subsubdir1/subsubfile1( |$)" "[find ${srcdir}/runtest.all/topdir/subdir1 sub*]"] {
-    puts "PASSED: find, two levels deep"
-} else {
-    puts "FAILED: find, two  levels deep"
-}
+run_tests [subst {
+    { lib_pat_test find
+	{[file join ${srcdir} runtest.all topdir subdir2] "sub*"}
+	"*/subdir2/subfile2"
+	"find, only one level deep" }
+    { lib_regexp_test find
+	{[file join ${srcdir} runtest.all topdir subdir1] "sub*"}
+	".*/subdir1/subsubdir1/subsubfile1( |$)"
+	"find, two levels deep" }
+}]
 
 # Environment varible utility tests.
 #
@@ -215,26 +201,13 @@ file delete -force diff1.txt diff2.txt
 
 # Test runtest_file_p.
 
-if {[runtest_file_p {foo.exp} foo.c]} {
-  pass "runtest_file_p, bare foo.exp matches foo.c"
-} else {
-  fail "runtest_file_p, bare foo.exp matches foo.c"
-}
-
-if {[runtest_file_p {foo.exp foo.c} foo.c]} {
-  pass "runtest_file_p, foo.exp=foo.c matches foo.c"
-} else {
-  fail "runtest_file_p, foo.exp=foo.c matches foo.c"
-}
-
-if {[runtest_file_p {foo.exp foo.*} foo.c]} {
-  pass "runtest_file_p, foo.exp=foo.* matches foo.c"
-} else {
-  fail "runtest_file_p, foo.exp=foo.* matches foo.c"
-}
-
-if {![runtest_file_p {foo.exp bar.*} foo.c]} {
-  pass "runtest_file_p, foo.exp=bar.* excludes foo.c"
-} else {
-  fail "runtest_file_p, foo.exp=bar.* excludes foo.c"
+run_tests {
+    { lib_bool_test runtest_file_p {{foo.exp} foo.c} true
+	"runtest_file_p, bare foo.exp matches foo.c" }
+    { lib_bool_test runtest_file_p {{foo.exp foo.c} foo.c} true
+	"runtest_file_p, foo.exp=foo.c matches foo.c" }
+    { lib_bool_test runtest_file_p {{foo.exp foo.*} foo.c} true
+	"runtest_file_p, foo.exp=foo.* matches foo.c" }
+    { lib_bool_test runtest_file_p {{foo.exp bar.*} foo.c} false
+	"runtest_file_p, foo.exp=bar.* excludes foo.c" }
 }

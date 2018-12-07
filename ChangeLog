@@ -1,3 +1,20 @@
+2018-12-07  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* testsuite/runtest.all/default_procs.tcl (lib_bool_test): New.
+	(lib_regexp_test): New.
+	(lib_pat_test): Brace "if" conditions.
+	(lib_pat_test): Remove spurious quotes in debugging output.
+	(run_tests): Add support for comments in lists of procedure tests.
+
+	* testsuite/runtest.all/config.test: Adjust to use run_tests
+	procedure. Fixes issue cited in FIXME comment.
+
+	* testsuite/runtest.all/utils.test (getdirs tests): Fix these.
+	The old tests had the sense of the return value from lib_pat_test
+	inverted and were failing but reported PASS.
+	(find tests, relative_filename tests, runtest_file_p tests):
+	Adjust to use run_tests procedure.
+
 2018-12-07  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi: Add more missing material.

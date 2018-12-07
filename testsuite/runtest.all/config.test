@@ -28,132 +28,65 @@ set target_cpu i586
 set target_os linux
 set build_triplet i586-unknown-linux
 
-# FIXME: should use run_tests here, but due to Tcl's weird scoping rules, I get
-# problems.
-
 #
 # Tests for a native configuration
 #
-if [isbuild $build_triplet] {
-    puts "PASSED: isbuild, native"
-} else {
-    puts "FAILED: isbuild, native"
-}
+run_tests [subst {
+    { lib_bool_test isbuild {$build_triplet} true
+	"isbuild, native" }
+    { lib_bool_test isbuild {$target_cpu-*-$target_os} true
+	"isbuild, native regexp" }
+    { lib_bool_test isbuild {hppa-ibm-macos} false
+	"isbuild, native bogus config string" }
 
-if [isbuild $target_cpu-*-$target_os ] {
-    puts "PASSED: isbuild, native regexp"
-} else {
-    puts "FAILED: isbuild, native regexp"
-}
+    { "#" "test default argument for isbuild" }
+    { lib_ret_test isbuild {} $build_triplet
+	"isbuild with no arguments" }
 
-if [isbuild hppa-ibm-macos ] {
-    puts "FAILED: isbuild, native bogus config string"
-} else {
-    puts "PASSED: isbuild, native bogus config string"
-}
+    { "#" "ishost tests" }
+    { lib_bool_test ishost {$host_triplet} true
+	"ishost, native" }
+    { lib_bool_test ishost {$target_cpu-*-$target_os} true
+	"ishost, native regexp" }
+    { lib_bool_test ishost {hppa-ibm-macos} false
+	"ishost, native bogus config string" }
 
-# test default argument for isbuild
-if {[isbuild] ne $build_triplet} {
-   puts "FAILED: isbuild with no arguments"
-} else {
-   puts "PASSED: isbuild with no arguments"
-}
+    { "#" "test default argument for ishost" }
+    { lib_ret_test ishost {} $host_triplet
+	"ishost with no arguments" }
 
-# ishost tests
-if [ishost $host_triplet] {
-    puts "PASSED: ishost, native"
-} else {
-    puts "FAILED: ishost, native"
-}
+    { "#" "istarget tests" }
+    { lib_bool_test istarget {$target_triplet} true
+	"istarget, native" }
+    { lib_bool_test istarget {$target_cpu-*-$target_os} true
+	"istarget, native regexp" }
+    { lib_bool_test istarget {hppa-ibm-macos} false
+	"istarget, native bogus config string" }
 
-if [ishost $target_cpu-*-$target_os] {
-    puts "PASSED: ishost, native regexp"
-} else {
-    puts "FAILED: ishost, native regexp"
-}
+    { "#" "test default argument for istarget" }
+    { lib_ret_test istarget {} $target_triplet
+	"istarget with no arguments" }
+}]
 
-if [ishost hppa-ibm-macos] {
-    puts "FAILED: ishost, native bogus config string"
-} else {
-    puts "PASSED: ishost, native bogus config string"
-}
-
-# test default argument for ishost
-if {[ishost] ne $host_triplet} {
-   puts "FAILED: ishost with no arguments"
-} else {
-   puts "PASSED: ishost with no arguments"
-}
-
-# istarget tests
-if [istarget $target_triplet] {
-    puts "PASSED: istarget, native"
-} else {
-    puts "FAILED: istarget, native"
-}
-
-if [istarget $target_cpu-*-$target_os] {
-    puts "PASSED: istarget, native regexp"
-} else {
-    puts "FAILED: istarget, native regexp"
-}
-
-if [istarget hppa-ibm-macos] {
-    puts "FAILED: istarget, native bogus config string"
-} else {
-    puts "PASSED: istarget, native bogus config string"
-}
-
-# test default argument for istarget
-if {[istarget] ne $target_triplet} {
-   puts "FAILED: istarget with no arguments"
-} else {
-   puts "PASSED: istarget with no arguments"
-}
-
-# native tests
-if [isnative] {
-    puts "PASSED: isnative, native"
-} else {
-    puts "FAILED: isnative, native"
-}
-
-if [is3way] {
-     puts "FAILED: is3way, native"
-} else {
-    puts "PASSED: is3way, native"
+run_tests {
+    { lib_bool_test isnative {} true	"isnative, native" }
+    { lib_bool_test is3way {} false	"is3way, native" }
 }
 
 #
 # Tests for a normal cross configuration
 #
 set target_triplet m68k-unknown-elf
-if [isnative] {
-    puts "FAILED: isnative, cross"
-} else {
-    puts "PASSED: isnative, cross"
-}
-
-if [is3way] {
-     puts "FAILED: is3way, cross"
-} else {
-    puts "PASSED: is3way, cross"
+run_tests {
+    { lib_bool_test isnative {} false	"isnative, cross" }
+    { lib_bool_test is3way {} false	"is3way, cross" }
 }
 
 #
 # Tests for a canadian cross configuration
 #
 set host_triplet  i386-unknown-winnt
-if [isnative] {
-    puts "FAILED: isnative, canadian cross"
-} else {
-    puts "PASSED: isnative, canadian cross"
+run_tests {
+    { lib_bool_test isnative {} false	"isnative, canadian cross" }
+    { lib_bool_test is3way {} true	"is3way, canadian cross" }
 }
-
-if [is3way] {
-     puts "PASSED: is3way, canadian cross"
-} else {
-    puts "FAILED: is3way, canadian cross"
-}
-
-

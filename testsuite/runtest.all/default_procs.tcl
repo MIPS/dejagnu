@@ -5,12 +5,29 @@ set errno ""
 # this tests a proc for a returned pattern
 proc lib_pat_test { cmd arglist pattern } {
     catch { eval [list $cmd] $arglist } result
-    puts "CMD(lib_pat_test) was: $cmd \"$arglist\""
+    puts "CMD(lib_pat_test) was: $cmd $arglist"
     puts "RESULT(lib_pat_test) was: \"${result}\" for pattern \"$pattern\"."
-    if [ regexp -- "with too many" $result ] {
+
+    if { [regexp -- "with too many" $result] } {
 	return -1
     }
-    if [ string match "$pattern" $result ] {
+    if { [string match "$pattern" $result] } {
+	return 1
+    } else {
+	return 0
+    }
+}
+
+# this tests a proc for a returned regexp
+proc lib_regexp_test { cmd arglist pattern } {
+    catch { eval [list $cmd] $arglist } result
+    puts "CMD(lib_pat_test) was: $cmd $arglist"
+    puts "RESULT(lib_pat_test) was: \"${result}\" for pattern \"$pattern\"."
+
+    if { [regexp -- "with too many" $result] } {
+	return -1
+    }
+    if { [regexp -- "$pattern" $result] } {
 	return 1
     } else {
 	return 0
@@ -30,6 +47,19 @@ proc lib_ret_test { cmd arglist val } {
     }
 }
 
+# this tests a proc for an expected boolean result
+proc lib_bool_test { cmd arglist val } {
+    catch { eval [list $cmd] $arglist } result
+    puts "CMD(lib_bool_test) was: $cmd $arglist"
+    puts "RESULT(lib_bool_test) was: \"$result\" expecting \"$val\"."
+
+    if { $val } {
+	if { $result } { return 1 } else { return 0 }
+    } else {
+	if { $result } { return 0 } else { return 1 }
+    }
+}
+
 #
 # This runs a standard test for a proc. The list is set up as:
 # |test proc|proc being tested|args|pattern|message|
@@ -37,6 +67,8 @@ proc lib_ret_test { cmd arglist val } {
 #
 proc run_tests { tests } {
     foreach test $tests {
+	# skip comments in test lists
+	if { [lindex $test 0] eq "#" } { continue }
 	set result [eval [lrange $test 0 3]]
 	switch -- $result {
 	    "-1" {
