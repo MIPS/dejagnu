@@ -83,7 +83,7 @@ proc ${board}_init { dest } {
 	remote_reboot $dest
 	return
     }
-    if { $curr_file != $desired_kernel } {
+    if { $curr_file ne $desired_kernel } {
 	verbose "$curr_file != '$desired_kernel'"
 	# Oh boy.
 	remote_send $dest "c\n"

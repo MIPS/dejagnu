@@ -1,5 +1,9 @@
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
+	* config/vxworks.exp (${board}_init): Use 'ne' instead of !=.
+
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
 	* lib/tip.exp (tip_open): Put braces around if expression.
 
 2018-12-08  Ben Elliston  <bje@gnu.org>
