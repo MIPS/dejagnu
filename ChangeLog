@@ -1,3 +1,13 @@
+2018-12-08  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* testsuite/runtest.all/default_procs.tcl:
+	(lib_errpat_test, lib_errregexp_test, lib_err_test): New.
+	(lib_regexp_test): Fix copy-paste-edit error.
+	(lib_pat_test, lib_regexp_test, lib_ret_test, lib_bool_test):
+	Fix handling of errors raised by tested procedure.  Also ensure
+	proper quoting of argument lists passed to eval and simplify
+	the logic for producing return values.
+
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
 	* config/vxworks.exp (${board}_init): Use 'ne' instead of !=.

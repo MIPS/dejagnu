@@ -4,59 +4,117 @@ set errno ""
 
 # this tests a proc for a returned pattern
 proc lib_pat_test { cmd arglist pattern } {
-    catch { eval [list $cmd] $arglist } result
-    puts "CMD(lib_pat_test) was: $cmd $arglist"
-    puts "RESULT(lib_pat_test) was: \"${result}\" for pattern \"$pattern\"."
-
-    if { [regexp -- "with too many" $result] } {
-	return -1
-    }
-    if { [string match "$pattern" $result] } {
-	return 1
+    puts "CMD(lib_pat_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 0 } {
+	puts "RESULT(lib_pat_test) was: \"${result}\"\
+		for pattern \"$pattern\"."
+	return [string match "$pattern" $result]
     } else {
-	return 0
+	puts "RESULT(lib_pat_test) was error \"${result}\""
+	return -1
     }
 }
 
 # this tests a proc for a returned regexp
-proc lib_regexp_test { cmd arglist pattern } {
-    catch { eval [list $cmd] $arglist } result
-    puts "CMD(lib_pat_test) was: $cmd $arglist"
-    puts "RESULT(lib_pat_test) was: \"${result}\" for pattern \"$pattern\"."
-
-    if { [regexp -- "with too many" $result] } {
-	return -1
-    }
-    if { [regexp -- "$pattern" $result] } {
-	return 1
+proc lib_regexp_test { cmd arglist regexp } {
+    puts "CMD(lib_regexp_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 0 } {
+	puts "RESULT(lib_regexp_test) was: \"${result}\"\
+		for regexp \"$regexp\"."
+	return [regexp -- $regexp $result]
     } else {
-	return 0
+	puts "RESULT(lib_regexp_test) was error \"${result}\""
+	return -1
     }
 }
 
 # this tests a proc for a returned value
 proc lib_ret_test { cmd arglist val } {
-    catch { eval [list $cmd] $arglist } result
-    puts "CMD(lib_ret_test) was: $cmd $arglist"
-    puts "RESULT(lib_ret_test) was: $result"
-
-    if { $result eq $val } {
-	return 1
+    puts "CMD(lib_ret_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 0 } {
+	puts "RESULT(lib_ret_test) was: $result"
+	return [string equal $result $val]
     } else {
-	return 0
+	puts "RESULT(lib_ret_test) was error \"${result}\""
+	return -1
     }
 }
 
 # this tests a proc for an expected boolean result
 proc lib_bool_test { cmd arglist val } {
-    catch { eval [list $cmd] $arglist } result
-    puts "CMD(lib_bool_test) was: $cmd $arglist"
-    puts "RESULT(lib_bool_test) was: \"$result\" expecting \"$val\"."
-
-    if { $val } {
-	if { $result } { return 1 } else { return 0 }
+    puts "CMD(lib_bool_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 0 } {
+	puts "RESULT(lib_bool_test) was: \"$result\" expecting $val."
+	# the "odd" spacing is used to help make the operator grouping clear
+	return [expr {  $val  ?   $result ? 1 : 0   :   $result ? 0 : 1   }]
     } else {
-	if { $result } { return 0 } else { return 1 }
+	puts "RESULT(lib_bool_test) was error \"${result}\""
+	return -1
+    }
+}
+
+# this tests that a proc raises an error matching a pattern
+proc lib_errpat_test { cmd arglist pattern } {
+    puts "CMD(lib_errpat_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 1 } {
+	# caught exception code 1 (TCL_ERROR) as expected
+	puts "RESULT(lib_errpat_test) was error\
+		\"${result}\" for pattern \"$pattern\"."
+	if { [string match $pattern $result] } {
+	    # the expected error
+	    return 1
+	} else {
+	    # an unexpected error
+	    return -1
+	}
+    } else {
+	# no error -> fail
+	puts "RESULT(lib_errpat_test) was: \"${result}\"\
+		without error; failing."
+	return 0
+    }
+}
+
+# this tests that a proc raises an error matching a regexp
+proc lib_errregexp_test { cmd arglist regexp } {
+    puts "CMD(lib_errregexp_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 1 } {
+	# caught exception code 1 (TCL_ERROR) as expected
+	puts "RESULT(lib_errregexp_test) was error\
+		\"${result}\" for regexp \"$regexp\"."
+	if { [regexp -- $regexp $result] } {
+	    # the expected error
+	    return 1
+	} else {
+	    # an unexpected error
+	    return -1
+	}
+    } else {
+	# no error -> fail
+	puts "RESULT(lib_errregexp_test) was: \"${result}\"\
+		without error; failing."
+	return 0
+    }
+}
+
+# this tests that a proc raises an error matching an exact string
+proc lib_err_test { cmd arglist val } {
+    puts "CMD(lib_err_test) is: $cmd $arglist"
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 1 } {
+	# caught exception code 1 (TCL_ERROR) as expected
+	puts "RESULT(lib_err_test) was error: $result"
+	if { $result eq $val } {
+	    # the expected error
+	    return 1
+	} else {
+	    # an unexpected error
+	    return -1
+	}
+    } else {
+	# no error -> fail
+	puts "RESULT(lib_err_test) was: \"${result}\"\
+		without error; failing."
+	return 0
     }
 }
 
