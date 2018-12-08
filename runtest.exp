@@ -91,6 +91,12 @@ set compiler_flags ""		;# the flags used by the compiler
 set local_init_file	site.exp	;# testsuite-local init file name
 set global_init_file	site.exp	;# global init file name
 
+#
+# These are used to locate parts of the testsuite.
+#
+set testsuitedir	"testsuite"	;# top-level testsuite source directory
+set testbuilddir	"testsuite"	;# top-level testsuite object directory
+
 # Various ccache versions provide incorrect debug info such as ignoring
 # different current directory, breaking GDB testsuite.
 set env(CCACHE_DISABLE) 1
@@ -582,7 +588,8 @@ proc lookfor_file { dir name } {
 # source tree (up one or two levels), then in the current dir.
 #
 proc load_lib { file } {
-    global verbose libdir libdirs srcdir base_dir execpath tool
+    global verbose execpath tool
+    global libdir libdirs srcdir testsuitedir base_dir
     global loaded_libs
 
     if {[info exists loaded_libs($file)]} {
@@ -590,7 +597,11 @@ proc load_lib { file } {
     }
 
     set loaded_libs($file) ""
-    set search_dirs [list ../lib $libdir $libdir/lib [file dirname [file dirname $srcdir]]/dejagnu/lib $srcdir/lib $execpath/lib . [file dirname [file dirname [file dirname $srcdir]]]/dejagnu/lib]
+    set search_dirs [list ../lib $libdir $libdir/lib]
+    lappend search_dirs [file dirname [file dirname $srcdir]]/dejagnu/lib
+    lappend search_dirs $testsuitedir/lib
+    lappend search_dirs $execpath/lib "."
+    lappend search_dirs [file dirname [file dirname [file dirname $srcdir]]]/dejagnu/lib
     if {[info exists libdirs]} {
 	lappend search_dirs $libdirs
     }
@@ -616,6 +627,11 @@ verbose "Login name is $logname"
 
 load_file [file join $base_dir $local_init_file]
 
+# From this point until the command line is parsed for the second time,
+# some variables are overridden by the local init file.  Most notably,
+# $srcdir is *not* what was given on the command line if Automake is used.
+# Instead, $srcdir is Automake's @srcdir@ for now.
+
 #
 # If objdir didn't get set in $base_dir/$local_init_file, set it to
 # $base_dir.  Make sure we source $objdir/$local_init_file in case
@@ -629,6 +645,38 @@ if { $objdir eq "." || $objdir eq $srcdir } {
     load_file [file join $objdir $local_init_file]
 }
 
+#
+# Find the testsuite.
+#
+
+# The DejaGnu manual has always stated that a testsuite must be in a
+# testsuite/ subdirectory.
+
+if { [file tail $srcdir] eq "testsuite" } {
+    # Subdirectory case -- $srcdir includes testsuite/
+    set testsuitedir $srcdir
+    set testbuilddir $objdir
+} elseif { [file tail $srcdir] ne "testsuite"
+	   && [file isdirectory [file join $srcdir testsuite]] } {
+    # Top-level case -- testsuite in ${srcdir}/testsuite/
+    set testsuitedir [file join $srcdir testsuite]
+    set testbuilddir [file join $objdir testsuite]
+} elseif { $srcdir eq "." && [file tail $base_dir] eq "testsuite" } {
+    # Development scaffold case -- testsuite in ".", but "." is "testsuite"
+    set testsuitedir $base_dir
+    set testbuilddir $base_dir
+} else {
+    if { $testsuitedir eq "testsuite" && $srcdir eq "." && $objdir eq "." } {
+	# Broken legacy case -- testsuite not actually in testsuite/
+	# Produce a warning, but continue.
+	send_error "WARNING: testsuite is not in a testsuite/ directory.\n"
+	set testsuitedir $srcdir
+	set testbuilddir $objdir
+    } else {
+	# Custom case -- all variables are assumed to have been set correctly
+    }
+}
+
 # Well, this just demonstrates the real problem...
 if {![info exists tool_root_dir]} {
     set tool_root_dir [file dirname $objdir]
@@ -639,6 +687,7 @@ if {![info exists tool_root_dir]} {
 
 verbose "Using test sources in $srcdir"
 verbose "Using test binaries in $objdir"
+verbose "Testsuite root is $testsuitedir"
 verbose "Tool root directory is $tool_root_dir"
 
 set execpath [file dirname $argv0]
@@ -924,7 +973,7 @@ if { $target_os eq "" } {
 #
 
 proc load_tool_init { file } {
-    global srcdir
+    global srcdir testsuitedir
     global loaded_libs
 
     if {[info exists loaded_libs(tool/$file)]} {
@@ -933,12 +982,10 @@ proc load_tool_init { file } {
 
     set loaded_libs(tool/$file) ""
 
-    if { [lindex [file split $srcdir] end] ne "testsuite" } {
-	lappend searchpath [file join $srcdir testsuite lib tool]
-	lappend searchpath [file join $srcdir testsuite lib]
-    } else {
-	lappend searchpath [file join $srcdir lib tool]
-    }
+    lappend searchpath [file join $testsuitedir lib tool]
+    lappend searchpath [file join $testsuitedir lib]
+    # for legacy testsuites that might have files in lib/ instead of
+    # testsuite/lib/ in the package source tree; deprecated
     lappend searchpath [file join $srcdir lib]
 
     if { ![search_and_load_file "tool init file" [list $file] $searchpath] } {
@@ -1283,11 +1330,11 @@ proc load_generic_config { name } {
 # Load the tool-specific target description.
 #
 proc load_config { args } {
-    global srcdir
+    global testsuitedir
 
     set found 0
 
-    return [search_and_load_file "tool-and-target-specific interface file" $args [list ${srcdir}/config ${srcdir}/../config ${srcdir}/../../config ${srcdir}/../../../config]]
+    return [search_and_load_file "tool-and-target-specific interface file" $args [list ${testsuitedir}/config ${testsuitedir}/../config ${testsuitedir}/../../config ${testsuitedir}/../../../config]]
 }
 
 #
@@ -1307,7 +1354,7 @@ proc load_config { args } {
 #
 
 proc load_tool_target_config { name } {
-    global target_os libdir srcdir
+    global target_os libdir testsuitedir
 
     set found [load_config "${name}.exp" "${target_os}.exp" "default.exp" "unknown.exp"]
 
@@ -1315,7 +1362,7 @@ proc load_tool_target_config { name } {
 	send_error "WARNING: Couldn't find tool config file for $name, using default.\n"
 	# If we can't load the tool init file, this must be a simple natively hosted
 	# test suite, so we use the default procs for Unix.
-	if { [search_and_load_file "library file" default.exp [list $libdir $libdir/config [file dirname [file dirname $srcdir]]/dejagnu/config $srcdir/config . [file dirname [file dirname [file dirname $srcdir]]]/dejagnu/config]] == 0 } {
+	if { [search_and_load_file "library file" default.exp [list $libdir $libdir/config [file dirname [file dirname $testsuitedir]]/dejagnu/config $testsuitedir/config . [file dirname [file dirname [file dirname $testsuitedir]]]/dejagnu/config]] == 0 } {
 	    send_error "ERROR: Couldn't find default tool init file.\n"
 	    exit 1
 	}
@@ -1440,11 +1487,15 @@ proc runtest { test_file_name } {
     global errcnt
     global errorInfo
     global tool
+    global testdir
 
     clone_output "Running $test_file_name ..."
     set prms_id	0
     set bug_id	0
     set test_result ""
+
+    # set testdir so testsuite file -test has a starting point
+    set testdir [file dirname $test_file_name]
 
     if {[file exists $test_file_name]} {
 	set timestart [timestamp]
@@ -1589,6 +1640,9 @@ if {[info exists errorInfo]} {
 }
 # make sure we have only single path delimiters
 regsub -all "\(\[^/\]\)//*" $srcdir "\\1/" srcdir
+regsub -all "\(\[^/\]\)//*" $objdir "\\1/" objdir
+regsub -all "\(\[^/\]\)//*" $testsuitedir "\\1/" testsuitedir
+regsub -all "\(\[^/\]\)//*" $testbuilddir "\\1/" testbuilddir
 
 if {![info exists target_list]} {
     # Make sure there is at least one target machine. It's probably a Unix box,
@@ -1690,16 +1744,17 @@ foreach current_target $target_list {
 	}
 
 	# look for the top level testsuites. if $tool doesn't
-	# exist and there are no subdirectories in $srcdir, then
-	# we default to srcdir.
-	set test_top_dirs [lsort [getdirs -all ${srcdir} "${tool}*"]]
+	# exist and there are no subdirectories in $testsuitedir, then
+	# we print a warning and default to srcdir.
+	set test_top_dirs [lsort [getdirs -all ${testsuitedir} "${tool}*"]]
 	if { ${test_top_dirs} eq "" } {
+	    send_error "WARNING: could not find testsuite; trying ${srcdir}.\n"
 	    set test_top_dirs ${srcdir}
 	} else {
 	    # JYG:
 	    # DejaGNU's notion of test tree and test files is very
 	    # general:
-	    # given ${srcdir} and ${tool}, any subdirectory (at any
+	    # given ${testsuitedir} and ${tool}, any subdirectory (at any
 	    # level deep) with the "${tool}" prefix starts a test tree
 	    # given a test tree, any *.exp file underneath (at any
 	    # level deep) is a test file.
@@ -1717,7 +1772,7 @@ foreach current_target $target_list {
 	    # Since ${tool} may be g++, etc. which could confuse
 	    # regexp, we cannot do the simpler test:
 	    #     ...
-	    #     if [regexp "${srcdir}/.*${tool}.*/.*${tool}.*" ${dir}]
+	    #     if [regexp "${testsuitedir}/.*${tool}.*/.*${tool}.*" ${dir}]
 	    #     ...
 	    # instead, we rely on the fact that test_top_dirs is
 	    # a sorted list of entries, and any entry that contains
@@ -1743,8 +1798,8 @@ foreach current_target $target_list {
 	set testlist ""
 	if {[array exists all_runtests]} {
 	    foreach x [array names all_runtests] {
-		verbose "trying to glob ${srcdir}/${x}" 2
-		set s [glob -nocomplain ${srcdir}/$x]
+		verbose "trying to glob ${testsuitedir}/${x}" 2
+		set s [glob -nocomplain ${testsuitedir}/$x]
 		if { $s ne "" } {
 		    set testlist [concat $testlist $s]
 		}
@@ -1777,7 +1832,7 @@ foreach current_target $target_list {
 	    # Go digging for tests.
 	    #
 	    foreach dir "${test_top_dirs}" {
-		if { ${dir} != ${srcdir} } {
+		if { ${dir} ne ${testsuitedir} } {
 		    # Ignore this directory if is a directory to be
 		    # ignored.
 		    if {[info exists ignoredirs] && $ignoredirs ne ""} {

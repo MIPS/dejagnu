@@ -1,3 +1,29 @@
+2018-12-08  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* NEWS: Document 'testsuite' command.
+	* doc/dejagnu.texi (testsuite procedure): Document multiplex entry
+	point and "testsuite file" command.
+	* lib/framework.exp (testsuite): New proc for multiplex commands.
+	(testsuite_file): New proc implementing "testsuite file".
+	* testsuite/runtest.all/testsuite_file.test: New file.
+	* runtest.exp: Expect to find testsuite in ${srcdir}/testsuite,
+	but also search $srcdir itself.
+	(load_lib): Add explicit search for testsuite-local libraries.
+	(load_tool_init): Use $testsuitedir in search.
+	(load_config): Use $testsuitedir instead of $srcdir.
+	(load_tool_target_config): Likewise.
+
+	Add variable "testsuitedir" for testsuite root directory.
+
+	Add internal global variables "testbuilddir" and "testdir" for use
+	by "testsuite file".
+
+	Ensure that $testsuitedir, $testbuilddir, and $objdir also avoid
+	duplicated path delimiters.
+
+	Add warning if no tests are found and fallback method of searching
+	$srcdir is used.
+
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
 	* testsuite/lib/libsup.exp (start_expect): Brace commands in if

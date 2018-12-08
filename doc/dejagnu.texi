@@ -2372,6 +2372,7 @@ DejaGnu provides these Tcl procedures.
 * clear_xfail Procedure: clear_xfail procedure
 * verbose Procedure: verbose procedure
 * load_lib Procedure: load_lib procedure
+* testsuite Procedure: testsuite procedure
 @end menu
 
 @node open_logs procedure, close_logs procedure, , Core Internal Procedures
@@ -2900,7 +2901,7 @@ Log the @i{message} into an XML file.
 Print @i{message} without a trailing newline.
 
 @item @code{--}
-Use this option if @i{message} begins with '-'.
+Use this option if @i{message} begins with @samp{-}.
 
 @item @code{message}
 The log messsage.
@@ -2909,7 +2910,7 @@ The log messsage.
 The specified log level. The default level is 1.
 @end table
 
-@node load_lib procedure, , verbose procedure, Core Internal Procedures
+@node load_lib procedure, testsuite procedure, verbose procedure, Core Internal Procedures
 @subsubheading load_lib Procedure
 @findex load_lib
 
@@ -2944,6 +2945,59 @@ lappend libdirs $srcdir/../../gcc/testsuite/lib
 # now loading $srcdir/../../gcc/testsuite/lib/foo.exp works
 load_lib foo.exp
 @end example
+
+@node testsuite procedure,  , load_lib procedure, Core Internal Procedures
+@subsubheading testsuite Procedure
+@findex testsuite
+
+The @code{testsuite} procedure is a multiplex call for retrieving or
+providing information about the current testsuite.
+
+@subsubheading testsuite file
+
+The @code{testsuite file} command returns an absolute file name specified
+relative to either the testsuite source or object trees.
+
+@quotation
+@t{  @b{testsuite file}
+?@b{-source}|@b{-object}?
+@b{-top}|@b{-test}
+?@b{-hypothetical}?
+?@b{--}? @i{name}... }
+@end quotation
+
+Any number of @i{name}s are accepted and combined as if by @code{file
+join} with a directory relevant to the testsuite prepended.
+
+@table @asis
+
+@item @code{-object}
+Return a file name in the object tree.
+
+@item @code{-source}
+Return a file name in the source tree.
+
+@item @code{-top}
+Prepend the @code{testsuite} directory itself.
+
+@item @code{-test}
+Prepend the directory containing the current test script.
+
+@item @code{-hypothetical}
+Allow the returned value to imply directories that do not exist.
+
+@item @code{--}
+Use this option if the first @i{name} could begin with @samp{-}.
+
+@end table
+
+One of @code{-top} or @code{-test} must be given; an error is raised
+otherwise.
+
+Unless the @code{-hypothetical} option is given, any directories implied
+by the returned value will exist upon return.  Implied directories are
+created in the object tree if needed.  An error is raised if an implied
+directory does not exist in the source tree.
 
 @node Procedures For Remote Communication, connprocs, Core Internal Procedures, Built-in Procedures
 @section Procedures For Remote Communication

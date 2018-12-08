@@ -1042,3 +1042,67 @@ proc incr_count { name args } {
 	perror "$name doesn't exist in incr_count"
     }
 }
+
+## API implementations and multiplex calls
+
+# Return or provide information about the current testsuite.  (multiplex)
+#
+proc testsuite { subcommand args } {
+    if { $subcommand eq "file" } {
+	testsuite_file $args
+    } else {
+	error "unknown \"testsuite\" command: testsuite $subcommand $args"
+    }
+}
+
+# Return a full file name in or near the testsuite
+#
+proc testsuite_file { argv } {
+    global testsuitedir testbuilddir testdir
+    verbose "entering testsuite file $argv" 3
+    set argc [llength $argv]
+    set dir_must_exist true
+    set basedir $testsuitedir
+    for { set argi 0 } { $argi < $argc } { incr argi } {
+	set arg [lindex $argv $argi]
+	if { $arg eq "--" } { # explicit end of arguments
+	    break
+	} elseif { $arg eq "-object" } {
+	    set basedir $testbuilddir
+	} elseif { $arg eq "-source" } {
+	    set basedir $testsuitedir
+	} elseif { $arg eq "-top" } {
+	    set dirtail ""
+	} elseif { $arg eq "-test" } {
+	    set dirtail $testdir
+	} elseif { $arg eq "-hypothetical" } {
+	    set dir_must_exist false
+	} elseif { [string match "-*" $arg] } {
+	    error "testsuite file: unrecognized flag [lindex $argv $argi]"
+	} else { # implicit end of arguments
+	    break
+	}
+    }
+    if { [lindex $argv $argi] eq "--" } { incr argi }
+    if { ![info exists dirtail] } {
+	error "testsuite file requires one of -top|-test\n\
+		   but was given: $argv"
+    }
+    if { $dirtail ne "" } {
+	set dirtail [relative_filename $testsuitedir $dirtail]
+    }
+    set result [eval [list file join $basedir $dirtail] [lrange $argv $argi end]]
+
+    verbose "implying: [file dirname $result]" 3
+    if { $dir_must_exist && ![file isdirectory [file dirname $result]] } {
+	if { $basedir eq $testbuilddir } {
+	    file mkdir [file dirname $result]
+	    verbose "making directory" 3
+	} else {
+	    error "directory '[file dirname $result]' does not exist"
+	}
+    }
+
+    verbose "leaving testsuite file: $result" 3
+    return $result
+}
