@@ -19,17 +19,17 @@
 # This file was written by Rob Savoye <rob@welcomehome.org>.
 
 global RUNTEST
-if ![info exists RUNTEST] then {
+if {![info exists RUNTEST]} then {
     set RUNTEST [transform runtest]
 }
 
-if ![info exists EXPECT] {
-    set EXPECT [findfile $base_dir/../../expect/expect "$base_dir/../../expect/expect" expect]
+if {![info exists EXPECT]} {
+    set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
     verbose "EXPECT defaulting to $EXPECT" 2
 }
 
 global RUNTESTFLAGS
-if ![info exists RUNTESTFLAGS] then {
+if {![info exists RUNTESTFLAGS]} then {
     set RUNTESTFLAGS "-v -v -a"
 }
 
@@ -72,6 +72,4 @@ proc runtest_start { } {
     if {[which $RUNTEST] != 0} then {
 	perror "Can't find $RUNTEST"
     }
-
-    #    return [open [concat "$RUNTEST $RUNTESTFLAGS"] r]
 }
