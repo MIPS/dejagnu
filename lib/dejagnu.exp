@@ -134,42 +134,42 @@ proc host_execute {args} {
     expect {
 	-re "^$prefix\[0-9\]\[0-9\]:..:..:${text}*\r\n" {
 	    regsub "\[\n\r\t\]*NOTE: $text\r\n" $expect_out(0,string) "" output
-	    verbose "$output" 3
+	    verbose $output 3
 	    set timetol 0
 	    exp_continue
 	}
 	-re "^$prefix\tNOTE:${text}*" {
 	    regsub "\[\n\r\t\]*NOTE: $text\r\n" $expect_out(0,string) "" output
 	    set output [string range $output 6 end]
-	    verbose "$output" 2
+	    verbose $output 2
 	    set timetol 0
 	    exp_continue
 	}
 	-re "^$prefix\tPASSED:${text}*" {
 	    regsub "\[\n\r\t\]*PASSED: $text\r\n" $expect_out(0,string) "" output
 	    set output [string range $output 8 end]
-	    pass "$output"
+	    pass $output
 	    set timetol 0
 	    exp_continue
 	}
 	-re "^$prefix\tFAILED:${text}*" {
 	    regsub "\[\n\r\t\]*FAILED: $text\r\n" $expect_out(0,string) "" output
 	    set output [string range $output 8 end]
-	    fail "$output"
+	    fail $output
 	    set timetol 0
 	    exp_continue
 	}
 	-re "^$prefix\tUNTESTED:${text}*" {
 	    regsub "\[\n\r\t\]*TESTED: $text\r\n" $expect_out(0,string) "" output
 	    set output [string range $output 8 end]
-	    untested "$output"
+	    untested $output
 	    set timetol 0
 	    exp_continue
 	}
 	-re "^$prefix\tUNRESOLVED:${text}*" {
 	    regsub "\[\n\r\t\]*UNRESOLVED: $text\r\n" $expect_out(0,string) "" output
 	    set output [string range $output 8 end]
-	    unresolved "$output"
+	    unresolved $output
 	    set timetol 0
 	    exp_continue
 	}

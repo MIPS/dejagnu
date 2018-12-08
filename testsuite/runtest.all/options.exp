@@ -65,7 +65,7 @@ set tests {
 }
 
 foreach t $tests {
-    if [util_test "$RUNTEST" "[lindex $t 0] -srcdir ${srcdir}/runtest.all" "" "[lindex $t 1]"] {
+    if [util_test $RUNTEST "[lindex $t 0] -srcdir ${srcdir}/runtest.all" "" "[lindex $t 1]"] {
         fail "[lindex $t 2]"
     } else {
         pass "[lindex $t 2]"

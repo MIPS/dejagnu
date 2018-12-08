@@ -10,7 +10,7 @@ if [ file exists $objdir/setval.tmp ] {
     puts "ERROR: $objdir/setval.tmp doesn't exist"
 }
 if [ file exists $srcdir/$subdir/default_procs.tcl ] {
-    source "$srcdir/$subdir/default_procs.tcl"
+    source $srcdir/$subdir/default_procs.tcl
 } else {
     puts "ERROR: $srcdir/$subdir/default_procs.tcl doesn't exist"
 }

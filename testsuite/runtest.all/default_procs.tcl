@@ -8,7 +8,7 @@ proc lib_pat_test { cmd arglist pattern } {
     if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 0 } {
 	puts "RESULT(lib_pat_test) was: \"${result}\"\
 		for pattern \"$pattern\"."
-	return [string match "$pattern" $result]
+	return [string match $pattern $result]
     } else {
 	puts "RESULT(lib_pat_test) was error \"${result}\""
 	return -1
@@ -160,13 +160,13 @@ proc fail { msg } {
 proc perror { msg } {
     global errno
     puts "ERRORED: $msg"
-    set errno "$msg"
+    set errno $msg
 }
 
 proc warning { msg } {
     global errno
     puts "WARNED: $msg"
-    set errno "$msg"
+    set errno $msg
 }
 
 proc untested { msg } {

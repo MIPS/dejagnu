@@ -1,3 +1,16 @@
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
+	* lib/dejagnu.exp (host_execute): Remove unnecessary quotes around
+	variable expansions.
+	* testsuite/runtest.all/clone_output.test: Likewise.
+	* testsuite/runtest.all/target.test: Likewise.
+	* testsuite/runtest.all/stats.exp: Likewise.
+	* testsuite/runtest.all/remote.test: Likewise.
+	* testsuite/runtest.all/config.test: Likewise.
+	* testsuite/runtest.all/default_procs.tcl: Likewise.
+	* testsuite/runtest.all/libs.exp: Likewise.
+	* testsuite/runtest.all/options.exp: Likewise.
+
 2018-12-08  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* NEWS: Document 'testsuite' command.

@@ -43,7 +43,7 @@ set tests {
 }
 
 foreach t $tests {
-    if [util_test "$RUNTEST" \
+    if [util_test $RUNTEST \
 	    "--outdir $tmpdir STATS_TEST=[lindex $t 0] stats-sub.exp" \
 	    "" \
 	    [lindex $t 1]] {

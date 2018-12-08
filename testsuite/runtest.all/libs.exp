@@ -72,11 +72,11 @@ proc process_test { test } {
 		exp_continue
 	    }
 	    -re "\[\r\n\]*WARNED: $text\[\r\n\]*" {
-		verbose "$expect_out(0,string)" 2
+		verbose $expect_out(0,string) 2
 		exp_continue
 	    }
 	    -re "\[\r\n\]*ERRORED: $text\[\r\n\]*" {
-		verbose "$expect_out(0,string)" 2
+		verbose $expect_out(0,string) 2
 		exp_continue
 	    }
 	    timeout {
