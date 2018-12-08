@@ -78,8 +78,8 @@ proc start_expect { } {
     set fd [open ${defaults_file} w]
 
     # look for expect
-    if ![info exists EXPECT] {
-	set EXPECT [findfile $base_dir/../../expect/expect "$base_dir/../../expect/expect" expect]
+    if {![info exists EXPECT]} {
+	set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
 	verbose "EXPECT defaulting to $EXPECT" 2
     }
 

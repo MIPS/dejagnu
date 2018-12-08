@@ -1,3 +1,11 @@
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
+	* testsuite/lib/libsup.exp (start_expect): Brace commands in if
+	expressions.
+	* testsuite/lib/util-defs.exp (util_test): Likewise.
+	* testsuite/runtest.all/stats.exp: Likewise.
+	* testsuite/runtest.all/libs.exp: Likewise.
+
 2018-12-08  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.all/default_procs.tcl:

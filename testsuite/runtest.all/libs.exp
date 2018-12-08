@@ -93,8 +93,8 @@ proc process_test { test } {
     }
 }
 
-if ![info exists EXPECT] {
-    set EXPECT [findfile $base_dir/../../expect/expect "$base_dir/../../expect/expect" expect]
+if {![info exists EXPECT]} {
+    set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
     verbose "EXPECT defaulting to $EXPECT" 2
 }
 

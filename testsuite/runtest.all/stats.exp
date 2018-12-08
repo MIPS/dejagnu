@@ -22,11 +22,11 @@
 
 load_lib util-defs.exp
 
-if ![info exists tmpdir] {
+if {![info exists tmpdir]} {
     set tmpdir $objdir/tmpdir
 }
 
-if ![file isdirectory $tmpdir] {
+if {![file isdirectory $tmpdir]} {
     catch "file mkdir $tmpdir"
 }
 

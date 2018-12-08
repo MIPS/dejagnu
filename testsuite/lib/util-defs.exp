@@ -47,7 +47,7 @@ proc util_test { args } {
 
     if [info exists file] {
 	if {$file ne ""} {
-	    if ![file exists $file] {
+	    if {![file exists $file]} {
 		perror "$file doesn't exist"
 		return -1
 	    }
