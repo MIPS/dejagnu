@@ -1,5 +1,9 @@
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
+	* NEWS: Tweak.
+
+2018-12-08  Ben Elliston  <bje@gnu.org>
+
 	* lib/dejagnu.exp (host_execute): Remove unnecessary quotes around
 	variable expansions.
 	* testsuite/runtest.all/clone_output.test: Likewise.
