@@ -58,13 +58,13 @@ proc gdb_stub_restart { dest } {
 	}
 	set spawn_id [remote_spawn host $command]
 	remote_expect host 30 {
-	    -re "$gdb_prompt" { }
+	    -re $gdb_prompt { }
 	}
 	if { $spawn_id >= 0 } {
 	    if {[board_info $dest exists baud]} {
 		remote_send host "set remotebaud [board_info $dest baud]\n"
 		remote_expect host 5 {
-		    -re "$gdb_prompt" { }
+		    -re $gdb_prompt { }
 		    default {
 			warning "Error setting baud rate."
 			return -1
@@ -112,13 +112,13 @@ proc gdb_stub_remote_check { dest } {
 	    verbose "stub is already running"
 	    return 1
 	}
-	-re "$gdb_prompt" {
+	-re $gdb_prompt {
 	    return 0
 	}
 	timeout {
 	    remote_send host "\003"
 	    remote_expect host 10 {
-		-re "$gdb_prompt" { }
+		-re $gdb_prompt { }
 	    }
 	    return 0
 	}
@@ -166,9 +166,9 @@ proc gdb_stub_startup { dest } {
 	set loader "loader"
 	if {![file exists $loader]} {
 	    if {[board_info $dest exists gdb_stub_offset]} {
-		set result [target_compile "${libdir}/stub-loader.c" $loader executable "libs=-Wl,-Ttext,[board_info $dest gdb_stub_offset]"]
+		set result [target_compile $libdir/stub-loader.c $loader executable "libs=-Wl,-Ttext,[board_info $dest gdb_stub_offset]"]
 	    } else {
-		set result [target_compile "${libdir}/stub-loader.c" $loader executable "ldscript=[board_info $dest gdb_stub_ldscript]"]
+		set result [target_compile $libdir/stub-loader.c $loader executable "ldscript=[board_info $dest gdb_stub_ldscript]"]
 	    }
 	    verbose "result is $result"
 	    if {[isremote host]} {
@@ -202,7 +202,7 @@ proc gdb_stub_startup { dest } {
 	remote_expect host 60 {
 	    -re "appears to be alive.*$gdb_prompt" { }
 	    -re "Remote target.*connected to.*$gdb_prompt" { }
-	    -re "$gdb_prompt" {
+	    -re $gdb_prompt {
 		warning "Error reconnecting to stub."
 		return -1
 	    }
@@ -358,7 +358,7 @@ proc gdb_stub_start { dest } {
 
     remote_send host "set \$fp=0\n"
     remote_expect host 10 {
-	-re "$gdb_prompt" { }
+	-re $gdb_prompt { }
     }
     # This is needed for the SparcLite. Whee.
     if {[board_info $dest exists gdb,start_symbol]} {
@@ -543,11 +543,11 @@ proc gdb_stub_ld { dest prog } {
 	-re "$gdb_prompt $" {
 	    # Hmmm...is retrying going to help? I kinda doubt it.
 	    warning "GDB couldn't read file"
-	    return [gdb_stub_retry_ld "$dest" "$prog"]
+	    return [gdb_stub_retry_ld $dest $prog]
 	}
 	timeout {
 	    warning "(timeout) read symbol file"
-	    return [gdb_stub_retry_ld "$dest" "$prog"]
+	    return [gdb_stub_retry_ld $dest $prog]
 	}
     }
 

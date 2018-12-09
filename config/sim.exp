@@ -95,7 +95,7 @@ proc sim_load { dest prog args } {
     if { $inpfile ne "" } {
 	set res [remote_spawn target "${cmd} < $inpfile" "readonly"]
     } else {
-	set res [remote_spawn target "${cmd}"]
+	set res [remote_spawn target $cmd]
     }
 
     if { $res <= 0 } {

@@ -39,7 +39,7 @@ proc ${board}_init { dest } {
     remote_raw_open $dest raw
     remote_send $dest "\n"
     remote_expect $dest 5 {
-	-re "$shell_prompt" {
+	-re $shell_prompt {
 	    set do_reboot 1
 	}
 	-re "Press any key to stop auto-boot" {
@@ -76,7 +76,7 @@ proc ${board}_init { dest } {
 	    set curr_file $expect_out(1,string)
 	    exp_continue
 	}
-	-re "$boot_mon_prompt" { }
+	-re $boot_mon_prompt { }
     }
     if {![info exists curr_file]} {
 	remote_close $dest
@@ -96,7 +96,7 @@ proc ${board}_init { dest } {
 		remote_send $dest "\n"
 		exp_continue
 	    }
-	    -re "$boot_mon_prompt" {}
+	    -re $boot_mon_prompt {}
 	}
     }
     remote_send $dest "@\n"
@@ -201,7 +201,7 @@ proc vxworks_send { dest string } {
     # Convert LFs to CRs, 'cause that is what VxWorks wants to see.
     regsub -all "\n" $string "\r" string
     verbose "Sending '$string' to $dest" 2
-    return [remote_raw_send $dest "$string"]
+    return [remote_raw_send $dest $string]
 }
 
 proc vxworks_open { dest args } {
@@ -340,7 +340,7 @@ proc vxworks_ld { dest prog } {
     }
 
     if { $result && [info exists expect_out(buffer)] } {
-	send_log "$expect_out(buffer)"
+	send_log $expect_out(buffer)
     }
 
     remote_file $dest delete $prog
@@ -387,8 +387,8 @@ proc vxworks_run { dest function pargs inp outp } {
 	    set result -1
 	}
 	-re "(.*)\\*\\*\\* EXIT code ($decimal)\[\r\n\]" {
-	    set output "$expect_out(1,string)"
-	    set exit_code "$expect_out(2,string)"
+	    set output $expect_out(1,string)
+	    set exit_code $expect_out(2,string)
 	    if { ($exit_code + 0) != 0 } {
 		set result 1
 	    } else {
@@ -409,7 +409,7 @@ proc vxworks_run { dest function pargs inp outp } {
 	}
 	timeout {
 	    # Infinite loop? probably.
-	    remote_exec $dest "td" "$tid"
+	    remote_exec $dest "td" $tid
 	    set result 1
 	}
     }

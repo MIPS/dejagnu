@@ -1,5 +1,13 @@
 2018-12-09  Ben Elliston  <bje@gnu.org>
 
+	* config/gdb-comm.exp: Remove unnecessary quotes.
+	* config/gdb_stub.exp: Likewise.
+	* config/vxworks.exp: Likewise.
+	* config/unix.exp: Likewise.
+	* config/sim.exp: Likewise.
+
+2018-12-09  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/lib/libsup.exp: Remove unnecessary quotes around
 	variable expansions.
 	* testsuite/lib/util-defs.exp: Likewise.
