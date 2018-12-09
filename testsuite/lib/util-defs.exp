@@ -61,7 +61,7 @@ proc util_test { args } {
     verbose "Output is \"$comp_output\"" 2
     verbose "Pattern is \"$pattern\"" 2
 
-    if [regexp "$pattern" $comp_output] {
+    if [regexp $pattern $comp_output] {
 	verbose "Pattern matches." 2
 	return 0
     }

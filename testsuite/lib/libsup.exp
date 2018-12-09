@@ -87,7 +87,7 @@ proc start_expect { } {
     #    catch wait
 
     # Start expect runing
-    spawn "$EXPECT"
+    spawn $EXPECT
     expect {
 	-re "expect.*> " {
 	    verbose "Started the child expect shell" 2
@@ -169,11 +169,11 @@ proc exp_test { cmd pattern msg } {
 	    warning "$msg, 0 was returned"
 	    exp_continue
 	}
-	"$pattern" {
-	    pass "$msg"
+	$pattern {
+	    pass $msg
 	}
 	timeout {
-	    fail "$msg"
+	    fail $msg
 	}
     }
 }
@@ -200,10 +200,10 @@ proc config_test { cmd true false msg } {
 	    exp_continue
 	}
 	-re "\r\n1\r\n" {
-	    $true "$msg"
+	    $true $msg
 	}
 	-re "\r\n0\r\n" {
-	    $false "$msg"
+	    $false $msg
 	}
 	timeout {
 	    perror "$msg (timed out)"

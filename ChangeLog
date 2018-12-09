@@ -1,5 +1,11 @@
 2018-12-09  Ben Elliston  <bje@gnu.org>
 
+	* testsuite/lib/libsup.exp: Remove unnecessary quotes around
+	variable expansions.
+	* testsuite/lib/util-defs.exp: Likewise.
+
+2018-12-09  Ben Elliston  <bje@gnu.org>
+
 	* baseboards/androideabi.exp: Remove unnecessary quotes and braces
 	around variable expansions.
 	* baseboards/basic-sid.exp: Likewise.
