@@ -497,7 +497,7 @@ proc standard_download {dest file destfile} {
 
     if { $dest ne "" } {
 	set result [rsh_download $dest $file $destfile]
-	if { $result == $destfile } {
+	if { $result eq $destfile } {
 	    return $orig_destfile
 	} else {
 	    return $result
@@ -529,7 +529,7 @@ proc remote_upload {dest srcfile args} {
     }
 
     if { ![isremote $dest] } {
-	if { $destfile eq "" || $srcfile == $destfile } {
+	if { $destfile eq "" || $srcfile eq $destfile } {
 	    return $srcfile
 	}
 	set result [catch "exec cp -p $srcfile $destfile" output]

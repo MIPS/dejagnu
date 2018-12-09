@@ -72,7 +72,7 @@ proc open_logs { } {
     catch "file delete -force -- $outdir/$tool.log"
     log_file -a $outdir/$tool.log
     verbose "Opening log files in $outdir"
-    if { $tool ==  "testrun" } {
+    if { $tool eq "testrun" } {
 	set tool ""
     }
     fconfigure $sum_file -buffering line
@@ -133,9 +133,9 @@ proc is_remote { board } {
     set board [lindex [split $board "/"] 0]
 
     # Map the host or build back into their short form.
-    if { [board_info build name] == $board } {
+    if { [board_info build name] eq $board } {
 	set board "build"
-    } elseif { [board_info host name] == $board } {
+    } elseif { [board_info host name] eq $board } {
 	set board "host"
     }
 

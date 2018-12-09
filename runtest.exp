@@ -833,7 +833,7 @@ proc setup_target_hook { whole_name name } {
 
     if { ![isnative] && ![isremote target] } {
 	global env build_triplet target_triplet
-	if { (![info exists env(DEJAGNU)]) && ($build_triplet != $target_triplet) } {
+	if { (![info exists env(DEJAGNU)]) && ($build_triplet ne $target_triplet) } {
 	    warning "Assuming target board is the local machine (which is probably wrong).\nYou may need to set your DEJAGNU environment variable."
 	}
     }
@@ -1605,7 +1605,7 @@ proc iterate_target_variants_two { orig_target target variants } {
 	if { [llength $variants] > 1 } {
 	    set result [iterate_target_variants_two $orig_target $target [lrange $variants 1 end]]
 	} else {
-	    if { $target != $orig_target } {
+	    if { $target ne $orig_target } {
 		set result [list $target]
 	    } else {
 		set result {}

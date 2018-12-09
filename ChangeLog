@@ -1,5 +1,14 @@
 2018-12-09  Ben Elliston  <bje@gnu.org>
 
+	* runtest.exp (setup_target_hook): Use 'ne' and not '!='.
+	(iterate_target_variants_two): Likewise.
+	* lib/remote.exp (standard_download): Use 'eq' not '=='.
+	(remote_upload): Likewise.
+	* lib/framework.exp (open_logs): Likewise.
+	(is_remote): Likewise.
+
+2018-12-09  Ben Elliston  <bje@gnu.org>
+
 	* baseboards/basic-sid.exp, baseboards/basic-sim.exp,
 	baseboards/i386-sid.exp, baseboards/mt-sid.exp,
 	baseboards/sh-sid.exp, config/adb.exp, config/gdb-comm.exp,
