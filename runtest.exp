@@ -183,13 +183,13 @@ proc verbose { args } {
 	if { $newline } {
 	    send_user -- "$message\n"
 	} else {
-	    send_user -- "$message"
+	    send_user -- $message
 	}
     } elseif { $logfile } {
 	if { $newline } {
 	    send_log -- "$message\n"
 	} else {
-	    send_log -- "$message"
+	    send_log -- $message
 	}
     }
 }
@@ -226,12 +226,12 @@ proc transform { name } {
 	    set target_install [target_info target_install]
 	}
 	if {[info exists target_alias]} {
-	    set tmp ${target_alias}-${name}
+	    set tmp $target_alias-$name
 	} elseif {[info exists target_install]} {
 	    if { [lsearch -exact $target_install $target_alias] >= 0 } {
-		set tmp ${target_alias}-${name}
+		set tmp $target_alias-$name
 	    } else {
-		set tmp "[lindex $target_install 0]-${name}"
+		set tmp "[lindex $target_install 0]-$name"
 	    }
 	}
 	verbose "Transforming $name to $tmp"
@@ -328,18 +328,18 @@ proc search_and_load_file { type filelist dirlist } {
 
     foreach dir $dirlist {
 	foreach initfile $filelist {
-	    verbose "Looking for $type ${dir}/${initfile}" 2
-	    if {[file exists [file join ${dir} ${initfile}]]} {
+	    verbose "Looking for $type $dir/$initfile" 2
+	    if {[file exists [file join $dir $initfile]]} {
 		set found 1
 		set error ""
-		if { ${type} ne "library file" } {
-		    send_user "Using ${dir}/${initfile} as ${type}.\n"
+		if { $type ne "library file" } {
+		    send_user "Using $dir/$initfile as $type.\n"
 		} else {
-		    verbose "Loading ${dir}/${initfile}"
+		    verbose "Loading $dir/$initfile"
 		}
-		if {[catch "uplevel #0 source ${dir}/${initfile}" error] == 1} {
+		if {[catch "uplevel #0 source $dir/$initfile" error] == 1} {
 		    global errorInfo
-		    send_error "ERROR: tcl error sourcing ${type} ${dir}/${initfile}.\n${error}\n"
+		    send_error "ERROR: tcl error sourcing $type $dir/$initfile.\n$error\n"
 		    if {[info exists errorInfo]} {
 			send_error "$errorInfo\n"
 		    }
@@ -570,8 +570,8 @@ if { $logname eq "" } {
 # lookfor_file -- try to find a file by searching up multiple directory levels
 #
 proc lookfor_file { dir name } {
-    foreach x ". .. ../.. ../../.. ../../../.." {
-	verbose "$dir/$x/$name" 2
+    foreach x [list . .. ../.. ../../.. ../../../..] {
+	verbose $dir/$x/$name 2
 	if {[file exists [file join $dir $name]]} {
 	    return [file join $dir $name]
 	}
@@ -658,7 +658,7 @@ if { [file tail $srcdir] eq "testsuite" } {
     set testbuilddir $objdir
 } elseif { [file tail $srcdir] ne "testsuite"
 	   && [file isdirectory [file join $srcdir testsuite]] } {
-    # Top-level case -- testsuite in ${srcdir}/testsuite/
+    # Top-level case -- testsuite in $srcdir/testsuite/
     set testsuitedir [file join $srcdir testsuite]
     set testbuilddir [file join $objdir testsuite]
 } elseif { $srcdir eq "." && [file tail $base_dir] eq "testsuite" } {
@@ -729,11 +729,11 @@ unset arg_host_triplet arg_build_triplet
 
 if {[expr {$build_triplet eq "" && $host_triplet eq ""}]} {
     # find config.guess
-    foreach dir "$libdir $libdir/libexec $libdir/.. $execpath $srcdir $srcdir/.. $srcdir/../.." {
-	verbose "Looking for ${dir}/config.guess" 2
-	if {[file exists [file join ${dir} config.guess]]} {
-	    set config_guess [file join ${dir} config.guess]
-	    verbose "Found [file join ${dir} config.guess]"
+    foreach dir [list $libdir $libdir/libexec $libdir/.. $execpath $srcdir $srcdir/.. $srcdir/../..] {
+	verbose "Looking for $dir/config.guess" 2
+	if {[file exists [file join $dir config.guess]]} {
+	    set config_guess [file join $dir config.guess]
+	    verbose "Found [file join $dir config.guess]"
 	    break
 	}
     }
@@ -809,9 +809,9 @@ proc setup_target_hook { whole_name name } {
     set board_type "target"
 
     load_config base-config.exp
-    if {![load_board_description ${name} ${whole_name} ${hb}]} {
+    if {![load_board_description $name $whole_name $hb]} {
 	if { $name ne "unix" } {
-	    perror "couldn't load description file for ${name}"
+	    perror "couldn't load description file for $name"
 	    exit 1
 	} else {
 	    load_generic_config "unix"
@@ -845,12 +845,12 @@ proc setup_target_hook { whole_name name } {
 proc cleanup_target_hook { name } {
     global tool
     # Clean up the target board.
-    if { [info procs "${name}_exit"] ne "" } {
+    if { [info procs ${name}_exit] ne "" } {
 	${name}_exit
     }
     # We also call the tool exit routine here.
     if {[info exists tool]} {
-	if { [info procs "${tool}_exit"] ne "" } {
+	if { [info procs ${tool}_exit] ne "" } {
 	    ${tool}_exit
 	}
     }
@@ -934,38 +934,38 @@ if {![info exists boards_dir]} {
 
 # build values
 if { $build_cpu eq "" } {
-    regsub -- "-.*-.*" ${build_triplet} "" build_cpu
+    regsub -- "-.*-.*" $build_triplet "" build_cpu
 }
 if { $build_vendor eq "" } {
-    regsub -- "^\[a-z0-9\]*-" ${build_triplet} "" build_vendor
-    regsub -- "-.*" ${build_vendor} "" build_vendor
+    regsub -- "^\[a-z0-9\]*-" $build_triplet "" build_vendor
+    regsub -- "-.*" $build_vendor "" build_vendor
 }
 if { $build_os eq "" } {
-    regsub -- ".*-.*-" ${build_triplet} "" build_os
+    regsub -- ".*-.*-" $build_triplet "" build_os
 }
 
 # host values
 if { $host_cpu eq "" } {
-    regsub -- "-.*-.*" ${host_triplet} "" host_cpu
+    regsub -- "-.*-.*" $host_triplet "" host_cpu
 }
 if { $host_vendor eq "" } {
-    regsub -- "^\[a-z0-9\]*-" ${host_triplet} "" host_vendor
-    regsub -- "-.*" ${host_vendor} "" host_vendor
+    regsub -- "^\[a-z0-9\]*-" $host_triplet "" host_vendor
+    regsub -- "-.*" $host_vendor "" host_vendor
 }
 if { $host_os eq "" } {
-    regsub -- ".*-.*-" ${host_triplet} "" host_os
+    regsub -- ".*-.*-" $host_triplet "" host_os
 }
 
 # target values
 if { $target_cpu eq "" } {
-    regsub -- "-.*-.*" ${target_triplet} "" target_cpu
+    regsub -- "-.*-.*" $target_triplet "" target_cpu
 }
 if { $target_vendor eq "" } {
-    regsub -- "^\[a-z0-9\]*-" ${target_triplet} "" target_vendor
-    regsub -- "-.*" ${target_vendor} "" target_vendor
+    regsub -- "^\[a-z0-9\]*-" $target_triplet "" target_vendor
+    regsub -- "-.*" $target_vendor "" target_vendor
 }
 if { $target_os eq "" } {
-    regsub -- ".*-.*-" ${target_triplet} "" target_os
+    regsub -- ".*-.*-" $target_triplet "" target_os
 }
 
 #
@@ -1298,7 +1298,7 @@ clone_output "\n\t\t=== $tool tests ===\n"
 
 #
 # Look for the generic board configuration file. It searches in several
-# places: ${libdir}/config, ${libdir}/../config, and $boards_dir.
+# places: $libdir/config, $libdir/../config, and $boards_dir.
 #
 
 proc load_generic_config { name } {
@@ -1320,8 +1320,8 @@ proc load_generic_config { name } {
 	set type ""
     }
 
-    set dirlist [concat ${libdir}/config [file dirname $libdir]/config $boards_dir]
-    set result [search_and_load_file "generic interface file $type" ${name}.exp $dirlist]
+    set dirlist [concat $libdir/config [file dirname $libdir]/config $boards_dir]
+    set result [search_and_load_file "generic interface file $type" $name.exp $dirlist]
 
     return $result
 }
@@ -1334,7 +1334,7 @@ proc load_config { args } {
 
     set found 0
 
-    return [search_and_load_file "tool-and-target-specific interface file" $args [list ${testsuitedir}/config ${testsuitedir}/../config ${testsuitedir}/../../config ${testsuitedir}/../../../config]]
+    return [search_and_load_file "tool-and-target-specific interface file" $args [list $testsuitedir/config $testsuitedir/../config $testsuitedir/../../config $testsuitedir/../../../config]]
 }
 
 #
@@ -1356,7 +1356,7 @@ proc load_config { args } {
 proc load_tool_target_config { name } {
     global target_os libdir testsuitedir
 
-    set found [load_config "${name}.exp" "${target_os}.exp" "default.exp" "unknown.exp"]
+    set found [load_config $name.exp $target_os.exp "default.exp" "unknown.exp"]
 
     if { $found == 0 } {
 	send_error "WARNING: Couldn't find tool config file for $name, using default.\n"
@@ -1399,15 +1399,15 @@ proc load_board_description { board_name args } {
     set dirlist {}
     if { [llength $args] > 1 } {
 	set suffix [lindex $args 1]
-	if { ${suffix} ne "" } {
-	    foreach x ${boards_dir} {
-		lappend dirlist ${x}/${suffix}
+	if { $suffix ne "" } {
+	    foreach x $boards_dir {
+		lappend dirlist $x/$suffix
 	    }
-	    lappend dirlist ${libdir}/baseboards/${suffix}
+	    lappend dirlist $libdir/baseboards/$suffix
 	}
     }
     set dirlist [concat $dirlist $boards_dir]
-    lappend dirlist ${libdir}/baseboards
+    lappend dirlist $libdir/baseboards
     verbose "dirlist is $dirlist"
     if {[info exists board_type]} {
 	set type "for $board_type"
@@ -1421,12 +1421,12 @@ proc load_board_description { board_name args } {
 		set board_info($whole_name,isremote) 0
 	    }
 	}
-	if { ${board_name} == [get_local_hostname] } {
+	if { $board_name eq [get_local_hostname] } {
 	    set board_info($whole_name,isremote) 0
 	}
     }
     search_and_load_file "standard board description file $type" standard.exp $dirlist
-    set found [search_and_load_file "board description file $type" ${board_name}.exp $dirlist]
+    set found [search_and_load_file "board description file $type" $board_name.exp $dirlist]
     if { $board_set != 0 } {
 	unset board
     }
@@ -1436,7 +1436,7 @@ proc load_board_description { board_name args } {
 
 #
 # Find the base-level file that describes the machine specified by args. We
-# only look in one directory, ${libdir}/baseboards.
+# only look in one directory, $libdir/baseboards.
 #
 
 proc load_base_board_description { board_name } {
@@ -1465,10 +1465,10 @@ proc load_base_board_description { board_name } {
 	}
     }
 
-    if { ${board_name} == [get_local_hostname] } {
+    if { $board_name eq [get_local_hostname] } {
 	set board_info($board_name,isremote) 0
     }
-    set found [search_and_load_file "board description file $type" ${board_name}.exp ${libdir}/baseboards]
+    set found [search_and_load_file "board description file $type" $board_name.exp [list $libdir/baseboards]]
     if { $board_set != 0 } {
 	unset board
     }
@@ -1501,7 +1501,7 @@ proc runtest { test_file_name } {
 	set timestart [timestamp]
 
 	if {[info exists tool]} {
-	    if { [info procs "${tool}_init"] ne "" } {
+	    if { [info procs ${tool}_init] ne "" } {
 		${tool}_init $test_file_name
 	    }
 	}
@@ -1526,7 +1526,7 @@ proc runtest { test_file_name } {
 	}
 
 	if {[info exists tool]} {
-	    if { [info procs "${tool}_finish"] ne "" } {
+	    if { [info procs ${tool}_finish] ne "" } {
 		${tool}_finish
 	    }
 	}
@@ -1584,7 +1584,7 @@ proc process_target_variants { target_list } {
 		}
 	    }
 	} else {
-	    lappend result "$x"
+	    lappend result $x
 	}
     }
     return $result
@@ -1638,6 +1638,7 @@ if {[info exists host_board]} {
 if {[info exists errorInfo]} {
     unset errorInfo
 }
+
 # make sure we have only single path delimiters
 regsub -all "\(\[^/\]\)//*" $srcdir "\\1/" srcdir
 regsub -all "\(\[^/\]\)//*" $objdir "\\1/" objdir
@@ -1735,7 +1736,7 @@ foreach current_target $target_list {
 	    if {[info exists $var]} {
 		lappend restore "$var [list [eval concat \$$var]]"
 	    } else {
-		lappend restore "$var"
+		lappend restore $var
 	    }
 	    # Handle "CFLAGS=$CFLAGS foo".
 	    eval set $var \[string range \"$varval\" [expr {$tmp + 1}] end\]
@@ -1746,20 +1747,20 @@ foreach current_target $target_list {
 	# look for the top level testsuites. if $tool doesn't
 	# exist and there are no subdirectories in $testsuitedir, then
 	# we print a warning and default to srcdir.
-	set test_top_dirs [lsort [getdirs -all ${testsuitedir} "${tool}*"]]
-	if { ${test_top_dirs} eq "" } {
-	    send_error "WARNING: could not find testsuite; trying ${srcdir}.\n"
-	    set test_top_dirs ${srcdir}
+	set test_top_dirs [lsort [getdirs -all $testsuitedir $tool*]]
+	if { $test_top_dirs eq "" } {
+	    send_error "WARNING: could not find testsuite; trying $srcdir.\n"
+	    set test_top_dirs [list $srcdir]
 	} else {
 	    # JYG:
 	    # DejaGNU's notion of test tree and test files is very
 	    # general:
-	    # given ${testsuitedir} and ${tool}, any subdirectory (at any
-	    # level deep) with the "${tool}" prefix starts a test tree
+	    # given $testsuitedir and $tool, any subdirectory (at any
+	    # level deep) with the "$tool" prefix starts a test tree
 	    # given a test tree, any *.exp file underneath (at any
 	    # level deep) is a test file.
 	    #
-	    # For test tree layouts with ${tool} prefix on
+	    # For test tree layouts with $tool prefix on
 	    # both a parent and a child directory, we need to eliminate
 	    # the child directory entry from test_top_dirs list.
 	    # e.g. gdb.hp/gdb.base-hp/ would result in two entries
@@ -1769,37 +1770,37 @@ foreach current_target $target_list {
 	    # are gathered from all sub-directories underneath a
 	    # directory).
 	    #
-	    # Since ${tool} may be g++, etc. which could confuse
+	    # Since $tool may be g++, etc. which could confuse
 	    # regexp, we cannot do the simpler test:
 	    #     ...
-	    #     if [regexp "${testsuitedir}/.*${tool}.*/.*${tool}.*" ${dir}]
+	    #     if [regexp "$testsuitedir/.*$tool.*/.*$tool.*" $dir]
 	    #     ...
 	    # instead, we rely on the fact that test_top_dirs is
 	    # a sorted list of entries, and any entry that contains
 	    # the previous valid test top dir entry in its own pathname
 	    # must be excluded.
 
-	    set temp_top_dirs ""
+	    set temp_top_dirs [list]
 	    set prev_dir ""
-	    foreach dir "${test_top_dirs}" {
+	    foreach dir $test_top_dirs {
 		if { $prev_dir eq ""
-		     || [string first "${prev_dir}/" ${dir}] == -1 } {
+		     || [string first $prev_dir/ $dir] == -1 } {
 		    # the first top dir entry, or an entry that
 		    # does not share the previous entry's entire
 		    # pathname, record it as a valid top dir entry.
 		    #
-		    lappend temp_top_dirs ${dir}
-		    set prev_dir ${dir}
+		    lappend temp_top_dirs $dir
+		    set prev_dir $dir
 		}
 	    }
-	    set test_top_dirs ${temp_top_dirs}
+	    set test_top_dirs $temp_top_dirs
 	}
-	verbose "Top level testsuite dirs are ${test_top_dirs}" 2
+	verbose "Top level testsuite dirs are $test_top_dirs" 2
 	set testlist ""
 	if {[array exists all_runtests]} {
 	    foreach x [array names all_runtests] {
-		verbose "trying to glob ${testsuitedir}/${x}" 2
-		set s [glob -nocomplain ${testsuitedir}/$x]
+		verbose "trying to glob $testsuitedir/$x" 2
+		set s [glob -nocomplain $testsuitedir/$x]
 		if { $s ne "" } {
 		    set testlist [concat $testlist $s]
 		}
@@ -1810,15 +1811,15 @@ foreach current_target $target_list {
 	#
 	if { $testlist ne "" } {
 	    foreach test_name $testlist {
-		if { ${ignoretests} ne "" } {
-		    if { 0 <= [lsearch ${ignoretests} [file tail ${test_name}]]} {
+		if { $ignoretests ne "" } {
+		    if { 0 <= [lsearch $ignoretests [file tail $test_name]]} {
 			continue
 		    }
 		}
 
 		# set subdir to the tail of the dirname after $srcdir,
 		# for the driver files that want it.  XXX this is silly.
-		# drivers should get a single var, not "$srcdir/$subdir"
+		# drivers should get a single var, not $srcdir/$subdir
 		set subdir [relative_filename $srcdir \
 				[file dirname $test_name]]
 
@@ -1831,14 +1832,14 @@ foreach current_target $target_list {
 	    #
 	    # Go digging for tests.
 	    #
-	    foreach dir "${test_top_dirs}" {
-		if { ${dir} ne ${testsuitedir} } {
+	    foreach dir $test_top_dirs {
+		if { $dir ne $testsuitedir } {
 		    # Ignore this directory if is a directory to be
 		    # ignored.
 		    if {[info exists ignoredirs] && $ignoredirs ne ""} {
 			set found 0
 			foreach directory $ignoredirs {
-			    if {[string match "*${directory}*" $dir]} {
+			    if {[string match *$directory* $dir]} {
 				set found 1
 				break
 			    }
@@ -1856,7 +1857,7 @@ foreach current_target $target_list {
 			# of directories.  Look for match on each item.
 			set found 0
 			foreach directory $dir_to_run {
-			    if {[string match "*${directory}*" $dir]} {
+			    if {[string match *$directory* $dir]} {
 				set found 1
 				break
 			    }
@@ -1877,7 +1878,7 @@ foreach current_target $target_list {
 			foreach directory $cmdline_dir_to_run {
 			    # Look for a directory that ends with the
 			    # provided --directory name.
-			    if {[string match "$directory" $dir]
+			    if {[string match $directory $dir]
 				|| [string match "*/$directory" $dir]} {
 				set found 1
 				break
@@ -1888,13 +1889,13 @@ foreach current_target $target_list {
 			}
 		    }
 
-		    foreach test_name [lsort [find ${dir} *.exp]] {
-			if { ${test_name} eq "" } {
+		    foreach test_name [lsort [find $dir *.exp]] {
+			if { $test_name eq "" } {
 			    continue
 			}
 			# Ignore this one if asked to.
-			if { ${ignoretests} ne "" } {
-			    if { 0 <= [lsearch ${ignoretests} [file tail ${test_name}]]} {
+			if { $ignoretests ne "" } {
+			    if { 0 <= [lsearch $ignoretests [file tail $test_name]]} {
 				continue
 			    }
 			}
