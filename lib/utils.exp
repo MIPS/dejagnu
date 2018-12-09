@@ -73,7 +73,7 @@ proc getdirs { args } {
 	    }
 	}
     } else {
-	perror "$tmp"
+	perror $tmp
 	return ""
     }
 
@@ -230,7 +230,7 @@ proc grep { args } {
     set fd [open $file r]
     while { [gets $fd cur_line]>=0 } {
 	incr i
-	if {[regexp -- "$pattern" $cur_line match]} {
+	if {[regexp -- $pattern $cur_line match]} {
 	    if {$options ne ""} {
 		foreach opt $options {
 		    switch -- $opt {

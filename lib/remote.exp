@@ -98,7 +98,7 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 	    append sh_cmd "(kill -9 -$spid || kill -9 $spid);"
 	}
 	append sh_cmd ") && sleep $secs"
-	set exec_pid [exec sh -c "$sh_cmd" &]
+	set exec_pid [exec sh -c $sh_cmd &]
     }
     verbose "pid is $pid"
 
@@ -156,7 +156,7 @@ proc local_exec { commandline inp outp timeout } {
     # cause it to exit before it can exit normally.  The child should
     # ignore SIGHUP.
     global errorInfo
-    if { "$inp" eq "" && "$outp" eq "" } {
+    if { $inp eq "" && $outp eq "" } {
 	set id -1
 	set result [catch "eval spawn -ignore SIGHUP \{${commandline}\}" pid]
 	if { $result == 0 } {
@@ -180,7 +180,7 @@ proc local_exec { commandline inp outp timeout } {
 	if { $outp eq "" } {
 	    set outp "|& cat"
 	} else {
-	    set outpf "$outp"
+	    set outpf $outp
 	    set outp "> $outp"
 	    if { $inp ne "" } {
 		set use_tee 1
@@ -250,7 +250,7 @@ proc local_exec { commandline inp outp timeout } {
 		}
 	    }
 	    if { $r2 != 0 } {
-		set res "$wres"
+		set res $wres
 	    } else {
 		set res ""
 	    }
@@ -347,7 +347,7 @@ proc standard_exec { hostname args } {
 #
 proc remote_close { host } {
     while { 1 } {
-	set result [call_remote "" close "$host"]
+	set result [call_remote "" close $host]
 	if { [remote_pop_conn $host] ne "pass" } {
 	    break
 	}
@@ -356,7 +356,7 @@ proc remote_close { host } {
 }
 
 proc remote_raw_close { host } {
-    return [call_remote raw close "$host"]
+    return [call_remote raw close $host]
 }
 
 proc standard_close { host } {
@@ -397,11 +397,11 @@ proc standard_close { host } {
 # characters.
 #
 proc remote_binary { host } {
-    return [call_remote "" binary "$host"]
+    return [call_remote "" binary $host]
 }
 
 proc remote_raw_binary { host } {
-    return [call_remote raw binary "$host"]
+    return [call_remote raw binary $host]
 }
 
 
@@ -414,7 +414,7 @@ proc remote_reboot { host } {
     # FIXME: don't close the host connection, or all the remote
     # procedures will fail.
     # remote_close $host
-    set status [call_remote "" reboot "$host"]
+    set status [call_remote "" reboot $host]
     if {[board_info $host exists name]} {
 	set host [board_info $host name]
     }
@@ -474,7 +474,7 @@ proc remote_download { dest file args } {
 	    perror "Couldn't create remote directory $remotedir on $dest"
 	    return ""
 	}
-	set destfile "$remotedir/$destfile"
+	set destfile $remotedir/$destfile
     }
 
     return [call_remote "" download $dest $file $destfile]
@@ -492,10 +492,10 @@ proc standard_download {dest file destfile} {
 	} else {
 	    set dest ""
 	}
-	set destfile "$destdir/$destfile"
+	set destfile $destdir/$destfile
     }
 
-    if { "$dest" ne "" } {
+    if { $dest ne "" } {
 	set result [rsh_download $dest $file $destfile]
 	if { $result == $destfile } {
 	    return $orig_destfile
@@ -549,10 +549,10 @@ proc standard_upload { dest srcfile destfile } {
 	} else {
 	    set dest ""
 	}
-	set srcfile "$destdir/$srcfile"
+	set srcfile $destdir/$srcfile
     }
 
-    if { "$dest" ne "" } {
+    if { $dest ne "" } {
 	return [rsh_upload $dest $srcfile $destfile]
     }
 
@@ -583,7 +583,7 @@ proc call_remote { type proc dest args } {
     }
 
     if { $proc eq "reboot" } {
-	regsub {/.*} "$dest" "" dest
+	regsub {/.*} $dest "" dest
 	verbose "Changed dest to $dest"
     }
 
@@ -596,7 +596,7 @@ proc call_remote { type proc dest args } {
 	    }
 	    load_board_description $dest
 	    if { $proc eq "reboot" } {
-		regsub {/.*} "$dest" "" dest
+		regsub {/.*} $dest "" dest
 		verbose "Changed dest to $dest"
 	    }
 	}
@@ -605,9 +605,9 @@ proc call_remote { type proc dest args } {
     set high_prot ""
     if { $type ne "raw" } {
 	if {[board_info $dest exists protocol]} {
-	    set high_prot "${dest} [board_info $dest protocol]"
+	    set high_prot "$dest [board_info $dest protocol]"
 	} else {
-	    set high_prot "${dest} [board_info $dest generic_name]"
+	    set high_prot "$dest [board_info $dest generic_name]"
 	}
     }
 
@@ -655,26 +655,26 @@ proc call_remote { type proc dest args } {
 # Send FILE through the existing session established to DEST.
 #
 proc remote_transmit { dest file } {
-    return [call_remote "" transmit "$dest" "$file"]
+    return [call_remote "" transmit $dest $file]
 }
 
 proc remote_raw_transmit { dest file } {
-    return [call_remote raw transmit "$dest" "$file"]
+    return [call_remote raw transmit $dest $file]
 }
 
 # The default transmit procedure if no other exists. This feeds the
 # supplied file directly into the connection.
 #
 proc standard_transmit {dest file} {
-    if {[board_info ${dest} exists name]} {
-	set dest [board_info ${dest} name]
+    if {[board_info $dest exists name]} {
+	set dest [board_info $dest name]
     }
-    if {[board_info ${dest} exists baud]} {
-	set baud [board_info ${dest} baud]
+    if {[board_info $dest exists baud]} {
+	set baud [board_info $dest baud]
     } else {
 	set baud 9600
     }
-    set shell_id [board_info ${dest} fileid]
+    set shell_id [board_info $dest fileid]
 
     set lines 0
     set chars 0
@@ -702,11 +702,11 @@ proc standard_transmit {dest file} {
 }
 
 proc remote_send { dest string } {
-    return [call_remote "" send "$dest" "$string"]
+    return [call_remote "" send $dest $string]
 }
 
 proc remote_raw_send { dest string } {
-    return [call_remote raw send "$dest" "$string"]
+    return [call_remote raw send $dest $string]
 }
 
 proc standard_send { dest string } {
@@ -718,7 +718,7 @@ proc standard_send { dest string } {
 	verbose "shell_id in standard_send is $shell_id" 3
 	verbose "send -i [board_info $dest fileid] -- $string" 3
 	if {[catch "send -i [board_info $dest fileid] -- \$string" errorInfo]} {
-	    return "$errorInfo"
+	    return $errorInfo
 	} else {
 	    return ""
 	}
@@ -907,14 +907,14 @@ proc remote_spawn { dest commandline args } {
 
     # Seems to me there should be a cleaner way to do this.
     if { $args eq "" } {
-	return [call_remote "" spawn "$dest" "$commandline"]
+	return [call_remote "" spawn $dest $commandline]
     } else {
-	return [call_remote "" spawn "$dest" "$commandline" $args]
+	return [call_remote "" spawn $dest $commandline $args]
     }
 }
 
 proc remote_raw_spawn { dest commandline } {
-    return [call_remote raw spawn "$dest" "$commandline"]
+    return [call_remote raw spawn $dest $commandline]
 }
 
 # The default spawn procedure. Uses rsh to connect to $dest.
@@ -987,13 +987,13 @@ proc remote_load { dest prog args } {
 		remote_file upload ${dprog}.sum ${prog}.sum
 	    }
 	    if { [lindex $status 0] == 0 } {
-		set sumout [remote_exec build "$sum_program" "${prog}.sum"]
+		set sumout [remote_exec build $sum_program $prog.sum]
 		set sum [lindex $sumout 1]
-		regsub "\[\r\n \t\]+$" "$sum" "" sum
+		regsub "\[\r\n \t\]+$" $sum "" sum
 	    } else {
-		set sumout [remote_exec build "$sum_program" "${prog}"]
+		set sumout [remote_exec build $sum_program ${prog}]
 		set sum [lindex $sumout 1]
-		regsub "\[\r\n \t\]+$" "$sum" "" sum
+		regsub "\[\r\n \t\]+$" $sum "" sum
 	    }
 	    remote_file build delete ${prog}.sum
 	}
@@ -1012,7 +1012,7 @@ proc remote_load { dest prog args } {
 		}
 	    }
 	    if { $same } {
-		set fd [open "${cache}.res" "r"]
+		set fd [open $cache.res "r"]
 		gets $fd l1
 		set result [list $l1 [read $fd]]
 		close $fd
@@ -1032,12 +1032,12 @@ proc remote_load { dest prog args } {
 		if {[file exists $dir]} {
 		    if {[info exists sum_program]} {
 			set id [open $cache "w"]
-			puts -nonewline $id "$sum"
+			puts -nonewline $id $sum
 			close $id
 		    } else {
 			remote_exec build cp "$prog $cache"
 		    }
-		    set id [open "${cache}.res" "w"]
+		    set id [open $cache.res "w"]
 		    puts $id [lindex $result 0]
 		    puts -nonewline $id [lindex $result 1]
 		    close $id
@@ -1108,7 +1108,7 @@ proc standard_load { dest prog args } {
 
     verbose -log "Executed $prog, status $status" 2
     if { $output ne "" } {
-	verbose -log -- "$output" 2
+	verbose -log -- $output 2
     }
     if { $status == 0 } {
 	return [list "pass" $output]
@@ -1254,7 +1254,7 @@ proc remote_expect { board timeout args } {
     set got_re 0
     set need_append 1
 
-    set orig "$args"
+    set orig $args
 
     set error_sect ""
     set save_next 0
@@ -1271,7 +1271,7 @@ proc remote_expect { board timeout args } {
 	}
 
 	set x "[lrange $args $i $i]"
-	regsub "^\n*\[ \t\]*" "$x" "" x
+	regsub "^\n*\[ \t\]*" $x "" x
 
 	if { $x eq "-i" || $x eq "-timeout" || $x eq "-ex" } {
 	    append res "$x "
@@ -1281,11 +1281,11 @@ proc remote_expect { board timeout args } {
 	    continue
 	}
 	if { $x eq "-n" || $x eq "-notransfer" || $x eq "-nocase" || $x eq "-indices" } {
-	    append res "${x} "
+	    append res "$x "
 	    continue
 	}
 	if { $x eq "-re" } {
-	    append res "${x} "
+	    append res "$x "
 	    set next [expr {$i + 1}]
 	    set y [lrange $args $next $next]
 	    append res "${y} "
@@ -1302,14 +1302,14 @@ proc remote_expect { board timeout args } {
 		set error_sect [lindex $args $i]
 	    }
 	} else {
-	    if { ${x} eq "eof" } {
+	    if { $x eq "eof" } {
 		set save_next 1
-	    } elseif { ${x} eq "default" || ${x} eq "timeout" } {
+	    } elseif { $x eq "default" || $x eq "timeout" } {
 		if { $error_sect eq "" } {
 		    set save_next 1
 		}
 	    }
-	    append res "${x} "
+	    append res "$x "
 	    set got_re 1
 	}
     }

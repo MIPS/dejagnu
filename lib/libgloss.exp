@@ -134,7 +134,7 @@ proc newlib_link_flags { args } {
 	return "$result -B$gccpath/newlib/ -L$gccpath/newlib"
     } else {
 	verbose "No newlib support for this target"
-	return "$result"
+	return $result
     }
 }
 
@@ -181,7 +181,7 @@ proc libio_include_flags { args } {
     set gccpath "[get_multilibs]"
 
     if { $gccpath eq "" } {
-	set gccpath "$tool_root_dir"
+	set gccpath $tool_root_dir
     }
 
     set libio_bin_dir [lookfor_file ${gccpath} libio/_G_config.h]
@@ -255,7 +255,7 @@ proc g++_include_flags { args } {
 	append flags " -I${dir} -I${dir}/stl"
     }
 
-    return "$flags"
+    return $flags
 }
 
 proc g++_link_flags { args } {
@@ -311,7 +311,7 @@ proc g++_link_flags { args } {
 	    append flags "-L${librx} "
 	}
     }
-    return "$flags"
+    return $flags
 }
 
 proc libstdc++_include_flags { args } {
@@ -344,7 +344,7 @@ proc libstdc++_include_flags { args } {
 	append flags " -I${dir} -I${dir}/stl"
     }
 
-    return "$flags"
+    return $flags
 }
 
 proc libstdc++_link_flags { args } {
@@ -383,7 +383,7 @@ proc libstdc++_link_flags { args } {
 	    append flags "-L${librx} "
 	}
     }
-    return "$flags"
+    return $flags
 }
 
 # Get the list of directories and -m options for gcc. This is kinda bogus that
@@ -425,9 +425,9 @@ proc get_multilibs { args } {
 	return ""
     }
 
-    foreach x "$compiler" {
-	if {[regexp "^-B" "$x"]} {
-	    regsub "^-B" "$x" "" comp_base_dir
+    foreach x $compiler {
+	if {[regexp "^-B" $x]} {
+	    regsub "^-B" $x "" comp_base_dir
 	    set comp_base_dir [file dirname $comp_base_dir]
 	    break
 	}
@@ -497,9 +497,9 @@ proc get_multilibs { args } {
     }
 
     # search for the top level multilib directory
-    set multitop [lookfor_file "${comp_base_dir}" "${target_alias}"]
+    set multitop [lookfor_file $comp_base_dir $target_alias]
     if { $multitop eq "" } {
-	set multitop [lookfor_file "${comp_base_dir}" "libraries"]
+	set multitop [lookfor_file $comp_base_dir "libraries"]
 	if { $multitop eq "" } {
 	    set multitop "[lookfor_file ${comp_base_dir} gcc/xgcc]"
 	    if { $multitop ne "" } {
@@ -510,14 +510,14 @@ proc get_multilibs { args } {
 	}
     }
 
-    set gccpath [eval exec "$compiler" --print-multi-directory $mopts]
+    set gccpath [eval exec $compiler --print-multi-directory $mopts]
     set gccpath [lindex $gccpath 0]
     if { $gccpath ne "" } {
 	verbose "GCC path is $gccpath"
 	if { [llength $args] == 0 } {
-	    set board_info($target_board,multitop) "$multitop/$gccpath"
+	    set board_info($target_board,multitop) $multitop/$gccpath
 	}
-	return "$multitop/$gccpath"
+	return $multitop/$gccpath
     }
 
     # extract the MULTILIB_MATCHES from dumpspecs
@@ -562,11 +562,11 @@ proc get_multilibs { args } {
     # compare the lists of gcc options with the list of support multilibs
     verbose "Supported multilibs are: $multilibs" 3
     set best 0
-    foreach i "$multilibs" {
+    foreach i $multilibs {
 	set hits 0
 	set opts [lindex $i 1]
 	if { [llength $opts] <= [llength $moptions] } {
-	    foreach j "$moptions" {
+	    foreach j $moptions {
 		# see if all the -m<foo> options match any of the multilibs
 		verbose "Looking in $i for $j" 3
 		if { [lsearch -exact $opts $j] >= 0 } {
@@ -590,15 +590,15 @@ proc get_multilibs { args } {
     if {[file exists [file join $multitop $gccpath]]} {
 	verbose "GCC path is $multitop/$gccpath" 3
 	if { [llength $args] == 0 } {
-	    set board_info($target_board,multitop) "$multitop/$gccpath"
+	    set board_info($target_board,multitop) $multitop/$gccpath
 	}
-	return "$multitop/$gccpath"
+	return $multitop/$gccpath
     } else {
 	verbose "GCC path is $multitop" 3
 	if { [llength $args] == 0 } {
-	    set board_info($target_board,multitop) "$multitop"
+	    set board_info($target_board,multitop) $multitop
 	}
-	return "$multitop"
+	return $multitop
     }
 }
 
@@ -618,7 +618,7 @@ proc find_binutils_prog { name } {
 	    set file [lookfor_file $tool_root_dir binutils/${name}-new]
 	}
 	if { $file ne "" } {
-	    set NAME "$file"
+	    set NAME $file
 	} else {
 	    set NAME [transform $name]
 	}
@@ -796,8 +796,8 @@ proc process_multilib_options { args } {
     set multilib_flags ""
 
     foreach x $board_variant_list {
-	regsub -all "^\[ \t\]*" "$x" "" x
-	regsub -all "\[ \t\]*$" "$x" "" x
+	regsub -all "^\[ \t\]*" $x "" x
+	regsub -all "\[ \t\]*$" $x "" x
 
 	if { $x eq "" } {
 	    continue
@@ -822,9 +822,9 @@ proc process_multilib_options { args } {
 		set_board_info debug_flags "-gdwarf2"
 	    }
 	    "gdb:*=*" {
-		regsub "^gdb:\[^=\]*=(.*)$" "$x" "\\1" value
-		regsub "^gdb:(\[^=\]*)=.*$" "$x" "\\1" variable
-		set_board_info $variable "$value"
+		regsub "^gdb:\[^=\]*=(.*)$" $x "\\1" value
+		regsub "^gdb:(\[^=\]*)=.*$" $x "\\1" variable
+		set_board_info $variable $value
 	    }
 	    "gdb*remote" {
 		set is_gdb_remote 1

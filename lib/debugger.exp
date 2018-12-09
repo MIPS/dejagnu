@@ -179,7 +179,7 @@ proc watchdel { args } {
 # This file creates GDB style commands for the Tcl debugger
 #
 proc print { var } {
-    puts "$var"
+    puts $var
 }
 
 proc quit { } {

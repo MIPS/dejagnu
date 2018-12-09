@@ -1,5 +1,12 @@
 2018-12-09  Ben Elliston  <bje@gnu.org>
 
+	* lib/debugger.exp, lib/dg.exp, lib/framework.exp, lib/ftp.exp,
+	lib/kermit.exp, lib/libgloss.exp, lib/remote.exp, lib/rlogin.exp,
+	lib/target.exp, lib/tip.exp, lib/utils.exp, runtest.exp: Remove
+	unnecessary quotes and braces around variable expansions.
+
+2018-12-09  Ben Elliston  <bje@gnu.org>
+
 	* config/gdb-comm.exp: Remove unnecessary quotes.
 	* config/gdb_stub.exp: Likewise.
 	* config/vxworks.exp: Likewise.

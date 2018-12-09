@@ -70,7 +70,7 @@ proc open_logs { } {
 	xml_output "<testsuite>"
     }
     catch "file delete -force -- $outdir/$tool.log"
-    log_file -a "$outdir/$tool.log"
+    log_file -a $outdir/$tool.log
     verbose "Opening log files in $outdir"
     if { ${tool} ==  "testrun" } {
 	set tool ""
@@ -108,7 +108,7 @@ proc isbuild { { pattern "" } } {
     }
     verbose "Checking pattern \"$pattern\" with $build_triplet" 2
 
-    if {[string match "$pattern" $build_triplet]} {
+    if {[string match $pattern $build_triplet]} {
 	return 1
     } else {
 	return 0
@@ -186,7 +186,7 @@ proc is3way {} {
 	set build_triplet ${host_triplet}
     }
     verbose "Checking $host_triplet against $build_triplet" 2
-    if { "$build_triplet" eq "$host_triplet" } {
+    if { $build_triplet eq $host_triplet } {
 	return 0
     }
     return 1
@@ -203,7 +203,7 @@ proc ishost { { pattern "" } } {
     }
     verbose "Checking pattern \"$pattern\" with $host_triplet" 2
 
-    if {[string match "$pattern" $host_triplet]} {
+    if {[string match $pattern $host_triplet]} {
 	return 1
     } else {
 	return 0
@@ -289,11 +289,11 @@ proc clone_output { message } {
     global all_flag
 
     if { $sum_file ne "" } {
-	puts $sum_file "$message"
+	puts $sum_file $message
     }
 
-    regsub "^\[ \t\]*(\[^ \t\]+).*$" "$message" "\\1" firstword
-    switch -glob -- "$firstword" {
+    regsub "^\[ \t\]*(\[^ \t\]+).*$" $message "\\1" firstword
+    switch -glob -- $firstword {
 	"PASS:" -
 	"XFAIL:" -
 	"KFAIL:" -
@@ -302,18 +302,18 @@ proc clone_output { message } {
 	"UNTESTED:" {
 	    if {$all_flag} {
 		send_user -- "$message\n"
-		return "$message"
+		return $message
 	    } else {
 		send_log -- "$message\n"
 	    }
 	}
 	{"ERROR:" "WARNING:" "NOTE:"} {
 	    send_error -- "$message\n"
-	    return "$message"
+	    return $message
 	}
 	default {
 	    send_user -- "$message\n"
-	    return "$message"
+	    return $message
 	}
     }
 }
@@ -350,7 +350,7 @@ proc log_and_exit {} {
     log_summary total
     # extract version number
     if {[info procs ${tool}_version] ne ""} {
-	if {[catch "${tool}_version" output]} {
+	if {[catch ${tool}_version output]} {
 	    warning "${tool}_version failed:\n$output"
 	}
     }
@@ -575,7 +575,7 @@ proc check_conditional_xfail { args } {
 		set incl_hit 0
 		set opt [lindex $includes $i]
 		verbose "Looking for $opt to include in the compiler flags" 2
-		foreach j "$opt" {
+		foreach j $opt {
 		    if {[string match "* $j *" $compiler_flags]} {
 			verbose "Found $j to include in the compiler flags" 2
 			incr incl_hit
@@ -595,7 +595,7 @@ proc check_conditional_xfail { args } {
 		set excl_hit 0
 		set opt [lindex $excludes $i]
 		verbose "Looking for $opt to exclude in the compiler flags" 2
-		foreach j "$opt" {
+		foreach j $opt {
 		    if {[string match "* $j *" $compiler_flags]} {
 			verbose "Found $j to exclude in the compiler flags" 2
 			incr excl_hit
@@ -804,11 +804,11 @@ proc record_test { type message args } {
 
     global multipass_name
     if { $multipass_name ne "" } {
-	set message [format "%s: %s: %s" "$type" "$multipass_name" "$message"]
+	set message [format "%s: %s: %s" $type $multipass_name $message]
     } else {
 	set message "$type: $message"
     }
-    clone_output "$message"
+    clone_output $message
 
     # If a command name exists in the $local_record_procs associative
     # array for this type of result, then invoke it.
@@ -816,7 +816,7 @@ proc record_test { type message args } {
     set lowcase_type [string tolower $type]
     global local_record_procs
     if {[info exists local_record_procs($lowcase_type)]} {
-	$local_record_procs($lowcase_type) "$message"
+	$local_record_procs($lowcase_type) $message
     }
 
     # Reset these so they're ready for the next test case.  We don't reset
@@ -1014,7 +1014,7 @@ proc init_testcounts { } {
     set j ""
 
     foreach i [lsort [array names test_counts]] {
-	regsub ",.*$" "$i" "" i
+	regsub ",.*$" $i "" i
 	if { $i == $j } {
 	    continue
 	}

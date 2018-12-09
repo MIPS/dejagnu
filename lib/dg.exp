@@ -374,7 +374,7 @@ proc dg-error { args } {
 	set line [dg-format-linenum [lindex $args 0]]
     }
 
-    lappend messages [list $line "${xfail}ERROR" [lindex $args 1] [lindex $args 2]]
+    lappend messages [list $line ${xfail}ERROR [lindex $args 1] [lindex $args 2]]
 }
 
 proc dg-warning { args } {
@@ -406,7 +406,7 @@ proc dg-warning { args } {
 	set line [dg-format-linenum [lindex $args 0]]
     }
 
-    lappend messages [list $line "${xfail}WARNING" [lindex $args 1] [lindex $args 2]]
+    lappend messages [list $line ${xfail}WARNING [lindex $args 1] [lindex $args 2]]
 }
 
 proc dg-bogus { args } {
@@ -438,7 +438,7 @@ proc dg-bogus { args } {
 	set line [dg-format-linenum [lindex $args 0]]
     }
 
-    lappend messages [list $line "${xfail}BOGUS" [lindex $args 1] [lindex $args 2]]
+    lappend messages [list $line ${xfail}BOGUS [lindex $args 1] [lindex $args 2]]
 }
 
 proc dg-build { args } {
@@ -460,7 +460,7 @@ proc dg-build { args } {
 	}
     }
 
-    lappend messages [list [lindex $args 0] "${xfail}BUILD" [lindex $args 1] [lindex $args 2]]
+    lappend messages [list [lindex $args 0] ${xfail}BUILD [lindex $args 1] [lindex $args 2]]
 }
 
 proc dg-excess-errors { args } {
@@ -629,7 +629,7 @@ proc dg-test { args } {
 
     # We append the compilation flags, if any, to ensure that the test case
     # names are unique.
-    if { "$tool_flags" ne "" } {
+    if { $tool_flags ne "" } {
 	set name "$name $tool_flags"
     }
 
@@ -659,7 +659,7 @@ proc dg-test { args } {
     set tmp [dg-get-options $prog]
     foreach op $tmp {
 	verbose "Processing option: $op" 3
-	set status [catch "$op" errmsg]
+	set status [catch $op errmsg]
 	if { $status != 0 } {
 	    if { 0 && [info exists errorInfo] } {
 		# This also prints a backtrace which will just confuse
@@ -681,7 +681,7 @@ proc dg-test { args } {
 
     # If we're not supposed to try this test on this target, we're done.
     if { [lindex ${dg-do-what} 1] eq "N" } {
-	unsupported "$name"
+	unsupported $name
 	verbose "$name not supported on this target, skipping it" 3
 	return
     }
@@ -805,7 +805,7 @@ proc dg-test { args } {
 	    if { [lindex ${dg-do-what} 2] eq "F" } {
 		setup_xfail "*-*-*"
 	    }
-	    if { "$status" eq "pass" } {
+	    if { $status eq "pass" } {
 		pass "$name execution test"
 		verbose "Exec succeeded." 3
 		if { [llength ${dg-output-text}] > 1 } {
@@ -823,7 +823,7 @@ proc dg-test { args } {
 		    }
 		    unset texttmp
 		}
-	    } elseif { "$status" eq "fail" } {
+	    } elseif { $status eq "fail" } {
 		# It would be nice to get some info out of errorCode.
 		if {[info exists errorCode]} {
 		    verbose "Exec failed, errorCode: $errorCode" 3

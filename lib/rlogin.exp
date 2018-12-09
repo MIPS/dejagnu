@@ -163,7 +163,7 @@ proc rlogin_spawn { dest cmdline } {
     if { ! $ok } {
 	return "unable to start command"
     } else {
-	remote_send $dest "${prefix}${cmdline}\n"
+	remote_send $dest "$prefix$cmdline\n"
 	return [board_info $dest fileid]
     }
 }

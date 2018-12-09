@@ -127,7 +127,7 @@ proc kermit_command {dest args} {
     }
     foreach command $args {
 	set timeout 120
-	send -i $shell_id "${command}\r"
+	send -i $shell_id "$command\r"
 	expect {
 	    -i $shell_id -re ".*ermit.*>.*$" { }
 	    -i $shell_id timeout {
@@ -152,11 +152,11 @@ proc kermit_command {dest args} {
 proc kermit_send {dest string args} {
     if {[board_info $dest exists transmit_pause]} {
 	set f [open "/tmp/fff" "w"]
-	puts -nonewline $f "$string"
+	puts -nonewline $f $string
 	close $f
 	set result [remote_transmit $dest /tmp/fff]
 	remote_file build delete "/tmp/fff"
-	return "$result"
+	return $result
     } else {
 	return [standard_send $dest $string]
     }

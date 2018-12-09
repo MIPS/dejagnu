@@ -67,7 +67,7 @@ proc ftp_open {host} {
 	} else {
 	    set command "user [board_info $host ftp_username]\n"
 	}
-	send "$command"
+	send $command
 	expect {
 	    -i $spawn_id -re ".*230.*$prompt" { }
 	    -i $spawn_id default {
