@@ -94,7 +94,7 @@ proc host_compile {compline} {
     }
 
     # return the filtered output
-    return ${comp_output}
+    return $comp_output
 }
 
 # Execute the executable file, and analyse the output for the test
@@ -121,7 +121,7 @@ proc host_execute {args} {
     }
 
     verbose "The executable is $executable" 2
-    if {![file exists ${executable}]} {
+    if {![file exists $executable]} {
 	perror "The executable, \"$executable\" is missing" 0
 	return "No source file found"
     }
@@ -129,7 +129,7 @@ proc host_execute {args} {
     # spawn the executable and look for the DejaGnu output messages from the
     # test case.
     # spawn -noecho -open [open "|./${executable}" "r"]
-    spawn -noecho "./${executable}" ${params}
+    spawn -noecho "./${executable}" $params
     set prefix "\[^\r\n\]*"
     expect {
 	-re "^$prefix\[0-9\]\[0-9\]:..:..:${text}*\r\n" {

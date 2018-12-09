@@ -34,36 +34,36 @@ proc make_defaults_file { defs } {
     # We need to setup default values and a few default procs so we
     # can execute library code without DejaGnu
     set fd [open $defs w]
-    puts ${fd} "set tool foobar"
-    puts ${fd} "set srcdir ${srcdir}"
-    puts ${fd} "set objdir ${objdir}"
-    puts ${fd} "set subdir ${subdir}"
-    puts ${fd} "set build_triplet ${build_triplet}"
-    puts ${fd} "set host_triplet ${host_triplet}"
-    puts ${fd} "set target_triplet ${target_triplet}"
-    puts ${fd} "set target_os ${target_os}"
-    puts ${fd} "set target_cpu ${target_cpu}"
-    puts ${fd} "set testcnt 0"
-    puts ${fd} "set warncnt 0"
-    puts ${fd} "set errcnt 0"
-    puts ${fd} "set passcnt 0"
-    puts ${fd} "set xpasscnt 0"
-    puts ${fd} "set kpasscnt 0"
-    puts ${fd} "set failcnt 0"
-    puts ${fd} "set xfailcnt 0"
-    puts ${fd} "set kfailcnt 0"
-    puts ${fd} "set prms_id 0"
-    puts ${fd} "set bug_id 0"
-    puts ${fd} "set exit_status 0"
-    puts ${fd} "set untestedcnt 0"
-    puts ${fd} "set unresolvedcnt 0"
-    puts ${fd} "set unsupportedcnt 0"
-    puts ${fd} "set xfail_flag 0"
-    puts ${fd} "set xfail_prms 0"
-    puts ${fd} "set kfail_flag 0"
-    puts ${fd} "set kfail_prms 0"
-    puts ${fd} "set mail_logs 0"
-    puts ${fd} "set multipass_name 0"
+    puts $fd "set tool foobar"
+    puts $fd "set srcdir $srcdir"
+    puts $fd "set objdir $objdir"
+    puts $fd "set subdir $subdir"
+    puts $fd "set build_triplet $build_triplet"
+    puts $fd "set host_triplet $host_triplet"
+    puts $fd "set target_triplet $target_triplet"
+    puts $fd "set target_os $target_os"
+    puts $fd "set target_cpu $target_cpu"
+    puts $fd "set testcnt 0"
+    puts $fd "set warncnt 0"
+    puts $fd "set errcnt 0"
+    puts $fd "set passcnt 0"
+    puts $fd "set xpasscnt 0"
+    puts $fd "set kpasscnt 0"
+    puts $fd "set failcnt 0"
+    puts $fd "set xfailcnt 0"
+    puts $fd "set kfailcnt 0"
+    puts $fd "set prms_id 0"
+    puts $fd "set bug_id 0"
+    puts $fd "set exit_status 0"
+    puts $fd "set untestedcnt 0"
+    puts $fd "set unresolvedcnt 0"
+    puts $fd "set unsupportedcnt 0"
+    puts $fd "set xfail_flag 0"
+    puts $fd "set xfail_prms 0"
+    puts $fd "set kfail_flag 0"
+    puts $fd "set kfail_prms 0"
+    puts $fd "set mail_logs 0"
+    puts $fd "set multipass_name 0"
     catch "close $fd"
 }
 
@@ -75,7 +75,7 @@ proc start_expect { } {
     # can execute library code without DejaGnu
     set defaults_file setval.tmp
     make_defaults_file $defaults_file
-    set fd [open ${defaults_file} w]
+    set fd [open $defaults_file w]
 
     # look for expect
     if {![info exists EXPECT]} {
@@ -99,7 +99,7 @@ proc start_expect { } {
     }
 
     # Load the defaults file
-    exp_send "source ${defaults_file}\n"
+    exp_send "source $defaults_file\n"
     expect {
 	"expect*> " {
 	    verbose "Loaded testing defaults file." 2
@@ -129,10 +129,10 @@ proc stop_expect { }  {
 #
 proc load_test_lib { lib } {
     global spawn_id
-    exp_send "source ${lib}\n"
+    exp_send "source $lib\n"
     expect {
 	"expect*> " {
-	    verbose "Testing ${lib}" 2
+	    verbose "Testing $lib" 2
 	}
 	timeout {
 	    perror "Couldn't load the libraries to test"

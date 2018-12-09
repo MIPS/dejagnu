@@ -188,9 +188,9 @@ proc local_exec { commandline inp outp timeout } {
 	}
 	# Why do we use tee? Because open can't redirect both input and output.
 	if { $use_tee } {
-	    set result [catch {open "| ${commandline} $inp |& tee $outpf" RDONLY} id]
+	    set result [catch {open "| $commandline $inp |& tee $outpf" RDONLY} id]
 	} else {
-	    set result [catch {open "| ${commandline} $inp $outp" $mode} id]
+	    set result [catch {open "| $commandline $inp $outp" $mode} id]
 	}
 
 	if { $result != 0 } {
@@ -362,15 +362,15 @@ proc remote_raw_close { host } {
 proc standard_close { host } {
     global board_info
 
-    if {[board_info ${host} exists fileid]} {
-	set shell_id [board_info ${host} fileid]
+    if {[board_info $host exists fileid]} {
+	set shell_id [board_info $host fileid]
 	set pid -1
 
 	verbose "Closing the remote shell $shell_id" 2
-	if {[board_info ${host} exists fileid_origid]} {
-	    set oid [board_info ${host} fileid_origid]
+	if {[board_info $host exists fileid_origid]} {
+	    set oid [board_info $host fileid_origid]
 	    set pid [pid $oid]
-	    unset board_info(${host},fileid_origid)
+	    unset board_info($host,fileid_origid)
 	} else {
 	    set result [catch "exp_pid -i $shell_id" pid]
 	    if { $result != 0 || $pid <= 0 } {
@@ -387,7 +387,7 @@ proc standard_close { host } {
 	    catch "close $oid"
 	}
 
-	unset board_info(${host},fileid)
+	unset board_info($host,fileid)
 	verbose "Shell closed."
     }
     return 0
@@ -410,7 +410,7 @@ proc remote_raw_binary { host } {
 # success and 0 on failure.
 #
 proc remote_reboot { host } {
-    clone_output "\nRebooting ${host}\n"
+    clone_output "\nRebooting $host\n"
     # FIXME: don't close the host connection, or all the remote
     # procedures will fail.
     # remote_close $host
@@ -637,7 +637,7 @@ proc call_remote { type proc dest args } {
 	}
 	return $result
     }
-    foreach try "${high_prot} [board_info $dest file_transfer] [board_info $dest connect] telnet standard" {
+    foreach try "$high_prot [board_info $dest file_transfer] [board_info $dest connect] telnet standard" {
 	verbose "looking for ${try}_${proc}" 4
 	if { $try ne "" } {
 	    if { [info procs "${try}_${proc}"] ne "" } {
@@ -864,12 +864,12 @@ proc remote_spawn { dest commandline args } {
 
 	if { [llength $args] > 0 } {
 	    if { [lindex $args 0] eq "readonly" } {
-		set result [catch { open "| ${commandline} |& cat" "r" } id]
+		set result [catch { open "| $commandline |& cat" "r" } id]
 		if { $result != 0 } {
 		    return -1
 		}
 	    } else {
-		set result [catch {open "| ${commandline}" "w"} id]
+		set result [catch {open "| $commandline" "w"} id]
 		if { $result != 0 } {
 		    return -1
 		}
@@ -982,20 +982,20 @@ proc remote_load { dest prog args } {
 	    } else {
 		set dprog $prog
 	    }
-	    set status [remote_exec host "[target_info objcopy]" "-O srec $dprog ${dprog}.sum"]
+	    set status [remote_exec host "[target_info objcopy]" "-O srec $dprog $dprog.sum"]
 	    if {[isremote host]} {
-		remote_file upload ${dprog}.sum ${prog}.sum
+		remote_file upload $dprog.sum $prog.sum
 	    }
 	    if { [lindex $status 0] == 0 } {
 		set sumout [remote_exec build $sum_program $prog.sum]
 		set sum [lindex $sumout 1]
 		regsub "\[\r\n \t\]+$" $sum "" sum
 	    } else {
-		set sumout [remote_exec build $sum_program ${prog}]
+		set sumout [remote_exec build $sum_program $prog]
 		set sum [lindex $sumout 1]
 		regsub "\[\r\n \t\]+$" $sum "" sum
 	    }
-	    remote_file build delete ${prog}.sum
+	    remote_file build delete $prog.sum
 	}
 	if {[file exists $cache]} {
 	    set same 0
@@ -1288,7 +1288,7 @@ proc remote_expect { board timeout args } {
 	    append res "$x "
 	    set next [expr {$i + 1}]
 	    set y [lrange $args $next $next]
-	    append res "${y} "
+	    append res "$y "
 	    set got_re 1
 	    incr i
 	    continue

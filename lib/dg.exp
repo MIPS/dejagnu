@@ -813,7 +813,7 @@ proc dg-test { args } {
 			setup_xfail "*-*-*"
 		    }
 		    set texttmp [lindex ${dg-output-text} 1]
-		    if { ![regexp -- $texttmp ${output}] } {
+		    if { ![regexp -- $texttmp $output] } {
 			fail "$name output pattern test"
 			send_log "Output was:\n${output}\nShould match:\n$texttmp\n"
 			verbose "Failed test for output pattern $texttmp" 3

@@ -31,19 +31,19 @@ proc find_sim { target_alias sim_dir sim_name } {
 
     if {[isremote host]} {
 	if {![board_info host exists no_transform_name]} {
-	    return ${target_alias}-${sim_name}
+	    return $target_alias-$sim_name
 	} else {
-	    return ${sim_name}
+	    return $sim_name
 	}
     }
 
     # We have to search because tool_root_dir may actually point to that blasted
     # "target" subdirectory.
-    set try [lookfor_file ${tool_root_dir} sim/${sim_dir}/${sim_name}]
+    set try [lookfor_file $tool_root_dir sim/$sim_dir/$sim_name]
     if { $try ne "" } {
 	return $try
     }
-    return ${target_alias}-${sim_name}
+    return $target_alias-$sim_name
 }
 
 proc setup_sim { subdir_name } {

@@ -114,7 +114,7 @@ proc unix_load { dest prog args } {
 	    # rcp's to lynx seem not to get marked executable
 	    set status [remote_exec $dest "chmod +x $remotefile"]
 	    if { [lindex $status 0] != 0 } {
-		remote_file $dest delete ${remotefile}.o $remotefile
+		remote_file $dest delete $remotefile.o $remotefile
 		verbose -log "chmod +x of $prog on $dest failed." 3
 		return [list "unresolved" ""]
 	    }

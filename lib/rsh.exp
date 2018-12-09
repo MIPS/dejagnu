@@ -44,9 +44,9 @@ proc rsh_open { hostname } {
     if {[board_info $hostname exists name]} {
 	set hostname [board_info $hostname name]
     }
-    set hostname [lindex [split [board_info ${hostname} netport] ":"] 0]
-    if {[board_info ${hostname} exists shell_prompt]} {
-	set shell_prompt [board_info ${hostname} shell_prompt]
+    set hostname [lindex [split [board_info $hostname netport] ":"] 0]
+    if {[board_info $hostname exists shell_prompt]} {
+	set shell_prompt [board_info $hostname shell_prompt]
     } else {
 	set shell_prompt ".*> "
     }

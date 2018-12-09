@@ -28,7 +28,7 @@ proc gdb_stub_init { dest args } {
     global tool_root_dir
 
     if {![info exists GDB]} then {
-	set GDB "[lookfor_file ${tool_root_dir} gdb/gdb]"
+	set GDB "[lookfor_file $tool_root_dir gdb/gdb]"
 	if { $GDB eq "" } {
 	    set GDB [transform gdb]
 	}
@@ -82,7 +82,7 @@ proc gdb_stub_restart { dest } {
 	}
 	remote_reboot $dest
     }
-    if { ${x} < 4 } {
+    if { $x < 4 } {
 	global board_info
 	set name [board_info $dest name]
 

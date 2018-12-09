@@ -81,7 +81,7 @@ proc libgloss_link_flags { args } {
 
     set gloss_srcdir ""
     # look for the libgloss srcdir sp we can find the linker scripts
-    set gloss_srcdir [lookfor_file ${srcdir} libgloss/$cpu]
+    set gloss_srcdir [lookfor_file $srcdir libgloss/$cpu]
 
     # set the proper paths for gcc if the target subdir exists, else assume we
     # have no libgloss support for this target.
@@ -119,7 +119,7 @@ proc newlib_link_flags { args } {
 	return ""
     }
 
-    set ld_script_path [lookfor_file ${tool_root_dir} "ld/ldscripts"]
+    set ld_script_path [lookfor_file $tool_root_dir "ld/ldscripts"]
     if { $ld_script_path ne "" } {
 	set result "-L[file dirname $ld_script_path]"
     } else {
@@ -154,9 +154,9 @@ proc newlib_include_flags { args } {
     if {[file exists [file join $gccpath newlib]]} {
 	verbose "Newlib path is $gccpath/newlib"
 
-	set newlib_dir [lookfor_file ${srcdir} newlib/libc/include/assert.h]
-	if { ${newlib_dir} ne "" } {
-	    set newlib_dir [file dirname ${newlib_dir}]
+	set newlib_dir [lookfor_file $srcdir newlib/libc/include/assert.h]
+	if { $newlib_dir ne "" } {
+	    set newlib_dir [file dirname $newlib_dir]
 	}
 	# Note - we use -isystem rather than -I because newlib contains
 	# system header files.  This is especially important for the
@@ -164,7 +164,7 @@ proc newlib_include_flags { args } {
 	# #include_next will generate error messages from GCC if compiling
 	# in strict ANSI mode or if another limits.h header cannot be found.
 	# When it is included via -isystem these things do not happen.
-	return " -isystem $gccpath/newlib/targ-include -isystem ${newlib_dir}"
+	return " -isystem $gccpath/newlib/targ-include -isystem $newlib_dir"
     } else {
 	verbose "No newlib support for this target"
     }
@@ -184,24 +184,24 @@ proc libio_include_flags { args } {
 	set gccpath $tool_root_dir
     }
 
-    set libio_bin_dir [lookfor_file ${gccpath} libio/_G_config.h]
+    set libio_bin_dir [lookfor_file $gccpath libio/_G_config.h]
 
     # linux doesn't build _G_config.h and the test above fails, so
     # we search for iostream.list too.
     if { $libio_bin_dir eq "" } {
-	set libio_bin_dir [lookfor_file ${gccpath} libio/iostream.list]
+	set libio_bin_dir [lookfor_file $gccpath libio/iostream.list]
     }
 
-    set libio_src_dir [lookfor_file ${srcdir} libio/Makefile.in]
+    set libio_src_dir [lookfor_file $srcdir libio/Makefile.in]
     if { $libio_bin_dir ne "" && $libio_src_dir ne "" } {
-	set libio_src_dir [file dirname ${libio_src_dir}]
-	set libio_bin_dir [file dirname ${libio_bin_dir}]
+	set libio_src_dir [file dirname $libio_src_dir]
+	set libio_bin_dir [file dirname $libio_bin_dir]
 	# Note - unlike the newlib_include_flags proc above we use the -I
 	# switch to specify the include paths.  This is because these headers
 	# are not system headers, and if -isystem were to be used GCC would
 	# generate an implicit extern "C" { ... } surrounding them.  This
 	# will break targets which do not define NO_IMPLICIT_EXTERN_C.
-	return " -I${libio_src_dir} -I${libio_bin_dir}"
+	return " -I$libio_src_dir -I$libio_bin_dir"
     } else {
 	return ""
     }
@@ -214,9 +214,9 @@ proc libio_link_flags { args } {
 
     set gccpath "[get_multilibs]"
 
-    set libio_dir [lookfor_file ${gccpath} libio/libio.a]
+    set libio_dir [lookfor_file $gccpath libio/libio.a]
     if { $libio_dir ne "" } {
-	return "-L[file dirname ${libio_dir}]"
+	return "-L[file dirname $libio_dir]"
     } else {
 	return ""
     }
@@ -234,25 +234,25 @@ proc g++_include_flags { args } {
     set libio_dir ""
     set flags ""
 
-    set dir [lookfor_file ${srcdir} libg++]
-    if { ${dir} ne "" } {
+    set dir [lookfor_file $srcdir libg++]
+    if { $dir ne "" } {
 	# See comment in libio_include_flags about using -I.
-	append flags " -I${dir} -I${dir}/src"
+	append flags " -I$dir -I$dir/src"
     }
 
-    set dir [lookfor_file ${srcdir} libstdc++-v3]
-    if { ${dir} ne "" } {
-	append flags " -I${dir}/include -I${dir}/include/std -I${dir}/include/c_std -I${dir}/libsupc++"
+    set dir [lookfor_file $srcdir libstdc++-v3]
+    if { $dir ne "" } {
+	append flags " -I$dir/include -I$dir/include/std -I$dir/include/c_std -I$dir/libsupc++"
     }
 
-    set dir [lookfor_file ${gccpath} libstdc++-v3]
-    if { ${dir} ne "" } {
-	append flags " -I${dir}/include -I${dir}/include/${target_alias}"
+    set dir [lookfor_file $gccpath libstdc++-v3]
+    if { $dir ne "" } {
+	append flags " -I$dir/include -I$dir/include/$target_alias"
     }
 
-    set dir [lookfor_file ${srcdir} libstdc++]
-    if { ${dir} ne "" } {
-	append flags " -I${dir} -I${dir}/stl"
+    set dir [lookfor_file $srcdir libstdc++]
+    if { $dir ne "" } {
+	append flags " -I$dir -I$dir/stl"
     }
 
     return $flags
@@ -268,47 +268,47 @@ proc g++_link_flags { args } {
     set ld_library_path "."
 
     if { $gccpath ne "" } {
-	if {[file exists [file join ${gccpath} lib libstdc++.a]]} {
-	    append ld_library_path ":${gccpath}/lib"
+	if {[file exists [file join $gccpath lib libstdc++.a]]} {
+	    append ld_library_path ":$gccpath/lib"
 	}
-	if {[file exists [file join ${gccpath} libg++ libg++.a]]} {
-	    append flags "-L${gccpath}/libg++ "
-	    append ld_library_path ":${gccpath}/libg++"
+	if {[file exists [file join $gccpath libg++ libg++.a]]} {
+	    append flags "-L$gccpath/libg++ "
+	    append ld_library_path ":$gccpath/libg++"
 	}
-	if {[file exists [file join ${gccpath} libstdc++ libstdc++.a]]} {
-	    append flags "-L${gccpath}/libstdc++ "
-	    append ld_library_path ":${gccpath}/libstdc++"
+	if {[file exists [file join $gccpath libstdc++ libstdc++.a]]} {
+	    append flags "-L$gccpath/libstdc++ "
+	    append ld_library_path ":$gccpath/libstdc++"
 	}
-	if {[file exists [file join ${gccpath} libstdc++-v3 src .libs libstdc++.a]]} {
-	    append flags "-L${gccpath}/libstdc++-v3/src/.libs "
-	    append ld_library_path ":${gccpath}/libstdc++-v3/src/.libs"
+	if {[file exists [file join $gccpath libstdc++-v3 src .libs libstdc++.a]]} {
+	    append flags "-L$gccpath/libstdc++-v3/src/.libs "
+	    append ld_library_path ":$gccpath/libstdc++-v3/src/.libs"
 	}
-	if {[file exists [file join ${gccpath} libiberty libiberty.a]]} {
-	    append flags "-L${gccpath}/libiberty "
+	if {[file exists [file join $gccpath libiberty libiberty.a]]} {
+	    append flags "-L$gccpath/libiberty "
 	}
-	if {[file exists [file join ${gccpath} librx librx.a]]} {
-	    append flags "-L${gccpath}/librx "
+	if {[file exists [file join $gccpath librx librx.a]]} {
+	    append flags "-L$gccpath/librx "
 	}
     } else {
 	global tool_root_dir
 
-	set libgpp [lookfor_file ${tool_root_dir} libg++]
+	set libgpp [lookfor_file $tool_root_dir libg++]
 	if { $libgpp ne "" } {
-	    append flags "-L${libgpp} "
-	    append ld_library_path ":${libgpp}"
+	    append flags "-L$libgpp "
+	    append ld_library_path ":$libgpp"
 	}
-	set libstdcpp [lookfor_file ${tool_root_dir} libstdc++]
+	set libstdcpp [lookfor_file $tool_root_dir libstdc++]
 	if { $libstdcpp ne "" } {
-	    append flags "-L${libstdcpp} "
-	    append ld_library_path ":${libstdcpp}"
+	    append flags "-L$libstdcpp "
+	    append ld_library_path ":$libstdcpp"
 	}
-	set libiberty [lookfor_file ${tool_root_dir} libiberty]
+	set libiberty [lookfor_file $tool_root_dir libiberty]
 	if { $libiberty ne "" } {
-	    append flags "-L${libiberty} "
+	    append flags "-L$libiberty "
 	}
-	set librx [lookfor_file ${tool_root_dir} librx]
+	set librx [lookfor_file $tool_root_dir librx]
 	if { $librx ne "" } {
-	    append flags "-L${librx} "
+	    append flags "-L$librx "
 	}
     }
     return $flags
@@ -326,22 +326,22 @@ proc libstdc++_include_flags { args } {
     set libio_dir ""
     set flags ""
 
-    set dir [lookfor_file ${srcdir} libstdc++-v3]
-    if { ${dir} ne "" } {
+    set dir [lookfor_file $srcdir libstdc++-v3]
+    if { $dir ne "" } {
 	# See comment in libio_include_flags about using -I.
-	append flags " -I${dir}/include -I${dir}/include/std -I${dir}/include/c_std -I${dir}/libsupc++"
+	append flags " -I$dir/include -I$dir/include/std -I$dir/include/c_std -I$dir/libsupc++"
     }
 
     set gccpath [get_multilibs]
 
-    set dir [lookfor_file ${gccpath} libstdc++-v3]
-    if { ${dir} ne "" } {
-	append flags " -I${dir}/include -I${dir}/include/${target_alias}"
+    set dir [lookfor_file $gccpath libstdc++-v3]
+    if { $dir ne "" } {
+	append flags " -I$dir/include -I$dir/include/$target_alias"
     }
 
-    set dir [lookfor_file ${srcdir} libstdc++]
-    if { ${dir} ne "" } {
-	append flags " -I${dir} -I${dir}/stl"
+    set dir [lookfor_file $srcdir libstdc++]
+    if { $dir ne "" } {
+	append flags " -I$dir -I$dir/stl"
     }
 
     return $flags
@@ -356,31 +356,31 @@ proc libstdc++_link_flags { args } {
     set flags ""
 
     if { $gccpath ne "" } {
-	if {[file exists [file join ${gccpath} libstdc++ libstdc++.a]]} {
-	    append flags "-L${gccpath}/libstdc++ "
-	    append ld_library_path ":${gccpath}/libstdc++"
+	if {[file exists [file join $gccpath libstdc++ libstdc++.a]]} {
+	    append flags "-L$gccpath/libstdc++ "
+	    append ld_library_path ":$gccpath/libstdc++"
 	}
-	if {[file exists [file join ${gccpath} libiberty libiberty.a]]} {
-	    append flags "-L${gccpath}/libiberty "
+	if {[file exists [file join $gccpath libiberty libiberty.a]]} {
+	    append flags "-L$gccpath/libiberty "
 	}
-	if {[file exists [file join ${gccpath} librx librx.a]]} {
-	    append flags "-L${gccpath}/librx "
+	if {[file exists [file join $gccpath librx librx.a]]} {
+	    append flags "-L$gccpath/librx "
 	}
     } else {
 	global tool_root_dir
 
-	set libstdcpp [lookfor_file ${tool_root_dir} libstdc++]
+	set libstdcpp [lookfor_file $tool_root_dir libstdc++]
 	if { $libstdcpp ne "" } {
-	    append flags "-L${libstdcpp} "
-	    append ld_library_path ":${libstdcpp}"
+	    append flags "-L$libstdcpp "
+	    append ld_library_path ":$libstdcpp"
 	}
-	set libiberty [lookfor_file ${tool_root_dir} libiberty]
+	set libiberty [lookfor_file $tool_root_dir libiberty]
 	if { $libiberty ne "" } {
-	    append flags "-L${libiberty} "
+	    append flags "-L$libiberty "
 	}
-	set librx [lookfor_file ${tool_root_dir} librx]
+	set librx [lookfor_file $tool_root_dir librx]
 	if { $librx ne "" } {
-	    append flags "-L${librx} "
+	    append flags "-L$librx "
 	}
     }
     return $flags
@@ -501,7 +501,7 @@ proc get_multilibs { args } {
     if { $multitop eq "" } {
 	set multitop [lookfor_file $comp_base_dir "libraries"]
 	if { $multitop eq "" } {
-	    set multitop "[lookfor_file ${comp_base_dir} gcc/xgcc]"
+	    set multitop "[lookfor_file $comp_base_dir gcc/xgcc]"
 	    if { $multitop ne "" } {
 		set multitop [file dirname [file dirname $multitop]]
 	    } else {
@@ -609,13 +609,13 @@ proc find_binutils_prog { name } {
 
 	set file [lookfor_file $tool_root_dir $name]
 	if { $file eq "" } {
-	    set file [lookfor_file $tool_root_dir ${name}-new]
+	    set file [lookfor_file $tool_root_dir $name-new]
 	}
 	if { $file eq "" } {
 	    set file [lookfor_file $tool_root_dir binutils/$name]
 	}
 	if { $file eq "" } {
-	    set file [lookfor_file $tool_root_dir binutils/${name}-new]
+	    set file [lookfor_file $tool_root_dir binutils/$name-new]
 	}
 	if { $file ne "" } {
 	    set NAME $file
@@ -919,8 +919,8 @@ proc build_wrapper { gluefile } {
     if {[target_info exists wrap_compile_flags]} {
 	lappend flags "additional_flags=[target_info wrap_compile_flags]"
     }
-    if { [target_compile ${libdir}/testglue.c ${gluefile} object $flags] eq "" } {
-	set gluefile [remote_download host ${gluefile} ${tool}_tg.o]
+    if { [target_compile $libdir/testglue.c $gluefile object $flags] eq "" } {
+	set gluefile [remote_download host $gluefile ${tool}_tg.o]
 	return [list $gluefile $result]
     } else {
 	return ""
@@ -944,11 +944,11 @@ proc winsup_include_flags { args } {
     if {[file exists [file join $gccpath winsup]]} {
 	verbose "Winsup path is $gccpath/winsup"
 
-	set winsup_dir [lookfor_file ${srcdir} winsup/include/windows.h]
-	if { ${winsup_dir} ne "" } {
-	    set winsup_dir [file dirname ${winsup_dir}]
+	set winsup_dir [lookfor_file $srcdir winsup/include/windows.h]
+	if { $winsup_dir ne "" } {
+	    set winsup_dir [file dirname $winsup_dir]
 	    # See comment in libio_include_flags about using -I.
-	    return " -I${winsup_dir}"
+	    return " -I$winsup_dir"
 	}
     }
     verbose "No winsup support for this target"

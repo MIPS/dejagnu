@@ -43,8 +43,8 @@ proc adb_open { hostname } {
     set tries 0
     set result -1
 
-    if {[board_info ${hostname} exists shell_prompt]} {
-	set shell_prompt [board_info ${hostname} shell_prompt]
+    if {[board_info $hostname exists shell_prompt]} {
+	set shell_prompt [board_info $hostname shell_prompt]
     } else {
 	set shell_prompt "root@android:/ # "
     }

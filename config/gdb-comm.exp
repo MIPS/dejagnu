@@ -164,7 +164,7 @@ proc gdb_comm_start { dest } {
     # Similarly for GDB.  Look in the object directory for gdb if we aren't
     # provided with one.
     if {![info exists GDB]} then {
-	set GDB "[lookfor_file ${tool_root_dir} gdb/gdb]"
+	set GDB "[lookfor_file $tool_root_dir gdb/gdb]"
 	if { $GDB eq "" } {
 	    set GDB [transform gdb]
 	}

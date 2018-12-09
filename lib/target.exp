@@ -94,8 +94,8 @@ proc push_config { type name } {
 proc pop_config { type  } {
     global target_info
 
-    if {[info exists target_info(${type},name)]} {
-	unset target_info(${type},name)
+    if {[info exists target_info($type,name)]} {
+	unset target_info($type,name)
     }
 }
 
@@ -527,7 +527,7 @@ proc default_target_compile {source destfile type options} {
 	if {[isnative]} {
 	    # This is a lose.
 	    catch "glob -nocomplain $tool_root_dir/libstdc++/libstdc++.so* $tool_root_dir/libstdc++/libstdc++.sl" tmp
-	    if { ${tmp} ne "" } {
+	    if { $tmp ne "" } {
 		if {[regexp ".*solaris2.*" $target_triplet]} {
 		    # Solaris 2
 		    append add_flags " -R$tool_root_dir/libstdc++"
@@ -676,13 +676,13 @@ proc default_target_compile {source destfile type options} {
     if { [lindex $status 0] != 0 && $comp_output eq "" } {
 	set comp_output "exit status is [lindex $status 0]"
     }
-    return ${comp_output}
+    return $comp_output
 }
 
 proc reboot_target { } {
     set result [remote_reboot target]
     puts "REBOOT_TARGET: \"$result\""
-    return ${result}
+    return $result
 }
 
 # Invoke this if you really want as to be called directly, rather than
@@ -729,7 +729,7 @@ proc default_target_assemble { source destfile flags } {
     if { [lindex $status 1] ne "" } {
 	verbose "assembler output is:\n[lindex $status 1]" 2
     }
-    return ${comp_output}
+    return $comp_output
 }
 
 # Invoke this if you really want ld to be called directly, rather than
@@ -821,5 +821,5 @@ proc default_link { board objects destfile flags } {
     if { [lindex $status 1] ne "" } {
 	verbose "linker output is:\n[lindex $status 1]" 2
     }
-    return ${comp_output}
+    return $comp_output
 }

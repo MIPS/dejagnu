@@ -43,10 +43,10 @@ proc getdirs { args } {
     } else {
 	set pattern "*"
     }
-    verbose "Looking in ${path} for directories that match \"${pattern}\"" 3
-    catch "glob ${path}/${pattern}" tmp
-    if { ${tmp} ne "" } {
-	foreach i ${tmp} {
+    verbose "Looking in $path for directories that match \"${pattern}\"" 3
+    catch "glob $path/$pattern" tmp
+    if { $tmp ne "" } {
+	foreach i $tmp {
 	    if {[file isdirectory $i]} {
 		switch -- "[file tail $i]" {
 		    "testsuite" -
@@ -310,57 +310,57 @@ proc diff { file_1 file_2 } {
     set eof -1
     set differences 0
 
-    if {[file exists ${file_1}]} {
-	set file_a [open ${file_1} r]
+    if {[file exists $file_1]} {
+	set file_a [open $file_1 r]
 	fconfigure $file_a -encoding binary
     } else {
-	warning "${file_1} doesn't exist"
+	warning "$file_1 doesn't exist"
 	return 0
     }
 
-    if {[file exists ${file_2}]} {
-	set file_b [open ${file_2} r]
+    if {[file exists $file_2]} {
+	set file_b [open $file_2 r]
 	fconfigure $file_b -encoding binary
     } else {
-	warning "${file_2} doesn't exist"
+	warning "$file_2 doesn't exist"
 	return 0
     }
 
-    verbose "# Diff'ing: ${file_1} ${file_2}" 1
+    verbose "# Diff'ing: $file_1 $file_2" 1
 
     set list_a ""
-    while { [gets ${file_a} line] != ${eof} } {
-	if {[regexp "^#.*$" ${line}]} {
+    while { [gets $file_a line] != $eof } {
+	if {[regexp "^#.*$" $line]} {
 	    continue
 	} else {
-	    lappend list_a ${line}
+	    lappend list_a $line
 	}
     }
-    close ${file_a}
+    close $file_a
 
     set list_b ""
-    while { [gets ${file_b} line] != ${eof} } {
-	if {[regexp "^#.*$" ${line}]} {
+    while { [gets $file_b line] != $eof } {
+	if {[regexp "^#.*$" $line]} {
 	    continue
 	} else {
-	    lappend list_b ${line}
+	    lappend list_b $line
 	}
     }
-    close ${file_b}
+    close $file_b
 
     for { set i 0 } { $i < [llength $list_a] } { incr i } {
-	set line_a [lindex ${list_a} ${i}]
-	set line_b [lindex ${list_b} ${i}]
+	set line_a [lindex $list_a $i]
+	set line_b [lindex $list_b $i]
 
 	if {$line_a ne $line_b} {
-	    verbose -log "line #${i}" 2
-	    verbose -log "\< ${line_a}" 2
-	    verbose -log "\> ${line_b}" 2
+	    verbose -log "line #$i" 2
+	    verbose -log "\< $line_a" 2
+	    verbose -log "\> $line_b" 2
 	    set differences -1
 	}
     }
 
-    if { $differences == -1 || [llength ${list_a}] != [llength ${list_b}] } {
+    if { $differences == -1 || [llength $list_a] != [llength $list_b] } {
 	verbose "Files not the same" 2
 	set differences -1
     } else {

@@ -57,7 +57,7 @@ proc open_logs { } {
     global xml_file
     global xml
 
-    if { ${tool} eq "" } {
+    if { $tool eq "" } {
 	set tool testrun
     }
     catch "file delete -force -- $outdir/$tool.sum"
@@ -72,7 +72,7 @@ proc open_logs { } {
     catch "file delete -force -- $outdir/$tool.log"
     log_file -a $outdir/$tool.log
     verbose "Opening log files in $outdir"
-    if { ${tool} ==  "testrun" } {
+    if { $tool ==  "testrun" } {
 	set tool ""
     }
     fconfigure $sum_file -buffering line
@@ -101,7 +101,7 @@ proc isbuild { { pattern "" } } {
     global host_triplet
 
     if {![info exists build_triplet]} {
-	set build_triplet ${host_triplet}
+	set build_triplet $host_triplet
     }
     if {$pattern eq ""} {
 	return $build_triplet
@@ -183,7 +183,7 @@ proc is3way {} {
     global build_triplet
 
     if {![info exists build_triplet]} {
-	set build_triplet ${host_triplet}
+	set build_triplet $host_triplet
     }
     verbose "Checking $host_triplet against $build_triplet" 2
     if { $build_triplet eq $host_triplet } {
@@ -357,7 +357,7 @@ proc log_and_exit {} {
     close_logs
     verbose -log "runtest completed at [timestamp -format %c]"
     if {$mail_logs} {
-	if { ${tool} eq "" } {
+	if { $tool eq "" } {
 	    set tool testrun
 	}
 	mail_file $outdir/$tool.sum $mailing_list "Dejagnu Summary Log"

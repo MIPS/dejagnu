@@ -138,7 +138,7 @@ proc vxworks_exec { dest program pargs inp outp } {
     }
 
     set shell_prompt [board_info $dest shell_prompt]
-    remote_send $dest "${program} ${pargs}$suffix\n"
+    remote_send $dest "$program $pargs$suffix\n"
     # FIXME: The value 300 below should probably be a parameter passed in.
     remote_expect $dest 300 {
 	-re "\\\[VxWorks Boot\\\]:" {
@@ -180,12 +180,12 @@ proc vxworks_file { dest op args } {
 	set dir "[board_info $dest vxworks_homedir]"
 	switch -- $op {
 	    exists {
-		set file "${dir}/[file tail $file]"
+		set file "$dir/[file tail $file]"
 		return [file exists $file]
 	    }
 	    delete {
 		foreach x $args {
-		    set x "${dir}/[file tail $x]"
+		    set x "$dir/[file tail $x]"
 		    if { [file exists $x] && [file isfile $x] } {
 			file delete -force -- $x
 		    }
@@ -324,7 +324,7 @@ proc vxworks_ld { dest prog } {
 		perror "Can't access $prog."
 		set result 1
 	    }
-	    -re "value = (-*${decimal}) = ${hex}.*$shell_prompt $" {
+	    -re "value = (-*$decimal) = $hex.*$shell_prompt $" {
 		verbose "Loaded $prog into vxworks."
 		set board_info([board_info $dest name],vx_module) $expect_out(1,string)
 		set result 0
@@ -377,7 +377,7 @@ proc vxworks_run { dest function pargs inp outp } {
     set result 1
     # FIXME: The value 300 below should be a parameter.
     remote_expect $dest 300 {
-	-re "task ${hex} - aborted.*$shell_prompt $" {
+	-re "task $hex - aborted.*$shell_prompt $" {
 	    # FIXME: It's not clear we'll ever get here.
 	    verbose "$function aborted"
 	    set result 1

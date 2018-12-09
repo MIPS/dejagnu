@@ -1,5 +1,18 @@
 2018-12-09  Ben Elliston  <bje@gnu.org>
 
+	* baseboards/basic-sid.exp, baseboards/basic-sim.exp,
+	baseboards/i386-sid.exp, baseboards/mt-sid.exp,
+	baseboards/sh-sid.exp, config/adb.exp, config/gdb-comm.exp,
+	config/gdb_stub.exp, config/sim.exp, config/unix.exp,
+	config/vxworks.exp, lib/dejagnu.exp, lib/dg.exp,
+	lib/framework.exp, lib/kermit.exp, lib/libgloss.exp,
+	lib/remote.exp, lib/rsh.exp, lib/target.exp, lib/tip.exp,
+	lib/utils.exp, testsuite/lib/libsup.exp,
+	testsuite/runtest.all/options.exp,: Remove unnecessary braces
+	around variable expansions.
+
+2018-12-09  Ben Elliston  <bje@gnu.org>
+
 	* lib/debugger.exp, lib/dg.exp, lib/framework.exp, lib/ftp.exp,
 	lib/kermit.exp, lib/libgloss.exp, lib/remote.exp, lib/rlogin.exp,
 	lib/target.exp, lib/tip.exp, lib/utils.exp, runtest.exp: Remove

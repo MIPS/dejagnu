@@ -25,10 +25,10 @@ load_lib util-defs.exp
 #    catch "exec mv -f $objdir/site.exp $objdir/site.ignore"
 #}
 set fd [open site.exp w]
-puts ${fd} "set host_triplet $host_triplet"
-puts ${fd} "set srcdir $srcdir/.."
-puts ${fd} "set objdir $objdir/.."
-puts ${fd} "set tmpdir $objdir/../tmpdir"
+puts $fd "set host_triplet $host_triplet"
+puts $fd "set srcdir $srcdir/.."
+puts $fd "set objdir $objdir/.."
+puts $fd "set tmpdir $objdir/../tmpdir"
 close $fd
 
 #
@@ -65,7 +65,7 @@ set tests {
 }
 
 foreach t $tests {
-    if [util_test $RUNTEST "[lindex $t 0] -srcdir ${srcdir}/runtest.all" "" "[lindex $t 1]"] {
+    if [util_test $RUNTEST "[lindex $t 0] -srcdir $srcdir/runtest.all" "" "[lindex $t 1]"] {
         fail "[lindex $t 2]"
     } else {
         pass "[lindex $t 2]"
@@ -74,10 +74,10 @@ foreach t $tests {
 
 
 set fd [open site.exp w]
-puts ${fd} "set host_triplet $host_triplet"
-puts ${fd} "set srcdir $srcdir"
-puts ${fd} "set objdir $objdir"
-puts ${fd} "set tmpdir $objdir/tmpdir"
+puts $fd "set host_triplet $host_triplet"
+puts $fd "set srcdir $srcdir"
+puts $fd "set objdir $objdir"
+puts $fd "set tmpdir $objdir/tmpdir"
 close $fd
 
 # clean up log files left by the child runtest
