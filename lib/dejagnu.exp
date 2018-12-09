@@ -177,9 +177,6 @@ proc host_execute {args} {
 	    verbose "All done" 2
 	}
 	eof {
-	    #	    unresolved "${executable} died prematurely"
-	    #	    catch close
-	    #	    return "${executable} died prematurely"
 	}
 	timeout {
 	    warning "Timed out executing test case"
