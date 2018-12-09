@@ -102,7 +102,7 @@ proc adb_load { dest prog args } {
 
     verbose -log "Executed $prog, status $status" 2
     if {$output ne ""} {
-	verbose -log -- "$output" 2
+	verbose -log -- $output 2
     }
     if { $status == 0 } {
 	return [list "pass" $output]

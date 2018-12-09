@@ -92,7 +92,7 @@ proc sim_load { dest prog args } {
 
     set output ""
 
-    set res [remote_spawn target "${prog}"]
+    set res [remote_spawn target $prog]
 
     if { $res <= 0 } {
 	return [list "fail" "remote_spawn failed"]

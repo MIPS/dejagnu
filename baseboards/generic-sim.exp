@@ -39,7 +39,7 @@ setup_sim sim
 
 # No multilib flags are set by default.
 if {[info exists env(DEJAGNU_SIM_MULTILIB_OPTIONS)]} {
-    process_multilib_options "$env(DEJAGNU_SIM_MULTILIB_OPTIONS)"
+    process_multilib_options $env(DEJAGNU_SIM_MULTILIB_OPTIONS)
 } else {
     process_multilib_options ""
 }
@@ -47,7 +47,7 @@ if {[info exists env(DEJAGNU_SIM_MULTILIB_OPTIONS)]} {
 # The compiler used to build for this board. This has *nothing* to do
 # with what compiler is tested if we're testing gcc.
 if {[info exists env(DEJAGNU_SIM_GCC)]} {
-    set_board_info compiler "$env(DEJAGNU_SIM_GCC)"
+    set_board_info compiler $env(DEJAGNU_SIM_GCC)
 } else {
     set_board_info compiler "[find_gcc]"
 }
@@ -63,14 +63,14 @@ if {[info exists env(DEJAGNU_SIM_LINK_FLAGS)]} {
     set_board_info ldflags "[libgloss_link_flags] [newlib_link_flags]"
 }
 if {[info exists env(DEJAGNU_SIM_LDSCRIPT)]} {
-    set_board_info ldscript "$env(DEJAGNU_SIM_LDSCRIPT)"
+    set_board_info ldscript $env(DEJAGNU_SIM_LDSCRIPT)
 }
 if {[info exists env(DEJAGNU_SIM_SPECFILE)]} {
     set_board_info specfile "-specs=$env(DEJAGNU_SIM_SPECFILE)"
 }
 
 if {[info exists env(DEJAGNU_SIM_OPTIONS)]} {
-    set_board_info sim,options "$env(DEJAGNU_SIM_OPTIONS)"
+    set_board_info sim,options $env(DEJAGNU_SIM_OPTIONS)
 }
 
 if {[info exists env(DEJAGNU_SIM_BOARD_INFO)]} {

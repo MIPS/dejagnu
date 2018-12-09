@@ -1,3 +1,13 @@
+2018-12-09  Ben Elliston  <bje@gnu.org>
+
+	* baseboards/androideabi.exp: Remove unnecessary quotes and braces
+	around variable expansions.
+	* baseboards/basic-sid.exp: Likewise.
+	* baseboards/cris-sim.exp: Likewise.
+	* baseboards/generic-sim.exp: Likewise.
+	* baseboards/mcore-moto-sim.exp: Likewise.
+	* baseboards/multi-sim.exp: Likewise.
+
 2018-12-08  Ben Elliston  <bje@gnu.org>
 
 	* NEWS: Tweak.

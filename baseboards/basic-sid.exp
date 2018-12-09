@@ -62,9 +62,9 @@ proc find_rawsid { } {
 	set try "sid"
     } else {
 	# testing build tree
-	set env(SID_LIBRARY_PATH) [join [glob "${tool_root_dir}/sid/component/*" "$srcdir/sid/component/*"] ":"]
+	set env(SID_LIBRARY_PATH) [join [glob $tool_root_dir/sid/component/* $srcdir/sid/component/*] ":"]
 	# srcdir=/..../sid/component/testsuite
-	set tcl_library "$srcdir/tcl/library"
+	set tcl_library $srcdir/tcl/library
         global host_os
 	switch -glob -- $host_os {
 	    {cygwin*} { set tcl_library [exec cygpath -w $tcl_library] }

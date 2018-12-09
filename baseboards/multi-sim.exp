@@ -80,22 +80,22 @@ proc rpath_flags { args } {
 	# extra hack/search so it can work.
 	if {$rpathdir eq "."} {
 	    if {$i eq "libstdc++.so"} {
-		if {[file exists "$gccpath/libstdc++-v3/src/.libs/libstdc++.so"]} {
+		if {[file exists $gccpath/libstdc++-v3/src/.libs/libstdc++.so]} {
 		    set rpathflags "$rpathflags -Wl,-rpath=$gccpath/libstdc++-v3/src/.libs"
 		}
 	    }
 	    if {$i eq "libgfortran.so"} {
-		if {[file exists "$gccpath/libgfortran/.libs/libgfortran.so"]} {
+		if {[file exists $gccpath/libgfortran/.libs/libgfortran.so]} {
 		    set rpathflags "$rpathflags -Wl,-rpath=$gccpath/libgfortran/.libs"
 		}
 	    }
 	    if {$i eq "libatomic.so"} {
-		if {[file exists "$gccpath/libatomic/.libs/libatomic.so"]} {
+		if {[file exists $gccpath/libatomic/.libs/libatomic.so]} {
 		    set rpathflags "$rpathflags -Wl,-rpath=$gccpath/libatomic/.libs"
 		}
 	    }
 	    if {$i eq "libgomp.so"} {
-		if {[file exists "$gccpath/libgomp/.libs/libgomp.so"]} {
+		if {[file exists $gccpath/libgomp/.libs/libgomp.so]} {
 		    set rpathflags "$rpathflags -Wl,-rpath=$gccpath/libgomp/.libs"
 		}
 	    }
@@ -120,7 +120,7 @@ setup_sim sim
 
 # No multilib flags are set by default.
 if {[info exists env(DEJAGNU_SIM_MULTILIB_OPTIONS)]} {
-    process_multilib_options "$env(DEJAGNU_SIM_MULTILIB_OPTIONS)"
+    process_multilib_options $env(DEJAGNU_SIM_MULTILIB_OPTIONS)
 } else {
     process_multilib_options ""
 }
@@ -128,7 +128,7 @@ if {[info exists env(DEJAGNU_SIM_MULTILIB_OPTIONS)]} {
 # The compiler used to build for this board. This has *nothing* to do
 # with what compiler is tested if we're testing gcc.
 if {[info exists env(DEJAGNU_SIM_GCC)]} {
-    set_board_info compiler "$env(DEJAGNU_SIM_GCC)"
+    set_board_info compiler $env(DEJAGNU_SIM_GCC)
 } else {
     set_board_info compiler "[find_gcc]"
 }
@@ -144,10 +144,10 @@ if {[info exists env(DEJAGNU_SIM_LINK_FLAGS)]} {
     set_board_info ldflags "[libgloss_link_flags] [newlib_link_flags] [dynamic_linker_flag] [rpath_flags]"
 }
 if {[info exists env(DEJAGNU_SIM_LDSCRIPT)]} {
-    set_board_info ldscript "$env(DEJAGNU_SIM_LDSCRIPT)"
+    set_board_info ldscript $env(DEJAGNU_SIM_LDSCRIPT)
 }
 if {[info exists env(DEJAGNU_SIM_OPTIONS)]} {
-    set_board_info sim,options "$env(DEJAGNU_SIM_OPTIONS)"
+    set_board_info sim,options $env(DEJAGNU_SIM_OPTIONS)
 }
 
 if {[info exists env(DEJAGNU_SIM_BOARD_INFO)]} {
