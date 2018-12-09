@@ -1,5 +1,10 @@
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
+	* testsuite/runtest.all/utils.test (getdirs): Add a test for the
+	non-existent directory case.
+
+2018-12-10  Ben Elliston  <bje@gnu.org>
+
 	* runtest.exp: Remove unnecessary quotes and braces around
 	variable expansions.
 

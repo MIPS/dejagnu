@@ -37,6 +37,10 @@ run_tests [subst {
 	{[file join ${srcdir} runtest.all topdir]}
 	"*topdir*subdir\[12\]*topdir*subdir\[12\]"
 	"getdirs toplevel, two subdirs" }
+    { lib_pat_test getdirs
+	{[file join ${srcdir} runtest.all nothere]}
+	""
+	"getdirs toplevel, non-existent subdir"}
 }]
 
 # Test relative_filename:
