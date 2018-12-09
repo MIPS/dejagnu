@@ -23,7 +23,7 @@
 proc dumpvars { args } {
     uplevel 1 [list foreach i [uplevel 1 "info vars $args"] {
 	if { [catch "array names $i" names ] } {
-	    eval "puts \"${i} = \$${i}\""
+	    eval "puts \"$i = \$$i\""
 	} else {
 	    foreach k $names {
 		eval "puts \"$i\($k\) = \$$i\($k\)\""
