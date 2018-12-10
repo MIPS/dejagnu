@@ -1,5 +1,9 @@
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
+	* lib/utils.exp (grep): Use a proper Tcl list for options.
+
+2018-12-10  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/runtest.all/utils.test: ${srcdir} -> $srcdir.
 
 	* lib/utils.exp (getdirs): Use glob -nocomplain rather than glob

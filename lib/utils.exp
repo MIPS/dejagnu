@@ -201,9 +201,9 @@ proc which { file } {
 #       line  - synonum for -n
 
 proc grep { args } {
-    set options ""
+    set options [list]
     if { [lindex $args 0] eq "-n" } {
-	append options "line "
+	lappend options "line"
 	set args [lrange $args 1 end]
     }
 
@@ -213,16 +213,16 @@ proc grep { args } {
     verbose "Grepping $file for the pattern \"$pattern\"" 3
 
     if { [llength $args] > 2 } {
-	append options [join [lrange $args 2 end]]
+	set options [concat $options [lrange $args 2 end]]
     }
     set options [lsort -unique $options]
 
     set i 0
     set fd [open $file r]
-    while { [gets $fd cur_line]>=0 } {
+    while { [gets $fd cur_line] >= 0 } {
 	incr i
 	if {[regexp -- $pattern $cur_line match]} {
-	    if {$options ne ""} {
+	    if {[llength $options] > 0} {
 		foreach opt $options {
 		    switch -- $opt {
 			"line" {
