@@ -209,3 +209,5 @@ if { [file isdirectory [file join $objdir empty-test-dir]] } {
 }
 
 file delete -force [file join $objdir empty-test-dir]
+
+puts "END testsuite_file.test"

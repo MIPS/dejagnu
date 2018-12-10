@@ -63,3 +63,5 @@ run_tests {
     { lib_pat_test clone_output {"NOTE: Foo"} "NOTE: Foo"
 	"clone_output(note) with all_flag set" }
 }
+
+puts "END clone_output.test"

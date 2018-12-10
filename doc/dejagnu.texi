@@ -2065,6 +2065,80 @@ misleading. Ideally, a test in this sort of situation should not fail
 either. Instead, print an error message by calling one of the DejaGnu
 procedures @code{error} or @code{warning}.
 
+@subsubheading Priority of Expect patterns
+
+Be particularly careful about how you write the patterns.  Expect
+attempts to match each pattern in the order that they are written in
+the @code{expect} command.  Unless a regexp pattern is anchored at the
+beginning of the buffer, Expect can search ahead for a match for a
+pattern that appears earlier in the @code{expect} command and skip
+over text that would match a later pattern.  @emph{The text thus
+skipped is discarded.}  This is a source of very hard to trace bugs,
+especially when reading input from batch-oriented unit tests.
+
+For example, consider a simple model once used by the DejaGnu
+testsuite for unit testing.  In this example, a test has failed, but
+the tests before and after it have passed.  First the relevant input
+to DejaGnu:
+
+@example
+PASSED: foo
+FAILED: bar
+PASSED: baz
+@end example
+
+The test script is reading this with two Expect patterns, simplified
+for this example by omitting handling of the actual messages and other
+possible results:
+
+@example
+expect @{
+       -re @{PASSED: [^\r\n]+[\r\n]+@} @{ pass ... @}
+       -re @{FAILED: [^\r\n]+[\r\n]+@} @{ fail ... @}
+@}
+@end example
+
+At every cycle, Expect attempts to match each pattern in the order
+that they are written against the available input.  If DejaGnu is
+processing the input as quickly as it arrives, this example will
+actually work.  However, if the system scheduler sets DejaGnu aside
+for a bit, or the external program produces output in a burst, Expect
+can find that its input buffer contains the text in the first example
+above all at once as the cycle begins.
+
+If this occurs, Expect will first attempt to match @code{@{PASSED:
+[^\r\n]+[\r\n]+@}} against the input and will succeed, since the input
+begins with @samp{PASSED: foo}.  The @code{pass} procedure is called
+and the test result recorded.  Expect then starts a new matching
+cycle.
+
+If the input had been presented one line at a time, the expected
+result would occur: the @code{@{FAILED: [^\r\n]+[\r\n]+@}} pattern
+would match and the test driver would work correctly.  But we are
+considering the case where all three lines arrived ``at once'' so we
+must examine what Expect will do in this case.  After the first line
+has been processed, the Expect buffer now contains:
+
+@example
+FAILED: bar
+PASSED: baz
+@end example
+
+Expect again attempts to match each pattern in order.  Expect will
+attempt to match @code{@{PASSED: [^\r\n]+[\r\n]+@}} before attempting
+to match @code{@{FAILED: [^\r\n]+[\r\n]+@}} and the first attempt
+succeeds because the pattern is not anchored.  The @samp{FAILED: bar}
+message is simply discarded when Expect finds the later
+@samp{PASSED:baz} message in the buffer.
+
+How to prevent this?  There are two ways: either group all of your
+test matches into a single regexp using alternation, or ensure that
+all patterns can match only at the start of Expect's buffer.  Both
+options can be made to work.  Grouping all status results into a
+single regexp allows some other unspecified text to still be silently
+discarded, while ensuring that all patterns are anchored absolutely
+requires closure, as any unmatched text will cause Expect to run out
+of buffer space.  Expect discards the entire buffer when this occurs.
 
 @node Debugging a test case, Adding a test case to a testsuite, Writing a test case, Extending DejaGnu
 @section Debugging a test case
@@ -5516,4 +5590,5 @@ This makes @code{runtest} exit. Abbreviation: @kbd{q}.
 
 @bye
 
-@c  LocalWords:  subdirectory prepend prepended testsuite filename
+@c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's
+@c  LocalWords:  DejaGnu

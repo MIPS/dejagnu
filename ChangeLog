@@ -1,3 +1,22 @@
+2018-12-10  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* doc/dejagnu.texi (Writing a test case): Add warning about
+	priority of Expect patterns, complete with example.
+	* testsuite/runtest.all/libs.exp (process_test): Fix bug that
+	caused test results other than "PASS" to be skipped if a "PASS" is
+	further along in the input buffer.  Describe problem in manual.
+	(process_test): Ensure that the log file shows each test case run.
+	(process_test): Directly run the test cases instead of using
+	temporary files and "cat".  All output is always available in the
+	log file, which is no longer overwritten by other tests.
+	(process_test): Expect END markers from test case scripts.
+	* testsuite/runtest.all/clone_output.test: Emit END markers.
+	* testsuite/runtest.all/config.test: Likewise.
+	* testsuite/runtest.all/remote.test: Likewise.
+	* testsuite/runtest.all/target.test: Likewise.
+	* testsuite/runtest.all/testsuite_file.test: Likewise.
+	* testsuite/runtest.all/utils.test: Likewise.
+
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
 	* lib/utils.exp (grep): Use a proper Tcl list for options.

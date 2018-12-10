@@ -90,3 +90,5 @@ run_tests {
     { lib_bool_test isnative {} false	"isnative, canadian cross" }
     { lib_bool_test is3way {} true	"is3way, canadian cross" }
 }
+
+puts "END config.test"

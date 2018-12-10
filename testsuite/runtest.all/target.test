@@ -94,3 +94,5 @@ if { ![info exists target_info(host,name)] } {
 } else {
     puts "FAILED: pop_config host"
 }
+
+puts "END target.test"

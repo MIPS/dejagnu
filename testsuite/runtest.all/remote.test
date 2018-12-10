@@ -55,3 +55,5 @@ set target_info(mvme,baud)      "9600"
 # Test remote open. We try not to use any of the support procs in
 # target.exp to for isolation testing. "target" is the name of the
 # default array setup by the procs in target.exp.
+
+puts "END remote.test"

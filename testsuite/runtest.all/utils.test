@@ -215,3 +215,5 @@ run_tests {
     { lib_bool_test runtest_file_p {{foo.exp bar.*} foo.c} false
 	"runtest_file_p, foo.exp=bar.* excludes foo.c" }
 }
+
+puts "END utils.test"
