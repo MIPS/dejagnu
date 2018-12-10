@@ -4807,9 +4807,8 @@ recursively.
 The top level directory to start the search from.
 
 @item @code{pattern}
-If you do not specify @code{pattern}, @code{getdirs} uses a default
-pattern of @code{*}. You may use the common shell wildcard characters in
-the pattern.
+The Tcl glob pattern to match. If you do not specify @code{pattern},
+@code{getdirs} uses a default pattern of @code{*}.
 
 @end table
 

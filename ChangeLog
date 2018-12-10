@@ -1,5 +1,8 @@
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
+	* doc/dejagnu.texi (getdirs procedure): This procedure accepts Tcl
+	glob patterns, not "shell wildcard characters" per se.
+
 	* doc/dejagnu.texi (istarget procedure): Remove stray @{.
 
 2018-12-10  Jacob Bachmeyer  <jcb62281@gmail.com>
