@@ -44,44 +44,35 @@ proc getdirs { args } {
 	set pattern "*"
     }
     verbose "Looking in $path for directories that match \"${pattern}\"" 3
-    catch "glob $path/$pattern" tmp
-    if { $tmp ne "" } {
-	foreach i $tmp {
-	    if {[file isdirectory $i]} {
-		switch -- "[file tail $i]" {
-		    "testsuite" -
-		    "config" -
-		    "lib" -
-		    ".git" -
-		    ".svn" -
-		    "CVS" -
-		    "RCS" -
-		    "SCCS" {
-			verbose "Ignoring directory [file tail $i]" 3
-			continue
-		    }
-		    default {
-			if {[file readable $i]} {
-			    verbose "Found directory [file tail $i]" 3
-			    lappend dirs $i
-			    if { $alldirs } {
-				eval lappend dirs [getdirs -all $i $pattern]
-			    }
+    set dirs [list]
+    foreach i [glob -nocomplain $path/$pattern] {
+	if {[file isdirectory $i]} {
+	    switch -- "[file tail $i]" {
+		"testsuite" -
+		"config" -
+		"lib" -
+		".git" -
+		".svn" -
+		"CVS" -
+		"RCS" -
+		"SCCS" {
+		    verbose "Ignoring directory [file tail $i]" 3
+		    continue
+		}
+		default {
+		    if {[file readable $i]} {
+			verbose "Found directory [file tail $i]" 3
+			lappend dirs $i
+			if { $alldirs } {
+			    eval lappend dirs [getdirs -all $i $pattern]
 			}
 		    }
 		}
 	    }
 	}
-    } else {
-	perror $tmp
-	return ""
     }
 
-    if {![info exists dirs]} {
-	return ""
-    } else {
-	return $dirs
-    }
+    return $dirs
 }
 
 

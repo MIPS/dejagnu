@@ -1,5 +1,13 @@
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
+	* lib/utils.exp (getdirs): Use glob -nocomplain rather than glob
+	and catching the "no files matched glob pattern" error
+	message. Catching the error message was the wrong thing to do
+	because the foreach loop then iterates over each word in the error
+	message as if they were matches.
+
+2018-12-10  Ben Elliston  <bje@gnu.org>
+
 	* testsuite/runtest.all/utils.test (getdirs): Add a test for the
 	non-existent directory case.
 
