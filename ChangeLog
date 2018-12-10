@@ -1,5 +1,7 @@
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
+	* testsuite/runtest.all/utils.test: ${srcdir} -> $srcdir.
+
 	* lib/utils.exp (getdirs): Use glob -nocomplain rather than glob
 	and catching the "no files matched glob pattern" error
 	message. Catching the error message was the wrong thing to do
