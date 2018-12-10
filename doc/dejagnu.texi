@@ -2550,7 +2550,7 @@ range of triplets). If called with no arguments or an empty pattern,
 this procedure returns the target triplet.
 
 @quotation
-@t{@b{istarget} @{ @i{pattern} }
+@t{@b{istarget} @i{pattern} }
 @end quotation
 
 @node isnative procedure, log_and_exit procedure, istarget procedure, Core Internal Procedures
