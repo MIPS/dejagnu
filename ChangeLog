@@ -1,3 +1,8 @@
+2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+        * doc/dejagnu.texi (getdirs procedure): Document hard-coded
+	directory exclusions by name in this procedure.
+
 2018-12-10  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi (getdirs procedure): This procedure accepts Tcl

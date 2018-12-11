@@ -4793,6 +4793,15 @@ Returns a list of all the subdirectories in a single directory that
 match a glob pattern. If no directories match the pattern, then an empty
 list is returned.
 
+This procedure is specialized as a search for tests in
+testsuites:  @code{getdirs} ignores directories named
+@samp{testsuite}, @samp{config}, or @samp{lib}, and also ignores
+directories associated with a few revision control systems,
+specifically Git (@samp{.git}), Subversion (@samp{.svn}), CVS
+(@samp{CVS}), RCS (@samp{RCS}), and SCCS (@samp{SCCS}).  These ignored
+directories will not appear in the returned list, nor will they be
+examined in a recursive search.
+
 @quotation
 @t{@b{getdirs} @i{-all} @i{rootdir} @i{pattern}}
 @end quotation
@@ -5589,5 +5598,5 @@ This makes @code{runtest} exit. Abbreviation: @kbd{q}.
 
 @bye
 
-@c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's
-@c  LocalWords:  DejaGnu
+@c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
+@c  LocalWords:  DejaGnu CVS RCS SCCS
