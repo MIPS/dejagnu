@@ -35,8 +35,8 @@ Free Documentation License''.
 @subtitle Version @value{VERSION}
 @sp 1
 @subtitle @value{UPDATED}
-@author Rob Savoye
-@author Cygnus Support
+@author Rob Savoye et al.
+@author Cygnus Support and the GNU Project
 @page
 
 @vskip 0pt plus 1filll

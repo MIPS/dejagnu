@@ -1,3 +1,25 @@
+2018-12-12  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi: Acknowledge contributions to the manual from
+	others.
+
+2018-12-11  Ben Elliston  <bje@gnu.org>
+
+	* config/gdb-comm.exp (gdb_comm_file_cmd): Simplify regexp by
+	changing from "quoted regexps" to {braced regexps}. This allows
+	for an additional level of backslash quoting to be removed,
+	provided that the string does not contain any variable
+	substitutions.
+
+2018-12-10  Ben Elliston  <bje@gnu.org>
+
+	* config/gdb-comm.exp, config/gdb_stub.exp, config/vxworks.exp,
+	lib/dg.exp, lib/framework.exp, lib/ftp.exp, lib/kermit.exp,
+	lib/rlogin.exp, lib/target.exp, lib/telnet.exp, runtest.exp,
+	testsuite/lib/libsup.exp: Simplify some regular expressions in
+	constant strings by placing them inside braces instead of
+	quotes. This allows one level of backslash quoting to be removed.
+
 2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.all/libs.exp: Use "testsuite file" command.
