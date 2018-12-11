@@ -1,5 +1,78 @@
 2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* testsuite/runtest.all/libs.exp: Use "testsuite file" command.
+	* testsuite/runtest.all/load_lib.exp: Likewise.
+	* testsuite/runtest.all/stats.exp: Likewise.
+
+	* testsuite/runtest.all/stats.exp: Write local init file as
+	"stats-init.exp" for status summary tests.  Use --local_init
+	option to runtest to load that file instead of site.exp and move
+	the inner test module to a nested testsuite.
+	* testsuite/runtest.all/stats-sub.exp: Move file from here ..
+	* testsuite/runtest.all/stats/testsuite/stat.test/stats-sub.exp:
+	.. to here.
+
+	* testsuite/runtest.all/options.exp: Clean up whitespace in file.
+	Wrap lines in test list and move short items to beginning of list.
+	Write local init file as "options-init.exp" for options tests.
+	Use --local_init option with nested runtest to load that file
+	instead of site.exp; also create an empty nested testsuite.  Local
+	init file arranges for inner runtest processes to run in a
+	subdirectory in the object tree to eliminate filename clashes.
+	Set tmpdir if not already set and remove entire temporary
+	directory after running options tests.
+	* testsuite/runtest.all/options/testsuite/null.test/null.exp: New.
+
+	* testsuite/runtest.all/clone_output.test: Move from here ..
+	* testsuite/runtest.libs/clone_output.test: .. to here.
+	* testsuite/runtest.all/config.test: Move from here ..
+	* testsuite/runtest.libs/config.test: .. to here.
+	* testsuite/runtest.all/default_procs.tcl: Move from here ..
+	* testsuite/runtest.libs/default_procs.tcl: .. to here.
+	* testsuite/runtest.all/libs.exp: Move from here ..
+	* testsuite/runtest.libs/libs.exp: .. to here.
+	* testsuite/runtest.all/load_lib.exp: Move from here ..
+	* testsuite/runtest.libs/load_lib.exp: .. to here.
+	* testsuite/runtest.all/remote.test: Move from here ..
+	* testsuite/runtest.libs/remote.test: .. to here.
+	* testsuite/runtest.all/target.test: Move from here ..
+	* testsuite/runtest.libs/target.test: .. to here.
+	* testsuite/runtest.all/testsuite_file.test: Move from here ..
+	* testsuite/runtest.libs/testsuite_file.test: .. to here.
+	* testsuite/runtest.all/topdir/subdir1/subfile1: Move from here ..
+	* testsuite/runtest.libs/topdir/subdir1/subfile1: .. to here.
+	* testsuite/runtest.all/topdir/subdir1/subfile2: Move from here ..
+	* testsuite/runtest.libs/topdir/subdir1/subfile2: .. to here.
+	* testsuite/runtest.all/topdir/subdir1/subsubdir1/subsubfile1:
+	Move from here ..
+	* testsuite/runtest.libs/topdir/subdir1/subsubdir1/subsubfile1:
+	.. to here.
+	* testsuite/runtest.all/topdir/subdir2/subfile2: Move from here ..
+	* testsuite/runtest.libs/topdir/subdir2/subfile2: .. to here.
+	* testsuite/runtest.all/utils.test: Move from here ..
+	* testsuite/runtest.libs/utils.test: .. to here.
+	* testsuite/runtest.libs/utils.test: Update references to
+	"runtest.all".
+
+	* testsuite/runtest.all/options.exp: Move from here ..
+	* testsuite/runtest.main/options.exp: .. to here.
+	* testsuite/runtest.all/options/testsuite/null.test/null.exp: Move
+	from here ..
+	* testsuite/runtest.main/options/testsuite/null.test/null.exp:
+	.. to here.
+	* testsuite/runtest.all/stats.exp: Move from here ..
+	* testsuite/runtest.main/stats.exp: .. to here.
+	* testsuite/runtest.all/stats/testsuite/stat.test/stats-sub.exp:
+	Move from here ..
+	* testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp:
+	.. to here.
+
+	* Makefile.am (DISTCLEANFILES): Update for testsuite improvements.
+	(TESTSUITE_FILES): Update to reflect testsuite reorganization.
+	* Makefile.in: Regenerate.
+
+2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* doc/dejagnu.texi: Clean up whitespace.  Some indented examples
 	were changed to use the Texinfo '@ ' command (yes, a space
 	character) to preserve correct indentation.  The '@ ' command is

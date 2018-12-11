@@ -24,7 +24,7 @@ if { [ load_lib "subfile1" ] != 1} {
 rename send_error ""
 rename saved_send_error send_error
 
-set extradir [file join $srcdir $subdir "topdir" "subdir1" ]
+set extradir [testsuite file -source -test "topdir" "subdir1"]
 global libdirs
 lappend libdirs $extradir
 verbose "now added libdirs: $libdirs" 2

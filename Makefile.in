@@ -377,9 +377,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB) $(TEXINFO_TEX)
 
-DISTCLEANFILES = xXx.log xXx.sum x.log x.sum testrun.log \
-	testrun.sum testrun.xml
-
+DISTCLEANFILES = options-init.exp stats-init.exp
 bin_SCRIPTS = runtest
 include_HEADERS = dejagnu.h
 pkgdata_DATA = \
@@ -489,21 +487,22 @@ CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
 
 # Testsuite.
 TESTSUITE_FILES = \
-	testsuite/runtest.all/topdir/subdir1/subsubdir1/subsubfile1 \
-	testsuite/runtest.all/topdir/subdir1/subfile1 \
-	testsuite/runtest.all/topdir/subdir1/subfile2 \
-	testsuite/runtest.all/topdir/subdir2/subfile2 \
-	testsuite/runtest.all/libs.exp \
-	testsuite/runtest.all/options.exp \
-	testsuite/runtest.all/remote.test \
-	testsuite/runtest.all/stats-sub.exp \
-	testsuite/runtest.all/stats.exp \
-	testsuite/runtest.all/target.test \
-	testsuite/runtest.all/utils.test \
-	testsuite/runtest.all/clone_output.test \
-	testsuite/runtest.all/config.test \
-	testsuite/runtest.all/default_procs.tcl \
-	testsuite/runtest.all/load_lib.exp \
+	testsuite/runtest.libs/topdir/subdir1/subsubdir1/subsubfile1 \
+	testsuite/runtest.libs/topdir/subdir1/subfile1 \
+	testsuite/runtest.libs/topdir/subdir1/subfile2 \
+	testsuite/runtest.libs/topdir/subdir2/subfile2 \
+	testsuite/runtest.libs/load_lib.exp \
+	testsuite/runtest.libs/libs.exp \
+	testsuite/runtest.libs/default_procs.tcl \
+	testsuite/runtest.libs/clone_output.test \
+	testsuite/runtest.libs/config.test \
+	testsuite/runtest.libs/remote.test \
+	testsuite/runtest.libs/target.test \
+	testsuite/runtest.libs/utils.test \
+	testsuite/runtest.main/options.exp \
+	testsuite/runtest.main/options/testsuite/null.test/null.exp \
+	testsuite/runtest.main/stats.exp \
+	testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp \
 	testsuite/lib/libdejagnu.exp \
 	testsuite/lib/libsup.exp \
 	testsuite/lib/runtest.exp \

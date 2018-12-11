@@ -26,19 +26,19 @@ if [ file exists $file] {
 #
 run_tests [subst {
     { lib_pat_test getdirs
-	{[file join $srcdir runtest.all]}
-	[file join $srcdir runtest.all topdir]
+	{[file join $srcdir runtest.libs]}
+	[file join $srcdir runtest.libs topdir]
 	"getdirs toplevel, no arguments" }
     { lib_pat_test getdirs
-	{[file join $srcdir runtest.all] "top*"}
-	[file join $srcdir runtest.all topdir]
+	{[file join $srcdir runtest.libs] "top*"}
+	[file join $srcdir runtest.libs topdir]
 	"getdirs toplevel, one subdir" }
     { lib_pat_test getdirs
-	{[file join $srcdir runtest.all topdir]}
+	{[file join $srcdir runtest.libs topdir]}
 	"*topdir*subdir\[12\]*topdir*subdir\[12\]"
 	"getdirs toplevel, two subdirs" }
     { lib_pat_test getdirs
-	{[file join $srcdir runtest.all nothere]}
+	{[file join $srcdir runtest.libs nothere]}
 	""
 	"getdirs toplevel, non-existent subdir"}
 }]
@@ -60,11 +60,11 @@ run_tests {
 #
 run_tests [subst {
     { lib_pat_test find
-	{[file join $srcdir runtest.all topdir subdir2] "sub*"}
+	{[file join $srcdir runtest.libs topdir subdir2] "sub*"}
 	"*/subdir2/subfile2"
 	"find, only one level deep" }
     { lib_regexp_test find
-	{[file join $srcdir runtest.all topdir subdir1] "sub*"}
+	{[file join $srcdir runtest.libs topdir subdir1] "sub*"}
 	".*/subdir1/subsubdir1/subsubfile1( |$)"
 	"find, two levels deep" }
 }]
@@ -142,14 +142,14 @@ if {[which make] != 0} {
 ### depends on it.
 
 # Test grep!
-if {[llength [grep $srcdir/runtest.all/utils.test "^# Test grep!"]] == 1} {
+if {[llength [grep $srcdir/runtest.libs/utils.test "^# Test grep!"]] == 1} {
   pass "grep, no options"
 } else {
   fail "grep, no options"
 }
 
 # Test grep with line option.
-set result [grep $srcdir/runtest.all/utils.test "^# Test grep!" line]
+set result [grep $srcdir/runtest.libs/utils.test "^# Test grep!" line]
 if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
   pass "grep, line option"
 } else {
@@ -157,7 +157,7 @@ if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
 }
 
 # Test grep with -n option.
-set result [grep -n $srcdir/runtest.all/utils.test "^# Test grep!"]
+set result [grep -n $srcdir/runtest.libs/utils.test "^# Test grep!"]
 if {[llength $result] == 1 && [regexp {^\d+ # Test grep!} [lindex $result 0]]} {
   pass "grep, -n option"
 } else {

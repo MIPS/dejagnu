@@ -1,4 +1,4 @@
-# Copyright (C) 1997-2016 Free Software Foundation, Inc.
+# Copyright (C) 1997-2016, 2018 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -19,9 +19,6 @@
 load_lib libsup.exp
 
 proc process_test { test } {
-    global srcdir
-    global subdir
-    global objdir
     global EXPECT
 
     verbose -log "Executing test case $test"
@@ -32,7 +29,13 @@ proc process_test { test } {
     if [file exists $test] {
 	verbose "Processing test $test" 2
 
-	spawn -open [open "|$EXPECT $test $srcdir $subdir [pwd]" r]
+	set command "$EXPECT $test\
+			[testsuite file -source -top]\
+			[relative_filename \
+				[testsuite file -source -top]\
+				[testsuite file -source -test]]\
+			[testsuite file -object -top]"
+	spawn -open [open "|$command" r]
 	expect {
 	    "No such file or directory" {
 		perror "$test wouldn't run" 0
@@ -85,11 +88,11 @@ if {![info exists EXPECT]} {
     verbose "EXPECT defaulting to $EXPECT" 2
 }
 
-make_defaults_file [pwd]/setval.tmp
+make_defaults_file [testsuite file -object -top setval.tmp]
 
-foreach i [glob $srcdir/$subdir/*.test] {
+foreach i [glob [testsuite file -source -test *.test]] {
     process_test $i
 }
 
 # Clean up behind ourselves.
-file delete .tmp [pwd]/setval.tmp
+file delete .tmp [testsuite file -object -top setval.tmp]
