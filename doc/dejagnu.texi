@@ -148,7 +148,7 @@ beginnings.
 
 DejaGnu offers several advantages for testing:
 
-@itemize 
+@itemize
 
 @item
 The flexibility and consistency of the DejaGnu framework make it easy to
@@ -245,7 +245,7 @@ DejaGnu grew out of the internal needs of Cygnus Solutions (formerly
 Cygnus Support). Cygnus maintained and enhanced a variety of free
 programs in many different environments and needed a testing tool that:
 
-@itemize 
+@itemize
 
 @item
 was useful to developers while fixing bugs;
@@ -358,7 +358,7 @@ Here are some of the ways a test may wind up
 @emph{UNRESOLVED}:
 @end table
 
-@itemize 
+@itemize
 
 @item
 Execution of a test is interrupted.
@@ -841,28 +841,28 @@ option to select a different output directory.
 @strong{Sample summary log}
 
 @example
-	Test Run By bje on Sat Nov 14 21:04:30 AEDT 2015
+Test Run By bje on Sat Nov 14 21:04:30 AEDT 2015
 
-		 === gdb tests ===
+@                === gdb tests ===
 
-	Running ./gdb.t00/echo.exp ...
-	PASS:   Echo test
-	Running ./gdb.all/help.exp ...
-	PASS:   help add-symbol-file
-	PASS:   help aliases
-	PASS:   help breakpoint "bre" abbreviation
-	FAIL:   help run "r" abbreviation
-	Running ./gdb.t10/crossload.exp ...
-	PASS:   m68k-elf (elf-big) explicit format; loaded
-	XFAIL:  mips-ecoff (ecoff-bigmips) "ptype v_signed_char" signed C types
+Running ./gdb.t00/echo.exp ...
+PASS:   Echo test
+Running ./gdb.all/help.exp ...
+PASS:   help add-symbol-file
+PASS:   help aliases
+PASS:   help breakpoint "bre" abbreviation
+FAIL:   help run "r" abbreviation
+Running ./gdb.t10/crossload.exp ...
+PASS:   m68k-elf (elf-big) explicit format; loaded
+XFAIL:  mips-ecoff (ecoff-bigmips) "ptype v_signed_char" signed C types
 
-                === gdb Summary ===
+@                === gdb Summary ===
 
-	# of expected passes 5
-	# of expected failures 1
-	# of unexpected failures 1
-	/usr/latest/bin/gdb version 4.6.5 -q
-      
+# of expected passes            5
+# of expected failures          1
+# of unexpected failures        1
+/usr/latest/bin/gdb version 4.6.5 -q
+
 @end example
 
 @node Detailed log file, Debug log file, Summary log file, Output Files
@@ -879,38 +879,38 @@ a different output directory.
 @strong{Sample detailed log for g++ tests}
 
 @example
-	Test Run By bje on Sat Nov 14 21:07:23 AEDT 2015
+Test Run By bje on Sat Nov 14 21:07:23 AEDT 2015
 
-                === g++ tests ===
+@                === g++ tests ===
 
-	Running ./g++.other/t01-1.exp ...
-        PASS:   operate delete
+Running ./g++.other/t01-1.exp ...
+PASS:   operate delete
 
-	Running ./g++.other/t01-2.exp ...
-        FAIL:   i960 bug EOF
-	p0000646.C: In function `int  warn_return_1 ()':
-	p0000646.C:109: warning: control reaches end of non-void function
-	p0000646.C: In function `int  warn_return_arg (int)':
-	p0000646.C:117: warning: control reaches end of non-void function
-	p0000646.C: In function `int  warn_return_sum (int, int)':
-	p0000646.C:125: warning: control reaches end of non-void function
-	p0000646.C: In function `struct foo warn_return_foo ()':
-	p0000646.C:132: warning: control reaches end of non-void function
-	Running ./g++.other/t01-4.exp ...
-        FAIL:   abort
-	900403_04.C:8: zero width for bit-field `foo'
-	Running ./g++.other/t01-3.exp ...
-        FAIL:   segment violation
-	900519_12.C:9: parse error before `;'
-	900519_12.C:12: Segmentation violation
-	/usr/latest/bin/gcc: Internal compiler error: program cc1plus got fatal signal
+Running ./g++.other/t01-2.exp ...
+FAIL:   i960 bug EOF
+p0000646.C: In function `int  warn_return_1 ()':
+p0000646.C:109: warning: control reaches end of non-void function
+p0000646.C: In function `int  warn_return_arg (int)':
+p0000646.C:117: warning: control reaches end of non-void function
+p0000646.C: In function `int  warn_return_sum (int, int)':
+p0000646.C:125: warning: control reaches end of non-void function
+p0000646.C: In function `struct foo warn_return_foo ()':
+p0000646.C:132: warning: control reaches end of non-void function
+Running ./g++.other/t01-4.exp ...
+FAIL:   abort
+900403_04.C:8: zero width for bit-field `foo'
+Running ./g++.other/t01-3.exp ...
+FAIL:   segment violation
+900519_12.C:9: parse error before `;'
+900519_12.C:12: Segmentation violation
+/usr/latest/bin/gcc: Internal compiler error: program cc1plus got fatal signal
 
-                === g++ Summary ===
+@                === g++ Summary ===
 
-	# of expected passes 1
-	# of expected failures 3
-	/usr/latest/bin/g++ version cygnus-2.0.1
-	
+# of expected passes            1
+# of expected failures          3
+/usr/latest/bin/g++ version cygnus-2.0.1
+
 @end example
 
 @node Debug log file, , Detailed log file, Output Files
@@ -926,8 +926,8 @@ compares with the tool output by each @code{expect} command.
 The log messages begin with a message of the form:
 
 @example
-	expect: does @{tool output@} (spawn_id n)
- 	   match pattern @{expected pattern@}?
+expect: does @{tool output@} (spawn_id n)
+   match pattern @{expected pattern@}?
 @end example
 
 For every unsuccessful match, Expect issues a @emph{no} after this
@@ -942,38 +942,38 @@ a successful match.
 @strong{Example debug log file for a GDB test}
 
 @example
-	send: sent @{break gdbme.c:34\n@} to spawn id 6
-	expect: does @{@} (spawn_id 6) match pattern @{Breakpoint.*at.* file
-	gdbme.c, line 34.*\(gdb\) $@}? no
-	@{.*\(gdb\) $@}? no
-	expect: does @{@} (spawn_id 0) match pattern @{return@} ? no
-	@{\(y or n\) @}? no
-	@{buffer_full@}? no
-	@{virtual@}? no
-	@{memory@}? no
-	@{exhausted@}? no
-	@{Undefined@}? no
-	@{command@}? no
-	break gdbme.c:34
-	Breakpoint 8 at 0x23d8: file gdbme.c, line 34.
-	(gdb) expect: does @{break gdbme.c:34\r\nBreakpoint 8 at 0x23d8:
-	file gdbme.c, line 34.\r\n(gdb) @} (spawn_id 6) match pattern
-	@{Breakpoint.*at.* file gdbme.c, line 34.*\(gdb\) $@}? yes
-	expect: set expect_out(0,start) @{18@}
-	expect: set expect_out(0,end) @{71@}
-	expect: set expect_out(0,string) @{Breakpoint 8 at 0x23d8: file
-	gdbme.c, line 34.\r\n(gdb) @}
-	epect: set expect_out(spawn_id) @{6@}
-	expect: set expect_out(buffer) @{break gdbme.c:34\r\nBreakpoint 8
-	at 0x23d8: file gdbme.c, line 34.\r\n(gdb) @}
-        PASS:   70      0       breakpoint line number in file
-	
+send: sent @{break gdbme.c:34\n@} to spawn id 6
+expect: does @{@} (spawn_id 6) match pattern @{Breakpoint.*at.* file
+gdbme.c, line 34.*\(gdb\) $@}? no
+@{.*\(gdb\) $@}? no
+expect: does @{@} (spawn_id 0) match pattern @{return@} ? no
+@{\(y or n\) @}? no
+@{buffer_full@}? no
+@{virtual@}? no
+@{memory@}? no
+@{exhausted@}? no
+@{Undefined@}? no
+@{command@}? no
+break gdbme.c:34
+Breakpoint 8 at 0x23d8: file gdbme.c, line 34.
+(gdb) expect: does @{break gdbme.c:34\r\nBreakpoint 8 at 0x23d8:
+file gdbme.c, line 34.\r\n(gdb) @} (spawn_id 6) match pattern
+@{Breakpoint.*at.* file gdbme.c, line 34.*\(gdb\) $@}? yes
+expect: set expect_out(0,start) @{18@}
+expect: set expect_out(0,end) @{71@}
+expect: set expect_out(0,string) @{Breakpoint 8 at 0x23d8: file
+gdbme.c, line 34.\r\n(gdb) @}
+epect: set expect_out(spawn_id) @{6@}
+expect: set expect_out(buffer) @{break gdbme.c:34\r\nBreakpoint 8
+at 0x23d8: file gdbme.c, line 34.\r\n(gdb) @}
+PASS:   70      0       breakpoint line number in file
+
 @end example
 
 This example exhibits three properties of Expect and DejaGnu that might
 be surprising at first glance:
 
-@itemize 
+@itemize
 
 @item
 Empty output for the first attempted match.  The first set of attempted
@@ -1086,18 +1086,18 @@ verbose "Global config file: target_triplet is $target_triplet" 2
 global target_list
 
 case "$target_triplet" in @{
-    @{ "native" @} @{
-        set target_list "unix"
-    @}
-    @{ "sparc64-*elf" @} @{
-        set target_list "sparc64-sim"
-    @}
-    @{ "mips-*elf" @} @{
-        set target_list "mips-sim wilma barney"
-    @}
-    @{ "mips-lsi-elf" @} @{
-        set target_list "mips-lsi-sim@{,soft-float,el@}"
-    @}
+@    @{ "native" @} @{
+@        set target_list "unix"
+@    @}
+@    @{ "sparc64-*elf" @} @{
+@        set target_list "sparc64-sim"
+@    @}
+@    @{ "mips-*elf" @} @{
+@        set target_list "mips-sim wilma barney"
+@    @}
+@    @{ "mips-lsi-elf" @} @{
+@        set target_list "mips-lsi-sim@{,soft-float,el@}"
+@    @}
 @}
 @end example
 
@@ -1624,38 +1624,38 @@ RUNTESTFLAGS =
 
 # Execute the tests
 check: site.exp all
-        $(RUNTEST) $(RUNTESTFLAGS) --tool $@{example@} --srcdir $(srcdir)
+@        $(RUNTEST) $(RUNTESTFLAGS) --tool $@{example@} --srcdir $(srcdir)
 
 # Make the local config file
 site.exp: ./config.status Makefile
-	@@echo "Making a new config file..."
-        -@@rm -f ./tmp?
-        @@touch site.exp
+@        @@echo "Making a new config file..."
+@        -@@rm -f ./tmp?
+@        @@touch site.exp
 
-        -@@mv site.exp site.bak
-        @@echo "## these variables are automatically generated by make ##" > ./tmp0
-	@@echo "# Do not edit here. If you wish to override these values" >> ./tmp0
-        @@echo "# add them to the last section" >> ./tmp0
-        @@echo "set host_os $@{host_os@}" >> ./tmp0
-        @@echo "set host_alias $@{host_alias@}" >> ./tmp0
-        @@echo "set host_cpu $@{host_cpu@}" >> ./tmp0
-        @@echo "set host_vendor $@{host_vendor@}" >> ./tmp0
-        @@echo "set target_os $@{target_os@}" >> ./tmp0
-        @@echo "set target_alias $@{target_alias@}" >> ./tmp0
-        @@echo "set target_cpu $@{target_cpu@}" >> ./tmp0
-        @@echo "set target_vendor $@{target_vendor@}" >> ./tmp0
-        @@echo "set host_triplet $@{host_canonical@}" >> ./tmp0
-        @@echo "set target_triplet $@{target_canonical@}">>./tmp0
-        @@echo "set tool binutils" >> ./tmp0
-        @@echo "set srcdir $@{srcdir@}" >> ./tmp0
-        @@echo "set objdir `pwd`" >> ./tmp0
-        @@echo "set $@{examplename@} $@{example@}" >> ./tmp0
-        @@echo "## All variables above are generated by configure. Do Not Edit ##" >> ./tmp0
-        @@cat ./tmp0 > site.exp
-        @@sed < site.bak \
-            -e '1,/^## All variables above are.*##/ d' \
-            >> site.exp
-        -@@rm -f ./tmp?
+@        -@@mv site.exp site.bak
+@        @@echo "## these variables are automatically generated by make ##" > ./tmp0
+@        @@echo "# Do not edit here. If you wish to override these values" >> ./tmp0
+@        @@echo "# add them to the last section" >> ./tmp0
+@        @@echo "set host_os $@{host_os@}" >> ./tmp0
+@        @@echo "set host_alias $@{host_alias@}" >> ./tmp0
+@        @@echo "set host_cpu $@{host_cpu@}" >> ./tmp0
+@        @@echo "set host_vendor $@{host_vendor@}" >> ./tmp0
+@        @@echo "set target_os $@{target_os@}" >> ./tmp0
+@        @@echo "set target_alias $@{target_alias@}" >> ./tmp0
+@        @@echo "set target_cpu $@{target_cpu@}" >> ./tmp0
+@        @@echo "set target_vendor $@{target_vendor@}" >> ./tmp0
+@        @@echo "set host_triplet $@{host_canonical@}" >> ./tmp0
+@        @@echo "set target_triplet $@{target_canonical@}">>./tmp0
+@        @@echo "set tool binutils" >> ./tmp0
+@        @@echo "set srcdir $@{srcdir@}" >> ./tmp0
+@        @@echo "set objdir `pwd`" >> ./tmp0
+@        @@echo "set $@{examplename@} $@{example@}" >> ./tmp0
+@        @@echo "## All variables above are generated by configure. Do Not Edit ##" >> ./tmp0
+@        @@cat ./tmp0 > site.exp
+@        @@sed < site.bak \
+@            -e '1,/^## All variables above are.*##/ d' \
+@            >> site.exp
+@        -@@rm -f ./tmp?
 @end example
 
 @subsection Simple tool init file for batch programs
@@ -1685,11 +1685,11 @@ proc myprog_exit @{@} @{@}
 proc myprog_version @{@} @{@}
 
 proc myprog_start @{@} @{
-     global $@{examplename@}
-     spawn $@{examplename@}
-     expect @{
-        -re "" @{@}
-     @}
+@     global $@{examplename@}
+@     spawn $@{examplename@}
+@     expect @{
+@        -re "" @{@}
+@     @}
 @}
 
 # Start the program running we want to test
@@ -1717,12 +1717,12 @@ should see something like this:
 @example
 Test Run By bje on Sat Nov 14 15:08:54 AEDT 2015
 
-          === example tests ===
+@                === example tests ===
 
 Running ./example.0/first-try.exp ...
 Testing: one, two...
 
-          === example Summary ===
+@                === example Summary ===
 @end example
 
 There is no output in the summary, because so far the example does not
@@ -1868,7 +1868,7 @@ hex_startaddr@tab @code{0xa0020000}@tab The Starting address as a string.
 @item
 start_addr@tab 0xa0008000@tab The starting address as a value.
 @item
-startaddr@tab @code{a0020000}@tab 
+startaddr@tab @code{a0020000}@tab
 @item
 exit_statuses_bad@tab 1@tab Whether there is an accurate exit status.
 @item
@@ -1901,11 +1901,11 @@ Field@tab Sample Value@tab Description
 @item
 strip@tab $tempfile@tab Strip the executable of symbols.
 @item
-gdb_load_offset@tab "0x40050000"@tab 
+gdb_load_offset@tab "0x40050000"@tab
 @item
 gdb_protocol@tab "remote"@tab The GDB debugging protocol to use.
 @item
-gdb_sect_offset@tab "0x41000000";@tab 
+gdb_sect_offset@tab "0x41000000";@tab
 @item
 gdb_stub_ldscript@tab "-Wl,-Teva-stub.ld"@tab The linker script to use with a GDB stub.
 @item
@@ -1913,7 +1913,7 @@ gdb,noargs@tab 1@tab Whether the target can take command line arguments.
 @item
 gdb,nosignals@tab 1@tab Whether there are signals on the target.
 @item
-gdb,short_int@tab 1@tab 
+gdb,short_int@tab 1@tab
 @item
 gdb,target_sim_options@tab "-sparclite"@tab Special options to pass to the simulator.
 @item
@@ -1925,41 +1925,41 @@ debugged is started.
 gdb_init_commands@tab "print/x \$fsr = 0x0"@tab Same as @emph{gdb_init_command}, except
 that this is a list, more commands can be added.
 @item
-gdb_load_offset@tab "0x12020000"@tab 
+gdb_load_offset@tab "0x12020000"@tab
 @item
-gdb_opts@tab "--command gdbinit"@tab 
+gdb_opts@tab "--command gdbinit"@tab
 @item
 gdb_prompt@tab "\\(gdb960\\)"@tab The prompt GDB is using.
 @item
-gdb_run_command@tab "jump start"@tab 
+gdb_run_command@tab "jump start"@tab
 @item
-gdb_stub_offset@tab "0x12010000"@tab 
+gdb_stub_offset@tab "0x12010000"@tab
 @item
 use_gdb_stub@tab 1@tab Whether to use a GDB stub.
 @item
-wrap_m68k_aout@tab 1@tab 
+wrap_m68k_aout@tab 1@tab
 @item
-gcc,no_label_values@tab 1@tab 
+gcc,no_label_values@tab 1@tab
 @item
-gcc,no_trampolines@tab 1@tab 
+gcc,no_trampolines@tab 1@tab
 @item
-gcc,no_varargs@tab 1@tab 
+gcc,no_varargs@tab 1@tab
 @item
 gcc,stack_size@tab 16384@tab Stack size to use with some GCC testcases.
 @item
-ieee_multilib_flags@tab "-mieee"@tab 
+ieee_multilib_flags@tab "-mieee"@tab
 @item
-is_simulator@tab 1@tab 
+is_simulator@tab 1@tab
 @item
-needs_status_wrapper@tab 1@tab 
+needs_status_wrapper@tab 1@tab
 @item
-no_double@tab 1@tab 
+no_double@tab 1@tab
 @item
-no_long_long@tab 1@tab 
+no_long_long@tab 1@tab
 @item
-noargs@tab 1@tab 
+noargs@tab 1@tab
 @item
-target_install@tab @{sh-hms@}@tab 
+target_install@tab @{sh-hms@}@tab
 @end multitable
 
 @node Writing a test case, Debugging a test case, Board file values, Extending DejaGnu
@@ -1985,7 +1985,7 @@ in Tcl.
 
 Writing the complete suite of C tests, then, consisted of these steps:
 
-@itemize 
+@itemize
 @item
 Copying all the C code into the test directory.  These tests were based
 on the C-torture test created by Torbjorn Granlund (on behalf of the
@@ -2146,7 +2146,7 @@ of buffer space.  Expect discards the entire buffer when this occurs.
 
 These are the kinds of debugging information available from DejaGnu:
 
-@itemize 
+@itemize
 
 @item
 Output controlled by test scripts themselves, explicitly allowed for by
@@ -2908,12 +2908,12 @@ conditional is de-activated.
 @strong{Specifying the conditional xfail data}
 
 @example
-	  set compiler_conditional_xfail_data @{ \
-	       "I sure wish I knew why this was hosed" \
-               "sparc*-sun*-* *-pc-*-*" \
-               @{"-Wall -v" "-O3"@} \
-               @{"-O1" "-Map"@} \
-          @}
+set compiler_conditional_xfail_data @{ \
+     "I sure wish I knew why this was hosed" \
+     "sparc*-sun*-* *-pc-*-*" \
+     @{"-Wall -v" "-O3"@} \
+     @{"-O1" "-Map"@} \
+@}
 @end example
 
 What this does is it matches only for these two targets if @code{-Wall
@@ -3310,7 +3310,7 @@ redirected.
 Name of the host to execute the command on.
 
 @item @code{program}
-Command 
+Command
 @item @code{args}
 There are four optional arguments:
 
@@ -4940,7 +4940,7 @@ was on the right side of the @code{=} if @code{foo.exp="..."} was
 specified, or an empty string if no such argument is present.
 
 @item @code{testcase}
-The filename of the current testcase under consideration. 
+The filename of the current testcase under consideration.
 @end table
 
 @node diff procedure, setenv procedure, runtest_file_p procedure, Utility Procedures

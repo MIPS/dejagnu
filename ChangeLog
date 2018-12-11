@@ -1,5 +1,13 @@
 2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* doc/dejagnu.texi: Clean up whitespace.  Some indented examples
+	were changed to use the Texinfo '@ ' command (yes, a space
+	character) to preserve correct indentation.  The '@ ' command is
+	treated as a single space by Tex and makeinfo, but prevents Emacs
+	from complaining about indentation using spaces instead of tabs.
+
+2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
+
         * doc/dejagnu.texi (getdirs procedure): Document hard-coded
 	directory exclusions by name in this procedure.
 
