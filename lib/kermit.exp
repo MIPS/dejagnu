@@ -138,7 +138,7 @@ proc kermit_command {dest args} {
     }
     send -i $shell_id "c\r"
     expect {
-	-i $shell_id -re ".*other options.\[\r\n\]+" { }
+	-i $shell_id -re {.*other options.[\r\n]+} { }
 	-i $shell_id timeout {
 	    perror "Unable to resume Kermit connection."
 	    return -1

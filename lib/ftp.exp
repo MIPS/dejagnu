@@ -186,7 +186,7 @@ proc ftp_download {host localfile remotefile} {
 		set loop 0
 		set remotefile ""
 	    }
-	    -re "(^|\[\r\n\])150.*connection for (.*) \[(\]\[0-9.,\]+\\)\[\r\n\]" {
+	    -re {(^|[\r\n])150.*connection for (.*) [(][0-9.,]+\)[\r\n]} {
 		set remotefile $expect_out(2,string)
 		exp_continue
 	    }

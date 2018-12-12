@@ -1,5 +1,14 @@
 2018-12-12  Ben Elliston  <bje@gnu.org>
 
+	* config/gdb-comm.exp, config/gdb_stub.exp, config/vxworks.exp,
+	lib/dg.exp, lib/ftp.exp, lib/kermit.exp, lib/rlogin.exp,
+	lib/telnet.exp, runtest.exp, testsuite/lib/libsup.exp: Simplify
+	some regular expressions in constant strings by placing them
+	inside braces instead of quotes. This allows one level of
+	backslash quoting to be removed.
+
+2018-12-12  Ben Elliston  <bje@gnu.org>
+
 	* doc/dejagnu.texi: Acknowledge contributions to the manual from
 	others.
 

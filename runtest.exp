@@ -1563,16 +1563,16 @@ proc process_target_variants { target_list } {
     set result {}
     foreach x $target_list {
 	if {[regexp "\\(" $x]} {
-	    regsub "^.*\\((\[^()\]*)\\)$" "$x" "\\1" variant_list
-	    regsub "\\(\[^(\]*$" "$x" "" x
+	    regsub {^.*\(([^()]*)\)$} $x {\1} variant_list
+	    regsub {\([^(]*$} $x "" x
 	    set list [process_target_variants $x]
 	    set result {}
 	    foreach x $list {
 		set result [concat $result [iterate_target_variants $x [split $variant_list ","]]]
 	    }
 	} elseif {[regexp "\{" $x]} {
-	    regsub "^.*\{(\[^\{\}\]*)\}$" "$x" "\\1" variant_list
-	    regsub "\{\[^\{\]*$" "$x" "" x
+	    regsub "^.*\{(\[^\{\}\]*)\}$" $x {\1} variant_list
+	    regsub "\{\[^\{\]*$" $x "" x
 	    set list [process_target_variants $x]
 	    foreach x $list {
 		foreach i [split $variant_list ","] {
@@ -1639,11 +1639,12 @@ if {[info exists errorInfo]} {
     unset errorInfo
 }
 
+
 # make sure we have only single path delimiters
-regsub -all "\(\[^/\]\)//*" $srcdir "\\1/" srcdir
-regsub -all "\(\[^/\]\)//*" $objdir "\\1/" objdir
-regsub -all "\(\[^/\]\)//*" $testsuitedir "\\1/" testsuitedir
-regsub -all "\(\[^/\]\)//*" $testbuilddir "\\1/" testbuilddir
+regsub -all {([^/])//*} $srcdir {\1/} srcdir
+regsub -all {([^/])//*} $objdir {\1/} objdir
+regsub -all {([^/])//*} $testsuitedir {\1/} testsuitedir
+regsub -all {([^/])//*} $testbuilddir {\1/} testbuilddir
 
 if {![info exists target_list]} {
     # Make sure there is at least one target machine. It's probably a Unix box,

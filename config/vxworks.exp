@@ -50,7 +50,7 @@ proc ${board}_init { dest } {
 	    set boot_mon 0
 	    set boot_mon_prompt "VxWorks Boot"
 	}
-	-re "\[0-9\]\[\r\n\]+ *\[0-9\]\[\r\n\]" {
+	-re {[0-9][\r\n]+ *[0-9][\r\n]} {
 	    remote_send $dest "\n"
 	    exp_continue
 	}
@@ -72,7 +72,7 @@ proc ${board}_init { dest } {
     }
     remote_send $dest "p\n"
     remote_expect $dest 20 {
-	-re "file name\[ \t\]+: (\[^ \r\n\]+)\[ \r\n\]+" {
+	-re {file name[ \t]+: ([^ \r\n]+)[ \r\n]+} {
 	    set curr_file $expect_out(1,string)
 	    exp_continue
 	}
@@ -88,11 +88,11 @@ proc ${board}_init { dest } {
 	# Oh boy.
 	remote_send $dest "c\n"
 	remote_expect $dest 20 {
-	    -re "file name\[ \t\]+:.*$" {
+	    -re {file name[ \t]+:.*$} {
 		remote_send $dest "$desired_kernel\n"
 		exp_continue
 	    }
-	    -re "\[a-z() \t\]+:.*$" {
+	    -re {[a-z() \t]+:.*$} {
 		remote_send $dest "\n"
 		exp_continue
 	    }
@@ -141,7 +141,7 @@ proc vxworks_exec { dest program pargs inp outp } {
     remote_send $dest "$program $pargs$suffix\n"
     # FIXME: The value 300 below should probably be a parameter passed in.
     remote_expect $dest 300 {
-	-re "\\\[VxWorks Boot\\\]:" {
+	-re {\[VxWorks Boot\]:} {
 	    remote_send $dest "@\n"
 	    sleep 20
 	    exp_continue
@@ -286,7 +286,7 @@ proc vxworks_ld { dest prog } {
 	remote_send $dest "\n"
 	remote_expect $dest 30 {
 	    -re ".*$shell_prompt $" { set x 20 }
-	    -re "\\\[VxWorks Boot\\\]:" {
+	    -re {\[VxWorks Boot\]:} {
 		remote_send $dest "@\n"
 		sleep 20
 		exp_continue
@@ -382,7 +382,7 @@ proc vxworks_run { dest function pargs inp outp } {
 	    verbose "$function aborted"
 	    set result 1
 	}
-	-re "\[\r\n\]syntax error\[\r\n\]" {
+	-re {[\r\n]syntax error[\r\n]} {
 	    verbose "weirdness after task started"
 	    set result -1
 	}

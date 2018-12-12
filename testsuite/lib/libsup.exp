@@ -196,7 +196,7 @@ proc config_test { cmd true false msg } {
     }
 
     expect {
-	-re "Checking pattern*with*\[\r\n\]" {
+	-re {Checking pattern*with*[\r\n]} {
 	    exp_continue
 	}
 	-re "\r\n1\r\n" {

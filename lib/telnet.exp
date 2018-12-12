@@ -119,7 +119,7 @@ proc telnet_open { hostname args } {
 		perror "telnet: need a password"
 		break
 	    }
-	    -re "advance.*y/n.*\\?" {
+	    -re {advance.*y/n.*\?} {
 		exp_send "n\n"
 		exp_continue
 	    }
@@ -140,7 +140,7 @@ proc telnet_open { hostname args } {
 		sleep 20
 		exp_continue
 	    }
-	    -re "Escape character is.*\\.\[\r\n\]" {
+	    -re {Escape character is.*\.[\r\n]} {
 		if { $raw || [board_info $connhost exists dont_wait_for_prompt] } {
 		    set result 0
 		} else {
@@ -170,7 +170,7 @@ proc telnet_open { hostname args } {
 		warning "telnet: connection closed by foreign host."
 		break
 	    }
-	    -re "\[\r\n\]+" {
+	    -re {[\r\n]+} {
 		exp_continue
 	    }
 	    timeout {
@@ -227,11 +227,11 @@ proc telnet_binary { hostname } {
 		remote_send $hostname "toggle binary\n"
 		exp_continue
 	    }
-	    -re "Negotiating binary.*\[\r\n\].*$" { }
+	    -re {Negotiating binary.*[\r\n].*$} { }
 	    -re "binary.*unknown argument.*telnet> *$" {
 		remote_send $hostname "mode character\n"
 	    }
-	    -re "Already operating in binary.*\[\r\n\].*$" { }
+	    -re {Already operating in binary.*[\r\n].*$} { }
 	    timeout {
 		warning "Never got binary response from telnet."
 	    }

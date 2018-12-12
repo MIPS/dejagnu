@@ -568,7 +568,7 @@ proc dg-runtest { testcases options default-extra-options } {
 #
 proc dg-trim-dirname { dir_name file_name } {
     set special_character "\[\?\+\-\.\(\)\$\|\]"
-    regsub -all -- $special_character $dir_name "\\\\&" dir_name
+    regsub -all -- $special_character $dir_name {\\&} dir_name
     regsub "^$dir_name/?" $file_name "" file_name
     return $file_name
 }
@@ -843,7 +843,7 @@ proc dg-test { args } {
     # It would be a bit cumbersome though.
 
     if {${dg-final-code} ne ""} {
-	regsub -all "\\\\(\[{}\])" ${dg-final-code} "\\1" dg-final-code
+	regsub -all {\\([{}])} ${dg-final-code} {\1} dg-final-code
 	# Note that the use of `args' here makes this a varargs proc.
 	proc dg-final-proc { args } ${dg-final-code}
 	verbose "Running dg-final tests." 3

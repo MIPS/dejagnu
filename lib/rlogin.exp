@@ -70,7 +70,7 @@ proc rlogin_open { arg } {
 		set result 0
 		break
 	    }
-	    -re "TERM = .*\\)\[ ]*$" {
+	    -re {TERM = .*\)[ ]*$} {
 		send "dumb\r\n"
 		expect {
 		    "Terminal type is*$" {
@@ -143,8 +143,8 @@ proc rlogin_spawn { dest cmdline } {
 	if { $shell_id ne "" && $shell_id > 0 } {
 	    remote_send $dest "echo k\r"
 	    remote_expect $dest 20 {
-		-re "\\(gdb\\)" {
-		    set shell_prompt "\\(gdb\\)"
+		-re {\(gdb\)} {
+		    set shell_prompt {\(gdb\)}
 		    # gdb uses 'shell command'.
 		    set prefix "shell "
 		    set ok 1

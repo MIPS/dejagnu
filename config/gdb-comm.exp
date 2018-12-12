@@ -86,7 +86,7 @@ proc gdb_comm_file_cmd { arg } {
 	    verbose "\t\tKilling previous program being debugged"
 	    exp_continue
 	}
-	-re "Load new symbol table from \".*\".*y or n.*$" {
+	-re {Load new symbol table from ".*".*y or n.*$} {
 	    remote_send host "y\n"
 	    remote_expect host 60 {
 		-re "Reading symbols from.*done.*$gdb_prompt $" {
@@ -157,7 +157,7 @@ proc gdb_comm_start { dest } {
     # The variable gdb_prompt is a regexp which matches the gdb prompt.  Set it
     # if it is not already set.
     if {![board_info $dest exists gdb_prompt]} then {
-	set gdb_prompt "\\(gdb\\)"
+	set gdb_prompt {\(gdb\)}
     } else {
 	set gdb_prompt [board_info $dest gdb_prompt]
     }
@@ -199,7 +199,7 @@ proc gdb_comm_add_breakpoint { function } {
 	-re "Breakpoint.*$gdb_prompt $" { return "" }
 	-re "Function.*not defined.*$gdb_prompt $" { return "undef" }
 	-re "No symbol table.*$gdb_prompt $" { return "undef" }
-	-re ".*Make breakpoint pending.*\\\? \\(y or \\\[n\\\]\\) $" {
+	-re {.*Make breakpoint pending.*\? \(y or \[n\]\) $} {
 	    remote_send host "y\n"
 	    return "maybe"
 	}
@@ -225,7 +225,7 @@ proc quit_gdb { } {
 		    remote_send host "y\n"
 		    exp_continue
 		}
-		-re ".*\[*\]\[*\]\[*\].*EXIT code" { }
+		-re {.*[*][*][*].*EXIT code} { }
 		default { }
 	    }
 	}
@@ -285,11 +285,11 @@ proc gdb_comm_load { dest prog args } {
 	set textoff [board_info $dest gdb_sect_offset]
 	remote_send host "sect .text $textoff\n"
 	remote_expect host 10 {
-	    -re "(0x\[0-9a-z]+) - 0x\[0-9a-z\]+ is \\.data" {
+	    -re {(0x[0-9a-z]+) - 0x[0-9a-z]+ is \.data} {
 		set dataoff $expect_out(1,string)
 		exp_continue
 	    }
-	    -re "(0x\[0-9a-z\]+) - 0x\[0-9a-z\]+ is \\.bss" {
+	    -re {(0x[0-9a-z]+) - 0x[0-9a-z]+ is \.bss} {
 		set bssoff $expect_out(1,string)
 		exp_continue
 	    }
@@ -425,7 +425,7 @@ proc gdb_comm_load { dest prog args } {
 	    remote_send host "y\n"
 	    exp_continue
 	}
-	-re "Continuing( at |\\.| with no signal\\.)\[^\r\n\]*\[\r\n\]" {
+	-re {Continuing( at |\.| with no signal\.)[^\r\n]*[\r\n]} {
 	    exp_continue
 	}
 	-re ".*Start it from the beginning?.*y or n.*" {
@@ -434,14 +434,14 @@ proc gdb_comm_load { dest prog args } {
 		-re ".*$gdb_prompt $" {
 		    remote_send host "signal 0\n"
 		    remote_expect host 10 {
-			-re "signal 0\[\r\n\]+" { exp_continue }
-			-re "Continuing(\\.| with no signal\\.)\[\r\n\]" {}
+			-re {signal 0[\r\n]+} { exp_continue }
+			-re {Continuing(\.| with no signal\.)[\r\n]} {}
 		    }
 		}
 	    }
 	    exp_continue
 	}
-	-re "(run\[\r\n\]*|)Starting program: \[^\r\n\]*\[\r\n\]" {
+	-re {(run[\r\n]*|)Starting program: [^\r\n]*[\r\n]} {
 	    exp_continue
 	}
 	-re "$gdb_prompt (signal 0|continue)\[\r\n\]+Continuing(\\.| with no signal\\.)\[\r\n\]" {

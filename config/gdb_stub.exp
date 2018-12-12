@@ -37,7 +37,7 @@ proc gdb_stub_init { dest args } {
     if {[board_info $dest exists gdb_prompt]} {
 	set gdb_prompt [board_info $dest gdb_prompt]
     } else {
-	set gdb_prompt "\\(gdb\\)"
+	set gdb_prompt {\(gdb\)}
     }
 
     return 1
@@ -384,7 +384,7 @@ proc gdb_stub_start { dest } {
 	    remote_send host "jump relocd\n"
 	    exp_continue
 	}
-	-re "Continuing at.*\[\r\n\]" { }
+	-re {Continuing at.*[\r\n]} { }
 	default {
 	    return { "fail" "" }
 	}
