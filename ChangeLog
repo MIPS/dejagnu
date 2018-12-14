@@ -1,3 +1,8 @@
+2018-12-14  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* lib/framework.exp (log_summary): Remove "testcnt" mechanism.
+	* testsuite/lib/libsup.exp: Remove obsolete "testcnt" variable.
+
 2018-12-12  Ben Elliston  <bje@gnu.org>
 
 	* config/gdb-comm.exp, config/gdb_stub.exp, config/vxworks.exp,
@@ -95,7 +100,7 @@
 
 2018-12-11  Jacob Bachmeyer  <jcb62281@gmail.com>
 
-        * doc/dejagnu.texi (getdirs procedure): Document hard-coded
+	* doc/dejagnu.texi (getdirs procedure): Document hard-coded
 	directory exclusions by name in this procedure.
 
 2018-12-10  Ben Elliston  <bje@gnu.org>

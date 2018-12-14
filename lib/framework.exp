@@ -403,7 +403,6 @@ proc log_summary { args } {
     global mailing_list
     global current_target_name
     global test_counts
-    global testcnt
 
     if { [llength $args] == 0 } {
 	set which "count"
@@ -417,38 +416,6 @@ proc log_summary { args } {
 	clone_output "\n\t\t=== $tool Summary ===\n"
     }
 
-    # If the tool set `testcnt', it wants us to do a sanity check on the
-    # total count, so compare the reported number of testcases with the
-    # expected number.  Maintaining an accurate count in `testcnt' isn't easy
-    # so it's not clear how often this will be used.
-    if {[info exists testcnt]} {
-	if { $testcnt > 0 } {
-	    set totlcnt 0
-	    # total all the testcases reported
-	    foreach x { FAIL PASS XFAIL KFAIL XPASS KPASS UNTESTED UNRESOLVED UNSUPPORTED } {
-		incr totlcnt test_counts($x,$which)
-	    }
-	    set testcnt test_counts(total,$which)
-
-	    if { $testcnt>$totlcnt || $testcnt<$totlcnt } {
-		if { $testcnt > $totlcnt } {
-		    set mismatch "unreported  [expr {$testcnt - $totlcnt}]"
-		}
-		if { $testcnt < $totlcnt } {
-		    set mismatch "misreported [expr {$totlcnt - $testcnt}]"
-		}
-	    } else {
-		verbose "# of testcases run         $testcnt"
-	    }
-
-	    if {[info exists mismatch]} {
-		clone_output "### ERROR: totals do not equal number of testcases run"
-		clone_output "### ERROR: # of testcases expected    $testcnt"
-		clone_output "### ERROR: # of testcases reported    $totlcnt"
-		clone_output "### ERROR: # of testcases $mismatch\n"
-	    }
-	}
-    }
     foreach x { PASS FAIL XPASS XFAIL KPASS KFAIL UNRESOLVED UNTESTED UNSUPPORTED } {
 	set val $test_counts($x,$which)
 	if { $val > 0 } {
