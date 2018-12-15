@@ -3868,11 +3868,6 @@ The filename.
 @section Procedures For Using Utilities to Connect
 
 @menu
-* telnet Procedure: telnet procedure
-* rlogin Procedure: rlogin procedure
-* rsh Procedure: rsh procedure
-* tip Procedure: tip procedure
-* kermit Procedure: kermit procedure
 * kermit_open Procedure: kermit_open procedure
 * kermit_command Procedure: kermit_command procedure
 * kermit_send Procedure: kermit_send procedure
@@ -3897,87 +3892,7 @@ The filename.
 * tip_download Procedure: tip_download procedure
 @end menu
 
-@node telnet procedure, rlogin procedure, , connprocs
-@subsubheading telnet Procedure
-@findex telnet
-
-@quotation
-@t{@b{telnet} @i{hostname} @i{port}}
-@end quotation
-
-@node rlogin procedure, rsh procedure, telnet procedure, connprocs
-@subsubheading rlogin Procedure
-@findex telnet
-
-@quotation
-@t{@b{rlogin} @i{hostname}}
-@end quotation
-
-@node rsh procedure, tip procedure, rlogin procedure, connprocs
-@subsubheading rsh Procedure
-@findex rsh
-
-@quotation
-@t{@b{rsh} @i{hostname}}
-@end quotation
-
-@table @asis
-
-@item @code{hostname}
-This refers to the IP address or name (for example, an entry in
-@file{/etc/hosts}) for this target. The procedure names reflect the Unix
-utility used to establish a connection. The optional @code{port} is used
-to specify the IP port number. The value of the @code{netport} field in
-the @code{target_info} array is used. (was @code{$netport}) This value
-has two parts, the hostname and the port number, separated by a
-@emph{:}. If host or target is used in the @code{hostname} field, than
-the config array is used for all information.
-@end table
-
-@node tip procedure, kermit procedure, rsh procedure, connprocs
-@subsubheading tip Procedure
-@findex tip
-
-@quotation
-@t{@b{tip} @i{port}}
-@end quotation
-
-@table @asis
-
-@item @code{port}
-Connect using the Unix utility @code{tip}. @code{Port}must be a name
-from the tip configuration file @file{/etc/remote}. Often, this is
-called @code{hardwire}, or something like @code{ttya}. This file holds
-all the configuration data for the serial port. The value of the
-@code{serial} field in the @code{target_info} array is used. (was
-@code{$serialport}) If @code{host} or @code{target} is used in the
-@code{port} field, than the config array is used for all
-information. the config array is used for all information.
-@end table
-
-@node kermit procedure, kermit_open procedure, tip procedure, connprocs
-@subsubheading kermit Procedure
-@findex kermit
-
-@quotation
-@t{@b{kermit} @i{port} @i{bps}}
-@end quotation
-
-@table @asis
-@item @code{port}
-Connect using the program @code{kermit}. @code{Port} is the device name,
-e.g. @file{/dev/ttyb}.
-
-@item @code{bps}
-@code{bps} is the line speed to use (in its per second) for the
-connection. The value of the @code{serial} field in the
-@code{target_info} array is used.  (was @code{$serialport}) If
-@code{host} or @code{target} is used in the @code{port} field, than the
-config array is used for all information. the config array is used for
-all information.
-@end table
-
-@node kermit_open procedure, kermit_command procedure, kermit procedure, connprocs
+@node kermit_open procedure, kermit_command procedure, connprocs, connprocs
 @subsubheading kermit_open Procedure
 @findex kermit_open
 
@@ -4477,7 +4392,6 @@ Reboot the target.
 * unset_currtarget_info Procedure: unset_currtarget_info procedure
 * push_target Procedure: push_target procedure
 * pop_target Procedure: pop_target procedure
-* list_targets Procedure: list_targets procedure
 * push_host Procedure: push_host procedure
 * pop_host Procedure: pop_host procedure
 @end menu
@@ -4621,7 +4535,7 @@ connection.
 Name of the target to make the current connection.
 @end table
 
-@node pop_target procedure, list_targets procedure, push_target procedure, target database library file
+@node pop_target procedure, push_host procedure, push_target procedure, target database library file
 @subsubheading pop_target Procedure
 @findex pop_target
 
@@ -4631,17 +4545,7 @@ This unsets the current target connection.
 @t{@b{pop_target}}
 @end quotation
 
-@node list_targets procedure, push_host procedure, pop_target procedure, target database library file
-@subsubheading list_targets Procedure
-@findex list_targets
-
-This lists all the supported targets for this architecture.
-
-@quotation
-@t{@b{list_targets}}
-@end quotation
-
-@node push_host procedure, pop_host procedure, list_targets procedure, target database library file
+@node push_host procedure, pop_host procedure, pop_target procedure, target database library file
 @subsubheading push_host Procedure
 @findex push_host
 
@@ -4782,7 +4686,6 @@ tool, and its version number.
 * setenv Procedure: setenv procedure
 * unsetenv Procedure: unsetenv procedure
 * getenv Procedure: getenv procedure
-* prune_system_crud Procedure: prune_system_crud procedure
 @end menu
 
 @node getdirs procedure, relative_filename procedure, Utility Procedures, Utility Procedures
@@ -4996,7 +4899,7 @@ Unset an environment variable.
 The environment variable to unset.
 @end table
 
-@node getenv procedure, prune_system_crud procedure, unsetenv procedure, Utility Procedures
+@node getenv procedure,  , unsetenv procedure, Utility Procedures
 @subsubheading getenv Procedure
 @findex getenv
 
@@ -5010,26 +4913,6 @@ defined, otherwise an empty string is returned.
 @table @asis
 @item @code{var}
 Environment variable to retrieve.
-@end table
-
-@node prune_system_crud procedure, , getenv procedure, Utility Procedures
-@subsubheading prune_system_crud Procedure
-@findex prune_system_crud
-
-Delete text that the host or target operating system might issue that
-will interfere with pattern matching of program output.  An example is
-the message that is printed if a shared library is out of date.
-
-@quotation
-@t{@b{prune_system_crud} @i{system} @i{test}}
-@end quotation
-
-@table @asis
-@item @code{system}
-The system error messages to filter out.
-
-@item @code{text}
-The Tcl variable containing the text.
 @end table
 
 @node Libgloss, Debugging Procedures, Utility Procedures, Built-in Procedures

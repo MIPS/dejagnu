@@ -1,3 +1,13 @@
+2018-12-15  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi (telnet Procedure): Remove old node.
+	(rlogin Procedure): Likewise.
+	(rsh Procedure): Likewise.
+	(tip Procedure): Likewise.
+	(kermit Procedure): Likewise.
+	(list_targets Procedure): Likewise.
+	(prune_system_crud): Likewise.
+
 2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.libs/default_procs.tcl (send_error): New stub.
