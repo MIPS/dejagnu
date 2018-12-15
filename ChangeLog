@@ -1,3 +1,8 @@
+2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* testsuite/lib/runtest.exp (runtest_start): Remove unused global
+	variable links.
+
 2018-12-14  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* lib/framework.exp (log_summary): Remove "testcnt" mechanism.

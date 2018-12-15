@@ -61,13 +61,7 @@ proc runtest_exit { } {
 # runtest_start -- start everything
 #
 proc runtest_start { } {
-    global verbose
-    global spawn_id
-    global subdir
-    global srcdir
-    global objdir
     global RUNTEST
-    global RUNTESTFLAGS
 
     if {[which $RUNTEST] != 0} then {
 	perror "Can't find $RUNTEST"
