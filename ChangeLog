@@ -1,5 +1,16 @@
 2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* testsuite/lib/runtest.exp (runtest_start): Remove.
+	Move the sanity check in runtest_start to top-level and similarly
+	check to ensure that $EXPECT can be found.  Make failure of either
+	sanity check an immediate fatal error.
+	Improve error messages for sanity checks to indicate which
+	critical tool was not found.  Remove useless 'global RUNTEST'
+	command at top-level.
+	(runtest_version): Brace 'if' expression.
+
+2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* testsuite/lib/runtest.exp: Use 'testsuite file' to locate the
 	default runtest executable instead of implicitly searching PATH.
 	Remove unused RUNTESTFLAGS Tcl variable.

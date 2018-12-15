@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -18,14 +18,22 @@
 
 # This file was written by Rob Savoye <rob@welcomehome.org>.
 
-global RUNTEST
-if {![info exists RUNTEST]} then {
+if { ![info exists RUNTEST] } {
     set RUNTEST [file join [file dirname [testsuite file -source -top]] runtest]
 }
 
-if {![info exists EXPECT]} {
+if { ![info exists EXPECT] } {
     set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
     verbose "EXPECT defaulting to $EXPECT" 2
+}
+
+if { [which $RUNTEST] == 0 } {
+    perror "Can't find RUNTEST = $RUNTEST"
+    exit 2
+}
+if { [which $EXPECT] == 0 } {
+    perror "Can't find EXPECT = $EXPECT"
+    exit 2
 }
 
 #
@@ -35,7 +43,7 @@ proc runtest_version { } {
     global RUNTEST
 
     catch {exec $RUNTEST -V} tmp
-    if [info exists tmp] then {
+    if { [info exists tmp] } {
 	clone_output "$tmp\n"
     }
 }
@@ -50,15 +58,4 @@ proc runtest_load { arg } {
 # runtest_exit -- exit the test driver for expect
 #
 proc runtest_exit { } {
-}
-
-#
-# runtest_start -- start everything
-#
-proc runtest_start { } {
-    global RUNTEST
-
-    if {[which $RUNTEST] != 0} then {
-	perror "Can't find $RUNTEST"
-    }
 }
