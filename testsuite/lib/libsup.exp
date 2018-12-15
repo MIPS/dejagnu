@@ -19,73 +19,17 @@
 # Setup an environment so we can execute library procs without DejaGnu.
 
 #
-# Create a default environment and start expect.
+# Start an Expect process
 #
-proc make_defaults_file { defs } {
-    global srcdir
-    global objdir
-    global subdir
-    global build_triplet
-    global host_triplet
-    global target_triplet
-    global target_os
-    global target_cpu
-
-    # We need to setup default values and a few default procs so we
-    # can execute library code without DejaGnu
-    set fd [open $defs w]
-    puts $fd "set tool foobar"
-    puts $fd "set srcdir $srcdir"
-    puts $fd "set objdir $objdir"
-    puts $fd "set subdir $subdir"
-    puts $fd "set build_triplet $build_triplet"
-    puts $fd "set host_triplet $host_triplet"
-    puts $fd "set target_triplet $target_triplet"
-    puts $fd "set target_os $target_os"
-    puts $fd "set target_cpu $target_cpu"
-    puts $fd "set warncnt 0"
-    puts $fd "set errcnt 0"
-    puts $fd "set passcnt 0"
-    puts $fd "set xpasscnt 0"
-    puts $fd "set kpasscnt 0"
-    puts $fd "set failcnt 0"
-    puts $fd "set xfailcnt 0"
-    puts $fd "set kfailcnt 0"
-    puts $fd "set prms_id 0"
-    puts $fd "set bug_id 0"
-    puts $fd "set exit_status 0"
-    puts $fd "set untestedcnt 0"
-    puts $fd "set unresolvedcnt 0"
-    puts $fd "set unsupportedcnt 0"
-    puts $fd "set xfail_flag 0"
-    puts $fd "set xfail_prms 0"
-    puts $fd "set kfail_flag 0"
-    puts $fd "set kfail_prms 0"
-    puts $fd "set mail_logs 0"
-    puts $fd "set multipass_name 0"
-    catch "close $fd"
-}
-
 proc start_expect { } {
+    global EXPECT
     global spawn_id
-    global base_dir
 
     # We need to setup default values and a few default procs so we
     # can execute library code without DejaGnu
-    set defaults_file setval.tmp
-    make_defaults_file $defaults_file
-    set fd [open $defaults_file w]
 
-    # look for expect
-    if {![info exists EXPECT]} {
-	set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
-	verbose "EXPECT defaulting to $EXPECT" 2
-    }
-
-    #    catch close
-    #    catch wait
-
-    # Start expect runing
+    # Start expect
+    set stty_init { -onlcr -onlret }
     spawn $EXPECT
     expect {
 	-re "expect.*> " {
@@ -96,13 +40,53 @@ proc start_expect { } {
 	    return -1
 	}
     }
+    send_defaults
+}
 
-    # Load the defaults file
-    exp_send "source $defaults_file\n"
+#
+# Send default variables to a running Expect
+#
+proc send_defaults { } {
+    global spawn_id
+
+    global build_triplet
+    global host_triplet
+    global target_triplet
+    global target_os
+    global target_cpu
+
+    set vars [subst {
+	tool foobar
+	srcdir {[testsuite file -source -top]}
+	objdir {[testsuite file -object -top]}
+	subdir {[relative_filename\
+		     [testsuite file -source -top]\
+		     [testsuite file -source -test]]}
+	build_triplet $build_triplet
+	host_triplet $host_triplet
+	target_triplet $target_triplet
+	target_os $target_os
+	target_cpu $target_cpu
+	prms_id 0
+	bug_id 0
+	exit_status 0
+	xfail_flag 0 xfail_prms 0
+	kfail_flag 0 kfail_prms 0
+	mail_logs 0
+	multipass_name 0
+    }]
+
+    # Load defaults
+    exp_send "array set default_vars {$vars}\n"
     expect {
 	"expect*> " {
-	    verbose "Loaded testing defaults file." 2
+	    verbose "Loaded testing defaults." 2
 	    return 1
+	}
+	"+> " {
+	    # discard continuation prompts generated from sending a
+	    # multiline command to Expect
+	    exp_continue
 	}
 	timeout {
 	    perror "Couldn't load the testing defaults file."
@@ -112,7 +96,7 @@ proc start_expect { } {
 }
 
 #
-# Stop the runing expect process
+# Stop the running expect process
 #
 proc stop_expect { }  {
     global spawn_id

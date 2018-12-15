@@ -1,5 +1,32 @@
 2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* testsuite/runtest.libs/default_procs.tcl (send_error): New stub.
+	(send_user): Likewise.
+	* testsuite/runtest.libs/clone_output.test: Remove unneeded global
+	variable link at top-level.
+	* testsuite/runtest.libs/utils.test: Adjust absolute path to
+	config.status.
+	* testsuite/runtest.libs/clone_output.test: Use preset srcdir,
+	subdir, and objdir variables instead of extracting them from argv.
+	Remove setval.tmp, which is now obsolete.
+	* testsuite/runtest.libs/config.test: Likewise.
+	* testsuite/runtest.libs/remote.test: Likewise.
+	* testsuite/runtest.libs/target.test: Likewise.
+	* testsuite/runtest.libs/testsuite_file.test: Likewise.
+	* testsuite/runtest.libs/utils.test: Likewise.
+
+	* testsuite/lib/libsup.exp (make_defaults_file): Replace this ..
+	(send_defaults): .. with this.
+	(start_expect): Remove redundant code.
+
+	* testsuite/runtest.libs/libs.exp: Eliminate setval.tmp file.
+	Remove unneeded test for EXPECT global variable.
+	Use one Expect subprocess to run all test cases.
+	(process_test): Redesign to use Expect subprocess and to use
+	throwaway slave interpreters for running test cases.
+
+2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* testsuite/lib/runtest.exp (runtest_start): Remove.
 	Move the sanity check in runtest_start to top-level and similarly
 	check to ensure that $EXPECT can be found.  Make failure of either

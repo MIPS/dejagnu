@@ -1,14 +1,5 @@
 # test "testsuite file" API call				-*- Tcl -*-
 
-set srcdir [lindex $argv 0]
-set subdir [lindex $argv 1]
-set objdir [lindex $argv 2]
-
-if [ file exists $objdir/setval.tmp ] {
-    source $objdir/setval.tmp
-} else {
-    puts "ERROR: $objdir/setval.tmp doesn't exist"
-}
 if [ file exists $srcdir/$subdir/default_procs.tcl ] {
     source "$srcdir/$subdir/default_procs.tcl"
 } else {

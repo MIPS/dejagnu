@@ -148,6 +148,12 @@ proc run_tests { tests } {
 proc send_log { args } {
     # this is just a stub for testing
 }
+proc send_error { args } {
+    # this is just a stub for testing
+}
+proc send_user { args } {
+    # this is just a stub for testing
+}
 
 proc pass { msg } {
     puts "PASSED: $msg"

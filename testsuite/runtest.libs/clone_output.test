@@ -1,14 +1,5 @@
 # test clone_output						-*- Tcl -*-
 
-set srcdir [lindex $argv 0]
-set subdir [lindex $argv 1]
-set objdir [lindex $argv 2]
-
-if [ file exists $objdir/setval.tmp ] {
-    source $objdir/setval.tmp
-} else {
-    puts "ERROR: $objdir/setval.tmp doesn't exist"
-}
 if [ file exists $srcdir/$subdir/default_procs.tcl ] {
     source $srcdir/$subdir/default_procs.tcl
 } else {
@@ -20,8 +11,9 @@ if [ file exists $srcdir/../lib/framework.exp] {
     puts "ERROR: $srcdir/../lib/framework.exp doesn't exist"
 }
 
+# TODO: override { send_error send_log send_user } to verify correct output
+
 set all_flag 0
-global all_flag
 set errno ""
 
 # stuff that shouldn't print anything without all_flag set
