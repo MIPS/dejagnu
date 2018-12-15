@@ -20,17 +20,12 @@
 
 global RUNTEST
 if {![info exists RUNTEST]} then {
-    set RUNTEST [transform runtest]
+    set RUNTEST [file join [file dirname [testsuite file -source -top]] runtest]
 }
 
 if {![info exists EXPECT]} {
     set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
     verbose "EXPECT defaulting to $EXPECT" 2
-}
-
-global RUNTESTFLAGS
-if {![info exists RUNTESTFLAGS]} then {
-    set RUNTESTFLAGS "-v -v -a"
 }
 
 #

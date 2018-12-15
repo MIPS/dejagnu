@@ -1,5 +1,11 @@
 2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* testsuite/lib/runtest.exp: Use 'testsuite file' to locate the
+	default runtest executable instead of implicitly searching PATH.
+	Remove unused RUNTESTFLAGS Tcl variable.
+
+2018-12-15  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* testsuite/lib/runtest.exp (runtest_start): Remove unused global
 	variable links.
 
