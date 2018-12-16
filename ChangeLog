@@ -1,3 +1,8 @@
+2018-12-16  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* Makefile.am (RUNTESTDEFAULTFLAGS): Remove; no longer needed.
+	* Makefile.in: Regenerate.
+
 2018-12-15  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi (telnet Procedure): Remove old node.

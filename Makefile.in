@@ -260,6 +260,7 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
+RUNTESTDEFAULTFLAGS = --tool $$tool --srcdir $$srcdir
 am__DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README TODO compile \
 	config.guess config.sub depcomp install-sh mdate-sh missing
@@ -511,8 +512,6 @@ TESTSUITE_FILES = \
 
 DEJATOOL = libdejagnu runtest
 RUNTEST = ${top_srcdir}/runtest
-RUNTESTDEFAULTFLAGS = --tool $${tool} --srcdir $${srcdir}/testsuite \
-	RUNTEST=$(RUNTEST)
 AM_CXXFLAGS = -I$(top_srcdir) -g
 unit_SOURCES = testsuite/libdejagnu/unit.cc
 

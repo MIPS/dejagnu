@@ -167,8 +167,6 @@ TESTSUITE_FILES = \
 DEJATOOL = libdejagnu runtest
 
 RUNTEST = ${top_srcdir}/runtest
-RUNTESTDEFAULTFLAGS = --tool $${tool} --srcdir $${srcdir}/testsuite
-RUNTESTDEFAULTFLAGS += RUNTEST=$(RUNTEST)
 
 AM_CXXFLAGS = -I$(top_srcdir) -g
 check_PROGRAMS = unit
