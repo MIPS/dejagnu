@@ -1,5 +1,10 @@
 2018-12-16  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* runtest.exp: Move processing of -V|--version option to first
+	pass through command line arguments instead of delaying it.
+
+2018-12-16  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* Makefile.am (RUNTESTDEFAULTFLAGS): Remove; no longer needed.
 	* Makefile.in: Regenerate.
 

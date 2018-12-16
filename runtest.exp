@@ -450,6 +450,14 @@ for { set i 0 } { $i < $argc } { incr i } {
     }
 
     switch -glob -- $option {
+	"--V*" -
+	"--vers*" {			# (--version) version numbers
+	    send_user "DejaGnu version\t$frame_version\n"
+	    send_user "Expect version\t[exp_version]\n"
+	    send_user "Tcl version\t[ info tclversion ]\n"
+	    exit 0
+	}
+
 	"--bu*" {			# (--build) the build host configuration
 	    set arg_build_triplet $optarg
 	    continue
@@ -1060,14 +1068,6 @@ for { set i 0 } { $i < $argc } { incr i } {
     }
 
     switch -glob -- $option {
-	"--V*" -
-	"--vers*" {			# (--version) version numbers
-	    send_user "DejaGnu version\t$frame_version\n"
-	    send_user "Expect version\t[exp_version]\n"
-	    send_user "Tcl version\t[ info tclversion ]\n"
-	    exit 0
-	}
-
 	"--v*" {			# (--verbose) verbose output
 	    # Already parsed.
 	    continue
