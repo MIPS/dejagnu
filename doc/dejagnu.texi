@@ -1215,7 +1215,7 @@ higher-level configuration settings. There is a rough inheritance
 scheme, where it is possible to derive a new board description file from
 an existing one. There are also collections of custom procedures for
 common environments. For more information on adding a new board config
-file, go to the @ref{Adding a new board} section.
+file, see @ref{Adding a new board}.
 
 An example board configuration file for a GNU simulator is as
 follows. @code{set_board_info} is a procedure that sets the field name
@@ -1425,8 +1425,8 @@ first section, but also specify default values for all on the
 associated Tcl variable.  Use the Tcl @code{set} command to specify a
 new default value (as for the configuration variables).  The following
 table describes the correspondence between command line options and
-variables you can set in @file{site.exp}.  @ref{Invoking runtest}, for
-explanations of the command-line options.
+variables you can set in @file{site.exp}.  Refer to @ref{Invoking
+runtest}, for explanations of the command-line options.
 
 The @code{--local_init} and @code{--global_init} options have associated
 Tcl variables, but they influence the search for configuration files and
@@ -5268,6 +5268,7 @@ cross-compiler if the build tree is configured for one.
 @section Procedures for debugging your scripts
 
 @menu
+* bt Procedure: bt procedure
 * dumpvars Procedure: dumpvars procedure
 * dumplocals Procedure: dumplocals procedure
 * dumprocs Procedure: dumprocs procedure
@@ -5282,9 +5283,21 @@ cross-compiler if the build tree is configured for one.
 * quit Procedure: quit procedure
 @end menu
 
+@node bt procedure, dumpvars procedure, Debugging Procedures, Debugging Procedures
+@subheading bt Procedure
+@findex bt
+
+This procedure prints a backtrace using the @code{w} command from the
+Tcl debugger.
+
+@quotation
+@t{@b{bt}}
+@end quotation
+
 @node dumpvars procedure, dumplocals procedure, , Debugging Procedures
 @subsubheading dumpvars Procedure
 @findex dumpvars
+@c abbrev: dv
 
 This procedure prints the values of the global variables that match a
 glob pattern. Abbreviation: @kbd{dv}.
@@ -5301,6 +5314,7 @@ The global variables to dump.
 @node dumplocals procedure, dumprocs procedure, dumpvars procedure, Debugging Procedures
 @subsubheading dumplocals Procedure
 @findex dumplocals
+@c abbrev: dl
 
 This procedure prints the values of local variables that match a glob
 pattern. Abbreviation: @kbd{dl}.
@@ -5317,6 +5331,7 @@ The local variables to dump.
 @node dumprocs procedure, dumpwatch procedure, dumplocals procedure, Debugging Procedures
 @subsubheading dumprocs Procedure
 @findex dumprocs
+@c abbrev: dp
 
 This procedure dumps the body of all procs that match a glob pattern. It
 is abbreviated as @kbd{dp}.
@@ -5333,6 +5348,7 @@ The proc bodies to dump.
 @node dumpwatch procedure, watcharray procedure, dumprocs procedure, Debugging Procedures
 @subsubheading dumpwatch Procedure
 @findex dumpwatch
+@c abbrev: dw
 
 This procedure prints all of the watchpoints matching a glob pattern. It
 is abbreviated as @kbd{dw}.
@@ -5380,6 +5396,7 @@ The csh "glob" style pattern to look for.
 @node watchunset procedure, watchwrite procedure, watchvar procedure, Debugging Procedures
 @subsubheading watchunset Procedure
 @findex watchunset
+@c abbrev: wu
 
 This breaks program execution when the variable @code{var} is
 unset. Abbreviation: @kbd{wu}.
@@ -5395,6 +5412,7 @@ unset. Abbreviation: @kbd{wu}.
 @node watchwrite procedure, watchread procedure, watchunset procedure, Debugging Procedures
 @subsubheading watchwrite Procedure
 @findex watchwrite
+@c abbrev: ww
 
 This breaks program execution when the variable @code{var} is
 written. Abbreviation: @kbd{ww}.
@@ -5411,6 +5429,7 @@ The variable to watch.
 @node watchread procedure, watchdel procedure, watchwrite procedure, Debugging Procedures
 @subsubheading watchread Procedure
 @findex watchread
+@c abbrev: wr
 
 This breaks program execution when the variable @code{var} is
 read. Abbreviation: @kbd{wr}.
@@ -5427,6 +5446,7 @@ The variable to watch.
 @node watchdel procedure, print procedure, watchread procedure, Debugging Procedures
 @subsubheading watchdel Procedure
 @findex watchdel
+@c abbrev: wd
 
 This deletes a watchpoint from the watch list. Abbreviation: @kbd{wd}.
 

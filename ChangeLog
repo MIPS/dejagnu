@@ -1,3 +1,9 @@
+2018-12-17  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi (Board config file): Fix up @ref.
+	(Command line option variables): Likewise.
+	(Debugging Procedures): Add an entry for 'bt' command.
+
 2018-12-16  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* runtest.exp: Move processing of -V|--version option to first
