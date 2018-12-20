@@ -50,6 +50,7 @@ Free Documentation License''.
 @menu
 * Introduction::
 * Running tests::
+* Running other DejaGnu commands::
 * Customizing DejaGnu::
 * Extending DejaGnu::
 * Unit testing::
@@ -74,6 +75,11 @@ Running tests
 * Running 'make check': Make Check.
 * Running runtest: Runtest.
 * Output files: Output Files.
+
+Running other DejaGnu commands
+
+* Invoking dejagnu::            Command line options for the launcher itself.
+* Invoking dejagnu help::	Reading man pages for dejagnu subcommands.
 
 Customizing DejaGnu
 
@@ -421,7 +427,7 @@ tools you want to test; then, in each test directory, run @emph{make
 check} to build auxiliary programs required by some of the tests, and
 run the test suites.
 
-@node Running tests, Customizing DejaGnu, Introduction, Top
+@node Running tests, Running other DejaGnu commands, Introduction, Top
 @chapter Running tests
 
 There are two ways to execute a testsuite. The most common way is when
@@ -1008,7 +1014,109 @@ make the actions for fail-safe patterns produce messages starting with
 
 @end itemize
 
-@node Customizing DejaGnu, Extending DejaGnu, Running tests, Top
+@node Running other DejaGnu commands, Customizing DejaGnu, Running tests, Top
+@chapter Running other DejaGnu commands
+
+DejaGnu now features auxiliary commands not directly related to
+running tests, but somehow related to the broader purpose of testing.
+
+These commands are run via the @command{dejagnu} multiplex launcher,
+which locates an appropriate script and the required interpreter and
+then runs the requested command.
+
+@menu
+* Invoking dejagnu::            Command line options for the launcher itself.
+* Invoking dejagnu help::	Reading man pages for dejagnu subcommands.
+@end menu
+
+@node Invoking dejagnu, Invoking dejagnu help, Running other DejaGnu commands, Running other DejaGnu commands
+@section Invoking @command{dejagnu}
+@cindex dejagnu, invoking
+
+The @command{dejagnu} launcher is primarily designed to pass most
+options on to the scripts that it runs, but does process the
+@option{--help} and @option{--version} options entirely internally,
+while also recognizing the @option{--verbose} option.
+
+@example
+@command{dejagnu} <command> [options...]
+@command{dejagnu} --help
+@command{dejagnu} --version
+@end example
+
+Note that the command names may contain multiple words.  In this case,
+the command can be given as separate arguments to @command{dejagnu} or
+combined with dashes (@samp{-}); both forms are equivalent.
+
+All words of the command name must appear before any options.  The
+search for a command terminates when an option is found.
+
+Note that the first valid command found is used.  A longer command
+name can be shadowed by a shorter command name that happens to be a
+prefix of the longer name, if the command name is given as multiple
+arguments.  The equivalent form with the longer command name combined
+using dashes into a single argument will correctly refer to the
+otherwise shadowed command.
+
+The @command{dejagnu} launcher can also be run using symbolic links,
+provided that the shell places the name under which @command{dejagnu}
+was invoked in @code{$0}.  Any dash-separated words after ``dejagnu''
+in the name of such a link are taken to be the leading words of a
+command name.
+
+The @command{dejagnu} launcher supports alternate implementations
+depending upon available interpreters.
+
+Options for the @command{dejagnu} launcher itself cannot be
+abbreviated, since the launcher has no way to know which abbreviations
+are unique and which would be ambiguous to the invoked command.
+
+@table @asis
+
+@item @code{--help}
+Print a help message instead of running a command.
+
+@item @code{-V}, @code{--version}
+Print a version banner for the launcher itself including the
+version of DejaGnu.  Any command given is ignored.
+
+@item @code{-v}, @code{--verbose}
+Emit additional output describing the inner workings of the
+@command{dejagnu} launcher.  This option is also passed on to the
+invoked command.
+
+@end table
+
+All arguments after the command name are passed to the invoked command.
+
+@node Invoking dejagnu help,  , Invoking dejagnu, Running other DejaGnu commands
+@section Invoking @command{dejagnu help}
+@cindex dejagnu help, invoking
+
+The @command{dejagnu help} tool displays long-form documentation for
+DejaGnu auxiliary commands that are invoked using the
+@command{dejagnu} launcher.
+
+@example
+@command{dejagnu help} [options...] <command>
+@end example
+
+Again, command names may contain multiple words.  This command forms
+an operand by joining all words in the command name using dashes
+(@samp{-}) and prepending @samp{dejagnu-}.  This is then used as the
+name of a manual page and passed to the @command{man} command.
+
+If the manual page is in a particular directory relative to the script
+implementing this command, a full file name is produced, otherwise,
+@command{man} performs its normal search.
+
+The @option{--verbose} option causes additional output describing the
+inner workings of the @command{dejagnu help} command to be produced.
+
+The @option{--path}, @option{-w}, and @option{-W} options are passed
+to @command{man}.
+
+@node Customizing DejaGnu, Extending DejaGnu, Running other DejaGnu commands, Top
 @chapter Customizing DejaGnu
 @cindex customization
 
@@ -5502,4 +5610,4 @@ This makes @code{runtest} exit. Abbreviation: @kbd{q}.
 @bye
 
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
-@c  LocalWords:  DejaGnu CVS RCS SCCS
+@c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands

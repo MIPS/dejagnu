@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -21,9 +21,10 @@
 AUTOMAKE_OPTIONS = dejagnu
 export DEJAGNU
 
-EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
+EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
-	$(TESTSUITE_FILES) $(XML) $(CONTRIB) $(TEXINFO_TEX)
+	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
+	$(XML) $(CONTRIB)
 
 DISTCLEANFILES = options-init.exp stats-init.exp
 
@@ -31,7 +32,7 @@ DISTCLEANFILES = options-init.exp stats-init.exp
 all-local:
 	@echo "Done. Now run 'make install'."
 
-bin_SCRIPTS = runtest
+bin_SCRIPTS = dejagnu runtest
 include_HEADERS = dejagnu.h
 
 pkgdata_DATA = \
@@ -56,6 +57,10 @@ pkgdata_DATA = \
   lib/telnet.exp \
   lib/tip.exp \
   lib/utils.exp
+
+commandsdir = $(pkgdatadir)/commands
+commands_DATA = \
+	commands/help.sh
 
 configdir = $(pkgdatadir)/config
 config_DATA = \
@@ -142,6 +147,16 @@ CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
 # Testsuite.
 
 TESTSUITE_FILES = \
+	testsuite/launcher.all/command.exp \
+	testsuite/launcher.all/command/commands/bar-baz.awk \
+	testsuite/launcher.all/command/commands/bar.awk \
+	testsuite/launcher.all/command/commands/bar.sh \
+	testsuite/launcher.all/command/commands/baz-quux.gawk \
+	testsuite/launcher.all/command/commands/foo.sh \
+	testsuite/launcher.all/command/commands/foo.tcl \
+	testsuite/launcher.all/help.exp \
+	testsuite/launcher.all/interp.exp \
+	testsuite/launcher.all/verbose.exp \
 	testsuite/runtest.libs/topdir/subdir1/subsubdir1/subsubfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile2 \
@@ -158,13 +173,14 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/options/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
 	testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp \
+	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \
 	testsuite/lib/libsup.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
 	testsuite/libdejagnu/tunit.exp
 
-DEJATOOL = libdejagnu runtest
+DEJATOOL = launcher libdejagnu runtest
 
 RUNTEST = ${top_srcdir}/runtest
 
@@ -175,5 +191,5 @@ unit_SOURCES = testsuite/libdejagnu/unit.cc
 # Documentation.
 
 TEXINFO_TEX = doc/texinfo.tex
-dist_man_MANS = doc/runtest.1
+dist_man_MANS = doc/dejagnu.1 doc/dejagnu-help.1 doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi

@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 1992-2016 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -155,8 +155,9 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(djlibexecdir)" \
 	"$(DESTDIR)$(infodir)" "$(DESTDIR)$(man1dir)" \
-	"$(DESTDIR)$(baseboarddir)" "$(DESTDIR)$(configdir)" \
-	"$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(includedir)"
+	"$(DESTDIR)$(baseboarddir)" "$(DESTDIR)$(commandsdir)" \
+	"$(DESTDIR)$(configdir)" "$(DESTDIR)$(pkgdatadir)" \
+	"$(DESTDIR)$(includedir)"
 SCRIPTS = $(bin_SCRIPTS) $(djlibexec_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -237,7 +238,8 @@ am__can_run_installinfo = \
 man1dir = $(mandir)/man1
 NROFF = nroff
 MANS = $(dist_man_MANS)
-DATA = $(baseboard_DATA) $(config_DATA) $(pkgdata_DATA)
+DATA = $(baseboard_DATA) $(commands_DATA) $(config_DATA) \
+	$(pkgdata_DATA)
 HEADERS = $(include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
@@ -374,12 +376,13 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = dejagnu
-EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
+EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
-	$(TESTSUITE_FILES) $(XML) $(CONTRIB) $(TEXINFO_TEX)
+	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
+	$(XML) $(CONTRIB)
 
 DISTCLEANFILES = options-init.exp stats-init.exp
-bin_SCRIPTS = runtest
+bin_SCRIPTS = dejagnu runtest
 include_HEADERS = dejagnu.h
 pkgdata_DATA = \
   stub-loader.c \
@@ -403,6 +406,10 @@ pkgdata_DATA = \
   lib/telnet.exp \
   lib/tip.exp \
   lib/utils.exp
+
+commandsdir = $(pkgdatadir)/commands
+commands_DATA = \
+	commands/help.sh
 
 configdir = $(pkgdatadir)/config
 config_DATA = \
@@ -488,6 +495,16 @@ CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
 
 # Testsuite.
 TESTSUITE_FILES = \
+	testsuite/launcher.all/command.exp \
+	testsuite/launcher.all/command/commands/bar-baz.awk \
+	testsuite/launcher.all/command/commands/bar.awk \
+	testsuite/launcher.all/command/commands/bar.sh \
+	testsuite/launcher.all/command/commands/baz-quux.gawk \
+	testsuite/launcher.all/command/commands/foo.sh \
+	testsuite/launcher.all/command/commands/foo.tcl \
+	testsuite/launcher.all/help.exp \
+	testsuite/launcher.all/interp.exp \
+	testsuite/launcher.all/verbose.exp \
 	testsuite/runtest.libs/topdir/subdir1/subsubdir1/subsubfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile2 \
@@ -504,20 +521,21 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/options/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
 	testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp \
+	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \
 	testsuite/lib/libsup.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
 	testsuite/libdejagnu/tunit.exp
 
-DEJATOOL = libdejagnu runtest
+DEJATOOL = launcher libdejagnu runtest
 RUNTEST = ${top_srcdir}/runtest
 AM_CXXFLAGS = -I$(top_srcdir) -g
 unit_SOURCES = testsuite/libdejagnu/unit.cc
 
 # Documentation.
 TEXINFO_TEX = doc/texinfo.tex
-dist_man_MANS = doc/runtest.1
+dist_man_MANS = doc/dejagnu.1 doc/dejagnu-help.1 doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi
 all: all-am
 
@@ -892,6 +910,27 @@ uninstall-baseboardDATA:
 	@list='$(baseboard_DATA)'; test -n "$(baseboarddir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(baseboarddir)'; $(am__uninstall_files_from_dir)
+install-commandsDATA: $(commands_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(commands_DATA)'; test -n "$(commandsdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(commandsdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(commandsdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(commandsdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(commandsdir)" || exit $$?; \
+	done
+
+uninstall-commandsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(commands_DATA)'; test -n "$(commandsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(commandsdir)'; $(am__uninstall_files_from_dir)
 install-configDATA: $(config_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(config_DATA)'; test -n "$(configdir)" || list=; \
@@ -1226,7 +1265,7 @@ check: check-am
 all-am: Makefile $(INFO_DEPS) $(SCRIPTS) $(MANS) $(DATA) $(HEADERS) \
 		all-local
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(djlibexecdir)" "$(DESTDIR)$(infodir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(baseboarddir)" "$(DESTDIR)$(configdir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(djlibexecdir)" "$(DESTDIR)$(infodir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(baseboarddir)" "$(DESTDIR)$(commandsdir)" "$(DESTDIR)$(configdir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -1287,9 +1326,9 @@ info: info-am
 
 info-am: $(INFO_DEPS)
 
-install-data-am: install-baseboardDATA install-configDATA \
-	install-includeHEADERS install-info-am install-man \
-	install-pkgdataDATA
+install-data-am: install-baseboardDATA install-commandsDATA \
+	install-configDATA install-includeHEADERS install-info-am \
+	install-man install-pkgdataDATA
 
 install-dvi: install-dvi-am
 
@@ -1430,10 +1469,10 @@ ps: ps-am
 ps-am: $(PSS)
 
 uninstall-am: uninstall-baseboardDATA uninstall-binSCRIPTS \
-	uninstall-configDATA uninstall-djlibexecSCRIPTS \
-	uninstall-dvi-am uninstall-html-am uninstall-includeHEADERS \
-	uninstall-info-am uninstall-man uninstall-pdf-am \
-	uninstall-pkgdataDATA uninstall-ps-am
+	uninstall-commandsDATA uninstall-configDATA \
+	uninstall-djlibexecSCRIPTS uninstall-dvi-am uninstall-html-am \
+	uninstall-includeHEADERS uninstall-info-am uninstall-man \
+	uninstall-pdf-am uninstall-pkgdataDATA uninstall-ps-am
 
 uninstall-man: uninstall-man1
 
@@ -1447,22 +1486,24 @@ uninstall-man: uninstall-man1
 	distclean-DEJAGNU distclean-compile distclean-generic \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am html html-am info info-am install install-am \
-	install-baseboardDATA install-binSCRIPTS install-configDATA \
-	install-data install-data-am install-djlibexecSCRIPTS \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-includeHEADERS \
-	install-info install-info-am install-man install-man1 \
-	install-pdf install-pdf-am install-pkgdataDATA install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-aminfo \
-	maintainer-clean-generic maintainer-clean-vti mostlyclean \
-	mostlyclean-aminfo mostlyclean-compile mostlyclean-generic \
-	mostlyclean-vti pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-baseboardDATA uninstall-binSCRIPTS \
-	uninstall-configDATA uninstall-djlibexecSCRIPTS \
-	uninstall-dvi-am uninstall-html-am uninstall-includeHEADERS \
-	uninstall-info-am uninstall-man uninstall-man1 \
-	uninstall-pdf-am uninstall-pkgdataDATA uninstall-ps-am
+	install-baseboardDATA install-binSCRIPTS install-commandsDATA \
+	install-configDATA install-data install-data-am \
+	install-djlibexecSCRIPTS install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-includeHEADERS install-info install-info-am \
+	install-man install-man1 install-pdf install-pdf-am \
+	install-pkgdataDATA install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-aminfo maintainer-clean-generic \
+	maintainer-clean-vti mostlyclean mostlyclean-aminfo \
+	mostlyclean-compile mostlyclean-generic mostlyclean-vti pdf \
+	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-baseboardDATA uninstall-binSCRIPTS \
+	uninstall-commandsDATA uninstall-configDATA \
+	uninstall-djlibexecSCRIPTS uninstall-dvi-am uninstall-html-am \
+	uninstall-includeHEADERS uninstall-info-am uninstall-man \
+	uninstall-man1 uninstall-pdf-am uninstall-pkgdataDATA \
+	uninstall-ps-am
 
 .PRECIOUS: Makefile
 

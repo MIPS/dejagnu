@@ -1,5 +1,40 @@
 2018-12-20  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* Makefile.am (EXTRA_DIST): Add "dejagnu" launcher script and
+	contents of $(commands_DATA).
+	(bin_SCRIPTS): Add "dejagnu" launcher script.
+	(commandsdir): Installation directory for "dejagnu" subcommands is
+	$(pkgdatadir)/commands.
+	(commands_DATA): New, contains "commands/help.sh" as initial item.
+	(TESTSUITE_FILES): Add testsuite for same.
+	(DEJATOOL): Add "launcher" to list of tools to test.
+	(dist_man_MANS): Add man pages for "dejagnu" and "dejagnu help".
+
+	* doc/dejagnu.texi (Running other DejaGnu commands): New chapter.
+	(Invoking dejagnu): New node for dejagnu(1) launcher script.
+	(Invoking dejagnu help): New node.
+
+	* doc/dejagnu.1: New man page.
+	* doc/dejagnu-help.1: New man page.
+
+	* dejagnu: New script.
+
+	* commands/help.sh: New dejagnu subcommand for reading manpages.
+
+	* testsuite/launcher.all/command.exp: New file.
+	* testsuite/launcher.all/command/commands/bar-baz.awk: New file.
+	* testsuite/launcher.all/command/commands/bar.awk: New file.
+	* testsuite/launcher.all/command/commands/bar.sh: New file.
+	* testsuite/launcher.all/command/commands/baz-quux.gawk: New file.
+	* testsuite/launcher.all/command/commands/foo.sh: New file.
+	* testsuite/launcher.all/command/commands/foo.tcl: New file.
+	* testsuite/launcher.all/help.exp: New file.
+	* testsuite/launcher.all/interp.exp: New file.
+	* testsuite/launcher.all/verbose.exp: New file.
+	* testsuite/lib/launcher.exp: New file.
+
+2018-12-20  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* doc/dejagnu.texi (bt procedure): Fix Info links.
 
 2018-12-17  Ben Elliston  <bje@gnu.org>
