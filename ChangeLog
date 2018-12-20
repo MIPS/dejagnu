@@ -1,3 +1,8 @@
+2018-12-20  Ben Elliston  <bje@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Remove $(XML).
+	* Makefile.in: Regenerate.
+
 2018-12-20  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* Makefile.am (EXTRA_DIST): Add "dejagnu" launcher script and

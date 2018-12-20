@@ -24,7 +24,7 @@ export DEJAGNU
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
-	$(XML) $(CONTRIB)
+	$(CONTRIB)
 
 DISTCLEANFILES = options-init.exp stats-init.exp
 
