@@ -1,5 +1,7 @@
 2018-12-20  Ben Elliston  <bje@gnu.org>
 
+	* NEWS: Add item for new dejagnu command.
+
 	* Makefile.am (EXTRA_DIST): Remove $(XML).
 	* Makefile.in: Regenerate.
 
