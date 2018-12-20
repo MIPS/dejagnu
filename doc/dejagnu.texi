@@ -5284,7 +5284,7 @@ cross-compiler if the build tree is configured for one.
 @end menu
 
 @node bt procedure, dumpvars procedure, Debugging Procedures, Debugging Procedures
-@subheading bt Procedure
+@subsubheading bt Procedure
 @findex bt
 
 This procedure prints a backtrace using the @code{w} command from the
@@ -5294,7 +5294,7 @@ Tcl debugger.
 @t{@b{bt}}
 @end quotation
 
-@node dumpvars procedure, dumplocals procedure, , Debugging Procedures
+@node dumpvars procedure, dumplocals procedure, bt procedure, Debugging Procedures
 @subsubheading dumpvars Procedure
 @findex dumpvars
 @c abbrev: dv
