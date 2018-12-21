@@ -1,3 +1,11 @@
+2018-12-21  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	PR 33817
+	* dejagnu: Improve command parsing to fix bug. Previously, the
+	documented equivalence between "multi word command" and
+	"multi-word-command" did not hold if no arguments were given.
+	* testsuite/launcher.all/command.exp: Add tests.
+
 2018-12-20  Ben Elliston  <bje@gnu.org>
 
 	* NEWS: Add item for new dejagnu command.

@@ -70,6 +70,15 @@ set tests {
 	    "Found subcommand baz-quux with variants:  gawk\n"
 	    "Selected variant gawk" }
 
+	{ "#" "bug #33817:  ensure that the failure is 'no variant'"
+	    " rather than 'could not resolve command'" }
+	{ "dejagnu baz-quux is resolved but fails without GNU Awk (bug #33817)"
+	    {baz-quux} {GAWK=bogus} 2
+	    "ERROR: no variant of baz-quux was selected" }
+	{ "dejagnu baz quux is resolved but fails without GNU Awk (bug #33817)"
+	    {baz quux} {GAWK=bogus} 2
+	    "ERROR: no variant of baz-quux was selected" }
+
 	{ "#" invalid direct calls }
 
 	{ "dejagnu -v bar fails"	{-v bar} {} 2

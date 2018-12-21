@@ -134,7 +134,6 @@ fi
 
 # Remove any leading autoconf platform prefix and the "dejagnu" prefix.
 command="$(basename "$0" | sed -e 's/^.*-\?dejagnu-\?//')"
-commext=
 
 while expr $# \> 0 > /dev/null
 do
@@ -151,13 +150,10 @@ do
     for ext in ${Variants}
     do
 	if test -f "${commdir}/${command}.$ext" ; then
-	    commext="$commext $ext"
+	    break 2
 	fi
     done
     if expr "$1" : - > /dev/null ; then
-	break
-    fi
-    if test -n "$commext" ; then
 	break
     fi
     if test -n "$1" ; then
@@ -165,6 +161,14 @@ do
 	shift
     else
 	break
+    fi
+done
+
+commext=
+for ext in ${Variants}
+do
+    if test -f "${commdir}/${command}.$ext" ; then
+	commext="$commext $ext"
     fi
 done
 
