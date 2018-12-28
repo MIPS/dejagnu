@@ -1,3 +1,7 @@
+2018-12-28  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* testsuite/lib/util-defs.exp: Whitespace clean up.
+
 2018-12-21  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	PR 33817

@@ -37,11 +37,11 @@ proc util_test { args } {
     global verbose
     # get the parameters
     set cmd	[lindex $args 0]
-    verbose 	"Utility to execute is $cmd" 2
+    verbose	"Utility to execute is $cmd" 2
     set cmd_arg [lindex $args 1]
-    verbose 	"Command line arguments are $cmd_arg" 2
+    verbose	"Command line arguments are $cmd_arg" 2
     set file    [lindex $args 2]
-    verbose 	"The file name to use is $file" 2
+    verbose	"The file name to use is $file" 2
     set pattern [lindex $args 3]
     verbose	"The pattern to match is \"$pattern\"" 2
 
@@ -83,7 +83,7 @@ proc util_start { args } {
     set file    [lindex $args 2]
 
     if {[which $cmd] == 0} {
-        perror "Can't find $cmd"
+	perror "Can't find $cmd"
 	return ""
     }
 
@@ -94,7 +94,7 @@ proc util_start { args } {
     }
     catch "exec $cmd $cmd_arg $file" comp_output
     if {$comp_output ne ""} {
-        send_log "$comp_output\n"
+	send_log "$comp_output\n"
     }
     return $comp_output
 }
