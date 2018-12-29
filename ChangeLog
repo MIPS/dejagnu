@@ -1,3 +1,8 @@
+2018-12-29  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* dejagnu: Avoid use of semicolon as sed(1) command separator.
+	POSIX does not clearly require sed(1) to support that feature.
+
 2018-12-28  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/lib/util-defs.exp: Whitespace clean up.

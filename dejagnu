@@ -402,7 +402,7 @@ if $want_help ; then
 	exit 2
     fi
     help_prefix_pat=$(grep '#help' "$help_file" \
-	| sed 's/#help.*$//;1q' | tr '[:print:][:blank:]' .)
+	| sed -e 's/#help.*$//' -e '1q' | tr '[:print:][:blank:]' .)
     if expr "$verbose" \> 1 > /dev/null ; then
 	echo Extracting help from "'$help_file'" with prefix "'$help_prefix_pat'"
     fi
