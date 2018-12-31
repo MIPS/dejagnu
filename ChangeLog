@@ -1,3 +1,8 @@
+2019-01-01  Ben Elliston  <bje@gnu.org>
+
+	* configure.ac: Add AC_PROG_AWK check.
+	* configure: Regenerate.
+
 2018-12-29  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* dejagnu: Avoid use of semicolon as sed(1) command separator.
