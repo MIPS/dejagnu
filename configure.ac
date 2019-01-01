@@ -30,6 +30,10 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_EXEEXT
 
+if test -z "$AWK"; then
+  AC_MSG_ERROR([AWK not installed])
+fi
+
 dnl Search for expect.
 AC_PATH_PROG([EXPECT], [expect])
 if test -z $ac_cv_path_EXPECT ; then

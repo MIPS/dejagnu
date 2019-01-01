@@ -3987,6 +3987,10 @@ fi
 
 
 
+if test -z "$AWK"; then
+  as_fn_error $? "AWK not installed" "$LINENO" 5
+fi
+
 # Extract the first word of "expect", so it can be a program name with args.
 set dummy expect; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
