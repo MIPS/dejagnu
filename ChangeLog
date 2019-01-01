@@ -1,5 +1,10 @@
 2019-01-01  Ben Elliston  <bje@gnu.org>
 
+	* config.guess: Update to latest version.
+	* config.sub: Likewise.
+
+2019-01-01  Ben Elliston  <bje@gnu.org>
+
 	* configure.ac: Add AC_PROG_AWK check.
 	* configure: Regenerate.
 
