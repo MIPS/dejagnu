@@ -1,3 +1,9 @@
+2019-01-02  Ben Elliston  <bje@gnu.org>
+
+	* Makefile.am (DISTCLEANFILES): Don't use this.
+	(CLEANFILES): Use this instead.
+	* Makefile.in: Regenerate.
+
 2019-01-01  Ben Elliston  <bje@gnu.org>
 
 	* configure.ac: Abort if AWK is not installed.

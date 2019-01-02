@@ -26,7 +26,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-DISTCLEANFILES = options-init.exp stats-init.exp
+CLEANFILES = options-init.exp stats-init.exp
 
 # Give a reassuring message so that users know the "build" worked.
 all-local:

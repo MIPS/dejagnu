@@ -381,7 +381,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-DISTCLEANFILES = options-init.exp stats-init.exp
+CLEANFILES = options-init.exp stats-init.exp
 bin_SCRIPTS = dejagnu runtest
 include_HEADERS = dejagnu.h
 pkgdata_DATA = \
@@ -1290,6 +1290,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -1297,7 +1298,6 @@ distclean-generic:
 	-rm -f doc/$(am__dirstamp)
 	-rm -f testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
 	-rm -f testsuite/libdejagnu/$(am__dirstamp)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
