@@ -80,6 +80,7 @@ Running other DejaGnu commands
 
 * Invoking dejagnu::            Command line options for the launcher itself.
 * Invoking dejagnu help::	Reading man pages for dejagnu subcommands.
+* Invoking dejagnu report card::  Summarizing test results from many tools.
 
 Customizing DejaGnu
 
@@ -1026,7 +1027,8 @@ then runs the requested command.
 
 @menu
 * Invoking dejagnu::            Command line options for the launcher itself.
-* Invoking dejagnu help::	Reading man pages for dejagnu subcommands.
+* Invoking dejagnu help::       Reading man pages for dejagnu subcommands.
+* Invoking dejagnu report card::  Summarizing test results from many tools.
 @end menu
 
 @node Invoking dejagnu, Invoking dejagnu help, Running other DejaGnu commands, Running other DejaGnu commands
@@ -1089,7 +1091,7 @@ invoked command.
 
 All arguments after the command name are passed to the invoked command.
 
-@node Invoking dejagnu help,  , Invoking dejagnu, Running other DejaGnu commands
+@node Invoking dejagnu help, Invoking dejagnu report card, Invoking dejagnu, Running other DejaGnu commands
 @section Invoking @command{dejagnu help}
 @cindex dejagnu help, invoking
 
@@ -1115,6 +1117,42 @@ inner workings of the @command{dejagnu help} command to be produced.
 
 The @option{--path}, @option{-w}, and @option{-W} options are passed
 to @command{man}.
+
+@node Invoking dejagnu report card,  , Invoking dejagnu help, Running other DejaGnu commands
+@section Invoking @command{dejagnu report card}
+@cindex dejagnu report card, invoking
+@cindex dejagnu report-card, invoking
+
+The @command{dejagnu report card} tool produces a tabular summary of
+the results from test runs by reading the summary files that DejaGnu
+produces.
+
+@example
+@command{dejagnu report card} [<option>|<tool>|<file>]...
+@end example
+
+The @option{--verbose} option causes additional output describing the
+inner workings of the @command{dejagnu report card} command to be produced.
+
+Aside from options, the command may include a list of tools or files.
+Names ending in @samp{.sum} are used as-is.  Names ending in
+@samp{.log} are changed to instead refer to the summary file.  Names
+ending with a simple dot (@samp{.}) have @samp{sum} appended, for
+convenience when using Readline filename completion in a shell, which
+will complete to the dot, since there are both @samp{.sum} and
+@samp{.log} files produced for each tool tested.  Lastly, all other
+names are taken as tool names and @samp{.sum} is appended to refer to
+the summary file produced by DejaGnu.
+
+The relevant summary files are read and an ASCII-art table is
+produced.  The table has columns for counts of tests passed, failed,
+unsupported, unresolved, and untested.  Tests that are expected to
+pass and tests that are expected to fail are counted in separate
+columns, but known failures (@samp{KFAIL} and @samp{KPASS}) are
+summarized together with expected failures (@samp{XFAIL} and
+@samp{XPASS}) in two additional columns: @samp{?PASS} and
+@samp{?FAIL}.  Additionally, if a test produced any warnings or
+errors, tags @samp{!W!} or @samp{!E!} are added at the end of the row.
 
 @node Customizing DejaGnu, Extending DejaGnu, Running other DejaGnu commands, Top
 @chapter Customizing DejaGnu
@@ -5610,4 +5648,5 @@ This makes @code{runtest} exit. Abbreviation: @kbd{q}.
 @bye
 
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
-@c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands
+@c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
+@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS

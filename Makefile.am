@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018, 2019 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -27,6 +27,14 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(CONTRIB)
 
 CLEANFILES = options-init.exp stats-init.exp
+
+clean-local: clean-local-check
+.PHONY: clean-local-check
+clean-local-check:
+	-rm -rf testsuite/launcher.all/command/bin
+	-rm -rf testsuite/launcher.all/command/share
+	-rm -rf testsuite/report-card.all/onetest
+	-rm -rf testsuite/report-card.all/passes
 
 # Give a reassuring message so that users know the "build" worked.
 all-local:
@@ -60,7 +68,8 @@ pkgdata_DATA = \
 
 commandsdir = $(pkgdatadir)/commands
 commands_DATA = \
-	commands/help.sh
+	commands/help.sh \
+	commands/report-card.awk
 
 configdir = $(pkgdatadir)/config
 config_DATA = \
@@ -157,6 +166,8 @@ TESTSUITE_FILES = \
 	testsuite/launcher.all/help.exp \
 	testsuite/launcher.all/interp.exp \
 	testsuite/launcher.all/verbose.exp \
+	testsuite/report-card.all/onetest.exp \
+	testsuite/report-card.all/passes.exp \
 	testsuite/runtest.libs/topdir/subdir1/subsubdir1/subsubfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile2 \
@@ -173,14 +184,16 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/options/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
 	testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp \
+	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \
 	testsuite/lib/libsup.exp \
+	testsuite/lib/report-card.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
 	testsuite/libdejagnu/tunit.exp
 
-DEJATOOL = launcher libdejagnu runtest
+DEJATOOL = launcher libdejagnu report-card runtest
 
 RUNTEST = ${top_srcdir}/runtest
 
@@ -191,5 +204,8 @@ unit_SOURCES = testsuite/libdejagnu/unit.cc
 # Documentation.
 
 TEXINFO_TEX = doc/texinfo.tex
-dist_man_MANS = doc/dejagnu.1 doc/dejagnu-help.1 doc/runtest.1
+dist_man_MANS = doc/dejagnu.1 \
+	doc/dejagnu-help.1 \
+	doc/dejagnu-report-card.1 \
+	doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi

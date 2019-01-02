@@ -19,6 +19,9 @@ Changes since 1.6.2:
    auxiliary commands not directly involved with running tests. The
    "runtest" command will remain for that purpose for the forseeable
    future.
+8. The first auxiliary command is added: "report card". The "dejagnu
+   report card" command reads DejaGnu summary files and produces a
+   compact tabular summary across multiple tools.
 
 Changes since 1.6.1:
 

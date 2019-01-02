@@ -1,3 +1,24 @@
+2019-01-02  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* NEWS: Document report card.
+
+	* Makefile.am (clean-local): Add target.
+	(clean-local-check): Add target; mark as PHONY.
+	(commands_DATA): Add "report-card" scripts.
+	(dist_man_MANS): Add dejagnu-report-card.1 and split.
+	(DEJATOOL): Add "report-card" tool.
+	(TESTSUITE_FILES): Add testsuite for "report-card" tool.
+
+	* commands/report-card.awk: New command script.
+
+	* doc/dejagnu.texi (Invoking dejagnu report card): New node.
+	* doc/dejagnu-report-card.1: New man page.
+
+	* testsuite/lib/bohman_ssd.exp: New file.
+	* testsuite/lib/report-card.exp: New file.
+	* testsuite/report-card.all/onetest.exp: New file.
+	* testsuite/report-card.all/passes.exp: New file.
+
 2019-01-02  Ben Elliston  <bje@gnu.org>
 
 	* Makefile.am (DISTCLEANFILES): Don't use this.

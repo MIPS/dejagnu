@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018, 2019 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -409,7 +409,8 @@ pkgdata_DATA = \
 
 commandsdir = $(pkgdatadir)/commands
 commands_DATA = \
-	commands/help.sh
+	commands/help.sh \
+	commands/report-card.awk
 
 configdir = $(pkgdatadir)/config
 config_DATA = \
@@ -505,6 +506,8 @@ TESTSUITE_FILES = \
 	testsuite/launcher.all/help.exp \
 	testsuite/launcher.all/interp.exp \
 	testsuite/launcher.all/verbose.exp \
+	testsuite/report-card.all/onetest.exp \
+	testsuite/report-card.all/passes.exp \
 	testsuite/runtest.libs/topdir/subdir1/subsubdir1/subsubfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile2 \
@@ -521,21 +524,27 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/options/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
 	testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp \
+	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \
 	testsuite/lib/libsup.exp \
+	testsuite/lib/report-card.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
 	testsuite/libdejagnu/tunit.exp
 
-DEJATOOL = launcher libdejagnu runtest
+DEJATOOL = launcher libdejagnu report-card runtest
 RUNTEST = ${top_srcdir}/runtest
 AM_CXXFLAGS = -I$(top_srcdir) -g
 unit_SOURCES = testsuite/libdejagnu/unit.cc
 
 # Documentation.
 TEXINFO_TEX = doc/texinfo.tex
-dist_man_MANS = doc/dejagnu.1 doc/dejagnu-help.1 doc/runtest.1
+dist_man_MANS = doc/dejagnu.1 \
+	doc/dejagnu-help.1 \
+	doc/dejagnu-report-card.1 \
+	doc/runtest.1
+
 info_TEXINFOS = doc/dejagnu.texi
 all: all-am
 
@@ -1304,7 +1313,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-aminfo clean-checkPROGRAMS clean-generic \
+clean-am: clean-aminfo clean-checkPROGRAMS clean-generic clean-local \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -1480,25 +1489,25 @@ uninstall-man: uninstall-man1
 
 .PHONY: CTAGS GTAGS TAGS all all-am all-local am--refresh check \
 	check-DEJAGNU check-am clean clean-aminfo clean-checkPROGRAMS \
-	clean-cscope clean-generic cscope cscopelist-am ctags ctags-am \
-	dist dist-all dist-bzip2 dist-gzip dist-info dist-lzip \
-	dist-shar dist-tarZ dist-xz dist-zip distcheck distclean \
-	distclean-DEJAGNU distclean-compile distclean-generic \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-baseboardDATA install-binSCRIPTS install-commandsDATA \
-	install-configDATA install-data install-data-am \
-	install-djlibexecSCRIPTS install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-includeHEADERS install-info install-info-am \
-	install-man install-man1 install-pdf install-pdf-am \
-	install-pkgdataDATA install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-aminfo maintainer-clean-generic \
-	maintainer-clean-vti mostlyclean mostlyclean-aminfo \
-	mostlyclean-compile mostlyclean-generic mostlyclean-vti pdf \
-	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-baseboardDATA uninstall-binSCRIPTS \
+	clean-cscope clean-generic clean-local cscope cscopelist-am \
+	ctags ctags-am dist dist-all dist-bzip2 dist-gzip dist-info \
+	dist-lzip dist-shar dist-tarZ dist-xz dist-zip distcheck \
+	distclean distclean-DEJAGNU distclean-compile \
+	distclean-generic distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-baseboardDATA install-binSCRIPTS \
+	install-commandsDATA install-configDATA install-data \
+	install-data-am install-djlibexecSCRIPTS install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-includeHEADERS install-info \
+	install-info-am install-man install-man1 install-pdf \
+	install-pdf-am install-pkgdataDATA install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-aminfo \
+	maintainer-clean-generic maintainer-clean-vti mostlyclean \
+	mostlyclean-aminfo mostlyclean-compile mostlyclean-generic \
+	mostlyclean-vti pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-baseboardDATA uninstall-binSCRIPTS \
 	uninstall-commandsDATA uninstall-configDATA \
 	uninstall-djlibexecSCRIPTS uninstall-dvi-am uninstall-html-am \
 	uninstall-includeHEADERS uninstall-info-am uninstall-man \
@@ -1508,6 +1517,14 @@ uninstall-man: uninstall-man1
 .PRECIOUS: Makefile
 
 export DEJAGNU
+
+clean-local: clean-local-check
+.PHONY: clean-local-check
+clean-local-check:
+	-rm -rf testsuite/launcher.all/command/bin
+	-rm -rf testsuite/launcher.all/command/share
+	-rm -rf testsuite/report-card.all/onetest
+	-rm -rf testsuite/report-card.all/passes
 
 # Give a reassuring message so that users know the "build" worked.
 all-local:
