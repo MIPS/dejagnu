@@ -11,48 +11,75 @@ if [ file exists $srcdir/../lib/framework.exp] {
     puts "ERROR: $srcdir/../lib/framework.exp doesn't exist"
 }
 
-# TODO: override { send_error send_log send_user } to verify correct output
-
 set all_flag 0
 set errno ""
+
+# The results in these tests are slightly convoluted because everything
+# sent to the error or user stream is also copied to the log stream when
+# actually using Expect, but the test harness records exactly what is
+# explicitly passed, rather than what Expect will do with it.
 
 # stuff that shouldn't print anything without all_flag set
 set all_flag 0
 run_tests {
-    { lib_pat_test clone_output {"PASS: Foo"} ""
+    { lib_output_test clone_output {"PASS: Foo"}
+	{ tty "" log "PASS: Foo\n" user "" error "" }
 	"clone_output(pass) without all_flag set" }
-    { lib_pat_test clone_output {"UNRESOLVED: Foo"} ""
+    { lib_output_test clone_output {"XFAIL: Foo"}
+	{ tty "" log "XFAIL: Foo\n" user "" error "" }
+	"clone_output(xfail) without all_flag set" }
+    { lib_output_test clone_output {"KFAIL: Foo"}
+	{ tty "" log "KFAIL: Foo\n" user "" error "" }
+	"clone_output(kfail) without all_flag set" }
+    { lib_output_test clone_output {"UNRESOLVED: Foo"}
+	{ tty "" log "UNRESOLVED: Foo\n" user "" error "" }
 	"clone_output(unresolved) without all_flag set" }
-    { lib_pat_test clone_output {"UNSUPPORTED: Foo"} ""
+    { lib_output_test clone_output {"UNSUPPORTED: Foo"}
+	{ tty "" log "UNSUPPORTED: Foo\n" user "" error "" }
 	"clone_output(unsupported) without all_flag set" }
-    { lib_pat_test clone_output {"UNTESTED: Foo"} ""
+    { lib_output_test clone_output {"UNTESTED: Foo"}
+	{ tty "" log "UNTESTED: Foo\n" user "" error "" }
 	"clone_output(untested) without all_flag set" }
-    { lib_pat_test clone_output {"ERROR: Bar"} "ERROR: Bar"
+    { lib_output_test clone_output {"ERROR: Bar"}
+	{ tty "" log "" user "" error "ERROR: Bar\n" }
 	"clone_output(error) without all_flag set" }
-    { lib_pat_test clone_output {"WARNING: Bar"} "WARNING: Bar"
+    { lib_output_test clone_output {"WARNING: Bar"}
+	{ tty "" log "" user "" error "WARNING: Bar\n" }
 	"clone_output(warning) without all_flag set" }
-    { lib_pat_test clone_output {"NOTE: Bar"} "NOTE: Bar"
+    { lib_output_test clone_output {"NOTE: Bar"}
+	{ tty "" log "" user "" error "NOTE: Bar\n" }
 	"clone_output(note) without all_flag set" }
 }
 
 # tests for all_flag set to 1
 set all_flag 1
 run_tests {
-    { lib_pat_test clone_output {"PASS: Foo"} "PASS: Foo"
+    { lib_output_test clone_output {"PASS: Foo"}
+	{ tty "" log "" user "PASS: Foo\n" error "" }
 	"clone_output(pass) with all_flag set" }
-    { lib_pat_test clone_output {"XFAIL: Foo"} "XFAIL: Foo"
+    { lib_output_test clone_output {"XFAIL: Foo"}
+	{ tty "" log "" user "XFAIL: Foo\n" error "" }
 	"clone_output(xfail) with all_flag set" }
-    { lib_pat_test clone_output {"UNRESOLVED: Foo"} "UNRESOLVED: Foo"
+    { lib_output_test clone_output {"KFAIL: Foo"}
+	{ tty "" log "" user "KFAIL: Foo\n" error "" }
+	"clone_output(kfail) with all_flag set" }
+    { lib_output_test clone_output {"UNRESOLVED: Foo"}
+	{ tty "" log "" user "UNRESOLVED: Foo\n" error "" }
 	"clone_output(unresolved) with all_flag set" }
-    { lib_pat_test clone_output {"UNSUPPORTED: Foo"} "UNSUPPORTED: Foo"
+    { lib_output_test clone_output {"UNSUPPORTED: Foo"}
+	{ tty "" log "" user "UNSUPPORTED: Foo\n" error "" }
 	"clone_output(unsupported) with all_flag set" }
-    { lib_pat_test clone_output {"UNTESTED: Foo"} "UNTESTED: Foo"
+    { lib_output_test clone_output {"UNTESTED: Foo"}
+	{ tty "" log "" user "UNTESTED: Foo\n" error "" }
 	"clone_output(untested) with all_flag set" }
-    { lib_pat_test clone_output {"ERROR: Foo"} "ERROR: Foo"
+    { lib_output_test clone_output {"ERROR: Bar"}
+	{ tty "" log "" user "" error "ERROR: Bar\n" }
 	"clone_output(error) with all_flag set" }
-    { lib_pat_test clone_output {"WARNING: Foo"} "WARNING: Foo"
+    { lib_output_test clone_output {"WARNING: Bar"}
+	{ tty "" log "" user "" error "WARNING: Bar\n" }
 	"clone_output(warning) with all_flag set" }
-    { lib_pat_test clone_output {"NOTE: Foo"} "NOTE: Foo"
+    { lib_output_test clone_output {"NOTE: Bar"}
+	{ tty "" log "" user "" error "NOTE: Bar\n" }
 	"clone_output(note) with all_flag set" }
 }
 

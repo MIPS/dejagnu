@@ -118,6 +118,86 @@ proc lib_err_test { cmd arglist val } {
     }
 }
 
+# support for testing output procs
+proc clear_test_output {} {
+    global test_output
+
+    array unset test_output
+    array set test_output { error {} log {} tty {} user {} }
+}
+
+proc store_test_output { dest argv } {
+    global test_output
+
+    set argc [llength $argv]
+    for { set argi 0 } { $argi < $argc } { incr argi } {
+	set arg [lindex $argv $argi]
+	if { $arg eq "--" } {
+	    set stri [expr $argi + 1]
+	    break
+	} elseif { ![string match "-*" $arg] } {
+	    set stri $argi
+	}
+    }
+    # the string must be the last argument
+    if { $stri != ($argc - 1) } {
+	error "bad call: send_${dest} $argv"
+    }
+    append test_output($dest) [lindex $argv $stri]
+}
+foreach dest { error log tty user } {
+    proc send_${dest} { args } [concat store_test_output $dest {$args}]
+}
+
+# this checks output against VAL, which is a list of key-value pairs
+#  each key specifies an output channel (from { error log tty user }) and a
+#  matching mode (from { "", pat, re }) separated by "_" unless mode is ""
+proc lib_output_test { cmd arglist val } {
+    global test_output
+
+    puts "CMD(lib_output_test) is: $cmd $arglist"
+    clear_test_output
+    if { ([llength $val] % 2) != 0 } {
+	puts "ERROR(lib_output_test): expected result is invalid"
+	return -1
+    }
+    if { [catch { eval [list $cmd] [lrange $arglist 0 end] } result] == 0 } {
+	puts "RESULT(lib_output_test) was: $result"
+	foreach dest { error log tty user } {
+	    puts "OUTPUT(lib_output_test/$dest) was: <<$test_output($dest)>>"
+	}
+    } else {
+	puts "RESULT(lib_output_test) was error \"${result}\""
+	return -1
+    }
+    foreach { check expected } $val {
+	if { [regexp {(error|log|tty|user)(?:_(pat|re))?} $check\
+		  -> dest mode] != 1 } {
+	    puts "ERROR(lib_output_test): unknown check token: $check"
+	    return -1
+	}
+	switch -- $mode {
+	    "" {
+		if { ![string equal $expected $test_output($dest)] } {
+		    return 0
+		}
+	    }
+	    pat {
+		if { ![string match $expected $test_output($dest)] } {
+		    return 0
+		}
+	    }
+	    re {
+		if { ![regexp -- $expected $test_output($dest)] } {
+		    return 0
+		}
+	    }
+	}
+    }
+    # if we get here, all checks have passed
+    return 1
+}
+
 #
 # This runs a standard test for a proc. The list is set up as:
 # |test proc|proc being tested|args|pattern|message|
@@ -143,16 +223,6 @@ proc run_tests { tests } {
 	    }
 	}
     }
-}
-
-proc send_log { args } {
-    # this is just a stub for testing
-}
-proc send_error { args } {
-    # this is just a stub for testing
-}
-proc send_user { args } {
-    # this is just a stub for testing
 }
 
 proc pass { msg } {

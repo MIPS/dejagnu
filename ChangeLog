@@ -1,5 +1,20 @@
 2019-01-10  Jacob Bachmeyer  <jcb62281@gmail.com>
 
+	* testsuite/runtest.libs/clone_output.test: Use new test harness
+	for verifying output of clone_output.
+
+	* testsuite/runtest.libs/default_procs.tcl (send_error): Roll into
+	template using store_test_output.
+	(send_log): Likewise.
+	(send_user): Likewise.
+	(clear_test_output): New proc.
+	(store_test_output): New proc.
+
+	* lib/framework.exp (clone_output): Actually send errors to the
+	error stream; bug found while improving testsuite.
+
+2019-01-10  Jacob Bachmeyer  <jcb62281@gmail.com>
+
 	* testsuite/runtest.libs/libs.exp (process_test): Handle blank
 	lines from child process correctly.
 

@@ -307,7 +307,9 @@ proc clone_output { message } {
 		send_log -- "$message\n"
 	    }
 	}
-	{"ERROR:" "WARNING:" "NOTE:"} {
+	"ERROR:" -
+	"WARNING:" -
+	"NOTE:" {
 	    send_error -- "$message\n"
 	    return $message
 	}
