@@ -44,6 +44,7 @@ proc process_test { test } {
 	    "no such file or directory" {
 		perror "$test wouldn't run" 0
 	    }
+	    -re {^[\r\n]+} { exp_continue }
 	    -re "^\[^\r\n\]*NOTSUPPORTED: $text\[\r\n\]*" {
 		unsupported "[lrange $expect_out(0,string) 1 end]"
 		exp_continue
