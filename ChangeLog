@@ -1,3 +1,8 @@
+2019-01-12  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* doc/dejagnu.texi (runtest_file_p procedure): Fix description of
+	the structure of the "runtests" argument.
+
 2019-01-12  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi: Various documentation fixes.

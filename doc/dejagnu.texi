@@ -4985,8 +4985,8 @@ is a file.
 @table @asis
 @item @code{runtests}
 
-@code{runtests} is a list of two elements.  The first is a copy of what
-was on the right side of the @code{=} if @code{foo.exp="..."} was
+@code{runtests} is a list of two elements.  The second is a copy of
+what was on the right side of the @code{=} if @code{foo.exp="..."} was
 specified, or an empty string if no such argument is present.
 
 @item @code{testcase}
