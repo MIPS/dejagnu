@@ -585,9 +585,9 @@ or @emph{WARNING} (minor error in the test case itself).
 
 @item @code{--build [triplet]}
 @emph{triplet} is a system triplet of the form
-@emph{cpu-vendor-os}. This is the type of machine DejaGnu and the tools
-to be tested are built on. For a normal cross environment this is the
-same as the host, but for a Canadian cross, they are different.
+@emph{cpu-manufacturer-os}. This is the type of machine DejaGnu and the
+tools to be tested are built on. For a normal cross environment this is
+the same as the host, but for a Canadian cross, they are different.
 
 @item @code{-D0}, @code{-D1}
 Start the internal Tcl debugger. The Tcl debugger supports breakpoints,
@@ -596,7 +596,7 @@ single stepping, and other common debugging activities. See the document
 Applications} by Don Libes. If you specify @emph{-D1}, the @emph{expect}
 shell stops at a breakpoint as soon as DejaGnu invokes it. If you
 specify @emph{-D0}, DejaGnu starts as usual, but you can enter the
-debugger by sending an interrupt (e.g. by typing @key{Control}@key{c}).
+debugger by sending an interrupt (e.g. by typing @key{Ctrl}-@key{c}).
 
 @item @code{--debug}
 Turns on the Expect internal debugging output. Debugging output is
@@ -622,7 +622,7 @@ Prints out a short summary of the @emph{runtest} options, then exits
 (even if you specify other options).
 
 @item @code{--host [triplet]}
-@emph{triplet} is a system triplet of the form @emph{cpu-vendor-os}.
+@emph{triplet} is a system triplet of the form @emph{cpu-manufactuer-os}.
 Use this option to override the default string recorded by your
 configuration's choice of host.  This choice does not change how
 anything is actually configured unless --build is also specified; it
@@ -638,7 +638,7 @@ run on.
 @item @code{--host_board [name]}
 The host board to use.
 
-@item @code{--ignore [name(s)] }
+@item @code{--ignore [tests(s)] }
 The name(s) of specific tests to ignore.
 
 @item @code{--local_init [name]}
@@ -694,7 +694,7 @@ same file, @file{dbg.log}, used for output from @code{--debug}.
 @item @code{--target [triplet]}
 Use this option to override the default setting (native
 testing). @emph{triplet} is a system triplet of the form
-@emph{cpu-vendor-os}. This option changes the configuration
+@emph{cpu-manufacturer-os}. This option changes the configuration
 @code{runtest} uses for the default tool names, and other setup
 information.
 
@@ -738,16 +738,17 @@ Generate XML output. The output file is named after the tool with an
 @item @file{testfile}.exp[=arg(s)]
 Specify the names of testsuites to run. By default, @emph{runtest} runs
 all tests for the tool, but you can restrict it to particular testsuites
-by giving the names of the @emph{.exp expect} scripts that control
+by giving the names of the @emph{.exp} scripts that control
 them. @emph{testsuite}.exp cannot include directory names, only plain
 filenames.
 
-@code{arg(s)} specifies a subset of tests in a suite to run. For
-compiler or assembler tests, which often use a single @emph{.exp} script
-covering many different source files, this option allows you to further
-restrict the tests by listing particular source files to compile. Some
-tools even support wildcards here.  The wildcards supported depend upon
-the tool, but typically @emph{?}, @emph{*}, and @emph{[chars]} are
+@code{arg(s)} specifies a subset of test cases to run. For compiler or
+assembler tests, which often use a single @emph{.exp} script covering
+many different test case files, this option allows you to further
+restrict the tests by listing particular test cases. For larger
+testsuites such as that included in GCC, this can save a lot of
+time. Some tools support wildcards here, but this varies from tool to
+tool. Typically the wildcards @emph{?}, @emph{*}, and @emph{[chars]} are
 recognized.
 
 @item @code{tclvar}=value

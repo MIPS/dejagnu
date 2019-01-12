@@ -1,3 +1,7 @@
+2019-01-12  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi: Various documentation fixes.
+
 2019-01-10  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* testsuite/runtest.libs/clone_output.test: Use new test harness
