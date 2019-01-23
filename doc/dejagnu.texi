@@ -1564,10 +1564,10 @@ part of the array.
 @node Command line option variables, User configuration file, , Config file values
 @subsection Command line option variables
 
-In the user editable second section of the @ref{User configuration file}
-you can not only override the configuration variables captured in the
-first section, but also specify default values for all on the
-@code{runtest} command line options.  Save for @code{--debug},
+In the user editable second section of the @ref{User configuration
+file} you can not only override the configuration variables captured
+in the first section, but also specify default values for all of the
+@code{runtest} command line options.  Excepting @code{--debug},
 @code{--help}, and @code{--version}, each command line option has an
 associated Tcl variable.  Use the Tcl @code{set} command to specify a
 new default value (as for the configuration variables).  The following
@@ -1575,20 +1575,9 @@ table describes the correspondence between command line options and
 variables you can set in @file{site.exp}.  Refer to @ref{Invoking
 runtest}, for explanations of the command-line options.
 
-The @code{--local_init} and @code{--global_init} options have associated
-Tcl variables, but they influence the search for configuration files and
-overriding them is unlikely to be useful because they are not used after
-the configuration files are loaded.  Once the configuration file is
-opened, it is too late for a change to these variables to be effective.
-However, the local init file name is used twice, once relative to
-@code{base_dir} (the directory in which runtest was started) and once
-relative to @code{objdir}.  While testsuites should not make assumptions
-about what global init files are available, the user could usefully
-write such a setting.
-
-@multitable @columnfractions 0.2 0.2 0.6
-@item
-@strong{Option}@tab @strong{Tcl variable}@tab @strong{Description}
+@multitable {--target_board} {TOOL_EXECUTABLE} {verbosity level greater than or equal to 0}
+@headitem
+Option@tab Tcl variable@tab Description
 
 @item
 -a, --all@tab all_flag@tab display all test results if set
@@ -1636,7 +1625,7 @@ write such a setting.
 --target_board@tab target_list@tab list of target boards to run tests on
 
 @item
---tool@tab tool@tab name of tool to test (identifies init, test subdirectory)
+--tool@tab tool@tab name of tool to test (selects tests to run)
 
 @item
 --tool_exec@tab TOOL_EXECUTABLE@tab path to the executable to test
