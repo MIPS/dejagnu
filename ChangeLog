@@ -1,3 +1,8 @@
+2019-01-23  Ben Elliston  <bje@gnu.org>
+
+	* doc/dejagnu.texi: Replace "config file" with "configuration
+	file" throughout.
+
 2019-01-23  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* doc/dejagnu.texi (Command line option variables): Improve table
