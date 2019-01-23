@@ -1,3 +1,8 @@
+2019-01-23  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* doc/dejagnu.texi (Global config file): Change example to use the
+	Tcl "switch" command instead of the deprecated "case" command.
+
 2019-01-12  Jacob Bachmeyer  <jcb62281@gmail.com>
 
 	* doc/dejagnu.texi (runtest_file_p procedure): Fix description of

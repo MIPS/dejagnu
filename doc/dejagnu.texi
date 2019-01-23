@@ -10,7 +10,7 @@
 
 @copying
 @c man begin COPYRIGHT
-Copyright @copyright{} 1992-2018 Free Software Foundation, Inc.
+Copyright @copyright{} 1992-2019 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -1220,8 +1220,8 @@ targets.  Below is an example of a global configuration file for a
 Canadian cross environment. A Canadian cross is a toolchain that is
 built on, runs on, and targets three different system triplets (for
 example, building a Solaris-hosted MIPS R4000 toolchain on a GNU/Linux
-system).  All configuration values in the example below are
-site-specific.
+system).  This example is based on a configuration once used at
+Cygnus.
 
 @strong{Example global configuration file}
 
@@ -1232,17 +1232,17 @@ lappend boards_dir "/nfs/cygint/s1/cygnus/dejagnu/boards"
 verbose "Global config file: target_triplet is $target_triplet" 2
 global target_list
 
-case "$target_triplet" in @{
-@    @{ "native" @} @{
+switch -glob -- $target_triplet @{
+@    "native" @{
 @        set target_list "unix"
 @    @}
-@    @{ "sparc64-*elf" @} @{
+@    "sparc64-*elf" @{
 @        set target_list "sparc64-sim"
 @    @}
-@    @{ "mips-*elf" @} @{
+@    "mips-*elf" @{
 @        set target_list "mips-sim wilma barney"
 @    @}
-@    @{ "mips-lsi-elf" @} @{
+@    "mips-lsi-elf" @{
 @        set target_list "mips-lsi-sim@{,soft-float,el@}"
 @    @}
 @}
