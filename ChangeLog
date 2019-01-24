@@ -1,3 +1,8 @@
+2019-01-24  Jacob Bachmeyer  <jcb62281@gmail.com>
+
+	* doc/dejagnu.texi: Refill paragraphs and normalize inter-sentence
+	spacing so the Emacs move-by-sentence commands work correctly.
+
 2019-01-23  Ben Elliston  <bje@gnu.org>
 
 	* doc/dejagnu.texi: Replace "config file" with "configuration
