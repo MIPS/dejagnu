@@ -328,18 +328,19 @@ proc search_and_load_file { type filelist dirlist } {
 
     foreach dir $dirlist {
 	foreach initfile $filelist {
-	    verbose "Looking for $type $dir/$initfile" 2
-	    if {[file exists [file join $dir $initfile]]} {
+	    set filename [file join $dir $initfile]
+	    verbose "Looking for $type $filename" 2
+	    if {[file exists $filename]} {
 		set found 1
 		set error ""
 		if { $type ne "library file" } {
-		    send_user "Using $dir/$initfile as $type.\n"
+		    send_user "Using $filename as $type.\n"
 		} else {
-		    verbose "Loading $dir/$initfile"
+		    verbose "Loading $filename"
 		}
-		if {[catch "uplevel #0 source $dir/$initfile" error] == 1} {
+		if {[catch "uplevel #0 source $filename" error] == 1} {
 		    global errorInfo
-		    send_error "ERROR: tcl error sourcing $type $dir/$initfile.\n$error\n"
+		    send_error "ERROR: tcl error sourcing $type $filename.\n$error\n"
 		    if {[info exists errorInfo]} {
 			send_error "$errorInfo\n"
 		    }
