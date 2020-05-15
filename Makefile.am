@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016, 2018, 2019 Free Software Foundation, Inc.
+# Copyright (C) 1992-2019, 2020 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -209,3 +209,6 @@ dist_man_MANS = doc/dejagnu.1 \
 	doc/dejagnu-report-card.1 \
 	doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi
+
+pip-install:
+	pip3 install --upgrade -e $(top_srcdir)
