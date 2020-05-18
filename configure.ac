@@ -61,6 +61,8 @@ fi
 AC_SUBST(DEJAGNU)
 
 # See what branch we're in
+# FIXME: this will need to deal with a release branch and
+# do something different
 BRANCH=$(cd ${srcdir} && git branch | grep '^\*' | cut -d ' ' -f 2)
 AC_SUBST(BRANCH)
 

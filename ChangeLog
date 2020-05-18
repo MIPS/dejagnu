@@ -1,3 +1,10 @@
+2020-05-18  Rob Savoye  <rob.savoye@senecass.com>
+
+	* configure.ac: Extract the current branch.
+	* Makefile.am: Change the frame_version in runtest.exp post
+	install to add the branch and git revision to make it easier to
+	support multiple versions during development.
+
 2020-05-15  Rob Savoye  <rob@senecass.com>
 
 	* All files: Minoe change, update copyright dates.
