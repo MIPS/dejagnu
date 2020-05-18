@@ -59,6 +59,9 @@ then
   DEJAGNU="/dev/null"
 fi
 AC_SUBST(DEJAGNU)
-dnl Makefile.am arranges for DEJAGNU to be exported in the environment.
+
+# See what branch we're in
+BRANCH=$(cd ${srcdir} && git branch | grep '^\*' | cut -d ' ' -f 2)
+AC_SUBST(BRANCH)
 
 AC_OUTPUT([Makefile])
