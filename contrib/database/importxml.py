@@ -25,7 +25,7 @@ import re
 from lxml import etree
 from lxml.etree import tostring
 import psycopg2
-
+from datetime import datetime
 
 infile = "ld.xml"
 dbname = "dejagnu"
@@ -64,11 +64,36 @@ else:
 # Parse the XML file from the test run
 #
 doc = etree.parse(infile)
+tests = dict()
+testenv = dict()
 for docit in doc.getiterator():
     print("TAG: %r" % docit.tag)
-    if docit.tag == 'test':
+    if docit.tag == 'testrun':
         for elit in docit.getiterator():
-            print("\tTAG: %r" % elit.tag)
+            print("FIXME: %r, %r" % (elit.tag, elit.text))
+            testenv[elit.tag] = elit.text
+        continue
+    if docit.tag == 'test':
+        test = dict()
+        for elit in docit.getiterator():
+            print("FIXME: %r, %r" % (elit.tag, elit.text))
+            if elit.tag == 'test':
+                continue
+            elif elit.text:
+                # Cleanup the text
+                text = elit.text.rstrip('/')
+                colon = text.find(': ')
+                if colon > 0:
+                    text = text[colon+1:]
+            else:
+                text = None
+            test[elit.tag] = text
+
+        if test['output']:
+            query = "INSERT INTO tests(testrun, result, name, tool, output) VALUES(%r, %r, %r, %r, %r)" % (testrun, test['result'], test['name'], testenv['tool'], test['output'])
+        else:
+            query = "INSERT INTO tests(testrun, result, name, tool) VALUES(%r, %r, %r, %r)" % (testrun, test['result'], test['name'], testenv['tool'])
+        dbcursor.execute(query)
 
 #
 # Read manifest file
@@ -94,13 +119,18 @@ while len(line) > 0:
     else:
         value = nodes[1]
 
-    patterns = ("^host:",  "^host_gcc:", ".*_branch", ".*_filespec", ".*_revision", ".*_md5sum")
+    patterns = ("^target$", "^host$",  "^host_gcc$", ".*_branch", ".*_filespec", ".*_revision", ".*_md5sum")
     for pat in patterns:
         m = re.match(pat, key, re.IGNORECASE)
         if m is not None:
             tool = key.split('_')[0]
-            entry = key.split('_')[1]
-            # print("FIXME: %r, %r, %r" % (tool, entry, value))
+            if tool == 'target':
+                entry = line.split('=')[1]
+            elif key == 'host' or key == 'host_gcc':
+                entry = line.split(':')[1]
+            else:
+                entry = key.split('_')[1]
+                # print("FIXME: %r, %r, %r" % (tool, entry, value))
             data[entry] = value
     if tool is not None and oldtool != tool:
         oldtool = tool
@@ -110,7 +140,7 @@ while len(line) > 0:
 for tool,entry in manifest.items():
     if len(entry) <= 0:
         continue
-    print("FIXME: %r" % entry)
+    # print("FIXME: %r" % entry)
     # If filespec is present, it's from a tarball
     if 'filespec' in entry and 'md5sum' in entry:
         query = """INSERT INTO manifest(testrun, tool, filespec, md5sum) VALUES(%r, %r, %r, %r);"""% (testrun, tool, manifest[tool]['filespec'], manifest[tool]['md5sum'])
@@ -125,3 +155,9 @@ for tool,entry in manifest.items():
             print("ERROR: Query failed to fetch! %r" % e.pgerror)
             print("ERROR: Query that failed: %r" % query)
     #line = dbcursor.fetchone()
+
+#
+# Update the testruns table
+#
+# FIXME: should use a date from the XML file
+query = """INSERT INTO testruns(testrun, date, target, build) VALUES(%r, %r, %r, %r)""" % (testrun, testenv['timestamp'], testenv['target'], testenv['build'])
