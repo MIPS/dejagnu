@@ -54,11 +54,11 @@ except Exception as e:
         print("ERROR: Query failed to fetch! %r" % e.pgerror)
         print("ERROR: Query that failed: %r" % query)
         quit()
-testrun = dbcursor.fetchone()
-if testrun is None:
+tmp = dbcursor.fetchone()
+if tmp is None:
     testrun = "1"
 else:
-    testrun = str(int(testrun) + 1)
+    testrun = str(int(tmp[0]) + 1)
 
 #
 # Parse the XML file from the test run
