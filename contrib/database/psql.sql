@@ -20,25 +20,34 @@ CREATE TYPE public.status AS ENUM (
        'UNSUPPORTED'
 );
 
-DROP TABLE IF EXISTS test;
-CREATE TABLE test (
+DROP TABLE IF EXISTS tests;
+CREATE TABLE tests (
   testrun integer NOT NULL DEFAULT '12345',
-  input varchar(128) NOT NULL,
-  output varchar(256) NOT NULL,
+  tool varchar(128) NOT NULL,
   result public.status,
   name varchar(128) NOT NULL,
-  prmsid integer NOT NULL
+  output varchar(256),
+  input varchar(128),
+  prmsid integer
 );
 
 DROP TABLE IF EXISTS testruns;
 CREATE TABLE testruns (
-  tool varchar(72) NOT NULL,
   date timestamp NOT NULL,
-  version varchar(72) NOT NULL,
-  branch varchar(72) NOT NULL,
   testrun integer NOT NULL,
-  arch varchar(72) NOT NULL,
-  build_machine varchar(72) NOT NULL
+  target varchar(72) NOT NULL,
+  build varchar(72) NOT NULL,
+  UNIQUE(testrun)
 );
 
-
+DROP TABLE IF EXISTS manifest;
+CREATE TABLE manifest (
+  testrun integer NOT NULL,
+  tool varchar(72) NOT NULL,
+  branch varchar(72),
+  filespec varchar(72),
+  md5sum varchar(72),
+  revision varchar(72),
+  host varchar(72),
+  host_gcc varchar(72)
+);
