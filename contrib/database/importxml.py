@@ -161,3 +161,9 @@ for tool,entry in manifest.items():
 #
 # FIXME: should use a date from the XML file
 query = """INSERT INTO testruns(testrun, date, target, build) VALUES(%r, %r, %r, %r)""" % (testrun, testenv['timestamp'], testenv['target'], testenv['build'])
+try:
+    dbcursor.execute(query)
+except Exception as e:
+    if e.pgcode != None:
+        print("ERROR: Query failed to fetch! %r" % e.pgerror)
+        print("ERROR: Query that failed: %r" % query)
