@@ -405,7 +405,6 @@ proc xml_tag { tag body } {
     }
     set body [string map {' &apos; } $body]
     set body [string map {` &apos; } $body]
-    puts "FOXME: $body"
     return <$tag>[string map $escapes $body]</$tag>
 }
 
