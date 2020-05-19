@@ -1,3 +1,13 @@
+2020-05-19  Rob Savoye  <rob@senecass.com>
+
+	* lib/framework.exp (close_logs): Add section on the test
+	environment into the XML file.
+	* contrib/mysql: Rename to contrib/database, as it now has
+	postgresql support too.
+	* contrib/database/importxml.py: New python script for importing
+	XML from a test run into Postgresql.
+	* contrib/database/psql.sql: Database schema for Postgresql.
+
 2020-05-18  Rob Savoye  <rob.savoye@senecass.com>
 
 	* configure.ac: Extract the current branch.
@@ -7,7 +17,7 @@
 
 2020-05-15  Rob Savoye  <rob@senecass.com>
 
-	* All files: Minoe change, update copyright dates.
+	* All files: Minor change, update copyright dates.
 
 2019-03-08  Andrew Burgess  <andrew.burgess@embecosm.com>
 
