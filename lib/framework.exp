@@ -56,6 +56,11 @@ proc open_logs { } {
     global sum_file
     global xml_file
     global xml
+    global build_triplet
+    global host_triplet
+    global target_triplet
+    global logname
+    global tool
 
     if { $tool eq "" } {
 	set tool testrun
@@ -68,6 +73,14 @@ proc open_logs { } {
 	xml_output "<?xml version=\"1.1\"?>"
 	insertdtd
 	xml_output "<testsuite>"
+	xml_output "  <testrun>"
+	xml_output "    <timestamp>[timestamp -format %c]</timestamp>"
+	xml_output "    <host>$host_triplet </host>"
+	xml_output "    <build>$build_triplet</build>"
+	xml_output "    <target>$target_triplet</target>"
+	xml_output "    <tool>$tool</tool>"
+	xml_output "    <user>$logname</user>"
+	xml_output "  </testrun>"
     }
     catch "file delete -force -- $outdir/$tool.log"
     log_file -a $outdir/$tool.log
@@ -84,6 +97,14 @@ proc close_logs { } {
     global sum_file
     global xml
     global xml_file
+    global build_triplet
+    global host_triplet
+    global target_triplet
+    global logname
+    global tool
+    if {![info exists build_triplet]} {
+	set build_triplet $host_triplet
+    }
 
     if { $xml } {
 	xml_output "</testsuite>"
@@ -382,6 +403,9 @@ proc xml_tag { tag body } {
 	# .. and then the corresponding XML escape
 	lappend escapes &#x[format %x $i]\;
     }
+    set body [string map {' &apos; } $body]
+    set body [string map {` &apos; } $body]
+    puts "FOXME: $body"
     return <$tag>[string map $escapes $body]</$tag>
 }
 
@@ -684,11 +708,11 @@ proc record_test { type message args } {
 	set output ""
 	set output "expect_out(buffer)"
 	xml_output "  <test>"
-	xml_output "    [xml_tag input [string trimright [lindex $rio 0]]]"
+	xml_output "    [xml_tag name $message]"
 	xml_output "    [xml_tag output [string trimright [lindex $rio 1]]]"
 	xml_output "    [xml_tag result $type]"
-	xml_output "    [xml_tag name $message]"
 	xml_output "    [xml_tag prms_id $prms_id]"
+	xml_output "    [xml_tag input [string trimright [lindex $rio 0]]]"
 	xml_output "  </test>"
     }
 
