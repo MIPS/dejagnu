@@ -37,7 +37,7 @@ class AbeManifest(object):
         key = None
         value = None
         while len(line) > 0:
-            line = file.readline().rstrip()
+            line = file.readline().rstrip().lstrip('"')
             if len(line) == 0 or line == '\n' or line.find('#') >= 0:
                 line = file.readline()
                 continue
