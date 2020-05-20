@@ -11,12 +11,13 @@
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
-# This script takes a compressed or uncompressed sum file from a
-# DejaGnu test run. It then extracts the relevant information about
-# the build and writes that to the dejagnu.testruns control
-# table.
 
-
+#
+# This script imports the XML output files from DejaGnu into a
+# Postgresql database for easier analysis. As it parses
+# the manifest file produced by a toolchain build when
+# when using ABE, building thw toolchain requires ABE.
+# 
 import os
 import sys
 import getopt
@@ -26,9 +27,49 @@ from lxml import etree
 from lxml.etree import tostring
 import psycopg2
 from datetime import datetime
+from sys import argv
+# from tqdm import tqdm
+# from progress.bar import Bar, PixelBar
+from progress.spinner import PixelSpinner
 
-infile = "ld.xml"
+
+def usage(argv):
+    print(argv[0] + ": options: xmlfile xmlfile xmlfile, etc...")
+    print("""
+\t--help(-h)   Help
+\t--database(-d)  database (default "dejagnu")
+\t--manifest(-m)  Manifest file name
+\t--testrun(-m)   Testrun number (optional)
+        """)
+    quit()
+
+# Default values
 dbname = "dejagnu"
+infiles = ""
+manifest = None
+testrun = None
+
+try:
+    (opts, vals) = getopt.getopt(argv[1:], "h,m:,d:,t:", ["help", "manifest", "database", "testrun"])
+    for (opt, val) in opts:
+        if opt == '--help' or opt == '-h':
+            usage(argv)
+        elif opt == "--testrun" or opt == '-t':
+            testrun = val
+        elif opt == "--database" or opt == '-d':
+            dbname = val
+        elif opt == "--manifest" or opt == '-m':
+            manifest = val
+        else:
+            infiles += val
+except getopt.GetoptError as e:
+    logging.error('%r' % e)
+    usage(argv)
+    quit()
+
+infiles = vals
+if not infiles or not manifest:
+    usage(argv)
 
 try:
     connect = " dbname=" + dbname
@@ -45,60 +86,24 @@ except Exception as e:
     print("Couldn't connect to database: %r" % e)
     
 # Get the last testrun number
-testrun = None
-query = "SELECT testrun FROM testruns ORDER BY testruns DESC LIMIT 1;"
-try:
-    dbcursor.execute(query)
-except Exception as e:
-    if e.pgcode != None:
-        print("ERROR: Query failed to fetch! %r" % e.pgerror)
-        print("ERROR: Query that failed: %r" % query)
-        quit()
-tmp = dbcursor.fetchone()
-if tmp is None:
-    testrun = "1"
-else:
-    testrun = str(int(tmp[0]) + 1)
-
-#
-# Parse the XML file from the test run
-#
-doc = etree.parse(infile)
-tests = dict()
-testenv = dict()
-for docit in doc.getiterator():
-    print("TAG: %r" % docit.tag)
-    if docit.tag == 'testrun':
-        for elit in docit.getiterator():
-            print("FIXME: %r, %r" % (elit.tag, elit.text))
-            testenv[elit.tag] = elit.text
-        continue
-    if docit.tag == 'test':
-        test = dict()
-        for elit in docit.getiterator():
-            print("FIXME: %r, %r" % (elit.tag, elit.text))
-            if elit.tag == 'test':
-                continue
-            elif elit.text:
-                # Cleanup the text
-                text = elit.text.rstrip('/')
-                colon = text.find(': ')
-                if colon > 0:
-                    text = text[colon+1:]
-            else:
-                text = None
-            test[elit.tag] = text
-
-        if test['output']:
-            query = "INSERT INTO tests(testrun, result, name, tool, output) VALUES(%r, %r, %r, %r, %r)" % (testrun, test['result'], test['name'], testenv['tool'], test['output'])
-        else:
-            query = "INSERT INTO tests(testrun, result, name, tool) VALUES(%r, %r, %r, %r)" % (testrun, test['result'], test['name'], testenv['tool'])
+if not testrun:
+    query = "SELECT testrun FROM testruns ORDER BY testruns DESC LIMIT 1;"
+    try:
         dbcursor.execute(query)
+    except Exception as e:
+        if e.pgcode != None:
+            print("ERROR: Query failed to fetch! %r" % e.pgerror)
+            print("ERROR: Query that failed: %r" % query)
+            quit()
+    tmp = dbcursor.fetchone()
+    if tmp is None:
+        testrun = "1"
+    else:
+        testrun = str(int(tmp[0]) + 1)
 
 #
 # Read manifest file
 #
-manifest="/home/rob/projects/gnu/abe.git/dejagnu/builds/x86_64-unknown-linux-gnu/x86_64-unknown-linux-gnu/gcc-linaro-8.3.0~releases-gcc-8.3.0@4c44b708-20200518-linux-manifest.txt"
 file = open(manifest, 'r')
 line = "#"
 manifest = dict()
@@ -147,7 +152,6 @@ for tool,entry in manifest.items():
     elif 'branch' in entry and 'revision' in entry:
         query = """INSERT INTO manifest(testrun, tool, branch, revision) VALUES(%r, %r, %r, %r);""" % (testrun,  tool, manifest[tool]['branch'], manifest[tool]['revision'])
 
-    print(query)
     try:
         dbcursor.execute(query)
     except Exception as e:
@@ -155,6 +159,45 @@ for tool,entry in manifest.items():
             print("ERROR: Query failed to fetch! %r" % e.pgerror)
             print("ERROR: Query that failed: %r" % query)
     #line = dbcursor.fetchone()
+
+#
+# Parse the XML file from the test run
+#
+for xml in infiles:
+    spin = PixelSpinner("Processing " + os.path.basename(xml) + "...")
+    doc = etree.parse(xml)
+    tests = list()
+    testenv = dict()
+    for docit in doc.getiterator():
+        test = dict()
+        # print("TAG: %r" % docit.tag)
+        if docit.tag == 'testrun':
+            for elit in docit.getiterator():
+                # print("FIXME testenv: %r, %r" % (elit.tag, elit.text))
+                testenv[elit.tag] = elit.text
+                continue
+        if docit.tag == 'test':
+            # test = {'result': "", 'name': "", 'output': ""}
+            test = dict()
+            for elit in docit.getiterator():
+                # print("FIXME test: %r, %r" % (elit.tag, elit.text))
+                if elit.tag == 'test':
+                    continue
+                elif elit.text:
+                    # Cleanup the text
+                    text = elit.text.rstrip('/')
+                    colon = text.find(': ')
+                    if colon > 0:
+                        text = text[colon+1:]
+                else:
+                    text = ""
+                test[elit.tag] = text
+            tests.append(test)
+
+            query = "INSERT INTO tests(testrun, result, name, tool, output) VALUES(%r, %r, %r, %r, %r)" % (testrun, test['result'], test['name'], testenv['tool'], test['output'])
+            spin.next()            
+            dbcursor.execute(query)
+    #doc.close()
 
 #
 # Update the testruns table
@@ -167,3 +210,4 @@ except Exception as e:
     if e.pgcode != None:
         print("ERROR: Query failed to fetch! %r" % e.pgerror)
         print("ERROR: Query that failed: %r" % query)
+
