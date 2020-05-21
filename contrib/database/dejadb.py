@@ -49,6 +49,7 @@ testrun = None
 clean = False
 stats = False
 fails = False
+compare = None
 
 # All the components that should be in the database in some form
 all = ("gcc", "gas", "ld", "g++", "gfortran", "go", "lto", "java", "ada", "gas", "ld", "dejagnu")
@@ -59,7 +60,11 @@ try:
         if opt == '--help' or opt == '-h':
             usage(argv)
         elif opt == "--testrun" or opt == '-t':
-            testrun = int(val)
+            if val.find(','):
+                testrun = int(val.split(',')[0])
+                compare = int(val.split(',')[1])
+            else:
+                testrun = int(val)
         elif opt == "--clean" or opt == '-c':
             clean = True
         elif opt == "--stats" or opt == '-s':
@@ -159,7 +164,7 @@ if fails:
     for tool in stats:
         tstats = dict()
         # Get some data from the manifest, all front ends share the same branch
-        query = "SELECT branch,filespec,revision,md5sum FROM manifest WHERE testrun=%r AND tool=%r" % (testrun+1, tool)
+        query = "SELECT branch,filespec,revision,md5sum FROM manifest WHERE testrun=%r AND tool=%r" % (testrun, tool)
         try:
             dbcursor.execute(query)
         except Exception as e:
@@ -194,14 +199,36 @@ if fails:
         for entry in results:
             print("\t%s" % entry[0])
 
-compare = (1,2)
-if compare:    
-        query = "SELECT name,output FROM tests WHERE testrun=%r AND tool=%r AND result='FAIL'" % (testrun, tool)
-        print(query)
-        try:
-            dbcursor.execute(query)
-        except Exception as e:
-            if e.pgcode != None:
-                print("ERROR: Query failed to fetch! %r" % e.pgerror)
-                quit()
-        results = dbcursor.fetchall()
+#
+# Compare totals with the previous test run. These need to be from
+# the same unchanged testsuite to avoid problems.
+#
+#
+# FIXME: this is bogus for now,
+if compare and compare > 0:
+    #query = "SELECT * FROM manifest WHERE tool=%r AND testrun!=%d;" % (tool, testrun)
+    #result = None                   # FIXME!
+
+    prevstats = DjStats(dbcursor)
+    prevstats.populate(tool, compare)
+    old = prevstats.getStats()
+
+    new = gstats.getStats()
+    if old['FAIL'] != new['FAIL']:
+        print("Testruns %d and %d have different failures! (%d/%d)" % (testrun, compare, old['FAIL'], new['FAIL']))
+    elif old['PASS'] != new['PASS']:
+        print("Testruns %d and %d have different passes! (%d/%d)" % (testrun, compareold['PASS'], new['PASS']))
+    else:
+        print("Testruns %d and %d have identical results" % (testrun, compare))
+
+# compare = (1,2)
+# if compare:
+#         query = "SELECT name,output FROM tests WHERE testrun=%r AND tool=%r AND result='FAIL'" % (testrun, tool)
+#         print(query)
+#         try:
+#             dbcursor.execute(query)
+#         except Exception as e:
+#             if e.pgcode != None:
+#                 print("ERROR: Query failed to fetch! %r" % e.pgerror)
+#                 quit()
+#         results = dbcursor.fetchall()
