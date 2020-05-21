@@ -19,10 +19,12 @@ import re
 import psycopg2
 from datetime import datetime
 from sys import argv
-
 # from tqdm import tqdm
 # from progress.bar import Bar, PixelBar
 from progress.spinner import PixelSpinner
+# DejaGnu files
+from djstats import DjStats
+from manifest import AbeManifest
 
 
 def usage(argv):
@@ -117,6 +119,19 @@ if not testrun:
         testrun = int(tmp[0])
 
 #
+# Read the ABE manifest file for this build, which contains their
+# details for each component of this toolchain build.
+#
+abem = AbeManifest(dbcursor)
+if manifest and not clean:
+    abem.readManifest(manifest)
+    # abem.dump()
+    abem.insert(testrun)
+else:
+    abem.populate(testrun)
+    abem.dump()
+
+#
 # Delete all data in the database for the specified testrun
 #
 if clean:
@@ -133,86 +148,10 @@ if clean:
 #
 if stats:
     for tool in stats:
-        tstats = dict()
-        query = "SELECT COUNT(result) FROM tests WHERE testrun=%r AND tool=%r AND result='FAIL'" % (testrun, tool)
-        try:
-            dbcursor.execute(query)
-        except Exception as e:
-            if e.pgcode != None:
-                print("ERROR: Query failed to fetch! %r" % e.pgerror)
-                quit()
-        tstats['FAIL'] = dbcursor.fetchone()
-        if not tstats['FAIL']:
-            tstats['FAIL'] = 0
-        else:
-            tstats['FAIL'] = int(tstats['FAIL'][0])
+        gstats = DjStats(dbcursor)
+        gstats.populate(tool, testrun)
+        gstats.dump()
 
-        query = "SELECT COUNT(result) FROM tests WHERE testrun=%r AND tool=%r AND result='PASS'" % (testrun, tool)
-        try:
-            dbcursor.execute(query)
-        except Exception as e:
-            if e.pgcode != None:
-                print("ERROR: Query failed to fetch! %r" % e.pgerror)
-                quit()
-        tstats['PASS'] = dbcursor.fetchone()
-        if not tstats['PASS']:
-            tstats['PASS'] = 0
-        else:
-            tstats['PASS'] = int(tstats['PASS'][0])
-
-        query = "SELECT COUNT(result) FROM tests WHERE testrun=%r AND tool=%r AND result='XFAIL'" % (testrun, tool)
-        try:
-            dbcursor.execute(query)
-        except Exception as e:
-            if e.pgcode != None:
-                print("ERROR: Query failed to fetch! %r" % e.pgerror)
-                quit()
-        tstats['XFAIL'] = dbcursor.fetchone()
-        if not tstats['XFAIL']:
-            tstats['XFAIL'] = 0
-        else:
-            tstats['XFAIL'] = int(tstats['XFAIL'][0])
-
-        query = "SELECT COUNT(result) FROM tests WHERE testrun=%r AND tool=%r AND result='XPASS'" % (testrun, tool)
-        try:
-            dbcursor.execute(query)
-        except Exception as e:
-            if e.pgcode != None:
-                print("ERROR: Query failed to fetch! %r" % e.pgerror)
-                quit()
-        tstats['XPASS'] = dbcursor.fetchone()
-        if not tstats['XPASS']:
-            tstats['XPASS'] = 0
-        else:
-            tstats['XPASS'] = int(tstats['XPASS'][0])
-
-        # Get some data from the manifest, all front ends share the same branch
-        query = "SELECT branch,filespec FROM manifest WHERE testrun=%r AND tool='gcc'" % (testrun)
-        try:
-            dbcursor.execute(query)
-        except Exception as e:
-            if e.pgcode != None:
-                print("ERROR: Query failed to fetch! %r" % e.pgerror)
-                quit()
-        tmp = dbcursor.fetchone()
-        if tmp:
-            branch = tmp[0]
-            filespec = tmp[1]
-        else:
-            branch = None
-            filespec = None
-
-        if tstats['PASS'] > 0 or tstats['FAIL'] > 0:
-            print("Statistics for Test Run for %s: #%d" % (tool, testrun))
-            print("\tPassed: %d" % tstats['PASS'])
-            print("\tFailed: %d" % tstats['FAIL'])
-            print("\tXPassed: %d" % tstats['XPASS'])
-            print("\tXFailed: %d" % tstats['XFAIL'])
-            if branch and not filespec:
-                print("\tBranch: %s" % branch)
-            elif not branch and filespec:
-                print("\tFile: %s" % filespec)
-                
 #
 # Dump the failures
 #
@@ -220,7 +159,7 @@ if fails:
     for tool in stats:
         tstats = dict()
         # Get some data from the manifest, all front ends share the same branch
-        query = "SELECT branch,filespec,revision FROM manifest WHERE testrun=%r AND tool=%r" % (testrun, tool)
+        query = "SELECT branch,filespec,revision,md5sum FROM manifest WHERE testrun=%r AND tool=%r" % (testrun+1, tool)
         try:
             dbcursor.execute(query)
         except Exception as e:
@@ -232,10 +171,12 @@ if fails:
             branch = tmp[0]
             filespec = tmp[1]
             revision = tmp[2]
+            md5sum = tmp[3]
         else:
             branch = None
             filespec = None
             revision = None
+            md5sum = None
         query = "SELECT name,output FROM tests WHERE testrun=%r AND tool=%r AND result='FAIL'" % (testrun, tool)
         # print(query)
         try:
