@@ -31,6 +31,9 @@ from sys import argv
 # from tqdm import tqdm
 # from progress.bar import Bar, PixelBar
 from progress.spinner import PixelSpinner
+# DejaGnu files
+from djstats import DjStats
+from manifest import AbeManifest
 
 
 def usage(argv):
@@ -47,7 +50,7 @@ def usage(argv):
 dbname = "dejagnu"
 infiles = ""
 manifest = None
-testrun = None
+testrun = 0
 
 try:
     (opts, vals) = getopt.getopt(argv[1:], "h,m:,d:,t:", ["help", "manifest", "database", "testrun"])
@@ -55,7 +58,7 @@ try:
         if opt == '--help' or opt == '-h':
             usage(argv)
         elif opt == "--testrun" or opt == '-t':
-            testrun = val
+            testrun = int(val)
         elif opt == "--database" or opt == '-d':
             dbname = val
         elif opt == "--manifest" or opt == '-m':
@@ -68,7 +71,7 @@ except getopt.GetoptError as e:
     quit()
 
 infiles = vals
-if not infiles or not manifest:
+if not infiles:
     usage(argv)
 
 try:
@@ -86,7 +89,7 @@ except Exception as e:
     print("Couldn't connect to database: %r" % e)
     
 # Get the last testrun number
-if not testrun:
+if testrun <= 0:
     query = "SELECT testrun FROM testruns ORDER BY testruns DESC LIMIT 1;"
     try:
         dbcursor.execute(query)
@@ -102,70 +105,33 @@ if not testrun:
         testrun = str(int(tmp[0]) + 1)
 
 #
-# Read manifest file
+# Read the ABE manifest data for this build, which contains their
+# details for each component of this toolchain build.
 #
-file = open(manifest, 'r')
-line = "#"
-manifest = dict()
-data = dict()
-tool = None
-oldtool = None
-while len(line) > 0:
-    line = file.readline().rstrip()
-    if len(line) == 0 or line == '\n' or line[0] == '#' or line[:2] == ' #' or line[0] == '\n':
-        line = file.readline()
-        continue
-    nodes = line.split('=')
-    if len(nodes) < 2:
-        nodes = line.split(':')
-    key = nodes[0]
-    if len(nodes)<=1:
-        break
-    else:
-        value = nodes[1]
+abem = AbeManifest(dbcursor)
+if manifest:
+    # Read data from a text file
+    abem.readManifest(manifest)
+    abem.insert(testrun)
+else:
+    # Read data from the database
+    abem.populate(testrun)
+# abem.dump()
 
-    patterns = ("^target$", "^host$",  "^host_gcc$", ".*_branch", ".*_filespec", ".*_revision", ".*_md5sum")
-    for pat in patterns:
-        m = re.match(pat, key, re.IGNORECASE)
-        if m is not None:
-            tool = key.split('_')[0]
-            if tool == 'target':
-                entry = line.split('=')[1]
-            elif key == 'host' or key == 'host_gcc':
-                entry = line.split(':')[1]
-            else:
-                entry = key.split('_')[1]
-                # print("FIXME: %r, %r, %r" % (tool, entry, value))
-            data[entry] = value
-    if tool is not None and oldtool != tool:
-        oldtool = tool
-        manifest[tool] = data
-        data = dict()
-
-for tool,entry in manifest.items():
-    if len(entry) <= 0:
-        continue
-    # print("FIXME: %r" % entry)
-    # If filespec is present, it's from a tarball
-    if 'filespec' in entry and 'md5sum' in entry:
-        query = """INSERT INTO manifest(testrun, tool, filespec, md5sum) VALUES(%r, %r, %r, %r);"""% (testrun, tool, manifest[tool]['filespec'], manifest[tool]['md5sum'])
-    elif 'branch' in entry and 'revision' in entry:
-        query = """INSERT INTO manifest(testrun, tool, branch, revision) VALUES(%r, %r, %r, %r);""" % (testrun,  tool, manifest[tool]['branch'], manifest[tool]['revision'])
-
-    try:
-        dbcursor.execute(query)
-    except Exception as e:
-        if e.pgcode != None:
-            print("ERROR: Query failed to fetch! %r" % e.pgerror)
-            print("ERROR: Query that failed: %r" % query)
-    #line = dbcursor.fetchone()
 
 #
 # Parse the XML file from the test run
 #
+allstats = dict()
+fails = dict()
 for xml in infiles:
+    gstats = DjStats(dbcursor)
     spin = PixelSpinner("Processing " + os.path.basename(xml) + "...")
-    doc = etree.parse(xml)
+    # Ignore invalid charcters.
+    fd = open(xml)
+    parser = etree.XMLParser(recover=True)
+    doc = etree.parse(fd, parser)
+
     tests = list()
     testenv = dict()
     for docit in doc.getiterator():
@@ -193,11 +159,13 @@ for xml in infiles:
                     text = ""
                 test[elit.tag] = text
             tests.append(test)
-
+            if  test['result'] == 'FAIL':
+                fails[testenv['tool']] = test['output']
             query = "INSERT INTO tests(testrun, result, name, tool, output) VALUES(%r, %r, %r, %r, %r)" % (testrun, test['result'], test['name'], testenv['tool'], test['output'])
             spin.next()            
             dbcursor.execute(query)
-    #doc.close()
+    gstats.populate(testenv['tool'], testrun)
+    allstats[testenv['tool']] = gstats
 
 #
 # Update the testruns table
@@ -211,3 +179,8 @@ except Exception as e:
         print("ERROR: Query failed to fetch! %r" % e.pgerror)
         print("ERROR: Query that failed: %r" % query)
 
+for tool,gstats in allstats.items():
+    gstats.dump()
+
+for ff in fails:
+    print(ff)
