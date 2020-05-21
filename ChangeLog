@@ -1,4 +1,9 @@
-2020-05-18  Rob Savoye  <rob.savoye@senecass.com>
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
+    * testsuite/runtest.libs/libs.exp: Use runtest_file_p to honor
+    requests to run only some library tests.
+
+2020-05-18  Rob Savoye  <rob@senecass.com>
 
 	* configure.ac: Extract the current branch.
 	* Makefile.am: Change the frame_version in runtest.exp post
@@ -7,11 +12,11 @@
 
 2020-05-15  Rob Savoye  <rob@senecass.com>
 
-	* All files: Minoe change, update copyright dates.
+	* All files: Minor change, update copyright dates.
 
 2019-03-08  Andrew Burgess  <andrew.burgess@embecosm.com>
 
-        * runtest.exp (search_and_load_file): Join the directory and
+    * runtest.exp (search_and_load_file): Join the directory and
 	filename once using 'file join'.
 
 2019-01-24  Jacob Bachmeyer  <jcb62281@gmail.com>

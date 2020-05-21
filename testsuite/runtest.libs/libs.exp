@@ -1,4 +1,4 @@
-# Copyright (C) 1997-2016, 2018 Free Software Foundation, Inc.
+# Copyright (C) 1997-2016, 2018, 2019 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -98,7 +98,7 @@ proc process_test { test } {
 
 start_expect
 foreach i [glob [testsuite file -source -test *.test]] {
-    process_test $i
+    if { [runtest_file_p $runtests $i] } { process_test $i }
 }
 stop_expect
 
