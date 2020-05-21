@@ -11,13 +11,8 @@
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 
-import os
-import sys
-import getopt
-import pdb
-import re
+# import pdb
 import psycopg2
-from datetime import datetime
 from sys import argv
 
 
@@ -113,22 +108,6 @@ class DjStats(object):
             self.tstats['UNSUPPORTED'] = 0
         else:
             self.tstats['UNSUPPORTED'] = int(tmp[0])
-
-        # # Get some data from the manifest, all front ends share the same branch
-        # query = "SELECT branch,filespec FROM manifest WHERE testrun=%r AND tool='gcc'" % (testrun)
-        # try:
-        #     self.post.execute(query)
-        # except Exception as e:
-        #     if e.pgcode != None:
-        #         print("ERROR: Query failed to fetch! %r" % e.pgerror)
-        #         quit()
-        # tmp = self.post.fetchone()
-        # if tmp:
-        #     self.branch = tmp[0]
-        #     self.filespec = tmp[1]
-        # else:
-        #     self.branch = None
-        #     self.filespec = None
 
     def dump(self):
         if self.tstats['PASS'] > 0 or self.tstats['FAIL'] > 0:
