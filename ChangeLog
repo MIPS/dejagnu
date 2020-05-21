@@ -1,5 +1,11 @@
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
+    * testsuite/runtest.libs/default_procs.tcl: Set sum_file to empty
+    string instead of opening a temporary file named .tmp.
+    * testsuite/runtest.libs/libs.exp: No longer need to remove .tmp.
+
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
     * testsuite/runtest.libs/target.test: Rename fake "target_info"
     array to a fake "board_info" array, to align with changes made to
     the DejaGnu core on 29 January 1997 that moved the target

@@ -1,4 +1,4 @@
-set sum_file [open .tmp w]
+set sum_file ""
 set reboot 0
 set errno ""
 

@@ -101,6 +101,3 @@ foreach i [glob [testsuite file -source -test *.test]] {
     if { [runtest_file_p $runtests $i] } { process_test $i }
 }
 stop_expect
-
-# Clean up behind ourselves.
-file delete .tmp
