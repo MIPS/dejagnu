@@ -23,9 +23,9 @@ CREATE TYPE public.status AS ENUM (
 DROP TABLE IF EXISTS tests;
 CREATE TABLE tests (
   testrun integer NOT NULL DEFAULT '12345',
-  tool varchar(128) NOT NULL,
+  tool varchar(20),
   result public.status,
-  name varchar(128) NOT NULL,
+  name text NOT NULL,
   output varchar(256),
   input varchar(128),
   prmsid integer
@@ -49,5 +49,7 @@ CREATE TABLE manifest (
   md5sum varchar(72),
   revision varchar(72),
   host varchar(72),
-  host_gcc varchar(72)
+  host_gcc varchar(72),
+  url text,
+  configure text
 );
