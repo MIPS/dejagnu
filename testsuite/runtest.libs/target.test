@@ -33,27 +33,27 @@ if [ file exists $file] {
 }
 
 #
-# Create a false target config array
+# Create a false board config array
 #
-set target_info(idp,name)       "idp"
-set target_info(idp,ldflags)    "-Tidp.ld"
-set target_info(idp,config)     m68k-unknown-aout
-set target_info(idp,cflags)     ""
-set target_info(idp,connect)    "telnet"
-set target_info(idp,target)     "s12"
-set target_info(idp,serial)     "tstty12"
-set target_info(idp,netport)    "localhost:23"
-set target_info(idp,baud)       "9600"
+set board_info(idp,name)       "idp"
+set board_info(idp,ldflags)    "-Tidp.ld"
+set board_info(idp,config)     m68k-unknown-aout
+set board_info(idp,cflags)     ""
+set board_info(idp,connect)    "telnet"
+set board_info(idp,target)     "s12"
+set board_info(idp,serial)     "tstty12"
+set board_info(idp,netport)    "localhost:23"
+set board_info(idp,baud)       "9600"
 # MVME target
-set target_info(mvme,name)      "mvme"
-set target_info(mvme,ldflags)   "-Tmvme.ld"
-set target_info(mvme,config)    m68k-unknown-aout
-set target_info(mvme,cflags)    ""
-set target_info(mvme,connect)   "telnet"
-set target_info(mvme,target)    "s12"
-set target_info(mvme,serial)    "tstty8"
-set target_info(mvme,netport)   "localhost:23"
-set target_info(mvme,baud)      "9600"
+set board_info(mvme,name)      "mvme"
+set board_info(mvme,ldflags)   "-Tmvme.ld"
+set board_info(mvme,config)    m68k-unknown-aout
+set board_info(mvme,cflags)    ""
+set board_info(mvme,connect)   "telnet"
+set board_info(mvme,target)    "s12"
+set board_info(mvme,serial)    "tstty8"
+set board_info(mvme,netport)   "localhost:23"
+set board_info(mvme,baud)      "9600"
 
 # test push_config target
 push_config target idp

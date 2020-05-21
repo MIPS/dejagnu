@@ -1,5 +1,14 @@
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
+    * testsuite/runtest.libs/target.test: Rename fake "target_info"
+    array to a fake "board_info" array, to align with changes made to
+    the DejaGnu core on 29 January 1997 that moved the target
+    configuration data into the global board_info array.
+
+    * testsuite/runtest.libs/remote.test: Likewise.
+
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
     * testsuite/runtest.libs/libs.exp: Use runtest_file_p to honor
     requests to run only some library tests.
 
