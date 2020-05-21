@@ -1,5 +1,11 @@
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
+    * doc/dejagnu.texi (remote_exec procedure): Explicitly list
+    optional arguments instead of simply copying the Tcl argument list
+    or the remote_exec procedure.
+
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
     * testsuite/runtest.libs/default_procs.tcl: Set sum_file to empty
     string instead of opening a temporary file named .tmp.
     * testsuite/runtest.libs/libs.exp: No longer need to remove .tmp.

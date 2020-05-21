@@ -3460,7 +3460,8 @@ program.  This may be an empty string if output from the program was
 redirected.
 
 @quotation
-@t{@b{remote_exec} @i{hostname} @i{program} @i{args}}
+@t{  @b{remote_exec} @i{hostname} @i{program}
+?@i{options}? ?@i{input}? ?@i{output}? ?@i{timeout}?}
 @end quotation
 
 @table @asis
@@ -3468,18 +3469,24 @@ redirected.
 Name of the host to execute the command on.
 
 @item @code{program}
-Command
-@item @code{args}
-There are four optional arguments:
+Command to execute.
 
-@enumerate
-@item arguments to pass to the program;
-@item an input filename to feed to stanard input of the command;
-@item an output filename where the output from the command should be written; and
-@item timeout value in seconds.
-@end enumerate
+@item @code{options}
+Arguments to pass to the program.
+
+@item @code{input}
+Input filename to feed to standard input of the command.
+
+@item @code{output}
+Output filename where the output from the command should be written.
+
+@item @code{timeout}
+Timeout value in seconds.
 
 @end table
+
+All of the optional positional arguments accept an empty string as a
+neutral value.
 
 @node remote_expect procedure, remote_file procedure, remote_exec procedure, Procedures For Remote Communication
 @subsubheading remote_expect Procedure
@@ -5666,4 +5673,4 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
-@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS
+@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname
