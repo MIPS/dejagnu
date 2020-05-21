@@ -125,7 +125,7 @@ class AbeManifest(object):
         result = self.post.fetchall()
         for entry in result:
             data = dict()
-            print(entry)
+            # print(entry)
             tool = entry[0]
             data['branch'] = entry[1]
             data['filespec'] = entry[2]
