@@ -1,5 +1,14 @@
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
+    * testsuite/runtest.libs/target.test: Use mockutil.tcl.
+    Collect loading DejaGnu libraries into a single loop.
+    Revise the mock board_info array.
+    Add section headings for different test groups in this file.
+    Add tests for default_target_compile in lib/target.exp.
+    * testsuite/runtest.libs/mockutil.tcl: New file.
+
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
     * doc/dejagnu.texi (remote_exec procedure): Explicitly list
     optional arguments instead of simply copying the Tcl argument list
     or the remote_exec procedure.
