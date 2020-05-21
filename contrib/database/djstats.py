@@ -110,15 +110,14 @@ class DjStats(object):
             self.tstats['UNSUPPORTED'] = int(tmp[0])
 
     def dump(self):
-        if self.tstats['PASS'] > 0 or self.tstats['FAIL'] > 0:
-            print("Statistics for Test Run for %s: #%d" % (self.tool, self.testrun))
-            print("\tPassed: %d" % self.tstats['PASS'])
-            print("\tFailed: %d" % self.tstats['FAIL'])
-            print("\tXPassed: %d" % self.tstats['XPASS'])
-            print("\tXFailed: %d" % self.tstats['XFAIL'])
-            print("\tUntested: %d" % self.tstats['UNTESTED'])
-            print("\tUnsupported: %d" % self.tstats['UNSUPPORTED'])
-            # if branch and not filespec:
-            #     print("\tBranch: %s" % branch)
-            # elif not branch and filespec:
-            #     print("\tFile: %s" % filespec)
+        print("Statistics for Test Run #%d for %s" % (self.testrun, self.tool))
+        print("\tPassed: %d" % self.tstats['PASS'])
+        print("\tFailed: %d" % self.tstats['FAIL'])
+        print("\tXPassed: %d" % self.tstats['XPASS'])
+        print("\tXFailed: %d" % self.tstats['XFAIL'])
+        print("\tUntested: %d" % self.tstats['UNTESTED'])
+        print("\tUnsupported: %d" % self.tstats['UNSUPPORTED'])
+        # if branch and not filespec:
+        #     print("\tBranch: %s" % branch)
+        # elif not branch and filespec:
+        #     print("\tFile: %s" % filespec)
