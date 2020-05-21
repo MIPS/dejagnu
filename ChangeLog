@@ -1,3 +1,14 @@
+2020-05-21  Rob Savoye  <rob@senecass.com>
+
+	* contrib/database/dejadb.py: Manage the dejagnu database. Import
+	manifest files, dumop statistics, conpare testruns.
+	* contrib/database/importdb.py: Use new base classes, ignore
+	invalid characters in the XML file, common in the output field.
+	* contrib/database/manifest.py: Base class for manipulating data
+	from an ABE manifest file.
+	* contrib/database/djstats.py: Base class to store test results
+	for a toolchain component.
+
 2020-05-19  Rob Savoye  <rob@senecass.com>
 
 	* lib/framework.exp (close_logs): Add section on the test
