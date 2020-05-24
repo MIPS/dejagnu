@@ -1,3 +1,7 @@
+2020-05-24  Tom Tromey  <tom@tromey.com>
+
+	* .gitignore: Add files.
+
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
     * testsuite/runtest.libs/target.test: Use mockutil.tcl.
