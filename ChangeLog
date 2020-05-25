@@ -1,5 +1,11 @@
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
+	* lib/target.exp (default_target_compile): Use "host_info"
+	procedure to probe for a host configuration, instead of checking a
+	local empty target_info array due to lacking "global target_info".
+
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
 	* doc/dejagnu.texi (Adding a new board): Document that the
 	"compiler" board_info field is optional and defaults to [find_gcc]
 	if not given.

@@ -326,7 +326,7 @@ proc default_target_compile {source destfile type options} {
 	append ldflags " $LDFLAGS_FOR_TARGET"
     }
 
-    if {[info exists target_info(host,name)]} {
+    if {[host_info exists]} {
 	set host [host_info name]
     } else {
 	set host "unix"
