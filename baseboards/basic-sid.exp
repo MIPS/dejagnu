@@ -65,10 +65,10 @@ proc find_rawsid { } {
 	set env(SID_LIBRARY_PATH) [join [glob $tool_root_dir/sid/component/* $srcdir/sid/component/*] ":"]
 	# srcdir=/..../sid/component/testsuite
 	set tcl_library $srcdir/tcl/library
-        global host_os
+	global host_os
 	switch -glob -- $host_os {
 	    {cygwin*} { set tcl_library [exec cygpath -w $tcl_library] }
-        }
+	}
 	set env(TCL_LIBRARY) $tcl_library
     }
 

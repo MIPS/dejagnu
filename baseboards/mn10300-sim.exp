@@ -41,7 +41,7 @@ set_board_info ldflags  "[libgloss_link_flags] [newlib_link_flags]"
 set_board_info ldscript "-Tsim.ld"
 
 # The simulator doesn't return exit statuses and we need to indicate this.
-set_board_info needs_status_wrapper "" 
+set_board_info needs_status_wrapper ""
 
 # We can't pass args to the simulator or get exit status back from the
 # simulator, nor does the simulator support real signals.
