@@ -16,9 +16,44 @@
 # along with DejaGnu; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
-# The canonical unix board description.
-load_generic_config "unix"
+set_board_info compiler  "[find_gcc]"
+
+load_generic_config "gdbserver"
 
 process_multilib_options ""
 
+# The default compiler for this target.
 set_board_info compiler  "[find_gcc]"
+
+set_board_info rsh_prog /usr/bin/ssh
+set_board_info rcp_prog /usr/bin/scp
+set_board_info protocol standard
+set_board_info hostname pi
+set_board_info username rob
+
+# We will be using the standard GDB remote protocol
+set_board_info gdb_protocol "remote"
+
+# Path to the gdbserver executable, if required.
+set_board_info gdb_server_prog builds/x86_64-unknown-linux-gnu/arm-linux-gnueabihf/binutils-gdb.git~gdb-9-branch-gdbserver/gdbserver
+
+# Name of the computer whose socket will be used, if required.
+set_board_info sockethost "pi:"
+
+# Port ID to use for socket connection
+# set_board_info gdb,socketport "4004"
+
+# Use techniques appropriate to a stub
+set_board_info use_gdb_stub 1
+
+# This gdbserver can only run a process once per session.
+set_board_info gdb,do_reload_on_run 1
+
+# There's no support for argument-passing (yet).
+set_board_info noargs 1
+
+# Can't do input (or output) in the current gdbserver.
+set_board_info gdb,noinferiorio 1
+
+# Can't do hardware watchpoints, in general
+set_board_info gdb,no_hardware_watchpoints 1
