@@ -337,10 +337,10 @@ proc default_target_compile {source destfile type options} {
 	if { $i eq "ada" } {
 	    set compiler_type "ada"
 	    if {[board_info $dest exists adaflags]} {
-		append add_flags " [target_info adaflags]"
+		append add_flags " [board_info $dest adaflags]"
 	    }
 	    if {[board_info $dest exists gnatmake]} {
-		set compiler [target_info gnatmake]
+		set compiler [board_info $dest gnatmake]
 	    } else {
 		set compiler [find_gnatmake]
 	    }
@@ -349,11 +349,11 @@ proc default_target_compile {source destfile type options} {
 	if { $i eq "c++" } {
 	    set compiler_type "c++"
 	    if {[board_info $dest exists cxxflags]} {
-		append add_flags " [target_info cxxflags]"
+		append add_flags " [board_info $dest cxxflags]"
 	    }
 	    append add_flags " [g++_include_flags]"
 	    if {[board_info $dest exists c++compiler]} {
-		set compiler [target_info c++compiler]
+		set compiler [board_info $dest c++compiler]
 	    } else {
 		set compiler [find_g++]
 	    }
@@ -362,10 +362,10 @@ proc default_target_compile {source destfile type options} {
 	if { $i eq "d" } {
 	    set compiler_type "d"
 	    if {[board_info $dest exists dflags]} {
-		append add_flags " [target_info dflags]"
+		append add_flags " [board_info $dest dflags]"
 	    }
 	    if {[board_info $dest exists dcompiler]} {
-		set compiler [target_info dcompiler]
+		set compiler [board_info $dest dcompiler]
 	    } else {
 		set compiler [find_gdc]
 	    }
@@ -374,10 +374,10 @@ proc default_target_compile {source destfile type options} {
 	if { $i eq "f77" } {
 	    set compiler_type "f77"
 	    if {[board_info $dest exists f77flags]} {
-		append add_flags " [target_info f77flags]"
+		append add_flags " [board_info $dest f77flags]"
 	    }
 	    if {[board_info $dest exists f77compiler]} {
-		set compiler [target_info f77compiler]
+		set compiler [board_info $dest f77compiler]
 	    } else {
 		set compiler [find_g77]
 	    }
@@ -386,10 +386,10 @@ proc default_target_compile {source destfile type options} {
 	if { $i eq "f90" } {
 	    set compiler_type "f90"
 	    if {[board_info $dest exists f90flags]} {
-		append add_flags " [target_info f90flags]"
+		append add_flags " [board_info $dest f90flags]"
 	    }
 	    if {[board_info $dest exists f90compiler]} {
-		set compiler [target_info f90compiler]
+		set compiler [board_info $dest f90compiler]
 	    } else {
 		set compiler [find_gfortran]
 	    }
