@@ -1424,7 +1424,8 @@ There are five helper procedures used in this example:
 @code{find_gcc} looks for a copy of the GNU compiler in your build
 tree, or it uses the one in your path.  This will also return the
 proper transformed name for a cross compiler if you whole build tree
-is configured for one.
+is configured for one.  DejaGnu will use this procedure to locate a
+compiler if the @code{compiler} field is not set.
 
 @item
 @code{libgloss_include_flags} returns the flags to compile using
@@ -1965,7 +1966,8 @@ load_generic_config "sim"
 load_base_board_description "basic-sim"
 
 # The compiler used to build for this board. This has *nothing* to do
-# with what compiler is tested if we're testing gcc.
+# with what compiler is tested if we're testing gcc. Further, this is
+# the default, so this line is optional for most boards.
 set_board_info compiler "[find_gcc]"
 
 # We only support newlib on this target.

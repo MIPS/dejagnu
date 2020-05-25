@@ -1,4 +1,4 @@
-# Copyright (C) 1997-2016 Free Software Foundation, Inc.
+# Copyright (C) 1997-2016, 2019 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -33,7 +33,6 @@ process_multilib_options ""
 
 # We only support newlib on this target. We assume that all multilib
 # options have been specified before we get here.
-set_board_info compiler  "[find_gcc]"
 set_board_info cflags    "[libgloss_include_flags] [newlib_include_flags]"
 set_board_info ldflags   "[libgloss_link_flags] [newlib_link_flags]"
 

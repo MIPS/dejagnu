@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2016 Free Software Foundation, Inc.
+# Copyright (C) 2013-2016, 2019 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -22,8 +22,6 @@ load_generic_config "adb"
 
 # We need this for find_gcc and *_include_flags/*_link_flags.
 load_base_board_description "adb"
-
-set_board_info compiler  "[find_gcc]"
 
 # We may need -mandroid.
 set_board_info cflags  "-mandroid"

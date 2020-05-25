@@ -1,3 +1,56 @@
+2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
+	* doc/dejagnu.texi (Adding a new board): Document that the
+	"compiler" board_info field is optional and defaults to [find_gcc]
+	if not given.
+	(Board configuration file): Likewise.
+
+	* lib/target.exp (default_target_compile): Establish a default C
+	compiler by evaluating [find_gcc] if no other compiler is given.
+
+	* baseboards/aarch64-sim.exp: Remove no-longer-needed
+	"set_board_info compiler [find_gcc]" from this file.
+	* baseboards/am33_2.0-libremote.exp: Likewise.
+	* baseboards/androideabi.exp: Likewise.
+	* baseboards/arm-ice.exp: Likewise.
+	* baseboards/arm-sim.exp: Likewise.
+	* baseboards/cris-sim.exp: Likewise.
+	* baseboards/d30v-sim.exp: Likewise.
+	* baseboards/fr30-sim.exp: Likewise.
+	* baseboards/frv-sim.exp: Likewise.
+	* baseboards/gdbserver-sample.exp: Likewise.
+	* baseboards/iq2000-sim.exp: Likewise.
+	* baseboards/linux-gdbserver.exp: Likewise.
+	* baseboards/linux-libremote.exp: Likewise.
+	* baseboards/mcore-moto-sim.exp: Likewise.
+	* baseboards/mcore-sim.exp: Likewise.
+	* baseboards/mips-sim-idt32.exp: Likewise.
+	* baseboards/mips-sim-idt64.exp: Likewise.
+	* baseboards/mips-sim-mti32.exp: Likewise.
+	* baseboards/mips-sim-mti64.exp: Likewise.
+	* baseboards/mips-sim-mti64_64.exp: Likewise.
+	* baseboards/mips-sim-mti64_n32.exp: Likewise.
+	* baseboards/mips-sim-sde32.exp: Likewise.
+	* baseboards/mips-sim-sde64.exp: Likewise.
+	* baseboards/mips-sim.exp: Likewise.
+	* baseboards/mmixware-sim.exp: Likewise.
+	* baseboards/mn10200-sim.exp: Likewise.
+	* baseboards/mn10300-sim.exp: Likewise.
+	* baseboards/moxie-sim.exp: Likewise.
+	* baseboards/msp430-sim.exp: Likewise.
+	* baseboards/powerpc-sim.exp: Likewise.
+	* baseboards/powerpcle-sim.exp: Likewise.
+	* baseboards/rx-sim.exp: Likewise.
+	* baseboards/sh-sim.exp: Likewise.
+	* baseboards/sparc-sim.exp: Likewise.
+	* baseboards/sparc64-sim.exp: Likewise.
+	* baseboards/sparclite-sim-le.exp: Likewise.
+	* baseboards/sparclite-sim.exp: Likewise.
+	* baseboards/unix.exp: Likewise.
+	* baseboards/v850-sim.exp: Likewise.
+	* baseboards/visium-sim.exp: Likewise.
+	* baseboards/xtensa-sim.exp: Likewise.
+
 2020-05-24  Rob Savoye  <rob@senecass.com>
 
 	* baseboards/pi.exp: New config file for cross testing to a

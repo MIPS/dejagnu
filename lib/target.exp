@@ -489,7 +489,11 @@ proc default_target_compile {source destfile type options} {
     }
 
     if { $compiler eq "" } {
-	set compiler [board_info $dest compiler]
+	if { [board_info $dest exists compiler] } {
+	    set compiler [board_info $dest compiler]
+	} elseif { $compiler_type eq "c" } {
+	    set compiler [find_gcc]
+	}
 	if { $compiler eq "" } {
 	    return "default_target_compile: No compiler to compile with"
 	}

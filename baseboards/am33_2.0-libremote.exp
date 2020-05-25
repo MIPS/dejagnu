@@ -1,4 +1,4 @@
-# Copyright (C) 1997-2016 Free Software Foundation, Inc.
+# Copyright (C) 1997-2016, 2019 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -24,7 +24,6 @@ load_generic_config "libremote_server"
 process_multilib_options ""
 
 # The default compiler for this target.
-#set_board_info compiler     "[find_gcc]"
 set_board_info compiler     "am33_2.0-linux-gnu-gcc"
 
 # We will be using the standard GDB remote protocol
