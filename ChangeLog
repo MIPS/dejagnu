@@ -1,3 +1,10 @@
+2020-05-26 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
+    * doc/dejagnu.texi (target_link procedure): New stub node.
+    (default_link procedure): Document internal procedure.
+    (default_target_assemble procedure): Likewise.
+    (default_target_compile procedure): Likewise.
+
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
     * baseboards/{aarch64-sim, arm-ice, arm-sim, basic-sid, iq2000-sim,

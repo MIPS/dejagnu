@@ -4408,6 +4408,7 @@ This is the filename to download.
 * reboot_target Procedure: reboot_target procedure
 * target_assemble Procedure: target_assemble procedure
 * target_compile Procedure: target_compile procedure
+* target_link Procedure: target_link procedure
 @end menu
 
 @node default_link procedure, default_target_assemble procedure, , Procedures For Target Boards
@@ -4418,12 +4419,8 @@ This is the filename to download.
 @t{@b{default_link} @i{board} @i{objects} @i{destfile} @i{flags}}
 @end quotation
 
-@table @asis
-@item @code{board}
-@item @code{objects}
-@item @code{destfile}
-@item @code{flags}
-@end table
+This is the internal implementation for the @ref{target_link
+procedure}, and should not be directly called from testsuite code.
 
 @node default_target_assemble procedure, default_target_compile procedure, default_link procedure, Procedures For Target Boards
 @subsubheading default_target_assemble Procedure
@@ -4433,11 +4430,8 @@ This is the filename to download.
 @t{@b{default_target_assemble} @i{source} @i{destfile} @i{flags}}
 @end quotation
 
-@table @asis
-@item @code{source}
-@item @code{destfile}
-@item @code{flags}
-@end table
+This is the internal implementation for the @ref{target_assemble
+procedure}, and should not be directly called from testsuite code.
 
 @node default_target_compile procedure, pop_config procedure, default_target_assemble procedure, Procedures For Target Boards
 @subsubheading default_target_compile Procedure
@@ -4448,12 +4442,11 @@ This is the filename to download.
 @i{options}}
 @end quotation
 
-@table @asis
-@item @code{source}
-@item @code{destfile}
-@item @code{type}
-@item @code{options}
-@end table
+This is the default implementation for the @ref{target_compile
+procedure}, and is used if the current target board does not have a
+special procedure for this purpose.  @xref{target_compile procedure},
+for API details.  Calling this procedure directly from testsuite code
+is deprecated.
 
 @node pop_config procedure, prune_warnings procedure, default_target_compile procedure, Procedures For Target Boards
 @subsubheading pop_config Procedure
@@ -4529,7 +4522,7 @@ Reboot the target.
 @item @code{flags}
 @end table
 
-@node target_compile procedure, , target_assemble procedure, Procedures For Target Boards
+@node target_compile procedure, target_link procedure, target_assemble procedure, Procedures For Target Boards
 @subsubheading target_compile Procedure
 @findex target_compile
 
@@ -4542,6 +4535,20 @@ Reboot the target.
 @item @code{destfile}
 @item @code{type}
 @item @code{options}
+@end table
+
+@node target_link procedure,  , target_compile procedure, Procedures For Target Boards
+@subsubheading target_link Procedure
+@findex target_link
+
+@quotation
+@t{@b{target_link} @i{objects} @i{destfile} @i{flags}}
+@end quotation
+
+@table @asis
+@item @code{objects}
+@item @code{destfile}
+@item @code{flags}
 @end table
 
 @node target database library file, platform dependent procedures, Procedures For Target Boards, Built-in Procedures
