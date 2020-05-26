@@ -4408,6 +4408,7 @@ This is the filename to download.
 * reboot_target Procedure: reboot_target procedure
 * target_assemble Procedure: target_assemble procedure
 * target_compile Procedure: target_compile procedure
+* target_link Procedure: target_link procedure
 @end menu
 
 @node default_link procedure, default_target_assemble procedure, , Procedures For Target Boards
@@ -4418,12 +4419,8 @@ This is the filename to download.
 @t{@b{default_link} @i{board} @i{objects} @i{destfile} @i{flags}}
 @end quotation
 
-@table @asis
-@item @code{board}
-@item @code{objects}
-@item @code{destfile}
-@item @code{flags}
-@end table
+This is the internal implementation for the @ref{target_link
+procedure}, and should not be directly called from testsuite code.
 
 @node default_target_assemble procedure, default_target_compile procedure, default_link procedure, Procedures For Target Boards
 @subsubheading default_target_assemble Procedure
@@ -4433,11 +4430,8 @@ This is the filename to download.
 @t{@b{default_target_assemble} @i{source} @i{destfile} @i{flags}}
 @end quotation
 
-@table @asis
-@item @code{source}
-@item @code{destfile}
-@item @code{flags}
-@end table
+This is the internal implementation for the @ref{target_assemble
+procedure}, and should not be directly called from testsuite code.
 
 @node default_target_compile procedure, pop_config procedure, default_target_assemble procedure, Procedures For Target Boards
 @subsubheading default_target_compile Procedure
@@ -4448,12 +4442,11 @@ This is the filename to download.
 @i{options}}
 @end quotation
 
-@table @asis
-@item @code{source}
-@item @code{destfile}
-@item @code{type}
-@item @code{options}
-@end table
+This is the default implementation for the @ref{target_compile
+procedure}, and is used if the current target board does not have a
+special procedure for this purpose.  @xref{target_compile procedure},
+for API details.  Calling this procedure directly from testsuite code
+is deprecated.
 
 @node pop_config procedure, prune_warnings procedure, default_target_compile procedure, Procedures For Target Boards
 @subsubheading pop_config Procedure
@@ -4529,7 +4522,7 @@ Reboot the target.
 @item @code{flags}
 @end table
 
-@node target_compile procedure, , target_assemble procedure, Procedures For Target Boards
+@node target_compile procedure, target_link procedure, target_assemble procedure, Procedures For Target Boards
 @subsubheading target_compile Procedure
 @findex target_compile
 
@@ -4537,11 +4530,182 @@ Reboot the target.
 @t{@b{target_compile} @i{source} @i{destfile} @i{type} @i{options}}
 @end quotation
 
+@table @code
+@item source
+Source file or other arguments if @var{type} is @code{none}.
+@item destfile
+Destination file or empty string to request output as return value.
+@item type
+Type of output that should be produced.
+@multitable {@code{preprocess}} {Special applications where no source is actually given.}
+@item @code{none}
+@tab Special applications where no source is actually given.
+@item @code{preprocess}
+@tab Run the source files through the C preprocessor.
+@item @code{assembly}
+@tab Produce assembler source from the compiler.
+@item @code{object}
+@tab Produce binary object files.
+@item @code{executable}
+@tab Produce an executable program.
+@end multitable
+@item options
+List of additional options:
+
+@b{Language-selection options:}
+@table @code
+@item ada
+Use an Ada compiler.
+@item c++
+Use a C++ compiler.
+@item d
+Use a compiler for the D language.
+@item f77
+Use a compiler for Fortran 77.
+@item f90
+Use a compiler for Fortran 90.
+@end table
+If none of these options are given, the C compiler is used by default.
+Giving multiple language-selection options is an error.
+
+The @code{f77} option generally selects the @command{g77} compiler,
+while the @code{f90} option selects the newer @command{gfortran}
+frontend.  Both of these can compile Fortran 77, but only
+@command{gfortran} supports Fortran 90.
+
+@b{Search path options:}
+@table @code
+@item incdir=@var{dir}
+Additional directory to search for preprocessor include files.
+Multiple uses of this option add multiple directories to the search
+path.
+@item libdir=@var{dir}
+Additional directory to search for libraries.  Multiple uses of this
+option add multiple directories to the search path.
+@end table
+
+@b{Target options:}
+@table @code
+@item debug
+Compile with debugging information.  Multiple uses of this option are
+treated as a single use.
+@item dest=@var{target}
+Override the current target and compile for @var{target} instead.  If
+this option is given multiple times, only the last use is significant.
+@item compiler=@var{command}
+Override the defaults and use @var{command} as the compiler.  If
+this option is given multiple times, only the last use is significant.
+@item additional_flags=@var{flags}
+Add @var{flags} to the set of arguments to be passed to the compiler.
+Multiple uses of this option specify additional arguments.
+@item optimize=@var{flags}
+Specify optimization flags to be passed to the compiler.  Nothing
+enforces that the flags given with option must actually be related to
+optimization, however.  If this option is given multiple times, only
+the last use is significant.
+@item ldflags=@var{flags}
+Add @var{flags} to the set of arguments to be passed to the linker.
+Note that these are passed literally to the compiler driver, without
+adding a special prefix to each option.  If a @samp{-Wl,} prefix is
+needed with GCC, it must be included in the given @var{flags}.  As a
+group, the linker flags are only used if an executable is requested
+and are given special treatment with some languages.  Multiple uses of
+this option specify additional arguments.
+@item ldscript=@var{script}
+Specify a linker script, or more precisely, the argument to pass to
+the linker via the compiler driver to select a linker script.  The
+@var{script} value is passed literally to the compiler driver.  If
+this option is given multiple times, only the last use is significant.
+@item libs=@var{libs}
+Specify additional libraries to be included in the link.  The
+@var{libs} value is a space-separated list of libraries to include.
+Each element is checked, and if a file exists with that exact name, it
+is added to the list of sources to be given to the compiler.
+Otherwise, the element is passed literally to the compiler driver
+after any linker flags specified with the @code{ldflags} option.
+Multiple uses of this option specify additional lists, which are
+concatenated in the order they are given.
+@end table
+
+@b{Execution options:}
+@table @code
+@item timeout=@var{timeout}
+Abort the compile job if it is still running after @var{timeout}
+seconds.  This is intended for compiler tests that are known to cause
+infinite loops upon failure.
+@item redirect=@var{file}
+Instead of returning output emitted on @code{stdout}, place it into
+@var{file}.
+@end table
+@end table
+
+The @code{target_compile} procedure also uses several global Tcl variables as overrides:
+@table @code
+@item CFLAGS_FOR_TARGET
+If @code{CFLAGS_FOR_TARGET} is set, its value is prepended to the
+flags otherwise prepared for the compiler, even ahead of any
+board-specific flags inserted as a result of a language-selection
+option.
+@item LDFLAGS_FOR_TARGET
+If @code{LDFLAGS_FOR_TARGET} is set, the set of arguments to be passed
+to linker is initialized to its value instead of an empty list.  The
+@code{ldflags} option appends to this list.
+@item CC_FOR_TARGET
+Override default compiler.  If no other compiler is given and this
+variable is set, its value will be used instead of searching for a
+compiler or using the default from the target board configuration.
+The @code{compiler} option overrides this variable.
+@item CXX_FOR_TARGET
+Override C++ compiler.  If the @code{c++} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item D_FOR_TARGET
+Override D language compiler.  If the @code{d} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item F77_FOR_TARGET
+Override Fortran 77 compiler.  If the @code{f77} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item F90_FOR_TARGET
+Override Fortran 90 compiler.  If the @code{f90} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item GNATMAKE_FOR_TARGET
+Override Ada compiler.  If the @code{ada} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@end table
+
+The @code{target_compile} procedure obtains most defaults from the
+target board configuration, but additionally inserts any flags
+specified as @code{cflags_for_target} on the @emph{host} board
+configuration.  If no host is set, the @code{unix} board configuration
+is checked for a @code{cflags_for_target} key.  If the
+@code{cflags_for_target} key exists, its value is inserted into the
+set of arguments given to the compiler after any arguments given with
+the @code{additional_flags} option.
+
+In DejaGnu 1.6.2 and older, this mechanism did not work reliably and
+the @code{unix} board configuration was always searched for the
+@code{cflags_for_target} key, regardless of the host board selected.
+
+Also in DejaGnu 1.6.2 and older, the @code{dest} option interacted
+very badly with the language-selection options.  There was no correct
+way to combine these options because the language-specific defaults
+would be read from the current target board configuration instead of
+the board configuration specified with the @code{dest} option.  The
+closest solution was to always specify the language-selection option
+first, but this results in defaults appropriate for the current
+target, instead of the target selected with the @code{dest} option.
+
+@node target_link procedure,  , target_compile procedure, Procedures For Target Boards
+@subsubheading target_link Procedure
+@findex target_link
+
+@quotation
+@t{@b{target_link} @i{objects} @i{destfile} @i{flags}}
+@end quotation
+
 @table @asis
-@item @code{source}
+@item @code{objects}
 @item @code{destfile}
-@item @code{type}
-@item @code{options}
+@item @code{flags}
 @end table
 
 @node target database library file, platform dependent procedures, Procedures For Target Boards, Built-in Procedures
@@ -5675,4 +5839,4 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
-@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname
+@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran
