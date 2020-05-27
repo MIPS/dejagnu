@@ -4708,20 +4708,6 @@ target, instead of the target selected with the @code{dest} option.
 @item @code{flags}
 @end table
 
-@node target_link procedure,  , target_compile procedure, Procedures For Target Boards
-@subsubheading target_link Procedure
-@findex target_link
-
-@quotation
-@t{@b{target_link} @i{objects} @i{destfile} @i{flags}}
-@end quotation
-
-@table @asis
-@item @code{objects}
-@item @code{destfile}
-@item @code{flags}
-@end table
-
 @node target database library file, platform dependent procedures, Procedures For Target Boards, Built-in Procedures
 @section Target Database Procedures
 
