@@ -8,48 +8,117 @@
 -- (at your option) any later version.
 
 --
--- Table structure for table `test`
+-- Table structure for DejaGnu tables
 --
-CREATE TYPE public.status AS ENUM (
-       'PASS',
-       'FAIL',
-       'XPASS',
-       'XFAIL',
-       'UNTESTED',
-       'UNRESOLVED',
-       'UNSUPPORTED'
+BEGIN;
+
+DROP SCHEMA IF EXISTS dejagnu CASCADE;
+CREATE SCHEMA dejagnu;
+
+CREATE TYPE dejagnu.result AS ENUM (
+       'PASS',   'FAIL',
+       'XPASS', 'XFAIL',
+       'KPASS', 'KFAIL',
+       'UNTESTED', 'UNRESOLVED', 'UNSUPPORTED'
 );
 
-DROP TABLE IF EXISTS tests;
-CREATE TABLE tests (
-  testrun integer NOT NULL DEFAULT '12345',
-  tool varchar(20),
-  result public.status,
-  name text NOT NULL,
-  output varchar(256),
-  input varchar(128),
-  prmsid integer
+CREATE TABLE dejagnu.runs (
+  run bigserial PRIMARY KEY,
+  start timestamp with time zone NOT NULL,
+  target text NOT NULL,
+  host text NOT NULL,
+  build text NOT NULL,
+  CONSTRAINT "target looks like an arch tuple"
+    CHECK(target LIKE '%-%'),
+  CONSTRAINT "host looks like an arch tuple"
+    CHECK(host LIKE '%-%'),
+  CONSTRAINT "build looks like an arch tuple"
+    CHECK(build LIKE '%-%')
 );
 
-DROP TABLE IF EXISTS testruns;
-CREATE TABLE testruns (
-  date timestamp NOT NULL,
-  testrun integer NOT NULL,
-  target varchar(72) NOT NULL,
-  build varchar(72) NOT NULL,
-  UNIQUE(testrun)
+CREATE TABLE dejagnu.manifests (
+  manifest bigserial PRIMARY KEY,
+  sha1sum text NOT NULL UNIQUE,
+  CONSTRAINT "valid hex sha1sum"
+    CHECK(lower(sha1sum) SIMILAR TO '[0-9a-f]{40}')
 );
 
-DROP TABLE IF EXISTS manifest;
-CREATE TABLE manifest (
-  testrun integer NOT NULL,
-  tool varchar(72) NOT NULL,
-  branch varchar(72),
-  filespec varchar(72),
-  md5sum varchar(72),
-  revision varchar(72),
-  host varchar(72),
-  host_gcc varchar(72),
+CREATE TABLE dejagnu.manifest_packages (
+  manifest bigint NOT NULL
+    REFERENCES dejagnu.manifests ON DELETE CASCADE,
+  package text NOT NULL,
+  branch text,
+  filespec text,
+  md5sum text,
+  revision text,
+  host text,
+  host_gcc text,
   url text,
-  configure text
+  configure text,
+  PRIMARY KEY (manifest, package),
+  CONSTRAINT "branch xor filespec"
+    CHECK(((branch IS NOT NULL) AND (filespec IS NULL))
+	  OR ((branch IS NULL)  AND (filespec IS NOT NULL))),
+  CONSTRAINT "md5sum xor revision"
+    CHECK(((md5sum IS NOT NULL) AND (revision IS NULL))
+          OR ((md5sum IS NULL)  AND (revision IS NOT NULL))),
+  CONSTRAINT "valid hex md5sum"
+    CHECK((md5sum IS NULL) OR (lower(md5sum) SIMILAR TO '[0-9a-f]{32}')),
+  CONSTRAINT "host looks like an arch tuple"
+    CHECK(host LIKE '%-%')
 );
+
+CREATE TABLE dejagnu.manifest_runs (
+  manifest bigint NOT NULL
+    REFERENCES dejagnu.manifests ON DELETE RESTRICT,
+  run bigint NOT NULL
+    REFERENCES dejagnu.runs ON DELETE RESTRICT,
+  PRIMARY KEY (manifest, run)
+);
+
+CREATE TABLE dejagnu.sets (
+  set serial PRIMARY KEY,
+  name text NOT NULL UNIQUE,
+  tag ltree NOT NULL
+);
+
+CREATE FUNCTION dejagnu.set_tag_from_name
+	(name text, OUT tag dejagnu.sets.tag%TYPE)
+  AS $$
+    BEGIN
+      tag := regexp_replace(regexp_replace(name, '[^a-zA-Z0-9/]', '_', 'g'),
+						 '/', '.', 'g');
+    END;
+  $$ LANGUAGE plpgsql STRICT IMMUTABLE;
+
+CREATE FUNCTION dejagnu.intern_set_by_name
+	(set_name text, OUT set_id dejagnu.sets.set%TYPE)
+  AS $$
+    BEGIN
+      SELECT set INTO set_id FROM dejagnu.sets WHERE name = set_name;
+      IF NOT FOUND THEN
+        INSERT
+	  INTO dejagnu.sets (name, tag)
+	  VALUES (set_name, dejagnu.set_tag_from_name(set_name))
+	  RETURNING set INTO STRICT set_id;
+      END IF;
+    END;
+  $$ LANGUAGE plpgsql STRICT VOLATILE;
+
+CREATE TABLE dejagnu.results (
+  run bigint NOT NULL
+    REFERENCES dejagnu.runs ON DELETE CASCADE,
+  set integer NOT NULL
+    REFERENCES dejagnu.sets ON DELETE RESTRICT,
+  result dejagnu.result NOT NULL,
+  name text NOT NULL,
+  output text,
+  input text,
+  prmsid text
+);
+CREATE INDEX results_run_result_idx
+  ON dejagnu.results (run, result);
+CREATE INDEX results_run_set_result_idx
+  ON dejagnu.results (run, set, result);
+
+COMMIT;
