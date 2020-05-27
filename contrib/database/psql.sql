@@ -61,7 +61,7 @@ CREATE TABLE dejagnu.manifest_packages (
 	  OR ((branch IS NULL)  AND (filespec IS NOT NULL))),
   CONSTRAINT "md5sum xor revision"
     CHECK(((md5sum IS NOT NULL) AND (revision IS NULL))
-          OR ((md5sum IS NULL)  AND (revision IS NOT NULL))),
+	  OR ((md5sum IS NULL)  AND (revision IS NOT NULL))),
   CONSTRAINT "valid hex md5sum"
     CHECK((md5sum IS NULL) OR (lower(md5sum) SIMILAR TO '[0-9a-f]{32}')),
   CONSTRAINT "host looks like an arch tuple"
@@ -97,7 +97,7 @@ CREATE FUNCTION dejagnu.intern_set_by_name
     BEGIN
       SELECT set INTO set_id FROM dejagnu.sets WHERE name = set_name;
       IF NOT FOUND THEN
-        INSERT
+	INSERT
 	  INTO dejagnu.sets (name, tag)
 	  VALUES (set_name, dejagnu.set_tag_from_name(set_name))
 	  RETURNING set INTO STRICT set_id;
