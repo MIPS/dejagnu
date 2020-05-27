@@ -32,7 +32,7 @@
 
 2019-03-08  Andrew Burgess  <andrew.burgess@embecosm.com>
 
-        * runtest.exp (search_and_load_file): Join the directory and
+	* runtest.exp (search_and_load_file): Join the directory and
 	filename once using 'file join'.
 
 2019-01-24  Jacob Bachmeyer  <jcb62281@gmail.com>
