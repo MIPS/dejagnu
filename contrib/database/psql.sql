@@ -47,25 +47,18 @@ CREATE TABLE dejagnu.manifest_packages (
   manifest bigint NOT NULL
     REFERENCES dejagnu.manifests ON DELETE CASCADE,
   package text NOT NULL,
-  branch text,
+  src_url text,
   filespec text,
+  branch text,
   md5sum text,
   revision text,
-  host text,
-  host_gcc text,
-  url text,
-  configure text,
+  configure_options text,
   PRIMARY KEY (manifest, package),
-  CONSTRAINT "branch xor filespec"
-    CHECK(((branch IS NOT NULL) AND (filespec IS NULL))
-	  OR ((branch IS NULL)  AND (filespec IS NOT NULL))),
   CONSTRAINT "md5sum xor revision"
     CHECK(((md5sum IS NOT NULL) AND (revision IS NULL))
 	  OR ((md5sum IS NULL)  AND (revision IS NOT NULL))),
   CONSTRAINT "valid hex md5sum"
-    CHECK((md5sum IS NULL) OR (lower(md5sum) SIMILAR TO '[0-9a-f]{32}')),
-  CONSTRAINT "host looks like an arch tuple"
-    CHECK(host LIKE '%-%')
+    CHECK((md5sum IS NULL) OR (lower(md5sum) SIMILAR TO '[0-9a-f]{32}'))
 );
 
 CREATE TABLE dejagnu.manifest_runs (
