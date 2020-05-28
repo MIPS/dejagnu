@@ -700,7 +700,10 @@ verbose "Testsuite root is $testsuitedir"
 verbose "Tool root directory is $tool_root_dir"
 
 set execpath [file dirname $argv0]
-set libdir   [file dirname $execpath]/dejagnu
+
+# The runtest.exp file is installed directly in libdir.
+# Conveniently, the source tree layout is the same as the installed libdir.
+set libdir [file dirname $argv0]
 if {[info exists env(DEJAGNULIBS)]} {
     set libdir $env(DEJAGNULIBS)
 }

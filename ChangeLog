@@ -1,3 +1,8 @@
+2020-05-28  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41585
+	* runtest.exp (libdir): Fix default value of global variable.
+
 2020-05-26 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
     * doc/dejagnu.texi (target_compile procedure): Add documentation.
