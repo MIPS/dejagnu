@@ -3,21 +3,23 @@
 	PR 41585
 	* runtest.exp (libdir): Fix default value of global variable.
 
-2020-05-26 Jacob Bachmeyer <jcb62281+dev@gmail.com>
-
-    * doc/dejagnu.texi (target_compile procedure): Add documentation.
+	* ChangeLog: Tidy irregular indentation.
 
 2020-05-26 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * doc/dejagnu.texi (target_link procedure): New stub node.
-    (default_link procedure): Document internal procedure.
-    (default_target_assemble procedure): Likewise.
-    (default_target_compile procedure): Likewise.
+	* doc/dejagnu.texi (target_compile procedure): Add documentation.
+
+2020-05-26 Jacob Bachmeyer <jcb62281+dev@gmail.com>
+
+	* doc/dejagnu.texi (target_link procedure): New stub node.
+	(default_link procedure): Document internal procedure.
+	(default_target_assemble procedure): Likewise.
+	(default_target_compile procedure): Likewise.
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * baseboards/{aarch64-sim, arm-ice, arm-sim, basic-sid, iq2000-sim,
-    mn10300-sim, moxie-sim}.exp: Cleanup up whitespace.
+	* baseboards/{aarch64-sim, arm-ice, arm-sim, basic-sid, iq2000-sim,
+	mn10300-sim, moxie-sim}.exp: Cleanup up whitespace.
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
@@ -89,38 +91,38 @@
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * testsuite/runtest.libs/target.test: Use mockutil.tcl.
-    Collect loading DejaGnu libraries into a single loop.
-    Revise the mock board_info array.
-    Add section headings for different test groups in this file.
-    Add tests for default_target_compile in lib/target.exp.
-    * testsuite/runtest.libs/mockutil.tcl: New file.
+	* testsuite/runtest.libs/target.test: Use mockutil.tcl.
+	Collect loading DejaGnu libraries into a single loop.
+	Revise the mock board_info array.
+	Add section headings for different test groups in this file.
+	Add tests for default_target_compile in lib/target.exp.
+	* testsuite/runtest.libs/mockutil.tcl: New file.
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * doc/dejagnu.texi (remote_exec procedure): Explicitly list
-    optional arguments instead of simply copying the Tcl argument list
-    or the remote_exec procedure.
+	* doc/dejagnu.texi (remote_exec procedure): Explicitly list
+	optional arguments instead of simply copying the Tcl argument list
+	or the remote_exec procedure.
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * testsuite/runtest.libs/default_procs.tcl: Set sum_file to empty
-    string instead of opening a temporary file named .tmp.
-    * testsuite/runtest.libs/libs.exp: No longer need to remove .tmp.
+	* testsuite/runtest.libs/default_procs.tcl: Set sum_file to empty
+	string instead of opening a temporary file named .tmp.
+	* testsuite/runtest.libs/libs.exp: No longer need to remove .tmp.
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * testsuite/runtest.libs/target.test: Rename fake "target_info"
-    array to a fake "board_info" array, to align with changes made to
-    the DejaGnu core on 29 January 1997 that moved the target
-    configuration data into the global board_info array.
+	* testsuite/runtest.libs/target.test: Rename fake "target_info"
+	array to a fake "board_info" array, to align with changes made to
+	the DejaGnu core on 29 January 1997 that moved the target
+	configuration data into the global board_info array.
 
-    * testsuite/runtest.libs/remote.test: Likewise.
+	* testsuite/runtest.libs/remote.test: Likewise.
 
 2020-05-20 Jacob Bachmeyer <jcb62281+dev@gmail.com>
 
-    * testsuite/runtest.libs/libs.exp: Use runtest_file_p to honor
-    requests to run only some library tests.
+	* testsuite/runtest.libs/libs.exp: Use runtest_file_p to honor
+	requests to run only some library tests.
 
 2020-05-18  Rob Savoye  <rob@senecass.com>
 
@@ -135,7 +137,7 @@
 
 2019-03-08  Andrew Burgess  <andrew.burgess@embecosm.com>
 
-    * runtest.exp (search_and_load_file): Join the directory and
+	* runtest.exp (search_and_load_file): Join the directory and
 	filename once using 'file join'.
 
 2019-01-24  Jacob Bachmeyer  <jcb62281@gmail.com>
@@ -2317,11 +2319,11 @@
 
 2013-10-15  Alexander Ivchenko  <alexander.ivchenko@intel.com>
 
-       * baseboards/androideabi.exp (process_multilib_options): Add option.
-       * config/adb.exp: Remove hardcoded -static option.
-       (adb_load): Add the possibility to change the temp directory. Also
-       handle permission potential problems.
-       (adb_exec): Do cd to android_tmp_dir first.
+	* baseboards/androideabi.exp (process_multilib_options): Add option.
+	* config/adb.exp: Remove hardcoded -static option.
+	(adb_load): Add the possibility to change the temp directory. Also
+	handle permission potential problems.
+	(adb_exec): Do cd to android_tmp_dir first.
 
 2013-10-05  Jose E. Marchesi  <jose.marchesi@oracle.com>
 
