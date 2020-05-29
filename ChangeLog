@@ -1,6 +1,9 @@
 2020-05-28  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41587
+	* testsuite/lib/launcher.exp: Adjust LAUNCHER variable default
+	value to use an absolute file name.
+	* testsuite/lib/report-card.exp: Likewise.
 	* testsuite/runtest.main/options.exp: Set outdir in options-init
 	instead of changing working directory in child runtest.
 

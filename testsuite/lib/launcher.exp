@@ -20,7 +20,8 @@
 
 if { ![info exists LAUNCHER] } {
     set LAUNCHER \
-	[file join [file dirname [testsuite file -source -top]] dejagnu]
+	[file normalize \
+	     [file join [file dirname [testsuite file -source -top]] dejagnu]]
 }
 verbose "Using LAUNCHER $LAUNCHER" 2
 
