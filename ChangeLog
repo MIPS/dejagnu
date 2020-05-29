@@ -1,5 +1,8 @@
 2020-05-28  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
+	* runtest.exp (logname): Move verbose display of logname to
+	immediately after finding the user's login name.
+
 	PR 41585
 	* runtest.exp (libdir): Fix default value of global variable.
 

@@ -575,6 +575,8 @@ if { $logname eq "" } {
     }
 }
 
+verbose "Login name is $logname"
+
 #
 # lookfor_file -- try to find a file by searching up multiple directory levels
 #
@@ -619,8 +621,6 @@ proc load_lib { file } {
 	exit 1
     }
 }
-
-verbose "Login name is $logname"
 
 #
 # Begin sourcing the config files.
