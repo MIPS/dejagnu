@@ -29,7 +29,7 @@ puts $fd "set host_triplet $host_triplet"
 puts $fd "set srcdir [testsuite file -source -test options]"
 puts $fd "set objdir [testsuite file -object -test options]"
 puts $fd "set tmpdir $tmpdir"
-puts $fd "cd [testsuite file -object -test options]"
+puts $fd "set outdir [testsuite file -object -test options]"
 close $fd
 
 if {![file isdirectory $tmpdir]} {
