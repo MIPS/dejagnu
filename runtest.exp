@@ -661,6 +661,17 @@ if { $objdir eq "." || $objdir eq $srcdir } {
 # The DejaGnu manual has always stated that a testsuite must be in a
 # testsuite/ subdirectory.
 
+verbose "Finding testsuite ..." 3
+verbose "\$base_dir -> $base_dir" 3
+verbose "\$srcdir -> $srcdir" 3
+verbose "\$objdir -> $objdir" 3
+verbose [concat "file tail \$srcdir -> " [file tail $srcdir]] 3
+verbose [concat "file join \$srcdir testsuite -> " \
+	     [file join $srcdir testsuite]] 3
+verbose [concat "file isdirectory [file join \$srcdir testsuite] -> " \
+	     [file isdirectory [file join $srcdir testsuite]]] 3
+verbose [concat "file tail \$base_dir -> " [file tail $base_dir]] 3
+
 if { [file tail $srcdir] eq "testsuite" } {
     # Subdirectory case -- $srcdir includes testsuite/
     set testsuitedir $srcdir
@@ -685,6 +696,8 @@ if { [file tail $srcdir] eq "testsuite" } {
 	# Custom case -- all variables are assumed to have been set correctly
     }
 }
+
+verbose "Finding testsuite ... done" 3
 
 # Well, this just demonstrates the real problem...
 if {![info exists tool_root_dir]} {

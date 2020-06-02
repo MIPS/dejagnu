@@ -1,3 +1,7 @@
+2020-06-01  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* runtest.exp: Describe search for testsuite at verbose level 3.
+
 2020-05-28  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41587
