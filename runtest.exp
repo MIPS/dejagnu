@@ -548,6 +548,8 @@ for { set i 0 } { $i < $argc } { incr i } {
 }
 verbose "Verbose level is $verbose"
 
+verbose [concat "Initial working directory is" [pwd]]
+
 #
 # get the users login name
 #
