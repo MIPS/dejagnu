@@ -410,6 +410,35 @@ proc usage { } {
 # the arguments three times.
 #
 
+namespace eval ::dejagnu::command_line {
+    variable cmd_var_list [list]
+
+    proc save_cmd_var {name} {
+	variable cmd_var_list
+
+	upvar 1 $name target_var
+	lappend cmd_var_list $name $target_var
+    }
+
+    proc restore_cmd_vars {} {
+	variable cmd_var_list
+
+	foreach {name value} $cmd_var_list {
+	    uplevel 1 set $name $value
+	}
+	verbose "Variables set by command line arguments restored." 4
+    }
+
+    proc dump_cmd_vars {} {
+	variable cmd_var_list
+
+	verbose "Variables set by command line arguments:" 4
+	foreach {name value} $cmd_var_list {
+	    verbose "  $name -> $value" 4
+	}
+    }
+}
+
 set arg_host_triplet ""
 set arg_target_triplet ""
 set arg_build_triplet ""
@@ -461,67 +490,81 @@ for { set i 0 } { $i < $argc } { incr i } {
 
 	"--bu*" {			# (--build) the build host configuration
 	    set arg_build_triplet $optarg
+	    ::dejagnu::command_line::save_cmd_var arg_build_triplet
 	    continue
 	}
 
 	"--g*" {			# (--global_init) the global init file name
 	    set global_init_file $optarg
+	    ::dejagnu::command_line::save_cmd_var global_init_file
 	    continue
 	}
 
 	"--host_bo*" {
 	    set host_board $optarg
+	    ::dejagnu::command_line::save_cmd_var host_board
 	    continue
 	}
 
 	"--ho*" {			# (--host) the host configuration
 	    set arg_host_triplet $optarg
+	    ::dejagnu::command_line::save_cmd_var arg_host_triplet
 	    continue
 	}
 
 	"--loc*" {			# (--local_init) the local init file name
 	    set local_init_file $optarg
+	    ::dejagnu::command_line::save_cmd_var local_init_file
 	    continue
 	}
 
 	"--ob*" {			# (--objdir) where the test case object code lives
 	    set objdir $optarg
+	    ::dejagnu::command_line::save_cmd_var objdir
 	    continue
 	}
 
 	"--sr*" {			# (--srcdir) where the testsuite source code lives
 	    set srcdir $optarg
+	    ::dejagnu::command_line::save_cmd_var srcdir
 	    continue
 	}
 
 	"--target_bo*" {
 	    set target_list $optarg
+	    ::dejagnu::command_line::save_cmd_var target_list
 	    continue
 	}
 
 	"--ta*" {			# (--target) the target configuration
 	    set arg_target_triplet $optarg
+	    ::dejagnu::command_line::save_cmd_var arg_target_triplet
 	    continue
 	}
 
 	"--tool_opt*" {
 	    set TOOL_OPTIONS $optarg
+	    ::dejagnu::command_line::save_cmd_var TOOL_OPTIONS
 	    continue
 	}
 
 	"--tool_exec*" {
 	    set TOOL_EXECUTABLE $optarg
+	    ::dejagnu::command_line::save_cmd_var TOOL_EXECUTABLE
 	    continue
 	}
 
 	"--to*" {			# (--tool) specify tool name
 	    set tool $optarg
 	    set comm_line_tool $optarg
+	    ::dejagnu::command_line::save_cmd_var tool
+	    ::dejagnu::command_line::save_cmd_var comm_line_tool
 	    continue
 	}
 
 	"--di*" {
 	    set cmdline_dir_to_run $optarg
+	    ::dejagnu::command_line::save_cmd_var cmdline_dir_to_run
 	    continue
 	}
 
@@ -549,6 +592,8 @@ for { set i 0 } { $i < $argc } { incr i } {
 verbose "Verbose level is $verbose"
 
 verbose [concat "Initial working directory is" [pwd]]
+
+::dejagnu::command_line::dump_cmd_vars
 
 #
 # get the users login name
@@ -638,10 +683,8 @@ proc load_lib { file } {
 
 load_file [file join $base_dir $local_init_file]
 
-# From this point until the command line is parsed for the second time,
-# some variables are overridden by the local init file.  Most notably,
-# $srcdir is *not* what was given on the command line if Automake is used.
-# Instead, $srcdir is Automake's @srcdir@ for now.
+# Ensure that command line parameters override testsuite init files.
+::dejagnu::command_line::restore_cmd_vars
 
 #
 # If objdir didn't get set in $base_dir/$local_init_file, set it to
@@ -655,6 +698,9 @@ if { $objdir eq "." || $objdir eq $srcdir } {
 } else {
     load_file [file join $objdir $local_init_file]
 }
+
+# Ensure that command line parameters override testsuite init files.
+::dejagnu::command_line::restore_cmd_vars
 
 #
 # Find the testsuite.

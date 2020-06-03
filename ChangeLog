@@ -1,5 +1,19 @@
+2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41647
+	* NEWS: Fix typo.  Fix Emacs mode tag.
+	Document use of Tcl namespace ::dejagnu for internals.
+	* runtest.exp (dejagnu::command_line): New namespace.
+	(dejagnu::command_line::save_cmd_var): New procedure.
+	(dejagnu::command_line::restore_cmd_vars): New procedure.
+	(dejagnu::command_line::dump_cmd_vars): New procedure.
+	* runtest.exp: Save internal variables set by command line
+	arguments during the first pass and restore their values after
+	loading testsuite init files.
+
 2020-06-01  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
+	PR 41647
 	* runtest.exp: Describe search for testsuite at verbose level 3.
 	Print initial working directory at verbose level 1.
 
