@@ -15,17 +15,19 @@ Changes since 1.6.2:
    retrieving or providing information about the current testsuite.
 6. A command "testsuite file" is added to replace the use of the
    "*dir" variables in test scripts.
-7. A shell command "dejagnu" is added as a place to hang various
+7. A command "testsuite can call api" is added to report the availability
+   of multiplexed API calls.
+8. A shell command "dejagnu" is added as a place to hang various
    auxiliary commands not directly involved with running tests. The
    "runtest" command will remain for that purpose for the foreseeable
    future.
-8. The first auxiliary command is added: "report card". The "dejagnu
+9. The first auxiliary command is added: "report card". The "dejagnu
    report card" command reads DejaGnu summary files and produces a
    compact tabular summary across multiple tools.
-9. A Tcl namespace is now used for some internal procedures and variables.
-   The Tcl namespace ::dejagnu and all child namespaces are entirely
-   internal and should not be mentioned in testsuite code.  Its contents
-   are subject to change without notice, even on point releases.
+10. A Tcl namespace is now used for some internal procedures and variables.
+    The Tcl namespace ::dejagnu and all child namespaces are entirely
+    internal and should not be mentioned in testsuite code.  Its contents
+    are subject to change without notice, even on point releases.
 
 Changes since 1.6.1:
 

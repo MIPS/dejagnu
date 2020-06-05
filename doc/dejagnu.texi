@@ -3234,6 +3234,21 @@ implied by the returned value will exist upon return.  Implied
 directories are created in the object tree if needed.  An error is
 raised if an implied directory does not exist in the source tree.
 
+@subsubheading testsuite can call api
+
+The @code{testsuite can call api} command is a feature test and
+returns a boolean value indicating if a subcommand under a multiplex
+point is available.  This API call is needed because only the
+multiplex points themselves are visible to the Tcl info command.
+
+@quotation
+@t{  @b{testsuite can call api} @i{feature}... }
+@end quotation
+
+Any number of words are joined together into a single name, beginning
+with a multiplex entry point and forming the full name of an API call
+as documented in this manual.
+
 @node Procedures For Remote Communication, connprocs, Core Internal Procedures, Built-in Procedures
 @section Procedures For Remote Communication
 
@@ -5839,4 +5854,5 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
-@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran
+@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran api
+@c  LocalWords:  boolean subcommand

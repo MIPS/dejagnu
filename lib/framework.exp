@@ -1019,10 +1019,30 @@ proc incr_count { name args } {
 proc testsuite { subcommand args } {
     if { $subcommand eq "file" } {
 	testsuite_file $args
+    } elseif { $subcommand eq "can" } {
+	testsuite_can $args
     } else {
 	error "unknown \"testsuite\" command: testsuite $subcommand $args"
     }
 }
+namespace eval ::dejagnu {}
+
+# Feature test
+#
+proc testsuite_can { argv } {
+    verbose "entering testsuite can $argv" 3
+
+    if { [lrange $argv 0 1] eq "call api" } {
+	set call [lrange $argv 2 end]
+	set result [info exists ::dejagnu::apilist($call)]
+    } else {
+	error "unknown feature test:  testsuite can $argv"
+    }
+
+    verbose "leaving testsuite can: $result" 3
+    return $result
+}
+array set ::dejagnu::apilist { {testsuite can call api} 1 }
 
 # Return a full file name in or near the testsuite
 #
@@ -1075,3 +1095,4 @@ proc testsuite_file { argv } {
     verbose "leaving testsuite file: $result" 3
     return $result
 }
+array set ::dejagnu::apilist { {testsuite file} 1 }

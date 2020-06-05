@@ -1,3 +1,20 @@
+2020-06-05  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* NEWS: Document new "testsuite can call api" command.
+
+	* doc/dejagnu.texi (testsuite procedure): Document new subcommand
+	"testsuite can call api".
+
+	* lib/framework.exp (testsuite): Add branch for "testsuite can".
+	(testsuite_can): New procedure implementing "testsuite can".
+
+	Add internal array ::dejagnu::apilist to store information for
+	"testsuite can call api" for querying the availability of an API
+	call.  This will allow test scripts to adapt and use new features
+	while still being able to run under older versions of DejaGnu.
+
+	* testsuite/runtest.libs/testsuite_can.test: New file.
+
 2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41647
