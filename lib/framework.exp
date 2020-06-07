@@ -16,7 +16,60 @@
 # along with DejaGnu; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
-# This file was written by Rob Savoye <rob@welcomehome.org>.
+# This file was originally written by Rob Savoye <rob@welcomehome.org>.
+
+## Internal infrastructure
+
+namespace eval ::dejagnu::group {
+    variable names [list]
+    variable files [list]
+}
+
+proc ::dejagnu::group::check_name { name } {
+    return [string is graph -strict $name]
+}
+
+proc ::dejagnu::group::current {} {
+    variable names
+    return [join $names "/"]
+}
+
+proc ::dejagnu::group::push { name file } {
+    variable names
+    variable files
+    lappend names $name
+    lappend files $file
+}
+proc ::dejagnu::group::pop { name file } {
+    variable names
+    variable files
+
+    if { $file ne [lindex $files end]
+	 || $name ne [lindex $names end] } {
+	error "expected to close group {$name} from {$file}\n\
+		   actually found group {[lindex $names end]}\
+			from {[lindex $files end]}"
+    } else {
+	set names [lreplace $names end end]
+	set files [lreplace $files end end]
+    }
+}
+proc ::dejagnu::group::pop_to_file { file } {
+    variable names
+    variable files
+
+    while { $file ne [lindex $files end] } {
+	perror "closing forgotten group {[::dejagnu::group::current]}\
+			from {[lindex $files end]}" 0
+	set names [lreplace $names end end]
+	set files [lreplace $files end end]
+	if { [llength $names] < 1 } {
+	    error "no more groups while unwinding to file $file"
+	}
+    }
+}
+
+## General code; not yet sorted under headings
 
 # These variables are local to this file.
 # This or more warnings and a test fails.
@@ -1096,3 +1149,58 @@ proc testsuite_file { argv } {
     return $result
 }
 array set ::dejagnu::apilist { {testsuite file} 1 }
+
+# Return or provide information about the current dynamic state.  (multiplex)
+#
+proc testcase { subcommand args } {
+    if { $subcommand eq "group" } {
+	testcase_group $args
+    } else {
+	error "unknown \"testcase\" command: testcase $subcommand $args"
+    }
+}
+
+# Indicate group boundaries or return current group
+#
+proc testcase_group { argv } {
+    verbose "entering testcase group $argv" 3
+    set argc [llength $argv]
+
+    if { $argc == 0 } {
+	set result [::dejagnu::group::current]
+    } else {
+	set what [lindex $argv 0]
+	set name [lindex $argv 1]
+
+	if { $what eq "begin" } {
+	    if { ![::dejagnu::group::check_name $name] } {
+		error "group name '$name' is not valid"
+	    }
+	    ::dejagnu::group::push $name [uplevel 2 info script]
+	    set result $name
+	} elseif { $what eq "end" } {
+	    if { ![::dejagnu::group::check_name $name] } {
+		error "group name '$name' is not valid"
+	    }
+	    ::dejagnu::group::pop $name [uplevel 2 info script]
+	    set result $name
+	} elseif { $what eq "eval" } {
+	    if { ![::dejagnu::group::check_name $name] } {
+		error "group name '$name' is not valid"
+	    }
+	    ::dejagnu::group::push $name [uplevel 2 info script]
+	    set result [uplevel 2 [lindex $argv 2]]
+	    ::dejagnu::group::pop $name [uplevel 2 info script]
+	} else {
+	    error "unknown group operation: testcase group $argv"
+	}
+    }
+
+    verbose "leaving testcase group: $result" 3
+    return $result
+}
+array set ::dejagnu::apilist {
+    {testcase group} 1
+    {testcase group begin} 1 {testcase group end} 1
+    {testcase group eval}  1
+}

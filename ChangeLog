@@ -1,3 +1,21 @@
+2020-06-06  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* NEWS: Document "testcase" command.
+
+	* doc/dejagnu.texi (testcase procedure): Document multiplex entry
+	point and "testcase group" command.
+
+	* lib/framework.exp: Add internal namespace ::dejagnu::group.
+	(::dejagnu::group::check_name): New procedure.
+	(::dejagnu::group::current): New procedure.
+	(::dejagnu::group::push): New procedure.
+	(::dejagnu::group::pop): New procedure.
+	(::dejagnu::group::pop_to_file): New procedure.
+	(testcase): New procedure for multiplex commands.
+	(testcase_group): New procedure implementing "testcase group".
+
+	* testsuite/runtest.libs/testcase_group.test: New file.
+
 2020-06-05  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	* NEWS: Document new "testsuite can call api" command.
