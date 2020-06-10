@@ -69,6 +69,8 @@ CREATE TABLE dejagnu.manifest_runs (
   PRIMARY KEY (manifest, run)
 );
 
+-- The database refers to test groups as "sets" because "group" is a
+-- reserved word in SQL and creates quoting problems if used.
 CREATE TABLE dejagnu.sets (
   set serial PRIMARY KEY,
   name text NOT NULL UNIQUE,
