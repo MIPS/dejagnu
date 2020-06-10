@@ -2600,6 +2600,7 @@ DejaGnu provides these Tcl procedures.
 * verbose Procedure: verbose procedure
 * load_lib Procedure: load_lib procedure
 * testsuite Procedure: testsuite procedure
+* testcase procedure: testcase procedure
 @end menu
 
 @node open_logs procedure, close_logs procedure, , Core Internal Procedures
@@ -3287,7 +3288,7 @@ These forms allow a group to be explicitly entered and left.  The
 both the @code{begin} and @code{end} calls must be in the same file.
 
 @quotation
-@t{  @b{testcase group eval} @i{name} {@i{code}}}
+@t{  @b{testcase group eval} @i{name} @{@i{code}@}}
 @end quotation
 
 This form is available to wrap the @code{begin} and @code{end} calls
