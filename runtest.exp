@@ -1664,6 +1664,9 @@ set target_list [process_target_variants $target_list]
 
 set target_count [llength $target_list]
 
+# Now we have the final target list for the XML log file.
+if { $xml } { xml_log_start }
+
 clone_output "Schedule of variations:"
 foreach current_target $target_list {
     clone_output "    $current_target"
