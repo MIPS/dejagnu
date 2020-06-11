@@ -113,7 +113,10 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 	# We reaped the process, so cancel the pending force-kills, as
 	# otherwise if the PID is reused for some other unrelated
 	# process, we'd kill the wrong process.
-	exec sh -c "exec > /dev/null 2>&1 && kill -9 $exec_pid"
+	#
+	# Use `catch' in case the force-kills have completed, so as not
+	# to cause TCL to choke if `kill' returns a failure.
+	catch {exec sh -c "kill -9 $exec_pid" >& /dev/null}
     }
 
     return $res
