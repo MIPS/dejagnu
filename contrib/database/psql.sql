@@ -25,6 +25,7 @@ CREATE TYPE dejagnu.result AS ENUM (
 CREATE TABLE dejagnu.runs (
   run bigserial PRIMARY KEY,
   start timestamp with time zone NOT NULL,
+  finish timestamp with time zone NOT NULL,
   target text NOT NULL,
   host text NOT NULL,
   build text NOT NULL,
@@ -63,9 +64,9 @@ CREATE TABLE dejagnu.manifest_packages (
 
 CREATE TABLE dejagnu.manifest_runs (
   manifest bigint NOT NULL
-    REFERENCES dejagnu.manifests ON DELETE RESTRICT,
+    REFERENCES dejagnu.manifests ON DELETE CASCADE,
   run bigint NOT NULL
-    REFERENCES dejagnu.runs ON DELETE RESTRICT,
+    REFERENCES dejagnu.runs ON DELETE CASCADE,
   PRIMARY KEY (manifest, run)
 );
 
