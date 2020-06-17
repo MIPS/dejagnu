@@ -257,21 +257,39 @@ proc isnative { } {
 # This allows Tcl package autoloading to work in the modern age.
 
 rename ::unknown ::tcl_unknown
-proc unknown args {
-    if {[catch {uplevel 1 ::tcl_unknown $args} msg]} {
+proc unknown { args } {
+    set code [catch {uplevel 1 ::tcl_unknown $args} msg]
+    if { $code != 0 } {
 	global errorCode
 	global errorInfo
 	global exit_status
 
+	set ret_cmd [list return -code $code]
+
 	clone_output "ERROR: (DejaGnu) proc \"$args\" does not exist."
 	if {[info exists errorCode]} {
+	    lappend ret_cmd -errorcode $errorCode
 	    send_error "The error code is $errorCode\n"
 	}
 	if {[info exists errorInfo]} {
+	    # omitting errorInfo from the propagated error makes this code
+	    # invisible with the backtrace pointing directly to the problem
 	    send_error "The info on the error is:\n$errorInfo\n"
 	}
 	set exit_status 2
-	log_and_exit
+
+	set unresolved_msg "testcase '[uplevel info script]' aborted"
+	append unresolved_msg " at call to unknown command '$args'"
+	unresolved $unresolved_msg
+
+	lappend ret_cmd $msg
+	if { $::dejagnu::opt::keep_going } {
+	    eval $ret_cmd
+	} else {
+	    log_and_exit
+	}
+    } else {
+	return $msg
     }
 }
 

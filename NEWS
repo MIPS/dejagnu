@@ -7,6 +7,8 @@ Changes since 1.6.2:
    should use this proc. The 'is_remote' proc is deprecated.
 2. runtest now accepts --local_init and --global_init options to override
    the default of reading "site.exp".  See the manual for details.
+X. runtest now accepts a --keep_going option to continue with other test
+   scripts after a test script invokes an undefined command.
 3. A utility procedure relative_filename has been added.  This procedure
    computes a relative file name to a given destination from a given base.
 4. The utility procedure 'grep' now accepts a '-n' option that

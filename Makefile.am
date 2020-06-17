@@ -26,7 +26,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-CLEANFILES = options-init.exp stats-init.exp
+CLEANFILES = abort-init.exp options-init.exp stats-init.exp
 
 clean-local: clean-local-check
 .PHONY: clean-local-check

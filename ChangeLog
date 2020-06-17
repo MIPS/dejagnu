@@ -1,3 +1,29 @@
+2020-06-17  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824
+
+	* NEWS: Add item for --keep_going option.
+
+	* Makefile.am (CLEANFILES): Add abort-init.exp to list.
+
+	* doc/dejagnu.texi (Invoking runtest): Document new --keep_going
+	command line option.
+	* doc/runtest.1: Likewise.
+
+	* lib/framework.exp (unknown): Report an UNRESOLVED result if an
+	unknown command is invoked.  Avoid exiting and propagate the error
+	from Tcl's "unknown" procedure if --keep_going was
+	specified. Brace procedure argument list.
+	* runtest.exp (dejagnu::opt): New namespace.
+	Add option --keep_going to continue running tests after a test
+	script aborts due to calling an undefined command.
+
+	* testsuite/runtest.main/abort.exp: New file.
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-undef.exp:
+	New file.
+	* testsuite/runtest.main/abort/testsuite/abort.test/simple.exp:
+	New file.
+
 2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41647
