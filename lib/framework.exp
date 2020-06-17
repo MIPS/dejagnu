@@ -272,6 +272,9 @@ proc unknown args {
 	}
 	set exit_status 2
 	log_and_exit
+    } else {
+	# Propagate return value.
+	return $msg
     }
 }
 
