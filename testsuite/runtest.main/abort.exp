@@ -50,6 +50,16 @@ set tests {
 	"PASS: running abort-undef.exp.*\
 	*UNRESOLVED: .* aborted at call to unknown command.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
+    { "stop at auto-loaded divide-by-zero without --keep_going"
+	"abort-al-dbz.exp simple.exp"
+	"PASS: running abort-al-dbz.exp.*\
+	*UNRESOLVED: .* aborted at .*\
+	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
+    { "continue after auto-loaded divide-by-zero with --keep_going"
+	"--keep_going abort-al-dbz.exp simple.exp"
+	"PASS: running abort-al-dbz.exp.*\
+	*PASS: simple test.*\
+	*expected passes\[ \t\]+2\n" }
     { "stop at abort without --keep_going"
 	"abort-undef.exp simple.exp"
 	"PASS: running abort-undef.exp.*\
@@ -76,3 +86,4 @@ foreach t $tests {
 }
 
 file delete -force $tmpdir
+file delete -force [testsuite file -object -test abort testsuite abort.test lib]

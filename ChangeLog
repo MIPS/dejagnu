@@ -1,3 +1,17 @@
+2020-06-18  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	Thanks to Tom de Vries for raising these concerns and offering the
+	initial patch that was rewritten to produce this.
+
+	* testsuite/runtest.main/abort.exp: Add tests to verify handling
+	of arithmetic errors (divide-by-zero) in an auto-loaded procedure
+	called from a test script.
+
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-al-dbz.exp:
+	New file.
+
 2020-06-17  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41824
