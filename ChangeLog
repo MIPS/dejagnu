@@ -3,11 +3,22 @@
 	PR 41824 / PR 41918
 
 	Thanks to Tom de Vries for raising these concerns and offering the
-	initial patch that was rewritten to produce this.
+	initial testsuite patch that led to these changes.
+
+	* NEWS: Add item for consistent abort-on-error handling.
+
+	* lib/framework.exp (unknown): Always link global variables.  Tidy.
+	Silently propagate errors raised in autoloaded procedures and move
+	the UNRESOLVED result and aborting the test run to...
+	* runtest.exp (runtest): Report an UNRESOLVED result if a test
+	script aborts due to a Tcl error.  Link global errorCode and
+	report its value if an error occurs.  For consistency, abort the
+	test run on any Tcl error in a test script instead of only when
+	calling an undefined procedure.
 
 	* testsuite/runtest.main/abort.exp: Add tests to verify handling
 	of arithmetic errors (divide-by-zero) in an auto-loaded procedure
-	called from a test script.
+	called from a test script.  Adjust other patterns.
 
 	* testsuite/runtest.main/abort/testsuite/abort.test/abort-al-dbz.exp:
 	New file.

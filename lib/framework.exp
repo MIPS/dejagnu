@@ -258,36 +258,42 @@ proc isnative { } {
 
 rename ::unknown ::tcl_unknown
 proc unknown { args } {
+    global errorCode
+    global errorInfo
+    global exit_status
+
     set code [catch {uplevel 1 ::tcl_unknown $args} msg]
     if { $code != 0 } {
-	global errorCode
-	global errorInfo
-	global exit_status
-
 	set ret_cmd [list return -code $code]
 
-	clone_output "ERROR: (DejaGnu) proc \"$args\" does not exist."
-	if {[info exists errorCode]} {
-	    lappend ret_cmd -errorcode $errorCode
-	    send_error "The error code is $errorCode\n"
-	}
-	if {[info exists errorInfo]} {
-	    # omitting errorInfo from the propagated error makes this code
-	    # invisible with the backtrace pointing directly to the problem
-	    send_error "The info on the error is:\n$errorInfo\n"
-	}
-	set exit_status 2
+	# If the command now exists, then it was autoloaded.  We are here,
+	# therefore invoking the autoloaded command raised an error.
+	# Silently propagate errors from autoloaded procedures, but
+	# complain noisily about undefined commands.
+	set have_it_now [llength [info commands [lindex $args 0]]]
 
-	set unresolved_msg "testcase '[uplevel info script]' aborted"
-	append unresolved_msg " at call to unknown command '$args'"
-	unresolved $unresolved_msg
+	if { ! $have_it_now } {
+	    clone_output "ERROR: (DejaGnu) proc \"$args\" does not exist."
+	    set exit_status 2
+	}
+
+	if { [info exists errorCode] } {
+	    lappend ret_cmd -errorcode $errorCode
+	    if { ! $have_it_now } {
+		send_error "The error code is $errorCode\n"
+	    }
+	}
+	if { [info exists errorInfo] } {
+	    # omitting errorInfo from the propagated error makes this proc
+	    # invisible with the backtrace pointing directly to the problem
+	    if { ! $have_it_now } {
+		send_error "The info on the error is:\n$errorInfo\n"
+	    }
+	}
 
 	lappend ret_cmd $msg
-	if { $::dejagnu::opt::keep_going } {
-	    eval $ret_cmd
-	} else {
-	    log_and_exit
-	}
+
+	eval $ret_cmd
     } else {
 	# Propagate return value.
 	return $msg

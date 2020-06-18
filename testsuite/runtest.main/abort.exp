@@ -48,27 +48,28 @@ set tests {
     { "abort on undefined command"
 	"abort-undef.exp"
 	"PASS: running abort-undef.exp.*\
-	*UNRESOLVED: .* aborted at call to unknown command.*\
+	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
     { "stop at auto-loaded divide-by-zero without --keep_going"
 	"abort-al-dbz.exp simple.exp"
 	"PASS: running abort-al-dbz.exp.*\
-	*UNRESOLVED: .* aborted at .*\
+	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
     { "continue after auto-loaded divide-by-zero with --keep_going"
 	"--keep_going abort-al-dbz.exp simple.exp"
 	"PASS: running abort-al-dbz.exp.*\
+	*UNRESOLVED: .* aborted.*\
 	*PASS: simple test.*\
 	*expected passes\[ \t\]+2\n" }
     { "stop at abort without --keep_going"
 	"abort-undef.exp simple.exp"
 	"PASS: running abort-undef.exp.*\
-	*UNRESOLVED: .* aborted at call to unknown command.*\
+	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
     { "continue after abort with --keep_going"
 	"--keep_going abort-undef.exp simple.exp"
 	"PASS: running abort-undef.exp.*\
-	*UNRESOLVED: .* aborted at call to unknown command.*\
+	*UNRESOLVED: .* aborted.*\
 	*PASS: simple test.*\
 	*expected passes\[ \t\]+2\n.*unresolved testcases\[ \t\]+1\n" }
 }

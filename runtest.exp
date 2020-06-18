@@ -1562,6 +1562,7 @@ proc runtest { test_file_name } {
     global bug_id
     global test_result
     global errcnt
+    global errorCode
     global errorInfo
     global tool
     global testdir
@@ -1596,10 +1597,15 @@ proc runtest { test_file_name } {
 	    # increments `errcnt'.  If we do call perror we'd have to
 	    # reset errcnt afterwards.
 	    clone_output "ERROR: tcl error sourcing $test_file_name."
+	    if {[info exists errorCode]} {
+		clone_output "ERROR: tcl error code $errorCode"
+	    }
 	    if {[info exists errorInfo]} {
 		clone_output "ERROR: $errorInfo"
 		unset errorInfo
 	    }
+	    unresolved "testcase '$test_file_name' aborted due to Tcl error"
+	    if { ! $::dejagnu::opt::keep_going } { log_and_exit }
 	}
 
 	if {[info exists tool]} {
