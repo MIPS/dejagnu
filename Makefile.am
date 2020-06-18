@@ -106,6 +106,7 @@ baseboard_DATA = \
 	baseboards/linux-gdbserver.exp \
 	baseboards/linux-libremote.exp \
 	baseboards/m68k-sid.exp \
+	baseboards/arm-qemu.exp \
 	baseboards/mcore-moto-sim.exp \
 	baseboards/mcore-sim.exp \
 	baseboards/mips-lnews-sim.exp \
@@ -191,7 +192,7 @@ TESTSUITE_FILES = \
 	testsuite/lib/report-card.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
-	testsuite/libdejagnu/tunit.exp
+	testsuite/libdejagnu/tuit.exp
 
 DEJATOOL = launcher libdejagnu report-card runtest
 
