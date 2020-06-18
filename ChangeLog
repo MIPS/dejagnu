@@ -25,6 +25,11 @@
 	* testsuite/runtest.main/abort/testsuite/abort.test/simple.exp:
 	New file.
 
+2020-06-17  Tom de Vries  <tdevries <at> suse.de>
+
+	* lib/framework.exp (unknown): Propagate return value of auto-loaded
+	command.
+
 2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41647
