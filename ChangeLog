@@ -1,4 +1,5 @@
 2020-06-15  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
 	Merge patches from Linaro:
 
 	2018-09-28  Christophe Lyon <christophe.lyon@linaro.org>
@@ -11,7 +12,7 @@
 
 	2016-06-28  Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
 	* config/unix.exp (unix_load): Prepend the value of an
-	"exec_shell" board_info key to the command if it defined.
+	"exec_shell" board_info key to the command if it is defined.
 
 2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
