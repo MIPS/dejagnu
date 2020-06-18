@@ -5,6 +5,7 @@
 	* NEWS: Add item for --keep_going option.
 
 	* Makefile.am (CLEANFILES): Add abort-init.exp to list.
+	(TESTSUITE_FILES): Add new testsuite files to list.
 
 	* doc/dejagnu.texi (Invoking runtest): Document new --keep_going
 	command line option.

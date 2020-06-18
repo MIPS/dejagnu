@@ -180,6 +180,9 @@ TESTSUITE_FILES = \
 	testsuite/runtest.libs/remote.test \
 	testsuite/runtest.libs/target.test \
 	testsuite/runtest.libs/utils.test \
+	testsuite/runtest.main/abort.exp \
+	testsuite/runtest.main/abort/testsuite/abort.test/abort-undef.exp \
+	testsuite/runtest.main/abort/testsuite/abort.test/simple.exp \
 	testsuite/runtest.main/options.exp \
 	testsuite/runtest.main/options/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
