@@ -50,6 +50,17 @@ set tests {
 	"PASS: running abort-undef.exp.*\
 	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
+    { "stop at divide-by-zero without --keep_going"
+	"abort-dbz.exp simple.exp"
+	"PASS: running abort-dbz.exp.*\
+	*UNRESOLVED: .* aborted.*\
+	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
+    { "continue after divide-by-zero with --keep_going"
+	"--keep_going abort-dbz.exp simple.exp"
+	"PASS: running abort-dbz.exp.*\
+	*UNRESOLVED: .* aborted.*\
+	*PASS: simple test.*\
+	*expected passes\[ \t\]+2\n" }
     { "stop at auto-loaded divide-by-zero without --keep_going"
 	"abort-al-dbz.exp simple.exp"
 	"PASS: running abort-al-dbz.exp.*\
