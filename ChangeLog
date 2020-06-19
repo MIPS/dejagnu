@@ -1,5 +1,12 @@
 2020-06-19  Tom Tromey  <tromey@adacore.com>
 
+	* doc/dejagnu.texi (target_compile procedure): Document rust
+	additions.
+	* lib/target.exp (default_target_compile): Handle rust.
+	* lib/libgloss.exp (find_rustc): New proc.
+
+2020-06-19  Tom Tromey  <tromey@adacore.com>
+
 	* lib/target.exp (default_target_compile): Add early_flags.
 	* doc/dejagnu.texi (target_compile procedure): Document
 	early_flags.

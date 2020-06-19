@@ -400,6 +400,18 @@ proc default_target_compile {source destfile type options} {
 	    }
 	}
 
+	if { $i eq "rust" } {
+	    set compiler_type "rust"
+	    if {[board_info $dest exists rustflags]} {
+		append add_flags " [board_info $dest rustflags]"
+	    }
+	    if {[board_info $dest exists rustcompiler]} {
+		set compiler [board_info $dest rustcompiler]
+	    } else {
+		set compiler [find_rustc]
+	    }
+	}
+
 	if {[regexp "^dest=" $i]} {
 	    regsub "^dest=" $i "" tmp
 	    if {[board_info $tmp exists name]} {
@@ -460,6 +472,7 @@ proc default_target_compile {source destfile type options} {
     global F77_FOR_TARGET
     global F90_FOR_TARGET
     global GNATMAKE_FOR_TARGET
+    global RUSTC_FOR_TARGET
 
     if {[info exists GNATMAKE_FOR_TARGET]} {
 	if { $compiler_type eq "ada" } {
@@ -497,6 +510,12 @@ proc default_target_compile {source destfile type options} {
 	}
     }
 
+    if {[info exists RUSTC_FOR_TARGET]} {
+	if {$compiler_type eq "rust"} {
+	    set compiler $RUSTC_FOR_TARGET
+	}
+    }
+
     if { $compiler eq "" } {
 	if { [board_info $dest exists compiler] } {
 	    set compiler [board_info $dest compiler]
@@ -515,7 +534,11 @@ proc default_target_compile {source destfile type options} {
     }
 
     if {$type eq "object"} {
-	append add_flags " -c"
+	if {$compiler_type eq "rust"} {
+	    append add_flags "--emit obj"
+	} else {
+	    append add_flags " -c"
+	}
     }
 
     if { $type eq "preprocess" } {

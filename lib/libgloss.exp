@@ -765,6 +765,22 @@ proc find_gnatmake {} {
     return $CC
 }
 
+proc find_rustc {} {
+    global tool_root_dir
+    if {![is_remote host]} {
+	set rustc [lookfor_file $tool_root_dir rustc]
+	if {$rustc eq ""} {
+	    set rustc rustc
+	}
+    } else {
+	set rustc ""
+    }
+    if {$rustc ne ""} {
+	append rustc " --color never"
+    }
+    return $rustc
+}
+
 proc find_nm {} {
     global tool_root_dir
 

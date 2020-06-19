@@ -4564,6 +4564,8 @@ Use a compiler for the D language.
 Use a compiler for Fortran 77.
 @item f90
 Use a compiler for Fortran 90.
+@item rust
+Use a compiler for Rust.
 @end table
 If none of these options are given, the C compiler is used by default.
 Giving multiple language-selection options is an error.
@@ -4669,6 +4671,9 @@ Override Fortran 77 compiler.  If the @code{f77} option is given, this
 compiler will be used and the @code{compiler} option ignored.
 @item F90_FOR_TARGET
 Override Fortran 90 compiler.  If the @code{f90} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item RUSTC_FOR_TARGET
+Override Rust compiler.  If the @code{rust} option is given, this
 compiler will be used and the @code{compiler} option ignored.
 @item GNATMAKE_FOR_TARGET
 Override Ada compiler.  If the @code{ada} option is given, this
