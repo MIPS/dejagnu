@@ -1,3 +1,9 @@
+2020-06-19  Tom Tromey  <tromey@adacore.com>
+
+	* lib/target.exp (default_target_compile): Add early_flags.
+	* doc/dejagnu.texi (target_compile procedure): Document
+	early_flags.
+
 2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41647
