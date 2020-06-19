@@ -1,5 +1,12 @@
 2020-06-19  Tom Tromey  <tromey@adacore.com>
 
+	* doc/dejagnu.texi (target_compile procedure): Document Go
+	additions.
+	* lib/target.exp (default_target_compile): Handle Go.
+	* lib/libgloss.exp (find_go, find_go_linker): New procs.
+
+2020-06-19  Tom Tromey  <tromey@adacore.com>
+
 	* doc/dejagnu.texi (target_compile procedure): Document rust
 	additions.
 	* lib/target.exp (default_target_compile): Handle rust.

@@ -765,6 +765,30 @@ proc find_gnatmake {} {
     return $CC
 }
 
+proc find_go {} {
+    global tool_root_dir
+
+    set GO ""
+
+    if {![is_remote host]} {
+	set file [lookfor_file $tool_root_dir gccgo]
+	if { $file ne "" } {
+	    set root [file dirname $file]
+	    set GO "$file -B$root/gcc/"
+	}
+    }
+
+    if { $GO eq "" } {
+	set GO [transform gccgo]
+    }
+
+    return $GO
+}
+
+proc find_go_linker {} {
+    return [find_go]
+}
+
 proc find_rustc {} {
     global tool_root_dir
     if {![is_remote host]} {

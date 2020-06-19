@@ -4564,6 +4564,8 @@ Use a compiler for the D language.
 Use a compiler for Fortran 77.
 @item f90
 Use a compiler for Fortran 90.
+@item go
+Use a compiler for Go.
 @item rust
 Use a compiler for Rust.
 @end table
@@ -4672,6 +4674,12 @@ compiler will be used and the @code{compiler} option ignored.
 @item F90_FOR_TARGET
 Override Fortran 90 compiler.  If the @code{f90} option is given, this
 compiler will be used and the @code{compiler} option ignored.
+@item GO_FOR_TARGET
+Override Go compiler.  If the @code{go} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item GO_LD_FOR_TARGET
+Override Go linker.  If the @code{go} option is given, this
+linker will be used.
 @item RUSTC_FOR_TARGET
 Override Rust compiler.  If the @code{rust} option is given, this
 compiler will be used and the @code{compiler} option ignored.
