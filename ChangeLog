@@ -1,3 +1,14 @@
+2020-06-19  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	Merge patches from Tom de Vries <tdevries <at> suse.de> and write
+	ChangeLog entries.
+
+	* testsuite/runtest.main/abort.exp: Add tests that verify handling
+	of arithmetic errors (divide-by-zero) in a procedure called within
+	a test script.
+
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-dbz.exp: New file.
+
 2020-06-18  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41824 / PR 41918
