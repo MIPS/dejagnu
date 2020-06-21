@@ -1,3 +1,9 @@
+2020-06-20  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* doc/dejagnu.texi (Libgloss): Update menu.
+	(find_go procedure, find_go_linker procedure): New nodes.
+	(find_rustc procedure): New node.
+
 2020-06-19  Tom Tromey  <tromey@adacore.com>
 
 	* doc/dejagnu.texi (target_compile procedure): Document Go
