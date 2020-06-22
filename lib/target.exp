@@ -320,6 +320,7 @@ proc default_target_compile {source destfile type options} {
     set libs ""
     set compiler_type "c"
     set compiler ""
+    set linker ""
     set ldflags ""
     set dest [target_info name]
 
@@ -547,6 +548,10 @@ proc default_target_compile {source destfile type options} {
 	}
     }
 
+    if { $type eq "executable" && $linker ne "" } {
+	set compiler $linker
+    }
+
     if { $compiler eq "" } {
 	if { [board_info $dest exists compiler] } {
 	    set compiler [board_info $dest compiler]
@@ -566,7 +571,7 @@ proc default_target_compile {source destfile type options} {
 
     if {$type eq "object"} {
 	if {$compiler_type eq "rust"} {
-	    append add_flags "--emit obj"
+	    append add_flags " --emit obj"
 	} else {
 	    append add_flags " -c"
 	}
@@ -577,7 +582,11 @@ proc default_target_compile {source destfile type options} {
     }
 
     if { $type eq "assembly" } {
-	append add_flags " -S"
+	if {$compiler_type eq "rust"} {
+	    append add_flags " --emit asm"
+	} else {
+	    append add_flags " -S"
+	}
     }
 
     if {[board_info $dest exists cflags]} {
