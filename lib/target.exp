@@ -312,15 +312,15 @@ proc default_target_compile {source destfile type options} {
     }
 
     set early_flags ""
-    # linker_opts_order is one of "sources-then-flags", "flags-then-sources".
-    # The order matters for things like -Wl,--as-needed.  The default is to
-    # preserve existing behavior.
-    set linker_opts_order "sources-then-flags"
     set add_flags ""
     set libs ""
     set compiler_type "c"
     set compiler ""
     set linker ""
+    # linker_opts_order is one of "sources-then-flags", "flags-then-sources".
+    # The order matters for things like -Wl,--as-needed.  The default is to
+    # preserve existing behavior.
+    set linker_opts_order "sources-then-flags"
     set ldflags ""
     set dest [target_info name]
 
@@ -444,6 +444,10 @@ proc default_target_compile {source destfile type options} {
 	if {[regexp "^compiler=" $i]} {
 	    regsub "^compiler=" $i "" tmp
 	    set compiler $tmp
+	}
+	if {[regexp "^linker=" $i]} {
+	    regsub "^linker=" $i "" tmp
+	    set linker $tmp
 	}
 	if {[regexp "^early_flags=" $i]} {
 	    regsub "^early_flags=" $i "" tmp

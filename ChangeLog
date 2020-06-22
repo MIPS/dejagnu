@@ -1,8 +1,14 @@
 2020-06-22  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
+	* doc/dejagnu.texi (target_compile procedure): Document new
+	"linker=" option to target_compile.
+
 	* lib/target.exp (default_target_compile): Actually use internal
 	option for separate linker provided for Go language support.  This
 	seems to have been accidentally omitted from Tom Tromey's patches.
+	(default_target_compile): Add "linker=" option, similar to
+	"compiler=" option, but the former overrides the latter when
+	building an executable.
 	(default_target_compile): Ensure that "--emit obj" is spaced from
 	previous item when used to compile Rust.  Use "--emit asm" instead
 	of "-S" when generating assembly from Rust sources.

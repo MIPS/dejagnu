@@ -4599,6 +4599,9 @@ this option is given multiple times, only the last use is significant.
 @item compiler=@var{command}
 Override the defaults and use @var{command} as the compiler.  If
 this option is given multiple times, only the last use is significant.
+@item linker=@var{command}
+Override the defaults and use @var{command} to build executables.  If
+this option is given multiple times, only the last use is significant.
 @item early_flags=@var{flags}
 Prepend @var{flags} to the set of arguments to be passed to the compiler.
 Multiple uses of this option specify additional arguments.
@@ -5898,4 +5901,4 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
 @c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran
-@c  LocalWords:  rustc
+@c  LocalWords:  rustc executables
