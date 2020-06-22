@@ -13,6 +13,9 @@
 	previous item when used to compile Rust.  Use "--emit asm" instead
 	of "-S" when generating assembly from Rust sources.
 
+	* testsuite/runtest.libs/target.test: Add tests for Go and Rust.
+	Also add tests for the new "early_flags=" and "linker=" options.
+
 2020-06-20  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	* doc/dejagnu.texi (Libgloss): Update menu.
