@@ -15,6 +15,10 @@ Changes since 1.6.2:
    retrieving or providing information about the current testsuite.
 6. A command "testsuite file" is added to replace the use of the
    "*dir" variables in test scripts.
+X. The target_compile procedure now accepts a "linker=" option that
+   overrides the compiler selection when producing an executable.
+X. The internal default_target_compile procedure now supports compiling
+   sources in Go (using GCC Go) and Rust.
 7. A shell command "dejagnu" is added as a place to hang various
    auxiliary commands not directly involved with running tests. The
    "runtest" command will remain for that purpose for the foreseeable
