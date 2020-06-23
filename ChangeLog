@@ -1,3 +1,16 @@
+2020-06-22  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	Merge patches from Maciej W. Rozycki to fix timeout handling.
+
+	* lib/remote.exp (close_wait_program): Use `catch' in killing
+	pending force-kills.
+
+	* lib/remote.exp (close_wait_program): Only kill the pending
+	force-kills if the PID list has a single entry.
+	(local_exec): Set the channel about to be closed to the
+	nonblocking mode if we didn't see an EOF.
+	(standard_close): Likewise, unconditionally.
+
 2020-06-02  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41647
