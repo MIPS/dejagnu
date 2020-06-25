@@ -1,3 +1,22 @@
+2020-06-24  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	* NEWS: Revise relevant items.
+
+	* doc/dejagnu.texi (Invoking runtest): Add --no_keep_going option.
+	* doc/runtest.1: Document --no_keep_going option.  Remove
+	long-obsolete --name option.  The --name option had been removed
+	from runtest before the code was imported into what became the
+	current repository.
+
+	* runtest.exp: Add option --no_keep_going to stop immediately if a
+	test script aborts due to a Tcl error.  Remove vestiges of
+	long-obsolete --name option.  Make --keep_going option default.
+
+	* testsuite/runtest.main/abort.exp: Adjust tests to use
+	--no_keep_going and --keep_going instead of assuming a default.
+
 2020-06-19  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	Merge patches from Tom de Vries <tdevries <at> suse.de> and write

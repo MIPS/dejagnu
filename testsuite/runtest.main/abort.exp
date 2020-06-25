@@ -45,13 +45,13 @@ set tests {
 	"simple.exp"
 	"PASS: simple test.*\
 	*expected passes\[ \t\]+1\n" }
-    { "abort on undefined command"
-	"abort-undef.exp"
+    { "abort on undefined command with --no_keep_going"
+	"--no_keep_going abort-undef.exp"
 	"PASS: running abort-undef.exp.*\
 	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
-    { "stop at divide-by-zero without --keep_going"
-	"abort-dbz.exp simple.exp"
+    { "stop at divide-by-zero with --no_keep_going"
+	"--no_keep_going abort-dbz.exp simple.exp"
 	"PASS: running abort-dbz.exp.*\
 	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
@@ -61,8 +61,8 @@ set tests {
 	*UNRESOLVED: .* aborted.*\
 	*PASS: simple test.*\
 	*expected passes\[ \t\]+2\n" }
-    { "stop at auto-loaded divide-by-zero without --keep_going"
-	"abort-al-dbz.exp simple.exp"
+    { "stop at auto-loaded divide-by-zero with --no_keep_going"
+	"--no_keep_going abort-al-dbz.exp simple.exp"
 	"PASS: running abort-al-dbz.exp.*\
 	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }
@@ -72,8 +72,8 @@ set tests {
 	*UNRESOLVED: .* aborted.*\
 	*PASS: simple test.*\
 	*expected passes\[ \t\]+2\n" }
-    { "stop at abort without --keep_going"
-	"abort-undef.exp simple.exp"
+    { "stop at abort with --no_keep_going"
+	"--no_keep_going abort-undef.exp simple.exp"
 	"PASS: running abort-undef.exp.*\
 	*UNRESOLVED: .* aborted.*\
 	*expected passes\[ \t\]+1\n.*unresolved testcases\[ \t\]+1\n" }

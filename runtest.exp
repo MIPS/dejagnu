@@ -101,7 +101,7 @@ set testbuilddir	"testsuite"	;# top-level testsuite object directory
 # These are used for internal command-line flags.
 #
 namespace eval ::dejagnu::opt {
-    variable keep_going	0	;# continue after a fatal error in testcase?
+    variable keep_going	1	;# continue after a fatal error in testcase?
 }
 
 # Various ccache versions provide incorrect debug info such as ignoring
@@ -380,6 +380,7 @@ proc usage { } {
     send_user "\t--host_board \[name\]\tThe host board to use\n"
     send_user "\t--ignore \[name(s)\]\tThe names of specific tests to ignore\n"
     send_user "\t--keep_going\t\tContinue testing even if a script aborts\n"
+    send_user "\t--no_keep_going\t\tStop immediately if a script aborts\n"
     send_user "\t--local_init \[name\]\tThe file to load for local configuration\n"
     send_user "\t--log_dialog\t\t\Emit Expect output on stdout\n"
     send_user "\t--mail \[name(s)\]\tWhom to mail the results to\n"
@@ -474,7 +475,6 @@ for { set i 0 } { $i < $argc } { incr i } {
 	"--ig*"  -
 	"--loc*" -
 	"--m*"  -
-	"--n*"  -
 	"--ob*" -
 	"--ou*" -
 	"--sr*" -
@@ -1127,7 +1127,6 @@ for { set i 0 } { $i < $argc } { incr i } {
 	"--ig*"  -
 	"--loc*" -
 	"--m*"  -
-	"--n*"  -
 	"--ob*" -
 	"--ou*" -
 	"--sr*" -
@@ -1211,6 +1210,10 @@ for { set i 0 } { $i < $argc } { incr i } {
 
 	"--k*" {			# (--keep_going) reduce fatal errors
 	    set ::dejagnu::opt::keep_going 1
+	}
+
+	"--no[-_]k*" {			# (--no_keep_going) stop on error
+	    set ::dejagnu::opt::keep_going 0
 	}
 
 	"--m*" {			# (--mail) mail the output

@@ -48,6 +48,9 @@ Do not run the specified tests.
 .B --keep_going
 Do not abort test run if a test script encounters a fatal error.
 .TP
+.B --no_keep_going
+Stop immediately if a test script encounters a fatal error.
+.TP
 .BI --local_init \ NAME
 The NAME to use for the testsuite local init file in both the current
 directory and objdir.
@@ -58,9 +61,6 @@ Emit Expect output to standard output.
 .TP
 .BI --mail \ \'name1\ name2\ ...\'
 Electronic mail addresses to receive test results.
-.TP
-.BI --name \ HOSTNAME
-The network HOSTNAME of the target board.
 .TP
 .BI --objdir \ PATH
 \fIPATH\fR is a directory containing compiled test code.
