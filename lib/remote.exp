@@ -109,11 +109,18 @@ proc close_wait_program { program_id pid {wres_varname ""} } {
 
     # Reap it.
     set res [catch "wait -i $program_id" wres]
-    if {$exec_pid != -1} {
+    if { $exec_pid != -1 && [llength $pid] == 1 } {
 	# We reaped the process, so cancel the pending force-kills, as
 	# otherwise if the PID is reused for some other unrelated
 	# process, we'd kill the wrong process.
-	exec sh -c "exec > /dev/null 2>&1 && kill -9 $exec_pid"
+	#
+	# Do this if the PID list only has a single entry however, as
+	# otherwise `wait' will have returned right away regardless of
+	# whether any process of the pipeline has exited.
+	#
+	# Use `catch' in case the force-kills have completed, so as not
+	# to cause TCL to choke if `kill' returns a failure.
+	catch {exec sh -c "kill -9 $exec_pid" >& /dev/null}
     }
 
     return $res
@@ -239,6 +246,12 @@ proc local_exec { commandline inp outp timeout } {
     }
     set r2 [close_wait_program $spawn_id $pid wres]
     if { $id > 0 } {
+	if { $pid > 0 } {
+	    # If timed-out, don't wait for all the processes associated
+	    # with the pipeline to terminate as a stuck one would cause
+	    # us to hang.
+	    catch {fconfigure $id -blocking false}
+	}
 	set r2 [catch "close $id" res]
     } else {
 	verbose "waitres is $wres" 2
@@ -384,6 +397,12 @@ proc standard_close { host } {
 	close_wait_program $shell_id $pid
 
 	if {[info exists oid]} {
+	    if { $pid > 0 } {
+		# Don't wait for all the processes associated with the
+		# pipeline to terminate as a stuck one would cause us
+		# to hang.
+		catch {fconfigure $oid -blocking false}
+	    }
 	    catch "close $oid"
 	}
 
