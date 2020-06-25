@@ -106,7 +106,8 @@ create_test_interpreter compile_test {
     }
 }
 # mock find_* procedures from libgloss.exp
-foreach { prog } { gcc gcj g++ gdc g77 gfortran gnatmake nm gas ld } {
+foreach { prog } { gcc gcj g++ gdc g77 gfortran go go_linker rustc gnatmake
+		   nm gas ld } {
     establish_mock compile_test find_$prog {} [list found-$prog]
 }
 
@@ -203,6 +204,39 @@ eval_tests compile_test {
 	{ default_target_compile "foo.c" "foo" executable {debug} }
 	check_calls {
 	    "remote_exec host" U { 2 {found-gcc foo.c -g -lm -Tidp.ld -o foo} }
+	}
+    }
+
+    { "minimal simple preprocess with early flags"
+	{ default_target_compile "foo.c" "" preprocess {
+	    "early_flags=-fearly"
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {found-gcc -fearly foo.c -E} }
+	}
+    }
+    { "minimal simple compile to assembly with early flags"
+	{ default_target_compile "foo.c" "foo.s" assembly {
+	    "early_flags=-fearly"
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {found-gcc -fearly foo.c -S -o foo.s} }
+	}
+    }
+    { "minimal simple compile to object with early flags"
+	{ default_target_compile "foo.c" "foo.o" object {
+	    "early_flags=-fearly"
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {found-gcc -fearly -c -o foo.o foo.c} }
+	}
+    }
+    { "minimal simple compile and link with early flags"
+	{ default_target_compile "foo.c" "foo" executable {
+	    "early_flags=-fearly"
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {found-gcc -fearly foo.c -lm -Tidp.ld -o foo} }
 	}
     }
 }
@@ -447,6 +481,30 @@ eval_tests compile_test {
 	    { 2 {host-gcc foo.c -lm -Tmvme.ld -o foo} }
 	}
     }
+    { "override destination to host and compile and link with host-gcc via linker"
+	{ default_target_compile "foo.c" "foo" executable {
+	    "dest=host" "linker=host-gcc"
+	} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "board_info host" * { 2 exists 3 name }
+	    "board_info host" * { 2 name }
+	    "remote_exec host" U
+	    { 2 {host-gcc foo.c -lm -Tmvme.ld -o foo} }
+	}
+    }
+    { "override destination to host and compile and link with host-gcc-ld via linker"
+	{ default_target_compile "foo.c" "foo" executable {
+	    "dest=host" "compiler=host-gcc" "linker=host-gcc-ld"
+	} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "board_info host" * { 2 exists 3 name }
+	    "board_info host" * { 2 name }
+	    "remote_exec host" U
+	    { 2 {host-gcc-ld foo.c -lm -Tmvme.ld -o foo} }
+	}
+    }
     { "override ldscript"
 	{ default_target_compile "foo.c" "foo" executable {
 	    "ldscript=-Tspecial.ld"
@@ -605,9 +663,12 @@ set board_info(idp,cxxflags)		"-fgnu-c++"
 set board_info(idp,dflags)		"-fdflag"
 set board_info(idp,f77flags)		"-flong-f77-flag"
 set board_info(idp,f90flags)		"-flonger-f90-flag"
+set board_info(idp,goflags)		"-fgo"
+set board_info(idp,rustflags)		"-frust"
 foreach {k v} {
-    gnatmake gnatmake		c++compiler g++		dcompiler gdc
-    f77compiler g77		f90compiler gfortran
+    gnatmake gnatmake	    c++compiler g++		dcompiler gdc
+    f77compiler g77	    f90compiler gfortran	rustcompiler rustc
+    gocompiler gccgo	    golinker gccgo-ld
 } { set board_info(idp,$k)		"$board_info(idp,config)-$v" }
 
 eval_tests compile_test {
@@ -1170,6 +1231,258 @@ eval_tests compile_test {
 	check_calls {
 	    "remote_exec host" U
 	    { 2 {host-gfortran foo.f90 -lm -Tmvme.ld -o foo} }
+	}
+    }
+
+    # Go
+    { "preprocess Go with target compiler"
+	{ default_target_compile "foo.go" "" preprocess {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-gccgo foo.go -midp -fgo
+		 -E -I/usr/gnemul/idp/include} }
+	}
+    }
+    { "compile Go to assembly with target compiler"
+	{ default_target_compile "foo.go" "foo.s" assembly {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-gccgo foo.go -midp -fgo
+		 -S -I/usr/gnemul/idp/include -o foo.s} }
+	}
+    }
+    { "compile Go to object with target compiler"
+	{ default_target_compile "foo.go" "foo.o" object {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-gccgo -midp -fgo
+		 -c -I/usr/gnemul/idp/include
+		 -o foo.o foo.go} }
+	}
+    }
+    { "compile and link Go with target compiler"
+	{ default_target_compile "foo.go" "foo" executable {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-gccgo-ld foo.go -midp -fgo
+		 -I/usr/gnemul/idp/include -L/usr/gnemul/idp/lib
+		 -lidpsup -lm_idp -Tidp.ld -o foo} }
+	}
+    }
+
+    { "setup GO_FOR_TARGET"
+	{ set GO_FOR_TARGET "target-gccgo" }
+    }
+    { "preprocess Go with GO_FOR_TARGET"
+	{ default_target_compile "foo.go" "" preprocess {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {target-gccgo foo.go -midp -fgo
+		 -E -I/usr/gnemul/idp/include} }
+	}
+    }
+    { "compile Go to assembly with GO_FOR_TARGET"
+	{ default_target_compile "foo.go" "foo.s" assembly {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {target-gccgo foo.go -midp -fgo
+		 -S -I/usr/gnemul/idp/include -o foo.s} }
+	}
+    }
+    { "compile Go to object with GO_FOR_TARGET"
+	{ default_target_compile "foo.go" "foo.o" object {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {target-gccgo -midp -fgo
+		 -c -I/usr/gnemul/idp/include
+		 -o foo.o foo.go} }
+	}
+    }
+    { "clean up GO_FOR_TARGET"
+	{ unset GO_FOR_TARGET }
+    }
+    { "setup GO_LD_FOR_TARGET"
+	{ set GO_LD_FOR_TARGET "target-gccgo-ld" }
+    }
+    { "compile and link Go with GO_LD_FOR_TARGET"
+	{ default_target_compile "foo.go" "foo" executable {go} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_go" ! {}
+	    "find_go_linker" ! {}
+	    "remote_exec host" U
+	    { 2 {target-gccgo-ld foo.go -midp -fgo
+		 -I/usr/gnemul/idp/include -L/usr/gnemul/idp/lib
+		 -lidpsup -lm_idp -Tidp.ld -o foo} }
+	}
+    }
+    { "clean up GO_LD_FOR_TARGET"
+	{ unset GO_LD_FOR_TARGET }
+    }
+
+    { "override destination to host and compile Go to object"
+	{ default_target_compile "foo.go" "foo.o" object {
+	    "dest=host" go
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {found-go -c -o foo.o foo.go} }
+	}
+    }
+    { "override destination to host and compile Go to object with host-gccgo"
+	{ default_target_compile "foo.go" "foo.o" object {
+	    "dest=host" go "compiler=host-gccgo"
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {host-gccgo -c -o foo.o foo.go} }
+	}
+    }
+    { "override destination to host and compile and link Go"
+	{ default_target_compile "foo.go" "foo" executable {
+	    "dest=host" go
+	} }
+	check_calls {
+	    "remote_exec host" U
+	    { 2 {found-go_linker foo.go -lm -Tmvme.ld -o foo} }
+	}
+    }
+    { "override destination to host and compile and link Go with host-gccgo-ld"
+	{ default_target_compile "foo.go" "foo" executable {
+	    "dest=host" go "compiler=host-gccgo" "linker=host-gccgo-ld"
+	} }
+	check_calls {
+	    "remote_exec host" U
+	    { 2 {host-gccgo-ld foo.go -lm -Tmvme.ld -o foo} }
+	}
+    }
+
+    # Rust
+    { "preprocess Rust with target compiler"
+	{ default_target_compile "foo.rs" "" preprocess {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-rustc foo.rs -midp -frust
+		 -E -I/usr/gnemul/idp/include} }
+	}
+    }
+    { "compile Rust to assembly with target compiler"
+	{ default_target_compile "foo.rs" "foo.s" assembly {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-rustc foo.rs -midp -frust
+		 --emit asm -I/usr/gnemul/idp/include -o foo.s} }
+	}
+    }
+    { "compile Rust to object with target compiler"
+	{ default_target_compile "foo.rs" "foo.o" object {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-rustc -midp -frust
+		 --emit obj -I/usr/gnemul/idp/include
+		 -o foo.o foo.rs} }
+	}
+    }
+    { "compile and link Rust with target compiler"
+	{ default_target_compile "foo.rs" "foo" executable {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {m68k-unknown-aout-rustc foo.rs -midp -frust
+		 -I/usr/gnemul/idp/include -L/usr/gnemul/idp/lib
+		 -lidpsup -lm_idp -Tidp.ld -o foo} }
+	}
+    }
+
+    { "setup RUSTC_FOR_TARGET"
+	{ set RUSTC_FOR_TARGET "target-rustc" }
+    }
+    { "preprocess Rust with RUSTC_FOR_TARGET"
+	{ default_target_compile "foo.rs" "" preprocess {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {target-rustc foo.rs -midp -frust
+		 -E -I/usr/gnemul/idp/include} }
+	}
+    }
+    { "compile Rust to assembly with RUSTC_FOR_TARGET"
+	{ default_target_compile "foo.rs" "foo.s" assembly {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {target-rustc foo.rs -midp -frust
+		 --emit asm -I/usr/gnemul/idp/include -o foo.s} }
+	}
+    }
+    { "compile Rust to object with RUSTC_FOR_TARGET"
+	{ default_target_compile "foo.rs" "foo.o" object {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {target-rustc -midp -frust
+		 --emit obj -I/usr/gnemul/idp/include
+		 -o foo.o foo.rs} }
+	}
+    }
+    { "compile and link Rust with RUSTC_FOR_TARGET"
+	{ default_target_compile "foo.rs" "foo" executable {rust} }
+	check_calls {
+	    "find_gcc" ! {}
+	    "find_rustc" ! {}
+	    "remote_exec host" U
+	    { 2 {target-rustc foo.rs -midp -frust
+		 -I/usr/gnemul/idp/include -L/usr/gnemul/idp/lib
+		 -lidpsup -lm_idp -Tidp.ld -o foo} }
+	}
+    }
+    { "clean up RUSTC_FOR_TARGET"
+	{ unset RUSTC_FOR_TARGET }
+    }
+
+    { "override destination to host and compile and link Rust"
+	{ default_target_compile "foo.rs" "foo" executable {
+	    "dest=host" rust
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {found-rustc foo.rs -lm -Tmvme.ld -o foo} }
+	}
+    }
+    { "override destination to host and compile and link Rust with host-rustc"
+	{ default_target_compile "foo.rs" "foo" executable {
+	    "dest=host" rust "compiler=host-rustc"
+	} }
+	check_calls {
+	    "remote_exec host" U { 2 {host-rustc foo.rs -lm -Tmvme.ld -o foo} }
 	}
     }
 
