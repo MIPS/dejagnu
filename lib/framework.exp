@@ -381,6 +381,15 @@ proc log_and_exit {} {
 	    warning "${tool}_version failed:\n$output"
 	}
     }
+    if {[llength $::dejagnu::error::list] > 0} {
+	# print errors again at end of output
+	foreach { cell } $::dejagnu::error::list {
+	    clone_output "ERROR: in testcase [lindex $cell 0]"
+	    clone_output "ERROR:  [lindex $cell 1]"
+	    clone_output "ERROR:  tcl error code [lindex $cell 2]"
+	    clone_output "ERROR:  tcl error info:\n[lindex $cell 3]"
+	}
+    }
     close_logs
     verbose -log "runtest completed at [timestamp -format %c]"
     if {$mail_logs} {

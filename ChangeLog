@@ -1,3 +1,12 @@
+2020-06-26  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	* lib/framework.exp (log_and_exit): Print collected Tcl errors.
+
+	* runtest.exp (dejagnu::error): New namespace.
+	(runtest): Collect Tcl errors caught while executing test scripts.
+
 2020-06-24  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41824 / PR 41918

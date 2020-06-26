@@ -104,6 +104,14 @@ namespace eval ::dejagnu::opt {
     variable keep_going	1	;# continue after a fatal error in testcase?
 }
 
+#
+# Collected errors
+#
+namespace eval ::dejagnu::error {
+    # list of { file message errorCode errorInfo } lists
+    variable list [list]
+}
+
 # Various ccache versions provide incorrect debug info such as ignoring
 # different current directory, breaking GDB testsuite.
 set env(CCACHE_DISABLE) 1
@@ -1587,7 +1595,7 @@ proc runtest { test_file_name } {
 	    }
 	}
 
-	if { [catch "uplevel #0 source $test_file_name"] == 1 } {
+	if { [catch "uplevel #0 source $test_file_name" msg] == 1 } {
 	    # If we have a Tcl error, propagate the exit status so
 	    # that 'make' (if it invokes runtest) notices the error.
 	    global exit_status exit_error
@@ -1595,6 +1603,7 @@ proc runtest { test_file_name } {
 	    if { $exit_status == 0 } {
 		set exit_status 2
 	    }
+	    set new_error [list $test_file_name $msg]
 	    # We can't call `perror' here, it resets `errorInfo'
 	    # before we want to look at it.  Also remember that perror
 	    # increments `errcnt'.  If we do call perror we'd have to
@@ -1602,11 +1611,18 @@ proc runtest { test_file_name } {
 	    clone_output "ERROR: tcl error sourcing $test_file_name."
 	    if {[info exists errorCode]} {
 		clone_output "ERROR: tcl error code $errorCode"
+		lappend new_error $errorCode
+	    } else {
+		lappend new_error [list]
 	    }
 	    if {[info exists errorInfo]} {
 		clone_output "ERROR: $errorInfo"
+		lappend new_error $errorInfo
 		unset errorInfo
+	    } else {
+		lappend new_error [list]
 	    }
+	    lappend ::dejagnu::error::list $new_error
 	    unresolved "testcase '$test_file_name' aborted due to Tcl error"
 	    if { ! $::dejagnu::opt::keep_going } { log_and_exit }
 	}
