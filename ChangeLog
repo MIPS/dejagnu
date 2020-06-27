@@ -9,6 +9,9 @@
 
 	* doc/dejagnu.texi (Invoking runtest): Remove --keep_going and
 	--no_keep_going options.
+	(A POSIX Conforming Test Framework): Document that Tcl errors in
+	test scripts produce UNRESOLVED results as placeholders.
+
 	* doc/runtest.1: Likewise.
 
 	* lib/framework.exp (log_and_exit): Print collected Tcl errors.
