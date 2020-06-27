@@ -2,10 +2,39 @@
 
 	PR 41824 / PR 41918
 
+	* NEWS: Remove items for --keep_going / --no_keep_going options.
+
+	* Makefile.am (CLEANFILES): Adjust for renames.
+	(TESTSUITE_FILES): Likewise.
+
+	* doc/dejagnu.texi (Invoking runtest): Remove --keep_going and
+	--no_keep_going options.
+	* doc/runtest.1: Likewise.
+
 	* lib/framework.exp (log_and_exit): Print collected Tcl errors.
 
-	* runtest.exp (dejagnu::error): New namespace.
+	* runtest.exp (dejagnu::error): New internal namespace.
 	(runtest): Collect Tcl errors caught while executing test scripts.
+	(dejagnu::opt): Remove internal namespace.
+	Remove --keep_going / --no_keep_going options.  No longer abort on
+	any Tcl errors; instead store them and repeat the messages at the
+	end of the run.
+
+	* testsuite/runtest.main/abort.exp: Rename from this ...
+	* testsuite/runtest.main/error.exp: ... to this and revise tests.
+
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-al-dbz.exp:
+	Rename from this...
+	* testsuite/runtest.main/error/testsuite/error.test/error-al-dbz.exp:
+	... to this.
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-dbz.exp:
+	Rename from this...
+	* testsuite/runtest.main/error/testsuite/error.test/error-dbz.exp:
+	... to this.
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-undef.exp:
+	Rename from this...
+	* testsuite/runtest.main/error/testsuite/error.test/error-undef.exp:
+	... to this.
 
 2020-06-24  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 

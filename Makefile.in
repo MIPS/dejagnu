@@ -381,7 +381,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-CLEANFILES = abort-init.exp options-init.exp stats-init.exp
+CLEANFILES = error-init.exp options-init.exp stats-init.exp
 bin_SCRIPTS = dejagnu runtest
 include_HEADERS = dejagnu.h
 pkgdata_DATA = \

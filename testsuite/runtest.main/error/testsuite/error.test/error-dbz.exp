@@ -18,7 +18,7 @@
 
 # Cause a divide-by-zero error.
 
-pass "running abort-dbz.exp"
+pass "running error-dbz.exp"
 
 proc throw_arith_error_div_by_zero { } {
     expr { 1 / 0 }

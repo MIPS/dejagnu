@@ -18,7 +18,7 @@
 
 # Invoke an undefined command, causing a fatal error.
 
-pass "running abort-undef.exp"
+pass "running error-undef.exp"
 
 bogus_command 1 2 3 4
 

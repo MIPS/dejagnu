@@ -644,14 +644,6 @@ The host board to use.
 @item @code{--ignore [tests(s)] }
 The name(s) of specific tests to ignore.
 
-@item @code{--keep_going}
-Continue testing when test scripts encounter recoverable fatal errors.
-Such errors always cause the offending test script to abort
-immediately, but DejaGnu may be able to continue with the next script.
-
-@item @code{--no_keep_going}
-Stop testing immediately when test scripts encounter fatal errors.
-
 @item @code{--local_init [name]}
 Use @emph{name} as the testsuite local init file instead of
 @file{site.exp} in the current directory and in @emph{objdir}.  The

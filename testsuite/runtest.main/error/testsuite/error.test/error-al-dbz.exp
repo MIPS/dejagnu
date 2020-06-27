@@ -18,7 +18,7 @@
 
 # Cause a divide-by-zero error in an auto-loaded procedure.
 
-pass "running abort-al-dbz.exp"
+pass "running error-al-dbz.exp"
 
 set fd [open [testsuite file -object -test lib foo.tcl] w]
 puts $fd {proc throw_arith_error_div_by_zero { } {

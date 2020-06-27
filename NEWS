@@ -11,12 +11,6 @@ X. runtest now responds consistently to all Tcl errors and generates an
    UNRESOLVED result when a test script aborts.  Previously, calling an
    undefined procedure would cause the test run to abort while other Tcl
    errors produced only an easily-ignored message.
-X. runtest now accepts a --keep_going option to continue with other test
-   scripts after a test script fails with a Tcl error.  If you have
-   automated systems that run tests and need to carry on after Tcl errors,
-   now is the time to add this option to your configuration.
-X. runtest now accepts a --no_keep_going option to stop immediately when a
-   test script aborts.  This is planned to become the default in 1.7.
 3. A utility procedure relative_filename has been added.  This procedure
    computes a relative file name to a given destination from a given base.
 4. The utility procedure 'grep' now accepts a '-n' option that
