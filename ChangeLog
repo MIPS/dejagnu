@@ -1,3 +1,12 @@
+2020-06-29  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	* NEWS: Add item for repeated error messages.
+
+	* lib/framework.exp (log_and_exit): Add separator lines around the
+	error dumps repeated at the end of a run.
+
 2020-06-26  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR 41824 / PR 41918
