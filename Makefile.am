@@ -26,7 +26,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-CLEANFILES = options-init.exp stats-init.exp
+CLEANFILES = error-init.exp options-init.exp stats-init.exp
 
 clean-local: clean-local-check
 .PHONY: clean-local-check
@@ -180,6 +180,11 @@ TESTSUITE_FILES = \
 	testsuite/runtest.libs/remote.test \
 	testsuite/runtest.libs/target.test \
 	testsuite/runtest.libs/utils.test \
+	testsuite/runtest.main/error.exp \
+	testsuite/runtest.main/error/testsuite/error.test/error-al-dbz.exp \
+	testsuite/runtest.main/error/testsuite/error.test/error-dbz.exp \
+	testsuite/runtest.main/error/testsuite/error.test/error-undef.exp \
+	testsuite/runtest.main/error/testsuite/error.test/simple.exp \
 	testsuite/runtest.main/options.exp \
 	testsuite/runtest.main/options/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \

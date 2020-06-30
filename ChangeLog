@@ -1,3 +1,72 @@
+2020-06-29  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	* NEWS: Add item for repeated error messages.
+
+	* lib/framework.exp (log_and_exit): Add separator lines around the
+	error dumps repeated at the end of a run.
+
+2020-06-26  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	* NEWS: Remove items for --keep_going / --no_keep_going options.
+
+	* Makefile.am (CLEANFILES): Adjust for renames.
+	(TESTSUITE_FILES): Likewise.
+
+	* doc/dejagnu.texi (Invoking runtest): Remove --keep_going and
+	--no_keep_going options.
+	(A POSIX Conforming Test Framework): Document that Tcl errors in
+	test scripts produce UNRESOLVED results as placeholders.
+
+	* doc/runtest.1: Likewise.
+
+	* lib/framework.exp (log_and_exit): Print collected Tcl errors.
+
+	* runtest.exp (dejagnu::error): New internal namespace.
+	(runtest): Collect Tcl errors caught while executing test scripts.
+	(dejagnu::opt): Remove internal namespace.
+	Remove --keep_going / --no_keep_going options.  No longer abort on
+	any Tcl errors; instead store them and repeat the messages at the
+	end of the run.
+
+	* testsuite/runtest.main/abort.exp: Rename from this ...
+	* testsuite/runtest.main/error.exp: ... to this and revise tests.
+
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-al-dbz.exp:
+	Rename from this...
+	* testsuite/runtest.main/error/testsuite/error.test/error-al-dbz.exp:
+	... to this.
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-dbz.exp:
+	Rename from this...
+	* testsuite/runtest.main/error/testsuite/error.test/error-dbz.exp:
+	... to this.
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-undef.exp:
+	Rename from this...
+	* testsuite/runtest.main/error/testsuite/error.test/error-undef.exp:
+	... to this.
+
+2020-06-24  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	* NEWS: Revise relevant items.
+
+	* doc/dejagnu.texi (Invoking runtest): Add --no_keep_going option.
+	* doc/runtest.1: Document --no_keep_going option.  Remove
+	long-obsolete --name option.  The --name option had been removed
+	from runtest before the code was imported into what became the
+	current repository.
+
+	* runtest.exp: Add option --no_keep_going to stop immediately if a
+	test script aborts due to a Tcl error.  Remove vestiges of
+	long-obsolete --name option.  Make --keep_going option default.
+
+	* testsuite/runtest.main/abort.exp: Adjust tests to use
+	--no_keep_going and --keep_going instead of assuming a default.
+
 2020-06-22  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	Merge patches from Maciej W. Rozycki to fix timeout handling.
@@ -56,6 +125,74 @@
 	* lib/target.exp (default_target_compile): Add early_flags.
 	* doc/dejagnu.texi (target_compile procedure): Document
 	early_flags.
+
+2020-06-19  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	Merge patches from Tom de Vries <tdevries <at> suse.de> and write
+	ChangeLog entries.
+
+	* testsuite/runtest.main/abort.exp: Add tests that verify handling
+	of arithmetic errors (divide-by-zero) in a procedure called within
+	a test script.
+
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-dbz.exp: New file.
+
+2020-06-18  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824 / PR 41918
+
+	Thanks to Tom de Vries for raising these concerns and offering the
+	initial testsuite patch that led to these changes.
+
+	* NEWS: Add item for consistent abort-on-error handling.
+
+	* lib/framework.exp (unknown): Always link global variables.  Tidy.
+	Silently propagate errors raised in autoloaded procedures and move
+	the UNRESOLVED result and aborting the test run to...
+	* runtest.exp (runtest): Report an UNRESOLVED result if a test
+	script aborts due to a Tcl error.  Link global errorCode and
+	report its value if an error occurs.  For consistency, abort the
+	test run on any Tcl error in a test script instead of only when
+	calling an undefined procedure.
+
+	* testsuite/runtest.main/abort.exp: Add tests to verify handling
+	of arithmetic errors (divide-by-zero) in an auto-loaded procedure
+	called from a test script.  Adjust other patterns.
+
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-al-dbz.exp:
+	New file.
+
+2020-06-17  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	PR 41824
+
+	* NEWS: Add item for --keep_going option.
+
+	* Makefile.am (CLEANFILES): Add abort-init.exp to list.
+	(TESTSUITE_FILES): Add new testsuite files to list.
+
+	* doc/dejagnu.texi (Invoking runtest): Document new --keep_going
+	command line option.
+	* doc/runtest.1: Likewise.
+
+	* lib/framework.exp (unknown): Report an UNRESOLVED result if an
+	unknown command is invoked.  Avoid exiting and propagate the error
+	from Tcl's "unknown" procedure if --keep_going was
+	specified. Brace procedure argument list.
+	* runtest.exp (dejagnu::opt): New namespace.
+	Add option --keep_going to continue running tests after a test
+	script aborts due to calling an undefined command.
+
+	* testsuite/runtest.main/abort.exp: New file.
+	* testsuite/runtest.main/abort/testsuite/abort.test/abort-undef.exp:
+	New file.
+	* testsuite/runtest.main/abort/testsuite/abort.test/simple.exp:
+	New file.
+
+2020-06-17  Tom de Vries  <tdevries <at> suse.de>
+
+	* lib/framework.exp (unknown): Propagate return value of auto-loaded
+	command.
 
 2020-06-15  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
