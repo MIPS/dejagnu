@@ -103,6 +103,7 @@ baseboard_DATA = \
 	baseboards/i386-sid.exp \
 	baseboards/iq2000-sim.exp \
 	baseboards/jmr3904-sim.exp \
+	baseboards/qemu.exp \
 	baseboards/linux-gdbserver.exp \
 	baseboards/linux-libremote.exp \
 	baseboards/m68k-sid.exp \
