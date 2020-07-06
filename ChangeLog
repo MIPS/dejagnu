@@ -1,3 +1,13 @@
+2020-07-06    <rob@senecass.com>
+
+	* baseboards/qemu.exp: Initial working support to use qemu for
+	bare metal testing.
+	* Makefile.am: Install qemu.exp.
+	* autogen.sh: Add script borrowed from my Gnash project to
+	regenerate configure/build files.
+	* aclocal.m4, configure.ac, Makefile.am: regenerated GDB too.
+	* doc/dejagnu.texi: Update copyright date.
+
 2020-06-15  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	Merge patches from Linaro:
