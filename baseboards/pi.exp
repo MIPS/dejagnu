@@ -29,16 +29,15 @@ set_board_info rsh_prog /usr/bin/ssh
 set_board_info rcp_prog /usr/bin/scp
 set_board_info protocol standard
 set_board_info hostname pi
-set_board_info username rob
 
 # We will be using the standard GDB remote protocol
 set_board_info gdb_protocol "remote"
 
-# Path to the gdbserver executable, if required.
-set_board_info gdb_server_prog builds/x86_64-unknown-linux-gnu/arm-linux-gnueabihf/binutils-gdb.git~gdb-9-branch-gdbserver/gdbserver
+# Path to the gdbserver executable, use the one on the board
+set_board_info gdb_server_prog "/usr/bin/gdbserver"
 
 # Name of the computer whose socket will be used, if required.
-set_board_info sockethost "pi:"
+set_board_info gdb,sockethost "pi:"
 
 # Port ID to use for socket connection
 # set_board_info gdb,socketport "4004"
@@ -57,3 +56,6 @@ set_board_info gdb,noinferiorio 1
 
 # Can't do hardware watchpoints, in general
 set_board_info gdb,no_hardware_watchpoints 1
+
+# statically link the test case executables
+set_board_info ldflags "-static"
