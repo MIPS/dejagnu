@@ -2600,6 +2600,7 @@ DejaGnu provides these Tcl procedures.
 * verbose Procedure: verbose procedure
 * load_lib Procedure: load_lib procedure
 * testsuite Procedure: testsuite procedure
+* testcase procedure: testcase procedure
 @end menu
 
 @node open_logs procedure, close_logs procedure, , Core Internal Procedures
@@ -3181,7 +3182,7 @@ lappend libdirs $srcdir/../../gcc/testsuite/lib
 load_lib foo.exp
 @end example
 
-@node testsuite procedure,  , load_lib procedure, Core Internal Procedures
+@node testsuite procedure, testcase procedure, load_lib procedure, Core Internal Procedures
 @subsubheading testsuite Procedure
 @findex testsuite
 
@@ -3233,6 +3234,67 @@ Unless the @code{-hypothetical} option is given, any directories
 implied by the returned value will exist upon return.  Implied
 directories are created in the object tree if needed.  An error is
 raised if an implied directory does not exist in the source tree.
+
+@subsubheading testsuite can call api
+
+The @code{testsuite can call api} command is a feature test and
+returns a boolean value indicating if a subcommand under a multiplex
+point is available.  This API call is needed because only the
+multiplex points themselves are visible to the Tcl info command.
+
+@quotation
+@t{  @b{testsuite can call api} @i{feature}... }
+@end quotation
+
+Any number of words are joined together into a single name, beginning
+with a multiplex entry point and forming the full name of an API call
+as documented in this manual.
+
+@node testcase procedure,  , testsuite procedure, Core Internal Procedures
+@subsubheading testcase Procedure
+
+The @code{testcase} procedure is a multiplex call for retrieving or
+providing information about the state of the testing process.
+
+@subsubheading testcase group
+
+The @code{testcase group} command provides support for grouping tests
+into hierarchical groups within a test script.
+
+Group names are internally tracked as Tcl lists, but are reported as
+strings delimited using forward slash (@samp{/}) characters.
+Individual name elements may not contain whitespace, but may contain
+forward slash.  A group entered by traversing intermediate levels must
+be left by traversing those same levels.  Groups must properly nest.
+
+There are three uses:
+
+@quotation
+@t{  @b{testcase group}}
+@end quotation
+
+Return the current group as a string delimited with forward slash
+(@samp{/}) characters.
+
+@quotation
+@t{  @b{testcase group begin} @i{name}}
+@end quotation
+@quotation
+@t{  @b{testcase group end} @i{name}}
+@end quotation
+
+These forms allow a group to be explicitly entered and left.  The
+@i{name} parameter must be identical across a pair of these calls, and
+both the @code{begin} and @code{end} calls must be in the same file.
+
+@quotation
+@t{  @b{testcase group eval} @i{name} @{@i{code}@}}
+@end quotation
+
+This form is available to wrap the @code{begin} and @code{end} calls
+around the execution of the provided @i{code}.  This form is preferred
+for convenience in top-level scripts, but the @code{begin} and
+@code{end} calls are preferred in helper procedures for performance.
 
 @node Procedures For Remote Communication, connprocs, Core Internal Procedures, Built-in Procedures
 @section Procedures For Remote Communication
@@ -5900,5 +5962,5 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
-@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran
-@c  LocalWords:  rustc executables
+@c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran api
+@c  LocalWords:  boolean subcommand testcase eval rustc executables
