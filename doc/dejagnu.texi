@@ -4564,6 +4564,10 @@ Use a compiler for the D language.
 Use a compiler for Fortran 77.
 @item f90
 Use a compiler for Fortran 90.
+@item go
+Use a compiler for Go.
+@item rust
+Use a compiler for Rust.
 @end table
 If none of these options are given, the C compiler is used by default.
 Giving multiple language-selection options is an error.
@@ -4595,6 +4599,12 @@ this option is given multiple times, only the last use is significant.
 @item compiler=@var{command}
 Override the defaults and use @var{command} as the compiler.  If
 this option is given multiple times, only the last use is significant.
+@item linker=@var{command}
+Override the defaults and use @var{command} to build executables.  If
+this option is given multiple times, only the last use is significant.
+@item early_flags=@var{flags}
+Prepend @var{flags} to the set of arguments to be passed to the compiler.
+Multiple uses of this option specify additional arguments.
 @item additional_flags=@var{flags}
 Add @var{flags} to the set of arguments to be passed to the compiler.
 Multiple uses of this option specify additional arguments.
@@ -4666,6 +4676,15 @@ Override Fortran 77 compiler.  If the @code{f77} option is given, this
 compiler will be used and the @code{compiler} option ignored.
 @item F90_FOR_TARGET
 Override Fortran 90 compiler.  If the @code{f90} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item GO_FOR_TARGET
+Override Go compiler.  If the @code{go} option is given, this
+compiler will be used and the @code{compiler} option ignored.
+@item GO_LD_FOR_TARGET
+Override Go linker.  If the @code{go} option is given, this
+linker will be used.
+@item RUSTC_FOR_TARGET
+Override Rust compiler.  If the @code{rust} option is given, this
 compiler will be used and the @code{compiler} option ignored.
 @item GNATMAKE_FOR_TARGET
 Override Ada compiler.  If the @code{ada} option is given, this
@@ -5272,6 +5291,9 @@ systems.
 * find_g++ Procedure: find_g++ procedure
 * find_g77 Procedure: find_g77 procedure
 * find_gfortran Procedure: find_gfortran procedure
+* find_go Procedure: find_go procedure
+* find_go_linker Procedure: find_go_linker procedure
+* find_rustc Procedure: find_rustc procedure
 * process_multilib_options Procedure: process_multilib_options procedure
 * add_multilib_option Procedure: add_multilib_option procedure
 * find_gas Procedure: find_gas procedure
@@ -5511,7 +5533,7 @@ for a cross-compiler if the build tree is configured for one.
 @t{@b{find_g77}}
 @end quotation
 
-@node find_gfortran procedure, process_multilib_options procedure, find_g77 procedure, Libgloss
+@node find_gfortran procedure, find_go procedure, find_g77 procedure, Libgloss
 @subsubheading find_gfortran Procedure
 @findex find_gfortran
 
@@ -5523,7 +5545,46 @@ for a cross-compiler if the build tree is configured for one.
 @t{@b{find_gfortran}}
 @end quotation
 
-@node process_multilib_options procedure, add_multilib_option procedure, find_gfortran procedure, Libgloss
+@node find_go procedure, find_go_linker procedure, find_gfortran procedure, Libgloss
+@subsubheading find_go Procedure
+@findex find_go
+
+Looks for a copy of the GNU compiler for the Go language in the build
+tree and in the @code{PATH}.  This will also return the proper
+transformed name for a cross-compiler if the build tree is configured
+for one.
+
+@quotation
+@t{@b{find_go}}
+@end quotation
+
+@node find_go_linker procedure, find_rustc procedure, find_go procedure, Libgloss
+@subsubheading find_go_linker Procedure
+@findex find_go_linker
+
+Looks for a copy of the special linker associated with the GNU
+compiler for the Go language in the build tree and in the @code{PATH}.
+This will also return the proper transformed name for a cross-compiler
+if the build tree is configured for one.
+
+@quotation
+@t{@b{find_go_linker}}
+@end quotation
+
+@node find_rustc procedure, process_multilib_options procedure, find_go_linker procedure, Libgloss
+@subsubheading find_rustc Procedure
+@findex find_rustc
+
+Looks for a copy of a compiler for the Rust language in the build tree
+and in the @code{PATH}.  The Rust compiler is different and this
+procedure also ensures that it will be called with options to suppress
+output coloration.
+
+@quotation
+@t{@b{find_rustc}}
+@end quotation
+
+@node process_multilib_options procedure, add_multilib_option procedure, find_rustc procedure, Libgloss
 @subsubheading process_multilib_options Procedure
 @findex process_multilib_options
 
@@ -5840,3 +5901,4 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 @c  LocalWords:  subdirectory prepend prepended testsuite filename Expect's svn
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
 @c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran
+@c  LocalWords:  rustc executables
