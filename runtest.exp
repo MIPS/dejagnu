@@ -97,6 +97,14 @@ set global_init_file	site.exp	;# global init file name
 set testsuitedir	"testsuite"	;# top-level testsuite source directory
 set testbuilddir	"testsuite"	;# top-level testsuite object directory
 
+#
+# Collected errors
+#
+namespace eval ::dejagnu::error {
+    # list of { file message errorCode errorInfo } lists
+    variable list [list]
+}
+
 # Various ccache versions provide incorrect debug info such as ignoring
 # different current directory, breaking GDB testsuite.
 set env(CCACHE_DISABLE) 1
@@ -466,7 +474,6 @@ for { set i 0 } { $i < $argc } { incr i } {
 	"--ig*"  -
 	"--loc*" -
 	"--m*"  -
-	"--n*"  -
 	"--ob*" -
 	"--ou*" -
 	"--sr*" -
@@ -1119,7 +1126,6 @@ for { set i 0 } { $i < $argc } { incr i } {
 	"--ig*"  -
 	"--loc*" -
 	"--m*"  -
-	"--n*"  -
 	"--ob*" -
 	"--ou*" -
 	"--sr*" -
@@ -1550,6 +1556,7 @@ proc runtest { test_file_name } {
     global bug_id
     global test_result
     global errcnt
+    global errorCode
     global errorInfo
     global tool
     global testdir
@@ -1571,7 +1578,7 @@ proc runtest { test_file_name } {
 	    }
 	}
 
-	if { [catch "uplevel #0 source $test_file_name"] == 1 } {
+	if { [catch "uplevel #0 source $test_file_name" msg] == 1 } {
 	    # If we have a Tcl error, propagate the exit status so
 	    # that 'make' (if it invokes runtest) notices the error.
 	    global exit_status exit_error
@@ -1579,15 +1586,27 @@ proc runtest { test_file_name } {
 	    if { $exit_status == 0 } {
 		set exit_status 2
 	    }
+	    set new_error [list $test_file_name $msg]
 	    # We can't call `perror' here, it resets `errorInfo'
 	    # before we want to look at it.  Also remember that perror
 	    # increments `errcnt'.  If we do call perror we'd have to
 	    # reset errcnt afterwards.
 	    clone_output "ERROR: tcl error sourcing $test_file_name."
+	    if {[info exists errorCode]} {
+		clone_output "ERROR: tcl error code $errorCode"
+		lappend new_error $errorCode
+	    } else {
+		lappend new_error [list]
+	    }
 	    if {[info exists errorInfo]} {
 		clone_output "ERROR: $errorInfo"
+		lappend new_error $errorInfo
 		unset errorInfo
+	    } else {
+		lappend new_error [list]
 	    }
+	    lappend ::dejagnu::error::list $new_error
+	    unresolved "testcase '$test_file_name' aborted due to Tcl error"
 	}
 
 	if {[info exists tool]} {

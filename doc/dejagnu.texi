@@ -385,6 +385,11 @@ A test depends on a previous test, which has failed.
 
 @item
 The test was set up incorrectly.
+
+@item
+A test script aborts due to a Tcl error.  In this case, the DejaGnu
+framework inserts an @emph{UNRESOLVED} result as a placeholder for an
+unknown number of tests that were not run because the script crashed.
 @end itemize
 
 @table @asis
