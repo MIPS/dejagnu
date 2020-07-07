@@ -18,14 +18,14 @@ X. runtest now collects Tcl errors encountered during a test run and prints
    computes a relative file name to a given destination from a given base.
 4. The utility procedure 'grep' now accepts a '-n' option that
    includes line numbers in the output, consistent with GNU grep.
-5. A new multiplex procedure "testsuite" is added for commands
-   retrieving or providing information about the current testsuite.
-6. A command "testsuite file" is added to replace the use of the
-   "*dir" variables in test scripts.
 X. The target_compile procedure now accepts a "linker=" option that
    overrides the compiler selection when producing an executable.
 X. The internal default_target_compile procedure now supports compiling
    sources in Go (using GCC Go) and Rust.
+5. A new multiplex procedure "testsuite" is added for commands
+   retrieving or providing information about the current testsuite.
+6. A command "testsuite file" is added to replace the use of the
+   "*dir" variables in test scripts.
 7. A command "testsuite can call api" is added to report the availability
    of multiplexed API calls.
 8. A new multiplex procedure "testcase" is added for commands
