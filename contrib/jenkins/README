@@ -1,0 +1,7 @@
+These are board files for various publically accessible remote linux
+hosts. Current these are for the GCC compile farm, which you need to
+get a free account on. Or use the same hostnames in your /etc/hosts and
+$HOME/.ssh/config and it'll just work.
+
+Copy these to $HOME/boards to active them.
+

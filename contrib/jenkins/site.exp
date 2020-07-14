@@ -1,0 +1,62 @@
+# The master configuration file should be here
+
+global env
+if {[info exists env(PREFIX_UNDER_TEST)]} {
+    set prefix "$env(PREFIX_UNDER_TEST)"
+    set flags ""
+    if {[info exists env(FLAGS_UNDER_TEST)]} {
+	set flags "$env(FLAGS_UNDER_TEST)"
+    }
+    if {[info exists env(SYSROOT_UNDER_TEST)]} {
+	set sysroot "$env(SYSROOT_UNDER_TEST)"
+	set flags "$flags --sysroot=$env(SYSROOT_UNDER_TEST)"
+    }
+
+    set GCC_UNDER_TEST "[set prefix]gcc $flags"
+    set GXX_UNDER_TEST "[set prefix]g++ $flags"
+    set GFORTRAN_UNDER_TEST "[set prefix]gfortran $flags"
+    set OBJC_UNDER_TEST "[set prefix]gcc $flags"
+    set GOC_UNDER_TEST "[set prefix]goc $flags"
+    set GNAT_UNDER_TEST "[set prefix]gnat $flags"
+}
+
+if {[info exists env(SYSROOT_UNDER_TEST)]} {
+    set native ""
+} else {
+    set native "native"
+}
+
+if {[info exists env(QEMU_CPU_UNDER_TEST)]} {
+    set qemu_cpu "$env(QEMU_CPU_UNDER_TEST)"
+} else {
+    set qemu_cpu "any"
+}
+
+case "$target_triplet" in {
+    {"arm-pi3-linux-gnueabihf"} {
+	set target_list { "pi" }
+    }
+    { "arm-*linux-gnueabi*" "armv7l-*linux-gnueabi*" } {
+	set target_list { "arm-target2" "arm-target4" "arm-target1"}
+    }
+    { "aarch64-*-gnu" } {
+	set target_list { "aarch64-target2" "aarch64-target4" "aarch64-target1"}
+    }
+    { "armeb-*-eabi*" } {
+	global SIM
+	# CPU and sysroot are set through the environment
+	set SIM "qemu-armeb"
+    }
+    { "arm*-*-eabi*" } {
+	global SIM
+	# CPU and sysroot are set through the environment
+	set SIM "qemu-arm"
+    }
+    { "aarch64*-*elf*" } {
+	set SIM "qemu-aarch64"
+	set target_list { "qemu" }
+    }
+    default {
+	puts "No target hardware for $target_triplet"
+    }
+}
