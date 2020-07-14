@@ -1,3 +1,11 @@
+2020-07-13  Rob Savoye  <rob@senecass.com>
+
+	* contrib/jenkins/README: Initial document on using these files.
+	* contrib/jenkins/site.exp: Site specific global config file for
+	the GCC compile farm.
+	* contrib/jenkins/aarch64-target*: Board files for Armv8 targets,
+	* contrib/jenkins/arm-target*: Board files for Armv7 targets.
+
 2020-07-06  Rob Savoye  <rob@senecass.com>
 
 	* baseboards/qemu.exp: Initial working support to use qemu for
