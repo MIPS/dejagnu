@@ -15,22 +15,10 @@
 # along with DejaGnu; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Load the generic configuration for this board. This will define a basic
-# set of routines used to communicate with the board.
-# load_generic_config "sim"
-load_generic_config "gdbserver"
-#load_lib gdbserver-support.exp
-
+# load_base_board_description "gdbserver-support"
 
 set qemu ""
 set spec ""
-
-proc gdb_start {} {
-    puts "TRACE: gdb_start"
-    default_gdb_start
-
-    return 0
-}
 
 # No multilib flags needed by default.
 process_multilib_options ""
@@ -49,6 +37,10 @@ if { [lindex $ret 0] == 0 } {
 }
 # set library path environment variable for qemu
 set env(QEMU_LD_PREFIX) $sysroot
+
+# Define ld_library_path variable to workaround asan and go testsuites
+# referring to it
+set ld_library_path ""
 
 # In the beginning, only linker scripts were used to produce a fully
 # linked executable. Then a better solution of having GCC spec file
@@ -84,21 +76,25 @@ case "$target_triplet" in {
     }
     { "arm*-*-eabi*" } {
 	set qemu "qemu-arm"
+	set spec="-static"
 	set spec  "elf-rdimon.specs"
     }
     { "aarch64be-*-elf" } {
 	set qemu "qemu-aarch64_be"
 	set spec  "rdimon.specs"
     }
+    { "aarch64*-gnu*" } {
+	set qemu "qemu-aarch64"
+	set spec  "-static"
+    }
     { "aarch64*-*elf*" } {
 	# There's multiple spec files, but rdimon is the
 	# one usually used for testing.
 	set qemu "qemu-aarch64"
 	set spec "rdimon.specs"
-	set target_list qemu
     }
     # FIXME: These following qemu variants are just what QEMU
-    # support, the pattern to match for the target needs to be
+    # supports, the pattern to match for the target needs to be
     # researched.
     { "cris*" } {
 	set qemu "qemu-cris"
@@ -168,19 +164,22 @@ case "$target_triplet" in {
     }
 }
 
+# 2345 is the default port used for the remote debugging protocol
 set port "2345"
 # QEMU uses the standard renmote debugging protocol as used by gdbserver.
 set_board_info gdb_protocol "remote"
 # localhost is the default host used for the remote debugging protocol
-set_board_info gdb,sockethost "localhost"
-# 2345 is the default port used for the remote debugging protocol
+set_board_info sockethost "localhost"
 set_board_info gdb,socketport $port
 set_board_info target_sim_options "-g $port"
 set_board_info gdb_server_prog $qemu
 set_board_info specfile $spec
 set_board_info needs_status_wrapper 1
-set_board_info protocol standard
+#set_board_info protocol standard
 push_config target qemu
+
+# Path to the gdbserver executable, if required.
+set_board_info gdb_server_prog "/usr/bin/gdbserver"
 
 # This gdbserver can only run a process once per session.
 set_board_info gdb,do_reload_on_run 1
@@ -192,6 +191,10 @@ set_board_info noargs 0
 
 set_board_info cflags  "[libgloss_include_flags]"
 set_board_info ldflags "[libgloss_link_flags] [newlib_link_flags] -specs=$spec -static"
+
+
+set_board_info rsh_prog /usr/bin/ssh
+set_board_info rcp_prog /usr/bin/scp
 
 proc qemu_load { dest prog args } {
     global qemu
@@ -211,17 +214,7 @@ proc qemu_load { dest prog args } {
 proc qemu_download { dest prog args } {
     global qemu
     global timeout
-    puts "TRACE: qemu_download $dest $prog $args"
     # qemu is already running with our executable.
-}
-
-proc qemu_exec { dest prog args } {
-    global qemu
-    global timeout
-    puts "TRACE: qemu_exec $dest $prog $args"
-    
-    # gdb_target_cmd "remote" ""
-    
 }
 
 #
@@ -232,27 +225,41 @@ proc gdb_load { args } {
     global verbose
     global GDB
     global user_spawn_id
+    global spawn_id
     global qemu
-    puts "TRACE: gdb_load $args"
-
-    # qemu implements the gdbserver protocol.
-    spawn  -nottyinit -noecho $qemu -g 2345 $args
-    # disconnect
 
     if { $args != "" } {
 	if [gdb_file_cmd $args] then { return -1 }
     }
 
-    # Only the remote protocol is used with the QEMU's gdbserver support
-    set ret [gdb_target_cmd "remote" ":2345"]
-    # set ret [gdb_target_cmd $protocol ""]
-    puts $ret
-  
+    if { $args == "{}"} {
+	puts "No executable passed to GDB!"	
+
+	# Only the remote protocol is used with the QEMU's gdbserver support
+	send_gdb "target extended-remote :2345\n"
+	gdb_expect 2400 {
+	    -re ".*$gdb_prompt $" {
+		if $verbose>1 then {
+		    send_user "Connected to QEMU target\n"
+		}
+	    }
+	    -re "Remote debugging using .*$gdb_prompt $" {
+		verbose "Set target to remote for QEMU"
+	    }
+	    timeout {
+		if $verbose>1 then {
+		    perror "Timed out trying to connect to QEMU target."
+		}
+	    }
+	}
+#	send_gdb "continue\n"
+    }
+
     send_gdb "load\n"
     gdb_expect 2400 {
 	-re ".*$gdb_prompt $" {
 	    if $verbose>1 then {
-		send_user "Loaded $args into $GDB\n"
+		send_user "Loaded $args into GDB\n"
 	    }
 	    close $spawn_id
 	    return 0
@@ -269,6 +276,28 @@ proc gdb_load { args } {
 	}
     }
 
-    close $spawn_id    
+    close $spawn_id
     return -1
+}
+
+proc runto_main { } {
+    global verbose
+    global gdb_prompt
+
+    send_gdb "continue\n"
+    gdb_expect 2400 {
+	-re ".*$gdb_prompt $" {
+	    if $verbose>1 then {
+		send_user "Continuing QEMU target\n"
+	    }
+	}
+	timeout {
+	    if $verbose>1 then {
+		perror "Timed out trying to connect to QEMU target."
+	    }
+	}
+    }
+
+    return ""
+    # return [runto main no-message]
 }
