@@ -22,23 +22,7 @@
 
 load_lib util-defs.exp
 
-if {![info exists tmpdir]} {
-    set tmpdir [testsuite file -object -top tmpdir]
-}
-
-set fd [open error-init.exp w]
-puts $fd "set srcdir [testsuite file -source -test error]"
-puts $fd "set objdir [testsuite file -object -test error]"
-puts $fd "set tmpdir $tmpdir"
-close $fd
-
-if {![file isdirectory $tmpdir]} {
-    catch "file mkdir $tmpdir"
-}
-
-if {![file isdirectory [testsuite file -object -test error]]} {
-    catch {file mkdir [testsuite file -object -test error]}
-}
+runtest_setup_nested_testsuite
 
 set tests {
     { "run only simple test"
@@ -67,8 +51,8 @@ set tests {
 
 foreach t $tests {
     if [util_test $RUNTEST \
-	    "--local_init error-init.exp\
-		--outdir $tmpdir -a [lindex $t 1]" \
+	    "--local_init nested-init.exp --tool error\
+		-a [lindex $t 1]" \
 	    "" \
 	    [lindex $t 2]] {
 	fail [lindex $t 0]
@@ -77,5 +61,8 @@ foreach t $tests {
     }
 }
 
-file delete -force $tmpdir
-file delete -force [testsuite file -object -test error testsuite error.test lib]
+runtest_cleanup_nested_testsuite
+
+# remove the autoload files generated during the test
+file delete -force \
+    [testsuite file -object -test nested testsuite error.test lib]

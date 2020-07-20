@@ -26,7 +26,7 @@ EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-CLEANFILES = error-init.exp options-init.exp stats-init.exp
+CLEANFILES = dbg.log nested-init.exp
 
 clean-local: clean-local-check
 .PHONY: clean-local-check
@@ -182,14 +182,14 @@ TESTSUITE_FILES = \
 	testsuite/runtest.libs/target.test \
 	testsuite/runtest.libs/utils.test \
 	testsuite/runtest.main/error.exp \
-	testsuite/runtest.main/error/testsuite/error.test/error-al-dbz.exp \
-	testsuite/runtest.main/error/testsuite/error.test/error-dbz.exp \
-	testsuite/runtest.main/error/testsuite/error.test/error-undef.exp \
-	testsuite/runtest.main/error/testsuite/error.test/simple.exp \
+	testsuite/runtest.main/nested/testsuite/error.test/error-al-dbz.exp \
+	testsuite/runtest.main/nested/testsuite/error.test/error-dbz.exp \
+	testsuite/runtest.main/nested/testsuite/error.test/error-undef.exp \
+	testsuite/runtest.main/nested/testsuite/error.test/simple.exp \
 	testsuite/runtest.main/options.exp \
-	testsuite/runtest.main/options/testsuite/null.test/null.exp \
+	testsuite/runtest.main/nested/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
-	testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp \
+	testsuite/runtest.main/nested/testsuite/stat.test/stats-sub.exp \
 	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \

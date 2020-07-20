@@ -1,3 +1,46 @@
+2020-07-20  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* Makefile.am (CLEANFILES): Update.
+	(TESTSUITE_FILES): Update to reflect testsuite reorganization.
+
+	* testsuite/lib/runtest.exp (runtest_setup_nested_testsuite): New
+	procedure.
+	(runtest_cleanup_nested_testsuite): New procedure.
+
+	* testsuite/runtest.main/error.exp: Use the tool name "error" to
+	select the proper subset of the nested testsuite.  Use new
+	procedures for handling nested testsuite.  Use common
+	nested-init.exp local init file for nested testsuite.  Let local
+	init file nested-init.exp handle setting "outdir" variable.
+	* testsuite/runtest.main/options.exp: Likewise; "null" tool.
+	* testsuite/runtest.main/stats.exp: Likewise; "stat" tool.
+
+	* testsuite/runtest.main/nested/: Combine nested testsuites.
+	* testsuite/runtest.main/error/testsuite/error.test/error-al-dbz.exp:
+	Move from here...
+	* testsuite/runtest.main/nested/testsuite/error.test/error-al-dbz.exp:
+	...to here.
+	* testsuite/runtest.main/error/testsuite/error.test/error-dbz.exp:
+	Move from here...
+	* testsuite/runtest.main/nested/testsuite/error.test/error-dbz.exp:
+	...to here.
+	* testsuite/runtest.main/error/testsuite/error.test/error-undef.exp:
+	Move from here...
+	* testsuite/runtest.main/nested/testsuite/error.test/error-undef.exp:
+	...to here.
+	* testsuite/runtest.main/error/testsuite/error.test/simple.exp:
+	Move from here...
+	* testsuite/runtest.main/nested/testsuite/error.test/simple.exp:
+	...to here.
+	* testsuite/runtest.main/options/testsuite/null.test/null.exp:
+	Move from here...
+	* testsuite/runtest.main/nested/testsuite/null.test/null.exp:
+	...to here.
+	* testsuite/runtest.main/stats/testsuite/stat.test/stats-sub.exp:
+	Move from here...
+	* testsuite/runtest.main/nested/testsuite/stat.test/stats-sub.exp:
+	...to here.
+
 2020-07-16  Rob Savoye  <rob@senecass.com>
 
 	* baseboards/qemu.exp: Works now with qemu instead of sim.

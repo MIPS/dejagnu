@@ -1,4 +1,4 @@
-# Copyright (C) 1995-2016, 2018 Free Software Foundation, Inc.
+# Copyright (C) 1995-2016, 2018, 2020 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -22,23 +22,7 @@
 
 load_lib util-defs.exp
 
-if {![info exists tmpdir]} {
-    set tmpdir [testsuite file -object -top tmpdir]
-}
-
-set fd [open stats-init.exp w]
-puts $fd "set srcdir [testsuite file -source -test stats]"
-puts $fd "set objdir [testsuite file -object -test stats]"
-puts $fd "set tmpdir $tmpdir"
-close $fd
-
-if {![file isdirectory $tmpdir]} {
-    catch "file mkdir $tmpdir"
-}
-
-if {![file isdirectory [testsuite file -object -test stats]]} {
-    catch {file mkdir [testsuite file -object -test stats]}
-}
+runtest_setup_nested_testsuite
 
 set tests {
     { pass "expected passes\[ \t\]+1\n" }
@@ -54,8 +38,8 @@ set tests {
 
 foreach t $tests {
     if [util_test $RUNTEST \
-	    "--local_init stats-init.exp\
-		--outdir $tmpdir STATS_TEST=[lindex $t 0] stats-sub.exp" \
+	    "--local_init nested-init.exp --tool stat\
+		STATS_TEST=[lindex $t 0] stats-sub.exp" \
 	    "" \
 	    [lindex $t 1]] {
 	fail [lindex $t 0]
@@ -64,4 +48,4 @@ foreach t $tests {
     }
 }
 
-file delete -force $tmpdir
+runtest_cleanup_nested_testsuite
