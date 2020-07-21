@@ -112,16 +112,19 @@ proc host_execute {args} {
     set timetol 0
     set arguments ""
 
-    if { [llength $args] == 0} {
-	set executable $args
+    if { [llength $args] == 0 } {
+	return "No executable specified."
     } else {
-	set executable [string trimleft [lindex [split $args " "] 0] "\{"]
-	set params [string trimleft [lindex [split $args " "] 1] "\{"]
-	set params [string trimright $params "\}"]
+	set executable [lindex $args 0]
+	set arguments [lrange $args 1 end]
     }
 
     verbose "The executable is $executable" 2
-    if {![file exists $executable]} {
+    verbose "The arguments are $arguments" 2
+    if { [file exists "./${executable}"] } {
+	set executable "./${executable}"
+    }
+    if { ![file exists $executable] } {
 	perror "The executable, \"$executable\" is missing" 0
 	return "No source file found"
     }
@@ -129,7 +132,7 @@ proc host_execute {args} {
     # spawn the executable and look for the DejaGnu output messages from the
     # test case.
     # spawn -noecho -open [open "|./${executable}" "r"]
-    spawn -noecho "./${executable}" $params
+    eval [list spawn -noecho $executable] $arguments
     set prefix "\[^\r\n\]*"
     expect {
 	-re "^$prefix\[0-9\]\[0-9\]:..:..:${text}*\r\n" {

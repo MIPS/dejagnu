@@ -1,5 +1,23 @@
 2020-07-20  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
+	PR42399
+
+	* Makefile.am (TESTSUITE_FILES): Update.
+
+	* lib/dejagnu.exp (host_execute): Allow the executable to be
+	specified with an absolute file name.
+	(host_execute): Fix argument handling to allow passing more than
+	one argument to the executable.  Return early if given no
+	arguments at all instead of trying to execute "./".
+
+	* testsuite/runtest.main/pr42399.exp: New file.
+	* testsuite/runtest.main/nested/testsuite/bug.test/pr42399.awk:
+	New file.
+	* testsuite/runtest.main/nested/testsuite/bug.test/pr42399-sub.exp:
+	New file.
+
+2020-07-20  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
 	* Makefile.am (CLEANFILES): Update.
 	(TESTSUITE_FILES): Update to reflect testsuite reorganization.
 

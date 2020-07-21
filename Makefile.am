@@ -190,6 +190,9 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/nested/testsuite/null.test/null.exp \
 	testsuite/runtest.main/stats.exp \
 	testsuite/runtest.main/nested/testsuite/stat.test/stats-sub.exp \
+	testsuite/runtest.main/pr42399.exp \
+	testsuite/runtest.main/nested/testsuite/bug.test/pr42399.awk \
+	testsuite/runtest.main/nested/testsuite/bug.test/pr42399-sub.exp \
 	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \
