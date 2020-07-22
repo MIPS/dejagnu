@@ -1,3 +1,14 @@
+2020-07-22  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* Makefile.am (TESTSUITE_FILES): Update.
+
+	* testsuite/runtest.main/stats.exp: Generalize infrastructure and
+	add tests for DejaGnu unit testing support.
+	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.exp:
+	New file.
+	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.awk:
+	New file.
+
 2020-07-20  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR42399
