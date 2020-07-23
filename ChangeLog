@@ -1,5 +1,18 @@
 2020-07-22  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
+	PR42399
+
+	* NEWS: Document changes to host_execute.
+
+	* lib/dejagnu.exp (host_execute): Revise expect matching to
+	combine all unit test protocol lines into one pattern.
+	(host_execute): Rework other expect patterns.
+	(host_execute): Ensure that all output from child process is read
+	until the child closes its output to avoid sending early SIGPIPE.
+	(host_execute): Report an ERROR (and cause the next test to be
+	recorded as UNRESOLVED) if the Expect matching buffer overflows.
+	(host_execute): Remove dependency on global "text" variable.
+
 	* Makefile.am (TESTSUITE_FILES): Update.
 
 	* testsuite/runtest.main/stats.exp: Generalize infrastructure and

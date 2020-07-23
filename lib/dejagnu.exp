@@ -104,8 +104,6 @@ proc host_compile {compline} {
 #	if there was a problem.
 #
 proc host_execute {args} {
-    global text
-
     set timeoutmsg "Timed out: Never got started, "
     set timeout 100
     set file all
@@ -129,55 +127,47 @@ proc host_execute {args} {
 	return "No source file found"
     }
 
-    # spawn the executable and look for the DejaGnu output messages from the
-    # test case.
-    # spawn -noecho -open [open "|./${executable}" "r"]
+    # Spawn the executable and look for the DejaGnu output messages.
     eval [list spawn -noecho $executable] $arguments
-    set prefix "\[^\r\n\]*"
     expect {
-	-re "^$prefix\[0-9\]\[0-9\]:..:..:${text}*\r\n" {
-	    regsub "\[\n\r\t\]*NOTE: $text\r\n" $expect_out(0,string) "" output
-	    verbose $output 3
+	-re {(?:\A|\n)\t([][[:upper:]]+):([^\n]+)\n} {
+	    set output [string trim $expect_out(2,string)]
+	    switch -- $expect_out(1,string) {
+		NOTE		{ verbose $output 2 }
+		PASSED		{ pass $output }
+		FAILED		{ fail $output }
+		XPASSED		{ xpass $output }
+		XFAILED		{ xfail $output }
+		UNTESTED	{ untested $output }
+		UNRESOLVED	{ unresolved $output }
+		default {
+		    unresolved "unknown unit test token $expect_out(1,string)"
+		}
+	    }
 	    set timetol 0
 	    exp_continue
 	}
-	-re "^$prefix\tNOTE:${text}*" {
-	    regsub "\[\n\r\t\]*NOTE: $text\r\n" $expect_out(0,string) "" output
-	    set output [string range $output 6 end]
-	    verbose $output 2
-	    set timetol 0
-	    exp_continue
-	}
-	-re "^$prefix\tPASSED:${text}*" {
-	    regsub "\[\n\r\t\]*PASSED: $text\r\n" $expect_out(0,string) "" output
-	    set output [string range $output 8 end]
-	    pass $output
-	    set timetol 0
-	    exp_continue
-	}
-	-re "^$prefix\tFAILED:${text}*" {
-	    regsub "\[\n\r\t\]*FAILED: $text\r\n" $expect_out(0,string) "" output
-	    set output [string range $output 8 end]
-	    fail $output
-	    set timetol 0
-	    exp_continue
-	}
-	-re "^$prefix\tUNTESTED:${text}*" {
-	    regsub "\[\n\r\t\]*TESTED: $text\r\n" $expect_out(0,string) "" output
-	    set output [string range $output 8 end]
-	    untested $output
-	    set timetol 0
-	    exp_continue
-	}
-	-re "^$prefix\tUNRESOLVED:${text}*" {
-	    regsub "\[\n\r\t\]*UNRESOLVED: $text\r\n" $expect_out(0,string) "" output
-	    set output [string range $output 8 end]
-	    unresolved $output
-	    set timetol 0
-	    exp_continue
-	}
-	-re "^Totals" {
+	-re {^Totals} {
+	    # Flush the stream to allow the child process to finish writing
+	    # logs or other information, instead of sending SIGPIPE.
+	    expect -re {.+} { exp_continue }
 	    verbose "All done" 2
+	}
+	-re {^[^\r\n]*([0-9][0-9]:..:..:[^\n]*)\n} {
+	    # No one seems to know why this pattern is here or what it is
+	    # supposed to match.  I suspect that it is obsolete.  -- jcb, 2020
+	    verbose [string trim $expect_out(1,string)] 3
+	    set timetol 0
+	    exp_continue
+	}
+	-re {^[^\n]*\n} {
+	    # Skip other lines produced by the test program.
+	    set timetol 0
+	    exp_continue
+	}
+	full_buffer {
+	    perror "Expect matching buffer overrun while running\
+			$executable $arguments"
 	}
 	eof {
 	}
@@ -190,9 +180,6 @@ proc host_execute {args} {
 		catch close
 		return "Timed out executing test case"
 	    }
-	}
-	-re "^$prefix\r\n" {
-	    exp_continue
 	}
     }
 
