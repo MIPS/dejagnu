@@ -1,3 +1,13 @@
+2020-07-25  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
+
+	* doc/dejagnu.texi (Writing a test case): Mention the DejaGnu
+	procedure "perror" instead of the Tcl command "error".
+	(Writing a test case): Reorganize node and give basic hints about
+	Tcl quoting and backslash escape rules.
+	(Writing a test case): Describe synchronization issues and warn
+	that prefixes of valid input can be presented for matching.
+	(Writing a test case): Fix markup from conversion from DocBook.
+
 2020-07-22  Jacob Bachmeyer  <jcb62281+dev@gmail.com>
 
 	PR42399
