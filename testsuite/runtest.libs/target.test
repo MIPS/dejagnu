@@ -681,8 +681,8 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {m68k-unknown-aout-gnatmake foo.adb -midp -fada
-		 -E -I/usr/gnemul/idp/include} }
+	    { 2 {m68k-unknown-aout-gnatmake foo.adb -midp -largs -midp -margs
+		 -fada -E -I/usr/gnemul/idp/include} }
 	}
     }
     { "compile Ada to assembly with target compiler"
@@ -691,8 +691,8 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {m68k-unknown-aout-gnatmake foo.adb -midp -fada
-		 -S -I/usr/gnemul/idp/include -o foo.s} }
+	    { 2 {m68k-unknown-aout-gnatmake foo.adb -midp -largs -midp -margs
+		 -fada -S -I/usr/gnemul/idp/include -o foo.s} }
 	}
     }
     { "compile Ada to object with target compiler"
@@ -701,7 +701,7 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {m68k-unknown-aout-gnatmake -midp -fada
+	    { 2 {m68k-unknown-aout-gnatmake -midp -largs -midp -margs -fada
 		 -c -I/usr/gnemul/idp/include
 		 -o foo.o foo.adb} }
 	}
@@ -712,9 +712,9 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {m68k-unknown-aout-gnatmake foo.adb -midp -fada
-		 -I/usr/gnemul/idp/include -L/usr/gnemul/idp/lib
-		 -lidpsup -lm_idp -Tidp.ld -o foo} }
+	    { 2 {m68k-unknown-aout-gnatmake foo.adb -midp -largs -midp -margs
+		 -fada -I/usr/gnemul/idp/include -largs -L/usr/gnemul/idp/lib
+		 -margs -largs -lidpsup -lm_idp -Tidp.ld -margs -o foo} }
 	}
     }
 
@@ -727,7 +727,7 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {target-gnatmake foo.adb -midp -fada
+	    { 2 {target-gnatmake foo.adb -midp -largs -midp -margs -fada
 		 -E -I/usr/gnemul/idp/include} }
 	}
     }
@@ -737,7 +737,7 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {target-gnatmake foo.adb -midp -fada
+	    { 2 {target-gnatmake foo.adb -midp -largs -midp -margs -fada
 		 -S -I/usr/gnemul/idp/include -o foo.s} }
 	}
     }
@@ -747,7 +747,7 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {target-gnatmake -midp -fada
+	    { 2 {target-gnatmake -midp -largs -midp -margs -fada
 		 -c -I/usr/gnemul/idp/include
 		 -o foo.o foo.adb} }
 	}
@@ -758,9 +758,9 @@ eval_tests compile_test {
 	    "find_gcc" ! {}
 	    "find_gnatmake" ! {}
 	    "remote_exec host" U
-	    { 2 {target-gnatmake foo.adb -midp -fada
-		 -I/usr/gnemul/idp/include -L/usr/gnemul/idp/lib
-		 -lidpsup -lm_idp -Tidp.ld -o foo} }
+	    { 2 {target-gnatmake foo.adb -midp -largs -midp -margs -fada
+		 -I/usr/gnemul/idp/include -largs -L/usr/gnemul/idp/lib -margs
+		 -largs -lidpsup -lm_idp -Tidp.ld -margs -o foo} }
 	}
     }
     { "clean up GNATMAKE_FOR_TARGET"
@@ -773,7 +773,7 @@ eval_tests compile_test {
 	} }
 	check_calls {
 	    "remote_exec host" U
-	    { 2 {found-gnatmake foo.adb -lm -Tmvme.ld -o foo} }
+	    { 2 {found-gnatmake foo.adb -largs -lm -Tmvme.ld -margs -o foo} }
 	}
     }
     { "override destination to host and compile and link Ada with host-gnatmake"
@@ -782,7 +782,7 @@ eval_tests compile_test {
 	} }
 	check_calls {
 	    "remote_exec host" U
-	    { 2 {host-gnatmake foo.adb -lm -Tmvme.ld -o foo} }
+	    { 2 {host-gnatmake foo.adb -largs -lm -Tmvme.ld -margs -o foo} }
 	}
     }
 

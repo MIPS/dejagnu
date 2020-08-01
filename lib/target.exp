@@ -598,11 +598,12 @@ proc default_target_compile {source destfile type options} {
     }
 
     if { $type eq "executable" } {
+	set extra_ldflags ""
 	if {[board_info $dest exists ldflags]} {
-	    append add_flags " [board_info $dest ldflags]"
+	    append extra_ldflags " [board_info $dest ldflags]"
 	}
 	if { $compiler_type eq "c++" } {
-	    append add_flags " [g++_link_flags]"
+	    append extra_ldflags " [g++_link_flags]"
 	}
 	if {[isnative]} {
 	    # This is a lose.
@@ -610,14 +611,21 @@ proc default_target_compile {source destfile type options} {
 	    if { $tmp ne "" } {
 		if {[regexp ".*solaris2.*" $target_triplet]} {
 		    # Solaris 2
-		    append add_flags " -R$tool_root_dir/libstdc++"
+		    append extra_ldflags " -R$tool_root_dir/libstdc++"
 		} elseif {[regexp ".*(osf|irix5|linux).*" $target_triplet]} {
 		    # OSF/1 or IRIX 5
-		    append add_flags " -Wl,-rpath,$tool_root_dir/libstdc++"
+		    append extra_ldflags " -Wl,-rpath,$tool_root_dir/libstdc++"
 		} elseif {[regexp ".*hppa.*" $target_triplet]} {
 		    # HP-UX
-		    append add_flags " -Wl,-a,shared_archive"
+		    append extra_ldflags " -Wl,-a,shared_archive"
 		}
+	    }
+	}
+	if { $extra_ldflags ne "" } {
+	    if { $compiler_type eq "ada" } {
+		append add_flags " -largs $extra_ldflags -margs"
+	    } else {
+		append add_flags " $extra_ldflags"
 	    }
 	}
     }
@@ -641,17 +649,17 @@ proc default_target_compile {source destfile type options} {
     }
 
     if { $type eq "executable" } {
-	append add_flags " $ldflags"
+	set extra_ldflags "$ldflags"
 	foreach x $libs {
 	    if {[file exists $x]} {
 		append source " $x"
 	    } else {
-		append add_flags " $x"
+		append extra_ldflags " $x"
 	    }
 	}
 
 	if {[board_info $dest exists libs]} {
-	    append add_flags " [board_info $dest libs]"
+	    append extra_ldflags " [board_info $dest libs]"
 	}
 
 	# This probably isn't such a good idea, but it avoids nasty
@@ -660,25 +668,39 @@ proc default_target_compile {source destfile type options} {
 	# library is linked in by the linker script, so this must be before
 	# the linker script.
 	if {[board_info $dest exists mathlib]} {
-	    append add_flags " [board_info $dest mathlib]"
+	    append extra_ldflags " [board_info $dest mathlib]"
 	} else {
-	    append add_flags " -lm"
+	    append extra_ldflags " -lm"
 	}
 
 	# This must be added here.
-	append add_flags " $ldscript"
+	append extra_ldflags " $ldscript"
 
 	if {[board_info $dest exists remote_link]} {
 	    # Relink option.
-	    append add_flags " -Wl,-r"
+	    append extra_ldflags " -Wl,-r"
 	}
 	if {[board_info $dest exists output_format]} {
-	    append add_flags " -Wl,-oformat,[board_info $dest output_format]"
+	    append extra_ldflags " -Wl,-oformat,[board_info $dest \
+						 output_format]"
+	}
+	if { $extra_ldflags ne "" } {
+	    if { $compiler_type eq "ada" } {
+		append add_flags " -largs $extra_ldflags -margs"
+	    } else {
+		append add_flags " $extra_ldflags"
+	    }
 	}
     }
 
     if {[board_info $dest exists multilib_flags]} {
-	set add_flags "[board_info $dest multilib_flags] $add_flags"
+	set multilib_flags [board_info $dest multilib_flags]
+	if { $compiler_type eq "ada" } {
+	    set add_flags "$multilib_flags -largs $multilib_flags -margs\
+			   $add_flags"
+	} else {
+	    set add_flags "$multilib_flags $add_flags"
+	}
     }
 
     verbose "doing compile"
