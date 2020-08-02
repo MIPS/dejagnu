@@ -1,4 +1,4 @@
-# Copyright (C) 1995-2016, 2018 Free Software Foundation, Inc.
+# Copyright (C) 1995-2016, 2018, 2020 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -22,46 +22,37 @@
 
 load_lib util-defs.exp
 
-if {![info exists tmpdir]} {
-    set tmpdir [testsuite file -object -top tmpdir]
-}
-
-set fd [open stats-init.exp w]
-puts $fd "set srcdir [testsuite file -source -test stats]"
-puts $fd "set objdir [testsuite file -object -test stats]"
-puts $fd "set tmpdir $tmpdir"
-close $fd
-
-if {![file isdirectory $tmpdir]} {
-    catch "file mkdir $tmpdir"
-}
-
-if {![file isdirectory [testsuite file -object -test stats]]} {
-    catch {file mkdir [testsuite file -object -test stats]}
-}
+runtest_setup_nested_testsuite
 
 set tests {
-    { pass "expected passes\[ \t\]+1\n" }
-    { fail "unexpected failures\[ \t\]+1\n" }
-    { xpass "unexpected successes\[ \t\]+1\n" }
-    { xfail "expected failures\[ \t\]+1\n" }
-    { kpass "unknown successes\[ \t\]+1\n" }
-    { kfail "known failures\[ \t\]+1\n" }
-    { untested "untested testcases\[ \t\]+1\n" }
-    { unresolved "unresolved testcases\[ \t\]+1\n" }
-    { unsupported "unsupported tests\[ \t\]+1\n" }
+    { stats pass "expected passes\[ \t\]+1\n" }
+    { stats fail "unexpected failures\[ \t\]+1\n" }
+    { stats xpass "unexpected successes\[ \t\]+1\n" }
+    { stats xfail "expected failures\[ \t\]+1\n" }
+    { stats kpass "unknown successes\[ \t\]+1\n" }
+    { stats kfail "known failures\[ \t\]+1\n" }
+    { stats untested "untested testcases\[ \t\]+1\n" }
+    { stats unresolved "unresolved testcases\[ \t\]+1\n" }
+    { stats unsupported "unsupported tests\[ \t\]+1\n" }
+
+    { unit pass "expected passes\[ \t\]+1\n" }
+    { unit fail "unexpected failures\[ \t\]+1\n" }
+    { unit xpass "unexpected successes\[ \t\]+1\n" }
+    { unit xfail "expected failures\[ \t\]+1\n" }
+    { unit untested "untested testcases\[ \t\]+1\n" }
+    { unit unresolved "unresolved testcases\[ \t\]+1\n" }
 }
 
 foreach t $tests {
-    if [util_test $RUNTEST \
-	    "--local_init stats-init.exp\
-		--outdir $tmpdir STATS_TEST=[lindex $t 0] stats-sub.exp" \
+    if { [util_test $RUNTEST \
+	    "--local_init nested-init.exp --tool stat\
+		STATS_TEST=[lindex $t 1] [lindex $t 0]-sub.exp" \
 	    "" \
-	    [lindex $t 1]] {
-	fail [lindex $t 0]
+	    [lindex $t 2]] } {
+	fail "[lindex $t 0]/[lindex $t 1]"
     } else {
-	pass [lindex $t 0]
+	pass "[lindex $t 0]/[lindex $t 1]"
     }
 }
 
-file delete -force $tmpdir
+runtest_cleanup_nested_testsuite

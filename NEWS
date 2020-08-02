@@ -22,6 +22,15 @@ X. The target_compile procedure now accepts a "linker=" option that
    overrides the compiler selection when producing an executable.
 X. The internal default_target_compile procedure now supports compiling
    sources in Go (using GCC Go) and Rust.
+X. The host_execute procedure no longer insists that the executable be in
+   the current directory if the file exists under the given name.
+X. The host_execute procedure now reads input to end-of-file, to ensure
+   that the child process will be able to complete instead of being cut
+   short by a SIGPIPE under unpredictable unfavorable timing scenarios.
+X. The match patterns in the host_execute procedure have been revised to
+   fix timing issues causing test names to be truncated.
+X. The host_execute procedure is no longer sensitive to the value of the
+   "text" global variable.
 5. A new multiplex procedure "testsuite" is added for commands
    retrieving or providing information about the current testsuite.
 6. A command "testsuite file" is added to replace the use of the

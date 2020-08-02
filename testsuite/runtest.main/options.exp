@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016, 2018 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018, 2020 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -20,25 +20,7 @@
 
 load_lib util-defs.exp
 
-if {![info exists tmpdir]} {
-    set tmpdir [testsuite file -object -top tmpdir]
-}
-
-set fd [open options-init.exp w]
-puts $fd "set host_triplet $host_triplet"
-puts $fd "set srcdir [testsuite file -source -test options]"
-puts $fd "set objdir [testsuite file -object -test options]"
-puts $fd "set tmpdir $tmpdir"
-puts $fd "set outdir [testsuite file -object -test options]"
-close $fd
-
-if {![file isdirectory $tmpdir]} {
-    catch "file mkdir $tmpdir"
-}
-
-if {![file isdirectory [testsuite file -object -test options]]} {
-    catch {file mkdir [testsuite file -object -test options]}
-}
+runtest_setup_nested_testsuite
 
 #
 # Set up the list.
@@ -52,7 +34,7 @@ set tests {
     { "--help" "USAGE:*" "Display help" }
     { "-v -v -v" "Verbose level is 3" "Verbose set correctly" }
     { "-v --tool xXx"
-	"Found.*options-init\..*Loading.*utils\.exp"
+	"Found.*nested-init\..*Loading.*utils\.exp"
 	"Loading library files" }
     { "-v --tool xXx"
 	"Expect binary is.*Using.*main test driver"
@@ -112,7 +94,7 @@ set tests {
 
 foreach t $tests {
     if [util_test $RUNTEST \
-	    "[lindex $t 0] --local_init options-init.exp" \
+	    "[lindex $t 0] --local_init nested-init.exp --tool null" \
 	    "" \
 	    "[lindex $t 1]"] {
 	fail "[lindex $t 2]"
@@ -121,8 +103,4 @@ foreach t $tests {
     }
 }
 
-# clean up log files left by the child runtest
-foreach f [glob [testsuite file -object -test options *]] {
-    file delete $f
-}
-file delete -force $tmpdir
+runtest_cleanup_nested_testsuite
