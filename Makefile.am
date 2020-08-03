@@ -227,6 +227,7 @@ dist_man_MANS = doc/dejagnu.1 \
 	doc/dejagnu-report-card.1 \
 	doc/runtest.1
 info_TEXINFOS = doc/dejagnu.texi
+dejagnu_TEXINFOS = doc/fdl.texi
 
 pip-install:
 	pip3 install --upgrade -e $(top_srcdir)
