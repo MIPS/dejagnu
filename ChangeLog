@@ -1,3 +1,9 @@
+2020-08-02  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* Makefile.am (TESTSUITE_FILES): Add files that were introduced
+	during development but were mistakenly not added at that time.
+	* Makefile.in (TESTSUITE_FILES): Likewise.
+
 2020-08-02  Rob Savoye  <rob@senecass.com>
 
 	* Makefile.in: Regenerate so make dist works.

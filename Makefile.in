@@ -518,10 +518,14 @@ TESTSUITE_FILES = \
 	testsuite/runtest.libs/load_lib.exp \
 	testsuite/runtest.libs/libs.exp \
 	testsuite/runtest.libs/default_procs.tcl \
+	testsuite/runtest.libs/mockutil.tcl \
 	testsuite/runtest.libs/clone_output.test \
 	testsuite/runtest.libs/config.test \
 	testsuite/runtest.libs/remote.test \
 	testsuite/runtest.libs/target.test \
+	testsuite/runtest.libs/testcase_group.test \
+	testsuite/runtest.libs/testsuite_can.test \
+	testsuite/runtest.libs/testsuite_file.test \
 	testsuite/runtest.libs/utils.test \
 	testsuite/runtest.main/error.exp \
 	testsuite/runtest.main/nested/testsuite/error.test/error-al-dbz.exp \
