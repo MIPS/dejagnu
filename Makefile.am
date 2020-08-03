@@ -88,8 +88,8 @@ baseboarddir = $(pkgdatadir)/baseboards
 baseboard_DATA = \
 	baseboards/README \
 	baseboards/aarch64-sim.exp \
-	baseboards/androideabi.exp \
 	baseboards/am33_2.0-libremote.exp \
+	baseboards/androideabi.exp \
 	baseboards/arm-ice.exp \
 	baseboards/arm-sid.exp \
 	baseboards/arm-sim.exp \
@@ -103,7 +103,6 @@ baseboard_DATA = \
 	baseboards/i386-sid.exp \
 	baseboards/iq2000-sim.exp \
 	baseboards/jmr3904-sim.exp \
-	baseboards/qemu.exp \
 	baseboards/linux-gdbserver.exp \
 	baseboards/linux-libremote.exp \
 	baseboards/m68k-sid.exp \
@@ -113,13 +112,13 @@ baseboard_DATA = \
 	baseboards/mips-lsi-sim.exp \
 	baseboards/mips-sim-idt32.exp \
 	baseboards/mips-sim-idt64.exp \
-	baseboards/mips-sim.exp \
 	baseboards/mips-sim-mti32.exp \
 	baseboards/mips-sim-mti64.exp \
-	baseboards/mips-sim-mti64_n32.exp \
 	baseboards/mips-sim-mti64_64.exp \
+	baseboards/mips-sim-mti64_n32.exp \
 	baseboards/mips-sim-sde32.exp \
 	baseboards/mips-sim-sde64.exp \
+	baseboards/mips-sim.exp \
 	baseboards/mmixware-sim.exp \
 	baseboards/mn10200-sim.exp \
 	baseboards/mn10300-sim.exp \
@@ -128,6 +127,7 @@ baseboard_DATA = \
 	baseboards/multi-sim.exp \
 	baseboards/powerpc-sim.exp \
 	baseboards/powerpcle-sim.exp \
+	baseboards/qemu.exp \
 	baseboards/rx-sim.exp \
 	baseboards/sh-sid.exp \
 	baseboards/sh-sim.exp \

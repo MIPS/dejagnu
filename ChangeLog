@@ -2,6 +2,8 @@
 
 	* Makefile.am (TESTSUITE_FILES): Add files that were introduced
 	during development but were mistakenly not added at that time.
+	(baseboard_DATA): Sort baseboard file list.
+
 	* Makefile.in (TESTSUITE_FILES): Likewise.
 
 2020-08-02  Rob Savoye  <rob@senecass.com>
