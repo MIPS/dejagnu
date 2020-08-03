@@ -100,6 +100,7 @@ baseboard_DATA = \
 	baseboards/fr30-sim.exp \
 	baseboards/frv-sim.exp \
 	baseboards/gdbserver-sample.exp \
+	baseboards/generic-sim.exp \
 	baseboards/i386-sid.exp \
 	baseboards/iq2000-sim.exp \
 	baseboards/jmr3904-sim.exp \
@@ -122,9 +123,11 @@ baseboard_DATA = \
 	baseboards/mmixware-sim.exp \
 	baseboards/mn10200-sim.exp \
 	baseboards/mn10300-sim.exp \
+	baseboards/moxie-sim.exp \
 	baseboards/msp430-sim.exp \
 	baseboards/mt-sid.exp \
 	baseboards/multi-sim.exp \
+	baseboards/pi.exp \
 	baseboards/powerpc-sim.exp \
 	baseboards/powerpcle-sim.exp \
 	baseboards/qemu.exp \
