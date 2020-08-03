@@ -5,9 +5,13 @@
 	(baseboard_DATA): Sort baseboard file list.
 	(baseboard_DATA): Add missing files.
 	(dejagnu_TEXINFOS): New; add GNU FDL file.
+	(CONTRIB): Add experimental Python unit test module.
 
 	* Makefile.in (TESTSUITE_FILES): Likewise.
 	(baseboard_DATA): Likewise.
+
+	* testsuite/dejagnu.py:  Move from here...
+	* contrib/dejagnu.py: ...to here.
 
 2020-08-02  Rob Savoye  <rob@senecass.com>
 

@@ -155,7 +155,8 @@ djlibexec_SCRIPTS = config.guess
 CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
 	contrib/mysql/create-db.sql contrib/mysql/importxml.sh \
 	contrib/mysql/make-datafile.sh contrib/mysql/plot.sh \
-	contrib/mysql/README contrib/mysql/sum2xml.sh
+	contrib/mysql/README contrib/mysql/sum2xml.sh \
+	contrib/dejagnu.py
 
 # Testsuite.
 
