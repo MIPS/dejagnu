@@ -1,3 +1,11 @@
+2020-08-10  Jacob Bachmeyer  <jcb@gnu.org>
+
+	Merge patch from Kito Cheng to add support for RISC-V sim target.
+
+	* baseboards/riscv-sim.exp: New file.
+	* Makefile.am (baseboard_DATA): Add riscv-sim.exp.
+	* Makefile.in (baseboard_DATA): Likewise.
+
 2020-08-02  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* Makefile.am (TESTSUITE_FILES): Add files that were introduced
