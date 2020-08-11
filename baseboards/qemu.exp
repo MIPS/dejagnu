@@ -28,7 +28,7 @@ set_board_info compiler [find_gcc]
 # When testing GCC in tree, the libgloss linker scripts files aren't
 # usually in a known location, so we have to find them in the sysroot.
 # FIXME: this may change in the near future, but for now it works.
-set compiler 	"[find_gcc]"
+set compiler	"[find_gcc]"
 set ret [local_exec "$compiler --print-sysroot" "" "" $timeout]
 if { [lindex $ret 0] == 0 } {
     set sysroot "[lindex $ret 1]"
@@ -202,9 +202,9 @@ proc qemu_load { dest prog args } {
     set ret [local_exec "$qemu $prog" "" "" $timeout]
 
     if { [array size ret] == 0 } {
-      	return "pass"
+	return "pass"
     } else {
-      	return "fail"
+	return "fail"
     }
 }
 
@@ -233,7 +233,7 @@ proc gdb_load { args } {
     }
 
     if { $args == "{}"} {
-	puts "No executable passed to GDB!"	
+	puts "No executable passed to GDB!"
 
 	# Only the remote protocol is used with the QEMU's gdbserver support
 	send_gdb "target extended-remote :2345\n"

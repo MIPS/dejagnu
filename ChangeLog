@@ -1,5 +1,9 @@
 2020-08-10  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* baseboards/qemu.exp: Tidy whitespace.
+
+2020-08-10  Jacob Bachmeyer  <jcb@gnu.org>
+
 	Merge patch from Kito Cheng to add support for RISC-V sim target.
 
 	* baseboards/riscv-sim.exp: New file.
