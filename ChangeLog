@@ -1,3 +1,14 @@
+2020-08-12  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* doc/dejagnu.texi (The dejagnu_h header file): Remove node.
+	(Running unit tests): Add node.
+	(DejaGnu unit test protocol): Add node.
+	(C unit testing API): Update to reflect current API.  Move mention
+	of dejagnu.h header here in preparation for future expanded
+	language support.
+	(C++ unit testing API): Likewise.  Mention caveat that the C unit
+	test API is also available in C++ programs.
+
 2020-08-10  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* baseboards/qemu.exp: Tidy whitespace.

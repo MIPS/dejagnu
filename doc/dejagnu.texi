@@ -104,8 +104,9 @@ Extending DejaGnu
 
 Unit testing
 
-* What is unit testing?::
-* The dejagnu.h header file: The dejagnu_h header file.
+* What is unit testing?::       Unit testing and system testing.
+* Running unit tests::
+* DejaGnu unit test protocol::  DejaGnu native unit testing protocol.
 * C unit testing API::
 * C++ unit testing API::
 
@@ -2458,13 +2459,14 @@ Expect.  More information can be found in the Expect manual.
 @chapter Unit testing
 
 @menu
-* What is unit testing?::
-* The dejagnu.h header file: The dejagnu_h header file.
+* What is unit testing?::       Unit testing and system testing.
+* Running unit tests::
+* DejaGnu unit test protocol::  DejaGnu native unit testing protocol.
 * C unit testing API::
 * C++ unit testing API::
 @end menu
 
-@node What is unit testing?, The dejagnu_h header file, , Unit testing
+@node What is unit testing?, Running unit tests, Unit testing, Unit testing
 @section What is unit testing?
 @cindex unit testing
 
@@ -2475,67 +2477,143 @@ linked with a test case in C or C++, and each function or class and
 method is tested in turn, with the test case having to check private
 data or global variables to see if the function or method worked.
 
-This works particularly well for testing APIs and at level where it is
+This works particularly well for testing APIs at a level where it is
 easier to debug them, than by needing to trace through the entire
 application.  Also if there is a specification for the API to be
 tested, the testcase can also function as a compliance test.
 
-@node The dejagnu_h header file, C unit testing API, What is unit testing?, Unit testing
-@section The dejagnu.h header file
-@cindex dejagnu.h header
+@node Running unit tests, DejaGnu unit test protocol, What is unit testing?, Unit testing
+@section Running unit tests
+@findex host_execute
 
-DejaGnu uses a single header file, @file{dejagnu.h} to assist in unit
-testing.  As this file also produces its one test state output, it can
-be run stand-alone, which is very useful for testing on embedded
-systems.  This header file has a C and C++ API for the test states,
-with simple totals, and standardized output.  Because the output has
-been standardized, DejaGnu can be made to work with this test case,
-without writing almost any Tcl.  The library module, dejagnu.exp, will
-look for the output messages, and then merge them into DejaGnu's.
+The native DejaGnu unit testing support is provided by a library
+module @file{dejagnu.exp} and the procedure @code{host_execute} is
+called by testsuite code to run unit tests.
 
-@node C unit testing API, C++ unit testing API, The dejagnu_h header file, Unit testing
+@quotation
+@t{@b{host_execute} @i{program} @i{arguments}}
+@end quotation
+
+The @code{host_execute} procedure runs @i{program}, passing
+@i{arguments} on the command line, and examines the output for test
+result messages according to the DejaGnu unit testing protocol.
+
+If successful, the return value is an empty string.  Otherwise, an
+error message is returned.
+
+@node DejaGnu unit test protocol, C unit testing API, Running unit tests, Unit testing
+@section DejaGnu unit test protocol
+
+DejaGnu spawns a unit test program and reads that program's output.
+Arguments for the unit test program can be specified in the testsuite.
+
+Unit test programs may produce any output for the benefit of a
+developer running them directly or reading the DejaGnu log, but output
+matching the Tcl regexp @code{@{\n\t[][[:upper:]]*:@}} (a tab character
+at the beginning of a line, followed by any sequence of uppercase
+letters and square brackets, followed by a colon) should be considered
+reserved for future extension.  Future versions of DejaGnu will
+interpret more lines matching this pattern as additional unit test
+information.
+
+@print{}@t{@ @ @ @ @ @ @ @ NOTE: }@i{text}
+
+This will cause @i{text} to be printed at verbose levels 2 and higher.
+
+@print{}@t{@ @ @ @ @ @ @ @ PASSED: }@i{name}
+
+@print{}@t{@ @ @ @ @ @ @ @ FAILED: }@i{name}
+
+@print{}@t{@ @ @ @ @ @ @ @ XPASSED: }@i{name}
+
+@print{}@t{@ @ @ @ @ @ @ @ XFAILED: }@i{name}
+
+@print{}@t{@ @ @ @ @ @ @ @ UNTESTED: }@i{name}
+
+@print{}@t{@ @ @ @ @ @ @ @ UNRESOLVED: }@i{name}
+
+These indicate simple test results.
+
+Note that all output from a unit test program, including the lines
+recognized and interpreted by DejaGnu, appears in the log.
+
+@node C unit testing API, C++ unit testing API, DejaGnu unit test protocol, Unit testing
 @section C unit testing API
 @cindex C unit testing API
 
+The C API is provided in the @file{dejagnu.h} header file.  This
+header provides a self-contained implementation.  For convenience, the
+@code{totals()} function can be called at the end of the unit test
+program to output summary totals.  DejaGnu counts the test results
+independently and will operate correctly even if @code{totals()} is
+never invoked.
+
 All of the functions that take a @code{msg} parameter use a C
-@code{char *} that is the message to be displayed.  There currently is
-no support for variable length arguments.
+@code{char *} that is the message to be displayed.  All of the
+functions that display a message accept a @code{printf}-style format
+string and variable arguments.
 
 @itemize
+@item
+@code{note} emits a note that will be displayed at verbose level 2 or
+higher.
+
+@quotation
+@t{@b{note}(@i{msg}, ...);}
+@end quotation
+
 @item
 @code{pass} prints a message for a successful test completion.
 
 @quotation
-@t{@b{pass}(@i{msg});}
+@t{@b{pass}(@i{msg}, ...);}
 @end quotation
 
 @item
 @code{fail} prints a message for an unsuccessful test completion.
 
 @quotation
-@t{@b{fail}(@i{msg});}
+@t{@b{fail}(@i{msg}, ...);}
 @end quotation
 
 @item
-@code{untested} prints a message for an test case that isn't run for
-some technical reason.
+@code{xfail} prints a message for an expected unsuccessful test
+completion.
 
 @quotation
-@t{@b{untested}(@i{msg});}
+@t{@b{xfail}(@i{msg}, ...);}
 @end quotation
 
 @item
-@code{unresolved} prints a message for an test case that is run, but
-there is no clear result.  These output states require a human to look
-over the results to determine what happened.
+@code{xpass} prints a message for an unexpected successful test
+completion.
 
 @quotation
-@t{@b{unresolved}(@i{msg});}
+@t{@b{xpass}(@i{msg}, ...);}
 @end quotation
 
 @item
-@code{totals} prints out the total numbers of all the test state
-outputs.
+@code{untested} prints a placeholder message for a test case that is
+not yet implemented or that could not be run for some reason.
+
+@quotation
+@t{@b{untested}(@i{msg}, ...);}
+@end quotation
+
+@item
+@code{unresolved} prints a message for a test case that was run, but
+did not produce a clear result.  These output states require a human
+to look over the results to determine what happened.
+
+@quotation
+@t{@b{unresolved}(@i{msg}, ...);}
+@end quotation
+
+@item
+@code{totals} prints out the total counts of all of the test results
+as a convenience when running the unit test program directly.  DejaGnu
+does not use this information and instead counts the results
+independently.
 
 @quotation
 @t{@b{totals}();}
@@ -2547,12 +2625,25 @@ outputs.
 @section C++ unit testing API
 @cindex C++ unit testing API
 
-All of the methods that take a @code{msg} parameter use a C char * or
-STL string, that is the message to be displayed.  There currently is
-no support for variable length arguments.
+The C++ API is also provided in the @file{dejagnu.h} header file.
+This header provides a self-contained implementation.  For
+convenience, the @code{totals()} method outputs summary totals to be
+used at the end of unit test program.  DejaGnu does not depend on this
+summary and counts the test results independently.
+
+All of the methods that take a @code{msg} parameter use a STL string
+as the message to be displayed.  There currently is no support for
+formatted output in the C++ API; build the desired string before
+passing it to these functions.
+
+Note that the C API is also available in C++ unit test programs; using
+both will cause confusion because each @code{TestState} object carries
+its own set of summary counters, while the C API has an independent
+global set of summary counters.
+
+The @code{TestState} class supports the following instance methods:
 
 @itemize
-
 @item
 @code{pass} prints a message for a successful test completion.
 
@@ -2560,31 +2651,52 @@ no support for variable length arguments.
 @t{@b{TestState::pass}(@i{msg});}
 @end quotation
 
+@item
 @code{fail} prints a message for an unsuccessful test completion.
 
 @quotation
 @t{@b{TestState::fail}(@i{msg});}
 @end quotation
 
-@code{untested} prints a message for an test case that isn't run for
-some reason.
+@item
+@code{xfail} prints a message for an expected unsuccessful test completion.
+
+@quotation
+@t{@b{TestState::xfail}(@i{msg});}
+@end quotation
+
+@item
+@code{xpass} prints a message for an unexpected successful test completion.
+
+@quotation
+@t{@b{TestState::xpass}(@i{msg});}
+@end quotation
+
+@item
+@code{untested} prints a placeholder message for a test case that is
+not yet implemented or that could not be run for some reason.
 
 @quotation
 @t{@b{TestState::untested}(@i{msg});}
 @end quotation
 
 @item
-@code{unresolved} prints a message for an test case that is run, but
-there is no clear result.  These output states require a human to look
-over the results to determine what happened.
+@code{unresolved} prints a message for a test case that was run, but
+did not produce a clear result.  These output states require a human
+to look over the results to determine what happened.
 
 @quotation
 @t{@b{TestState::unresolved}(@i{msg});}
 @end quotation
 
 @item
-@code{totals} prints out the total numbers of all the test state
-outputs.
+@code{totals} prints out the total counts of all of the test results
+as a convenience when running the unit test program directly.  DejaGnu
+does not use this information and instead counts the results
+independently.
+
+In the C++ API, this method is automatically called when a
+@code{TestState} instance is destroyed.
 
 @quotation
 @t{@b{TestState::totals}(@i{});}
@@ -6007,4 +6119,4 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
 @c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran api
 @c  LocalWords:  boolean subcommand testcase eval rustc executables perror gdb
-@c  LocalWords:  interprocess lookahead
+@c  LocalWords:  interprocess lookahead XPASSED XFAILED printf TestState
