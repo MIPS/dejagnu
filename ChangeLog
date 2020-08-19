@@ -1,3 +1,10 @@
+2020-08-18  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* testsuite/runtest.libs/testsuite_file.test: Add missing
+	copyright and GPL notice.
+	* testsuite/runtest.libs/testsuite_can.test: Likewise.
+	* testsuite/runtest.libs/testcase_group.test: Likewise.
+
 2020-08-12  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* doc/dejagnu.texi (The dejagnu_h header file): Remove node.
