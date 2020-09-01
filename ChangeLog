@@ -1,3 +1,7 @@
+2020-08-31  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* NEWS: Prepare for release.
+
 2020-08-18  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* testsuite/runtest.libs/testsuite_file.test: Add missing

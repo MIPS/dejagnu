@@ -2,54 +2,54 @@
 
 Changes since 1.6.2:
 
-1. The internal proc 'is_remote' has been renamed to 'isremote' for
-   consistency with the other similar procs (eg, istarget). Testsuites
-   should use this proc. The 'is_remote' proc is deprecated.
-2. runtest now accepts --local_init and --global_init options to override
-   the default of reading "site.exp".  See the manual for details.
-X. runtest now responds consistently to all Tcl errors and generates an
-   UNRESOLVED result when a test script aborts.  Previously, calling an
-   undefined procedure would cause the test run to abort while other Tcl
-   errors produced only an easily-ignored message.
-X. runtest now collects Tcl errors encountered during a test run and prints
-   the collected errors a second time at the end of the test run after the
-   summary.  Separator lines containing more than 10 hyphens are included.
-3. A utility procedure relative_filename has been added.  This procedure
-   computes a relative file name to a given destination from a given base.
-4. The utility procedure 'grep' now accepts a '-n' option that
-   includes line numbers in the output, consistent with GNU grep.
-X. The target_compile procedure now accepts a "linker=" option that
-   overrides the compiler selection when producing an executable.
-X. The internal default_target_compile procedure now supports compiling
-   sources in Go (using GCC Go) and Rust.
-X. The host_execute procedure no longer insists that the executable be in
-   the current directory if the file exists under the given name.
-X. The host_execute procedure now reads input to end-of-file, to ensure
-   that the child process will be able to complete instead of being cut
-   short by a SIGPIPE under unpredictable unfavorable timing scenarios.
-X. The match patterns in the host_execute procedure have been revised to
-   fix timing issues causing test names to be truncated.
-X. The host_execute procedure is no longer sensitive to the value of the
-   "text" global variable.
-5. A new multiplex procedure "testsuite" is added for commands
-   retrieving or providing information about the current testsuite.
-6. A command "testsuite file" is added to replace the use of the
-   "*dir" variables in test scripts.
-7. A command "testsuite can call api" is added to report the availability
-   of multiplexed API calls.
-8. A new multiplex procedure "testcase" is added for commands
-   examining or manipulating the dynamic state of ongoing testing.
-9. A command "testcase group" is provided for reporting test groups to the
-   DejaGnu core.  Currently, the usage of this command is validated, but it
-   will affect at least XML output in a future release of DejaGnu.
-10. A shell command "dejagnu" is added as a place to hang various
+ 1. The internal proc 'is_remote' has been renamed to 'isremote' for
+    consistency with the other similar procs (eg, istarget). Testsuites
+    should use this proc. The 'is_remote' proc is deprecated.
+ 2. runtest now accepts --local_init and --global_init options to override
+    the default of reading "site.exp".  See the manual for details.
+ 3. runtest now responds consistently to all Tcl errors and generates an
+    UNRESOLVED result when a test script aborts.  Previously, calling an
+    undefined procedure would cause the test run to abort while other Tcl
+    errors produced only an easily-ignored message.
+ 4. runtest now collects Tcl errors encountered during a test run and prints
+    the collected errors a second time at the end of the test run after the
+    summary.  Separator lines containing more than 10 hyphens are included.
+ 5. A utility procedure relative_filename has been added.  This procedure
+    computes a relative file name to a given destination from a given base.
+ 6. The utility procedure 'grep' now accepts a '-n' option that
+    includes line numbers in the output, consistent with GNU grep.
+ 7. The target_compile procedure now accepts a "linker=" option that
+    overrides the compiler selection when producing an executable.
+ 8. The internal default_target_compile procedure now supports compiling
+    sources in Go (using GCC Go) and Rust.
+ 9. The host_execute procedure no longer insists that the executable be in
+    the current directory if the file exists under the given name.
+10. The host_execute procedure now reads input to end-of-file, to ensure
+    that the child process will be able to complete instead of being cut
+    short by a SIGPIPE under unpredictable unfavorable timing scenarios.
+11. The match patterns in the host_execute procedure have been revised to
+    fix timing issues causing test names to be truncated.
+12. The host_execute procedure is no longer sensitive to the value of the
+    "text" global variable.
+13. A new multiplex procedure "testsuite" is added for commands retrieving
+    or providing information about the current testsuite.
+14. A command "testsuite file" is added to replace the use of the "*dir"
+    variables in test scripts.
+15. A command "testsuite can call api" is added to report the availability
+    of multiplexed API calls.
+16. A new multiplex procedure "testcase" is added for commands examining or
+    manipulating the dynamic state of ongoing testing.
+17. A command "testcase group" is provided for reporting test groups to the
+    DejaGnu core.  Currently, the usage of this command is validated, but
+    it will affect at least XML output in a future release of DejaGnu.
+18. A shell command "dejagnu" is added as a place to hang various
     auxiliary commands not directly involved with running tests. The
     "runtest" command will remain for that purpose for the foreseeable
     future.
-11. The first auxiliary command is added: "report card". The "dejagnu
-    report card" command reads DejaGnu summary files and produces a
-    compact tabular summary across multiple tools.
-12. A Tcl namespace is now used for some internal procedures and variables.
+19. The first auxiliary command is added: "report card". The "dejagnu
+    report card" command reads DejaGnu summary files and produces a compact
+    tabular summary across multiple tools.
+20. A Tcl namespace is now used for some internal procedures and variables.
     The Tcl namespace ::dejagnu and all child namespaces are entirely
     internal and should not be mentioned in testsuite code.  Its contents
     are subject to change without notice, even on point releases.
