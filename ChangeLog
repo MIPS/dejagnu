@@ -1,5 +1,8 @@
 2020-08-31  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* doc/runtest.1: Add brief GFDL notice.  License notice in the
+	formatted manpage should now describe DejaGnu as a whole.
+
 	* NEWS: Prepare for release.
 
 2020-08-18  Jacob Bachmeyer  <jcb@gnu.org>
