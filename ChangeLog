@@ -1,3 +1,11 @@
+2020-11-09  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure.ac: Revert development version branch tagging hook.
+	* Makefile.am: Likewise.
+
+	These caused failures (reported in PR44462 as a secondary issue)
+	when a source tree is copied out of a Git directory.
+
 2020-08-31  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* doc/runtest.1: Add brief GFDL notice.  License notice in the

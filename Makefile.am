@@ -233,7 +233,3 @@ dejagnu_TEXINFOS = doc/fdl.texi
 
 pip-install:
 	pip3 install --upgrade -e $(top_srcdir)
-
-install-data-hook:
-	revision=`cd $(srcdir) &&  git rev-parse --short HEAD` \
-	&& sed -i -e "s/^set *frame_version.*/set frame_version $(BRANCH)-$${revision}/" $(pkgdatadir)/runtest.exp
