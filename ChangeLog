@@ -1,5 +1,9 @@
 2020-11-09  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* aclocal.m4: Regenerate.
+	* configure: Regenerate.
+	* Makefile.in: Regenerate.
+
 	* configure.ac: Revert development version branch tagging hook.
 	* Makefile.am: Likewise.
 
