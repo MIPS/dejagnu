@@ -178,17 +178,13 @@ set tests {
 # This must be done at run-time in the build directory because symbolic
 # links are not allowed in GNU source tarballs.
 
-catch {
-    file link -symbolic \
-	[testsuite file -object -test command share dejagnu commands] \
-	[testsuite file -source -test command commands]
-}
+link_dejagnu_launcher_test_item \
+    [testsuite file -object -test command share dejagnu commands] \
+    [testsuite file -source -test command commands]
 foreach alias_item $tests {
-    catch {
-	file link -symbolic \
-	    [testsuite file -object -test command bin [lindex $alias_item 0]] \
-	    $LAUNCHER
-    }
+    link_dejagnu_launcher_test_item \
+	[testsuite file -object -test command bin [lindex $alias_item 0]] \
+	$LAUNCHER
 }
 if { ![file exists \
 	   [testsuite file -object -test command share dejagnu commands]] } {
