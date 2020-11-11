@@ -1,5 +1,10 @@
 2020-11-10  Jacob Bachmeyer  <jcb@gnu.org>
 
+	PR44545
+
+	* testsuite/lib/launcher.exp (link_dejagnu_launcher_test_item):
+	Use [file normalize] to ensure that link targets are unambiguous.
+
 	* testsuite/lib/launcher.exp (link_dejagnu_launcher_test_item):
 	New procedure to collect existing repeated testsuite code.
 	* testsuite/launcher.all/command.exp: Establish testing

@@ -78,7 +78,7 @@ proc try_dejagnu_launcher { launcher test } {
 proc link_dejagnu_launcher_test_item {link target} {
     verbose -log "linking $link"
     verbose -log "     to $target"
-    if {[catch {file link -symbolic $link $target} err]} {
+    if {[catch {file link -symbolic $link [file normalize $target]} err]} {
 	perror $err 0
     }
 }
