@@ -4,6 +4,8 @@
 
 	* testsuite/lib/launcher.exp (link_dejagnu_launcher_test_item):
 	Use [file normalize] to ensure that link targets are unambiguous.
+	(link_dejagnu_launcher_test_item): Avoid spurious errors when test
+	environment has already been prepared in a previous run.
 
 	* testsuite/lib/launcher.exp (link_dejagnu_launcher_test_item):
 	New procedure to collect existing repeated testsuite code.
