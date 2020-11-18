@@ -474,7 +474,8 @@ GNU Automake has built-in support for DejaGnu.  To add DejaGnu support
 to your generated @file{Makefile.in}, just add the keyword
 @code{dejagnu} to the AUTOMAKE_OPTIONS variable in @file{Makefile.am}.
 This will ensure that the generated @file{Makefile.in} has a
-@code{check} target that invokes DejaGnu correctly.
+@code{check} target that invokes DejaGnu correctly.  @xref{Tests,,
+DejaGnu Tests, automake, The GNU Automake Manual}.
 
 @node Runtest, Output Files, Make Check, Running tests
 @section Running runtest
