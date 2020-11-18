@@ -1814,45 +1814,48 @@ site.exp: ./config.status Makefile
 
 @subsection Simple tool init file for batch programs
 
-Create a directory (under @file{testsuite}) called @file{config}.
-Make a tool init file in this directory.  Its name must start with the
-@code{target_abbrev} value, or be named @file{default.exp} so call it
-@file{config/unix.exp} for our Unix based example.  This is the file
-that contains the target-dependent procedures.  Fortunately, on a
-native Unix system, most of them do not have to do very much in order
-for @code{runtest} to run.  If the program being tested is not
-interactive, you can get away with this minimal @file{unix.exp} to
-begin with:
+The tool init file may be placed in @file{testsuite/lib} or in
+@file{testsuite/lib/tool} and must be named @file{@var{tool}.exp},
+where @var{tool} is the name of the tool to be tested.  For this
+example, we will use the name @samp{example} for the tool name, which
+means that the tool init file must be named @file{example.exp}.  If the
+program being tested is not interactive, you can get away with this
+minimal tool init file to begin with:
 
 @example
-proc myprog_exit @{@} @{@}
-proc myprog_version @{@} @{@}
+proc example_exit @{@} @{@}
+proc example_version @{@} @{@}
 @end example
+
+By convention, the file name for the executable for a tool should be
+stored in a global variable with the same name as the tool, but in all
+uppercase.  For our example program @samp{example}, the name of the
+program under test should be stored in @samp{EXAMPLE}.
+
+@subsection Simple tool init file for interactive programs
 
 If the program being tested is interactive, however, you might as well
 define a @emph{start} routine and invoke it by using a tool init file
 like this:
 
-@subsection Simple tool init file for interactive programs
-
 @example
-proc myprog_exit @{@} @{@}
-proc myprog_version @{@} @{@}
+proc example_exit @{@} @{@}
+proc example_version @{@} @{@}
 
-proc myprog_start @{@} @{
-@     global $@{examplename@}
-@     spawn $@{examplename@}
+proc example_start @{@} @{
+@     global EXAMPLE
+@     spawn $EXAMPLE
 @     expect @{
 @        -re "" @{@}
 @     @}
 @}
 
 # Start the program running we want to test
-myprog_start
+example_start
 @end example
 
 Create a directory whose name begins with your tool's name, to contain
-tests.  For example, if the tool name is @emph{example}, then the
+tests.  For example, if the tool name is @samp{example}, then the
 directories all need to start with @samp{example.}.  Create a sample
 test file ending in @file{.exp}.  You can name the file
 @file{first-try.exp}.  To begin with, just write one line of Tcl code
@@ -6120,4 +6123,5 @@ This makes @code{runtest} exit.  Abbreviation: @kbd{q}.
 @c  LocalWords:  DejaGnu CVS RCS SCCS prepending subcommands Tcl Awk Readline
 @c  LocalWords:  POSIX KFAIL KPASS XFAIL XPASS hostname multitable gfortran api
 @c  LocalWords:  boolean subcommand testcase eval rustc executables perror gdb
-@c  LocalWords:  interprocess lookahead XPASSED XFAILED printf TestState
+@c  LocalWords:  interprocess lookahead XPASSED XFAILED printf TestState init
+@c  LocalWords:  proc

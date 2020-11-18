@@ -1,9 +1,11 @@
 2020-11-17  Jacob Bachmeyer  <jcb@gnu.org>
 
-	PR44693
+	PR44636 / PR44693
 
-	* doc/dejagnu.texi (Make Check): Add cross-reference to the GNU
-	Automake manual for more details.
+	* doc/dejagnu.texi (Adding a new tool): Fix incorrect description
+	that conflated the tool init file with the target interface file.
+	(Make Check): Add cross-reference to the GNU Automake manual for
+	more details.
 
 2020-11-10  Jacob Bachmeyer  <jcb@gnu.org>
 
