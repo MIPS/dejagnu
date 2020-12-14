@@ -461,6 +461,7 @@ baseboard_DATA = \
 	baseboards/pi.exp \
 	baseboards/powerpc-sim.exp \
 	baseboards/powerpcle-sim.exp \
+	baseboards/pru-sim.exp \
 	baseboards/qemu.exp \
 	baseboards/riscv-sim.exp \
 	baseboards/rx-sim.exp \
