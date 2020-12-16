@@ -1,6 +1,7 @@
 2020-12-15  Jacob Bachmeyer  <jcb@gnu.org>
 
-	* configure.ac: update for autoconf 2.69 using autoupdate.
+	* configure.ac: Update for autoconf 2.69 using autoupdate.
+	* configure.ac: Remove search for expect now handled by Automake.
 
 	Apply patch from Dimitar Dimitrov:
 

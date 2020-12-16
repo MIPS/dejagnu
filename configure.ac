@@ -34,12 +34,6 @@ if test -z "$AWK"; then
   AC_MSG_ERROR([AWK not installed])
 fi
 
-dnl Search for expect.
-AC_PATH_PROG([EXPECT], [expect])
-if test -z $ac_cv_path_EXPECT ; then
-   AC_MSG_ERROR([unable to locate expect])
-fi
-
 dnl Check the Tcl version is >= 8.5.
 AC_MSG_CHECKING([Tcl version 8.5 or greater])
 AC_CACHE_VAL(ac_cv_dg_tcl_modern,[
