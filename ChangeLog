@@ -1,5 +1,8 @@
 2020-12-15  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* configure: Regenerate.
+	* Makefile.in: Regenerate.
+
 	* Makefile.am (RUNTEST): Explain override of Automake default.
 
 	* configure.ac: Update for autoconf 2.69 using autoupdate.

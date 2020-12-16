@@ -102,10 +102,11 @@ check_PROGRAMS = unit$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/configure $(am__configure_deps) depcomp mdate-sh \
-	$(srcdir)/doc/version.texi $(srcdir)/doc/stamp-vti \
-	$(dist_man_MANS) $(include_HEADERS) COPYING TODO compile \
-	config.guess config.sub install-sh missing
+	$(top_srcdir)/configure $(am__configure_deps) depcomp \
+	$(doc_dejagnu_TEXINFOS) mdate-sh $(srcdir)/doc/version.texi \
+	$(srcdir)/doc/stamp-vti $(dist_man_MANS) $(include_HEADERS) \
+	COPYING TODO compile config.guess config.sub install-sh \
+	missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -256,6 +257,7 @@ CTAGS = ctags
 CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
 RUNTESTDEFAULTFLAGS = --tool $$tool --srcdir $$srcdir
+EXPECT = expect
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -295,7 +297,6 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EXEEXT = @EXEEXT@
-EXPECT = @EXPECT@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -543,6 +544,9 @@ TESTSUITE_FILES = \
 	testsuite/libdejagnu/tunit.exp
 
 DEJATOOL = launcher libdejagnu report-card runtest
+
+# We override runtest so that the testsuite is run with this version
+# of DejaGnu instead of an installed version.
 RUNTEST = ${top_srcdir}/runtest
 AM_CXXFLAGS = -I$(top_srcdir) -g
 unit_SOURCES = testsuite/libdejagnu/unit.cc
@@ -555,7 +559,7 @@ dist_man_MANS = doc/dejagnu.1 \
 	doc/runtest.1
 
 info_TEXINFOS = doc/dejagnu.texi
-dejagnu_TEXINFOS = doc/fdl.texi
+doc_dejagnu_TEXINFOS = doc/fdl.texi
 all: all-am
 
 .SUFFIXES:
@@ -709,7 +713,7 @@ doc/$(am__dirstamp):
 	@$(MKDIR_P) doc
 	@: > doc/$(am__dirstamp)
 
-$(srcdir)/doc/dejagnu.info: doc/dejagnu.texi $(srcdir)/doc/version.texi
+$(srcdir)/doc/dejagnu.info: doc/dejagnu.texi $(srcdir)/doc/version.texi $(doc_dejagnu_TEXINFOS)
 	$(AM_V_MAKEINFO)restore=: && backupdir="$(am__leading_dot)am$$$$" && \
 	am__cwd=`pwd` && $(am__cd) $(srcdir) && \
 	rm -rf $$backupdir && mkdir $$backupdir && \
@@ -731,19 +735,19 @@ $(srcdir)/doc/dejagnu.info: doc/dejagnu.texi $(srcdir)/doc/version.texi
 	fi; \
 	rm -rf $$backupdir; exit $$rc
 
-doc/dejagnu.dvi: doc/dejagnu.texi $(srcdir)/doc/version.texi doc/$(am__dirstamp)
+doc/dejagnu.dvi: doc/dejagnu.texi $(srcdir)/doc/version.texi $(doc_dejagnu_TEXINFOS) doc/$(am__dirstamp)
 	$(AM_V_TEXI2DVI)TEXINPUTS="$(am__TEXINFO_TEX_DIR)$(PATH_SEPARATOR)$$TEXINPUTS" \
 	MAKEINFO='$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I doc -I $(srcdir)/doc' \
 	$(TEXI2DVI) $(AM_V_texinfo) --build-dir=$(@:.dvi=.t2d) -o $@ $(AM_V_texidevnull) \
 	`test -f 'doc/dejagnu.texi' || echo '$(srcdir)/'`doc/dejagnu.texi
 
-doc/dejagnu.pdf: doc/dejagnu.texi $(srcdir)/doc/version.texi doc/$(am__dirstamp)
+doc/dejagnu.pdf: doc/dejagnu.texi $(srcdir)/doc/version.texi $(doc_dejagnu_TEXINFOS) doc/$(am__dirstamp)
 	$(AM_V_TEXI2PDF)TEXINPUTS="$(am__TEXINFO_TEX_DIR)$(PATH_SEPARATOR)$$TEXINPUTS" \
 	MAKEINFO='$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I doc -I $(srcdir)/doc' \
 	$(TEXI2PDF) $(AM_V_texinfo) --build-dir=$(@:.pdf=.t2p) -o $@ $(AM_V_texidevnull) \
 	`test -f 'doc/dejagnu.texi' || echo '$(srcdir)/'`doc/dejagnu.texi
 
-doc/dejagnu.html: doc/dejagnu.texi $(srcdir)/doc/version.texi doc/$(am__dirstamp)
+doc/dejagnu.html: doc/dejagnu.texi $(srcdir)/doc/version.texi $(doc_dejagnu_TEXINFOS) doc/$(am__dirstamp)
 	$(AM_V_MAKEINFO)rm -rf $(@:.html=.htp)
 	$(AM_V_at)if $(MAKEINFOHTML) $(AM_MAKEINFOHTMLFLAGS) $(MAKEINFOFLAGS) -I doc -I $(srcdir)/doc \
 	 -o $(@:.html=.htp) `test -f 'doc/dejagnu.texi' || echo '$(srcdir)/'`doc/dejagnu.texi; \
