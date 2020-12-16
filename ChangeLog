@@ -1,3 +1,12 @@
+2020-12-15  Jacob Bachmeyer  <jcb@gnu.org>
+
+	Apply patch from Dimitar Dimitrov:
+
+	* Makefile.am (dejagnu_TEXINFOS): Change this...
+	* Makefile.am (doc_dejagnu_TEXINFOS): ...to this.
+
+	This fixes an incorrectly recorded dependency.
+
 2020-11-17  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR44636 / PR44693
