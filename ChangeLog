@@ -1,5 +1,7 @@
 2020-12-15  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* configure.ac: update for autoconf 2.69 using autoupdate.
+
 	Apply patch from Dimitar Dimitrov:
 
 	* Makefile.am (dejagnu_TEXINFOS): Change this...
