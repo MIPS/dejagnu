@@ -215,6 +215,8 @@ TESTSUITE_FILES = \
 
 DEJATOOL = launcher libdejagnu report-card runtest
 
+# We override runtest so that the testsuite is run with this version
+# of DejaGnu instead of an installed version.
 RUNTEST = ${top_srcdir}/runtest
 
 AM_CXXFLAGS = -I$(top_srcdir) -g
