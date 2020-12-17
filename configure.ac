@@ -34,19 +34,6 @@ if test -z "$AWK"; then
   AC_MSG_ERROR([AWK not installed])
 fi
 
-dnl Check the Tcl version is >= 8.5.
-AC_MSG_CHECKING([Tcl version 8.5 or greater])
-AC_CACHE_VAL(ac_cv_dg_tcl_modern,[
-  ac_cv_dg_tcl_modern=`$EXPECT << EOF
-if @<:@ expr \\${tcl_version} >= 8.5 @:>@ then { puts yes } else { puts no }
-EOF`
-])
-if test x${ac_cv_dg_tcl_modern} = xyes ; then
-  AC_MSG_RESULT(${ac_cv_dg_tcl_modern})
-else
-  AC_MSG_ERROR([Tcl 8.5 or greater is required])
-fi
-
 dnl Provide an empty global site file (/dev/null) as default.
 if test x"$DEJAGNU" = x
 then
