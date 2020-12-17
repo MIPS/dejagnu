@@ -4,6 +4,17 @@
 
 	* configure.ac: Remove Tcl version check.
 
+	Apply patch from Nick Clifton:
+
+	* baseboards/msp430-sim.exp: Add missing copyright and GPL notice.
+
+	Apply patch from Dimitar Dimitrov:
+
+	* baseboards/pru-sim.exp: New file.
+
+	* Makefile.am (baseboard_DATA): Add pru-sim.exp to list.
+	* Makefile.in (baseboard_DATA): Likewise.
+
 2020-12-15  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.
