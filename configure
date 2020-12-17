@@ -3977,25 +3977,6 @@ if test -z "$AWK"; then
   as_fn_error $? "AWK not installed" "$LINENO" 5
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking Tcl version 8.5 or greater" >&5
-$as_echo_n "checking Tcl version 8.5 or greater... " >&6; }
-if ${ac_cv_dg_tcl_modern+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  ac_cv_dg_tcl_modern=`$EXPECT << EOF
-if [ expr \\${tcl_version} >= 8.5 ] then { puts yes } else { puts no }
-EOF`
-
-fi
-
-if test x${ac_cv_dg_tcl_modern} = xyes ; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${ac_cv_dg_tcl_modern}" >&5
-$as_echo "${ac_cv_dg_tcl_modern}" >&6; }
-else
-  as_fn_error $? "Tcl 8.5 or greater is required" "$LINENO" 5
-fi
-
 if test x"$DEJAGNU" = x
 then
   DEJAGNU="/dev/null"
