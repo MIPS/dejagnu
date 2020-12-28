@@ -1,5 +1,9 @@
 2020-12-27  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* testsuite/runtest.libs/libs.exp (process_test): Report running
+	test scripts as each test script is run.
+	Also, at top-level, sort the list of tests to run.
+
 	* doc/dejagnu.texi (testsuite procedure): Remove noise word "api"
 	from new "testsuite can call api" feature test API entrypoint.
 	* lib/framework.exp (testsuite_can): Likewise.

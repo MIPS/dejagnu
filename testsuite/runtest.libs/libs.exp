@@ -21,7 +21,7 @@ load_lib libsup.exp
 proc process_test { test } {
     global EXPECT
 
-    verbose -log "Executing test case $test"
+    verbose "Running $test ..." 0
     set text "\[- A-Za-z0-9\,\.\;\"\_\:\'\`\(\)\!\#\=\+\?\&\*]*"
 
     set timeout 150
@@ -97,7 +97,7 @@ proc process_test { test } {
 }
 
 start_expect
-foreach i [glob [testsuite file -source -test *.test]] {
+foreach i [lsort -dictionary [glob [testsuite file -source -test *.test]]] {
     if { [runtest_file_p $runtests $i] } { process_test $i }
 }
 stop_expect
