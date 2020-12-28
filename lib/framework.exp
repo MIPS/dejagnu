@@ -1121,8 +1121,8 @@ namespace eval ::dejagnu {}
 proc testsuite_can { argv } {
     verbose "entering testsuite can $argv" 3
 
-    if { [lrange $argv 0 1] eq "call api" } {
-	set call [lrange $argv 2 end]
+    if { [lindex $argv 0] eq "call" } {
+	set call [lrange $argv 1 end]
 	set result [info exists ::dejagnu::apilist($call)]
     } else {
 	error "unknown feature test:  testsuite can $argv"
@@ -1131,7 +1131,7 @@ proc testsuite_can { argv } {
     verbose "leaving testsuite can: $result" 3
     return $result
 }
-array set ::dejagnu::apilist { {testsuite can call api} 1 }
+array set ::dejagnu::apilist { {testsuite can call} 1 }
 
 # Return a full file name in or near the testsuite
 #

@@ -35,13 +35,13 @@ run_tests {
     { lib_errpat_test testsuite { can }
 	"*unknown feature test*"
 	"testsuite can without arguments" }
-    { lib_errpat_test testsuite { can call }
+    { lib_errpat_test testsuite { can bogus }
 	"*unknown feature test*"
-	"testsuite can call without 'api'" }
-    { lib_bool_test testsuite { can call api } false
-	"testsuite can call api returns false for null API call name" }
-    { lib_bool_test testsuite { can call api testsuite can call api } true
-	"testsuite can call api reports its own existence" }
+	"testsuite can call with bogus argument" }
+    { lib_bool_test testsuite { can call } false
+	"testsuite can call returns false for null API call name" }
+    { lib_bool_test testsuite { can call testsuite can call } true
+	"testsuite can call reports its own existence" }
 }
 
 puts "END testsuite_can.test"

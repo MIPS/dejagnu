@@ -35,8 +35,8 @@ Changes since 1.6.2:
     or providing information about the current testsuite.
 14. A command "testsuite file" is added to replace the use of the "*dir"
     variables in test scripts.
-15. A command "testsuite can call api" is added to report the availability
-    of multiplexed API calls.
+15. A command "testsuite can call" is added to report the availability of
+    multiplexed API calls.
 16. A new multiplex procedure "testcase" is added for commands examining or
     manipulating the dynamic state of ongoing testing.
 17. A command "testcase group" is provided for reporting test groups to the

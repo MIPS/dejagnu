@@ -3394,15 +3394,15 @@ implied by the returned value will exist upon return.  Implied
 directories are created in the object tree if needed.  An error is
 raised if an implied directory does not exist in the source tree.
 
-@subsubheading testsuite can call api
+@subsubheading testsuite can call
 
-The @code{testsuite can call api} command is a feature test and
-returns a boolean value indicating if a subcommand under a multiplex
-point is available.  This API call is needed because only the
-multiplex points themselves are visible to the Tcl info command.
+The @code{testsuite can call} command is a feature test and returns a
+boolean value indicating if a subcommand under a multiplex point is
+available.  This API call is needed because only the multiplex points
+themselves are visible to the Tcl info command.
 
 @quotation
-@t{  @b{testsuite can call api} @i{feature}... }
+@t{  @b{testsuite can call} @i{feature}... }
 @end quotation
 
 Any number of words are joined together into a single name, beginning

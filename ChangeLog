@@ -1,3 +1,11 @@
+2020-12-27  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* doc/dejagnu.texi (testsuite procedure): Remove noise word "api"
+	from new "testsuite can call api" feature test API entrypoint.
+	* lib/framework.exp (testsuite_can): Likewise.
+	* testsuite/runtest.libs/testsuite_can.test: Likewise.
+	* NEWS: Likewise.
+
 2020-12-16  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.
