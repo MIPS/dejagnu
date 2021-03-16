@@ -1,3 +1,18 @@
+2021-03-15  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* Makefile.am, Makefile.in: Update accordingly.
+
+	* contrib/compare_tests: Remove.  This file lacked a GPL notice.
+	This file was imported from GCC many years ago.  The GCC version
+	has benefited from continued development, while ours has not.
+
+	* testsuite/runtest.libs/load_lib.exp: Remove.  This file lacked a
+	GPL notice and an attempt to contact the contributor produced no
+	response.  The tests in this file will need to be rewritten in any
+	case; there is a bug in load_lib that they should expose and there
+	is now additional infrastructure for tests of this type that was
+	not available when this file was written.
+
 2020-12-27  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* testsuite/runtest.libs/libs.exp (process_test): Report running

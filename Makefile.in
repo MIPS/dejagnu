@@ -484,7 +484,7 @@ djlibexecdir = $(pkgdatadir)/libexec
 djlibexec_SCRIPTS = config.guess
 
 # Contributed scripts, etc.
-CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
+CONTRIB = contrib/sum2junit.sh \
 	contrib/mysql/create-db.sql contrib/mysql/importxml.sh \
 	contrib/mysql/make-datafile.sh contrib/mysql/plot.sh \
 	contrib/mysql/README contrib/mysql/sum2xml.sh \
@@ -509,7 +509,6 @@ TESTSUITE_FILES = \
 	testsuite/runtest.libs/topdir/subdir1/subfile1 \
 	testsuite/runtest.libs/topdir/subdir1/subfile2 \
 	testsuite/runtest.libs/topdir/subdir2/subfile2 \
-	testsuite/runtest.libs/load_lib.exp \
 	testsuite/runtest.libs/libs.exp \
 	testsuite/runtest.libs/default_procs.tcl \
 	testsuite/runtest.libs/mockutil.tcl \
