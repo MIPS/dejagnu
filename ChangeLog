@@ -1,5 +1,7 @@
 2021-03-22  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
 	* config.guess, config.sub: Import from upstream.
 
 	* MAINTAINERS: Acknowledge that Ben Elliston has left the project.
