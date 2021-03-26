@@ -1,3 +1,20 @@
+2021-03-25  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu, runtest: Remove use of "$()" command substitution and
+	"$(())" arithmetic substitution shell constructs.  The /bin/sh on
+	Solaris 10 does not support them.  They were replaced with the
+	traditional backticks for command substitution and backticks and
+	the expr command for arithmetic substitution.
+
+	Also add markers to explicitly disable shellcheck warnings that
+	would lead to reintroducing these problems.
+
+	Also avoid the non-portable "`..."..."...`" construct on a warning
+	in the GNU Autoconf manual, section "Shell Substitutions",
+	although this introduces additional variables.
+
 2021-03-22  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -27,6 +27,18 @@
 # proper interpreter, and then dispatches the command.  This script can
 # either be run with a command name as the first (few) argument(s), via a
 # link from the command name, or some combination of those.
+
+# shellcheck disable=SC2003
+# The shellcheck tool complains about use of expr and recommends using
+# newer shell features instead.  Solaris 10 /bin/sh does not support the
+# newer features, so we must use expr in this script.
+
+# shellcheck disable=SC2006
+# The shellcheck tool complains about the old style backtick command
+# substitution.  Solaris 10 /bin/sh does not support the new style $()
+# command substitution and the usage of command substitution in this script
+# is simple enough to work.  Most notably, nesting backtick command
+# substitution is tricky, but we do not do that.
 
 # shellcheck disable=SC2209
 # The shellcheck tool complains about assigning certain constant strings to
@@ -57,19 +69,19 @@ want_version=false
 verbose=0
 for a in "$@"; do
     case $a in
-	--help)				want_help=true ;;
-	-v|--v|-verbose|--verbose)	verbose=$((verbose + 1)) ;;
-	-V|--V|-version|--version)	want_version=true ;;
+	--help)				want_help=true			;;
+	-v|--v|-verbose|--verbose)	verbose=`expr $verbose + 1`	;;
+	-V|--V|-version|--version)	want_version=true		;;
     esac
 done
 
 if expr "$verbose" \> 0 > /dev/null ; then
-    echo Verbose level is $verbose
+    echo Verbose level is "$verbose"
 fi
 
 ## Get the file name of this script and deduce @bindir@.
 
-bindir="$(echo "$0" | sed -e 's@/[^/]*$@@')"
+bindir=`echo "$0" | sed -e 's@/[^/]*$@@'`
 if expr "$verbose" \> 0 > /dev/null ; then
     echo Running launcher from "$bindir"
 fi
@@ -97,9 +109,10 @@ elif test -d "${bindir}/commands" && test -f "${bindir}/runtest.exp" ; then
     datadir="${bindir}"
 else
     commdir=
+    bindir1up_check=`echo "$bindir" | sed -e 's@/[^/]*$@/share/dejagnu@'`
+    bindir2up_check=`echo "$bindir" | sed -e 's@/[^/]*/[^/]*$@/share/dejagnu@'`
     for i in \
-	"$(echo "$bindir" | sed -e 's@/[^/]*$@/share/dejagnu@')" \
-	"$(echo "$bindir" | sed -e 's@/[^/]*/[^/]*$@/share/dejagnu@')" \
+	"${bindir1up_check}" "${bindir2up_check}" \
 	/usr/share/dejagnu /usr/local/share/dejagnu
     do
 	if expr "$verbose" \> 1 > /dev/null ; then
@@ -126,14 +139,14 @@ fi
 
 # Are we just looking for version information?
 if $want_version ; then
-    frame_version=$(grep '^set frame_version' "${datadir}/runtest.exp" \
-	| sed 's/^[^0-9]*//')
+    frame_version=`grep '^set frame_version' "${datadir}/runtest.exp" \
+	| sed 's/^[^0-9]*//'`
     echo 'dejagnu auxiliary launcher (DejaGnu)' "$frame_version"
     exit 0
 fi
 
 # Remove any leading autoconf platform prefix and the "dejagnu" prefix.
-command="$(basename "$0" | sed -e 's/^.*-\?dejagnu-\?//')"
+command=`basename "$0" | sed -e 's/^.*-\?dejagnu-\?//'`
 
 while expr $# \> 0 > /dev/null
 do
@@ -401,8 +414,8 @@ if $want_help ; then
 	echo ERROR: file "'$help_file'" does not contain a help message
 	exit 2
     fi
-    help_prefix_pat=$(grep '#help' "$help_file" \
-	| sed -e 's/#help.*$//' -e '1q' | tr '[:print:][:blank:]' .)
+    help_prefix_pat=`grep '#help' "$help_file" \
+	| sed -e 's/#help.*$//' -e '1q' | tr '[:print:][:blank:]' .`
     if expr "$verbose" \> 1 > /dev/null ; then
 	echo Extracting help from "'$help_file'" with prefix "'$help_prefix_pat'"
     fi
