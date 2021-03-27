@@ -1,5 +1,20 @@
 2021-03-26  Jacob Bachmeyer  <jcb@gnu.org>
 
+	PR47386
+
+	* testsuite/launcher.all/help.exp: Skip the tests on Solaris,
+	since Solaris man(1) does not accept explicit filenames.  The
+	manpages will be installed as usual, and the "dejagnu help"
+	command should work after installation.
+
+	Also set PAGER for testing, since other systems might also ignore
+	MANPAGER and that would cause the test to hang.
+
+	* testsuite/lib/launcher.exp (dejagnu_run): Send commands run and
+	copies of the output produced to the log.
+
+	* commands/help.sh: Extend PR47382 fix (below) to this file.
+
 	PR47385
 
 	* testsuite/lib/runtest.exp: Remove support for automatically

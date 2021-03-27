@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -21,16 +21,20 @@
 # each element: { name args envars exit_code output_re... }
 set tests {
     { "dejagnu help selects dejagnu(1) manpage"
-	{help -v} {MANPAGER=echo} 0
+	{help -v} {MANPAGER=echo PAGER=echo} 0
 	"Forwarding to man \".*doc/dejagnu\\.1\"" }
     { "dejagnu help help selects dejagnu-help(1) manpage"
-	{help -v help} {MANPAGER=echo} 0
+	{help -v help} {MANPAGER=echo PAGER=echo} 0
 	"Forwarding to man \".*doc/dejagnu-help\\.1\"" }
 }
 
 if { ![file isdirectory [file join [file dirname $LAUNCHER] commands]] } {
     skip_dejagnu_launcher_tests \
 	"The 'commands' directory is not present in the source tree." \
+	unsupported $tests
+} elseif { [istarget *-*-solaris*] } {
+    skip_dejagnu_launcher_tests \
+	"The 'man' command in Solaris does not work in the source tree." \
 	unsupported $tests
 } else {
     run_dejagnu_launcher_tests $LAUNCHER $tests
