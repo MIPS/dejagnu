@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2016, 2018, 2020 Free Software Foundation, Inc.
+# Copyright (C) 1992-2016, 2018, 2020, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -23,7 +23,11 @@ if { ![info exists RUNTEST] } {
 }
 
 if { ![info exists EXPECT] } {
-    set EXPECT [findfile $base_dir/../../expect/expect $base_dir/../../expect/expect expect]
+    if { [info exists ::env(EXPECT)] } {
+	set EXPECT $::env(EXPECT)
+    } else {
+	set EXPECT expect
+    }
     verbose "EXPECT defaulting to $EXPECT" 2
 }
 

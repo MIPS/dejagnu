@@ -53,6 +53,10 @@ Changes since 1.6.2:
     The Tcl namespace ::dejagnu and all child namespaces are entirely
     internal and should not be mentioned in testsuite code.  Its contents
     are subject to change without notice, even on point releases.
+21. The DejaGnu testsuite no longer searches for a nearby Expect executable
+    in the location where it would have been located in the old Cygnus tree
+    layout.  If you want to use a special Expect other than the system
+    Expect, specify EXPECT=/name/of/expect to "runtest" or "make check".
 
 Changes since 1.6.1:
 

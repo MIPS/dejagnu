@@ -1,3 +1,10 @@
+2021-03-26  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47385
+
+	* testsuite/lib/runtest.exp: Remove support for automatically
+	locating an Expect executable in the old Cygnus tree layout.
+
 2021-03-25  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382
