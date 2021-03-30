@@ -1,5 +1,7 @@
 2021-03-30  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* configure: Regenerate.
+
 	* runtest.exp, configure.ac, doc/version.texi: Update version.
 
 2021-03-26  Jacob Bachmeyer  <jcb@gnu.org>
