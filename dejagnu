@@ -53,7 +53,8 @@
 # ##end
 
 # list of extensions supported for commands in priority order
-readonly Variants="gawk awk tcl exp bash sh"
+Variants='gawk awk tcl exp bash sh'
+readonly Variants
 
 ## Recognize options
 

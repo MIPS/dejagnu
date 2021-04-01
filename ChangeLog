@@ -11,6 +11,11 @@
 	* runtest: Remove use of non-portable "if !" that causes problems
 	with /bin/sh on Solaris 10.
 
+	* dejagnu (Variants): Split the declaration of this read-only
+	variable into an assignment followed by marking it read-only,
+	instead of doing both in one statement.  The Solaris 10 /bin/sh
+	does not accept the combined form.
+
 2021-03-30  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.
