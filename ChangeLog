@@ -6,6 +6,11 @@
 	message to better fit GNU conventions, with thanks to Tom Tromey
 	for the reporting this issue.
 
+	PR47382
+
+	* runtest: Remove use of non-portable "if !" that causes problems
+	with /bin/sh on Solaris 10.
+
 2021-03-30  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.

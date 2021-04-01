@@ -152,7 +152,7 @@ if [ -z "$runpath" ] ; then
     exit 1
 fi
 
-if ! command -v "$expectbin" > /dev/null ; then
+if command -v "$expectbin" > /dev/null ; then :; else
     echo "ERROR: unable to find expect in the PATH"
     exit 1
 fi
