@@ -20,7 +20,7 @@
 # Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
 # ##help
-# #Usage: dejagnu help [options...] <command>
+# #Usage: dejagnu help [ OPTIONS... ] COMMAND
 # #	--verbose, -v		Emit additional messages
 # #	--path, -w		Passed to man(1)
 # #	-W			Passed to man(1)

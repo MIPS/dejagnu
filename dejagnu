@@ -45,7 +45,7 @@
 # variables.  In this script, the intended meaning is obvious in context.
 
 # ##help
-# #Usage: dejagnu <command> [--help|options...]
+# #Usage: dejagnu COMMAND [ --help | OPTIONS... ]
 # #Usage: dejagnu --help
 # #Usage: dejagnu --version
 # #	--help			Print help text

@@ -1,3 +1,11 @@
+2021-04-01  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47533
+
+	* dejagnu, commands/help.sh, commands/report-card.awk: Revise help
+	message to better fit GNU conventions, with thanks to Tom Tromey
+	for the reporting this issue.
+
 2021-03-30  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.
