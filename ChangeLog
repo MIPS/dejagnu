@@ -2,6 +2,8 @@
 
 	* configure: Regenerate.
 
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
 	* configure.ac: Change "dnl" comments that should appear in
 	configure to regular comments.
 	Add experimental support for propagating CONFIG_SHELL to the
