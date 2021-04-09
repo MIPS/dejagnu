@@ -1,5 +1,7 @@
 2021-04-08  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* configure: Regenerate.
+
 	* configure.ac: Change "dnl" comments that should appear in
 	configure to regular comments.
 	Add experimental support for propagating CONFIG_SHELL to the
