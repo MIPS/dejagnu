@@ -2,6 +2,8 @@
 
 	* configure.ac: Change "dnl" comments that should appear in
 	configure to regular comments.
+	Add experimental support for propagating CONFIG_SHELL to the
+	config.sub and config.guess scripts in the source directory.
 
 2021-04-01  Jacob Bachmeyer  <jcb@gnu.org>
 
