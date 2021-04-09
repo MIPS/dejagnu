@@ -34,13 +34,13 @@ if test -z "$AWK"; then
   AC_MSG_ERROR([AWK not installed])
 fi
 
-dnl Provide an empty global site file (/dev/null) as default.
+# Provide an empty global site file (/dev/null) as default.
 if test x"$DEJAGNU" = x
 then
   DEJAGNU="/dev/null"
 fi
 AC_SUBST(DEJAGNU)
-dnl Makefile.am arranges for DEJAGNU to be exported in the environment.
+# Makefile.am arranges for DEJAGNU to be exported in the environment.
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

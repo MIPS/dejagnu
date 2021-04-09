@@ -1,3 +1,8 @@
+2021-04-08  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure.ac: Change "dnl" comments that should appear in
+	configure to regular comments.
+
 2021-04-01  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47533
