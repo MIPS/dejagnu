@@ -1,0 +1,162 @@
+# Test procedures in lib/specs.exp				-*- Tcl -*-
+
+# Copyright (C) 2021 Free Software Foundation, Inc.
+#
+# This file is part of DejaGnu.
+#
+# DejaGnu is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# DejaGnu is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with DejaGnu; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
+
+source $srcdir/$subdir/default_procs.tcl
+
+proc load_lib { lib } {
+    global srcdir
+    source $srcdir/../lib/$lib
+}
+
+foreach lib { targetdb specs } {
+    source $srcdir/../lib/${lib}.exp
+}
+
+#
+# Create a false board config array
+#
+set board_info(baz,name)	"baz"
+set board_info(baz,ldscript)	"-Tbaz.ld"
+set board_info(quux,name)	"quux"
+set board_info(quux,ldscript)	"-specs quux.specs"
+set board_info(quux,other)	"-mquux"
+
+::dejagnu::specs::load_specs test_specs {
+    one		1
+    two		2
+    three	3
+
+    percent	{%%}
+
+    base_test	{%{two} %{one} %{three}}
+    esc_test_1	{%{two} %% %{three}}
+    esc_test_2	{%{one} %{percent} %{three}}
+
+
+    mapped/asc	{%{one} %{two} %{three}}
+    mapped/desc	{%{three} %{two} %{one}}
+
+    mapped/	{%{mapped/asc}}
+    mapped_order asc
+
+    map_test	{%{mapped/%{mapped_order}}}
+
+
+    args	{}
+
+    call_test_1	{%[test_proc_1]}
+    call_test_2 {%[test_proc_2 %{args}]}
+
+
+    board	{}
+    key		{ldscript}
+
+    board_test	{%{board_info(%{board}):%{key}}}
+} foo {
+    one		4
+    three	6
+} bar {
+    two		8
+    three	9
+}
+
+# test procedures for %[...] tests
+proc test_proc_1 {} { return "test-1" }
+proc test_proc_2 { args } { return "[llength $args]: $args" }
+
+# simple wrapper to bring global spec database into current scope
+proc eval_specs { database_name goal options } {
+    global $database_name
+    ::dejagnu::specs::eval_specs $database_name $goal $options
+}
+
+run_tests {
+    { "#" simple substitutions }
+    { lib_ret_test eval_specs {test_specs base_test {}}
+	{2 1 3}
+	"evaluate simple spec substitutions" }
+    { lib_ret_test eval_specs {test_specs base_test {one 5}}
+	{2 5 3}
+	"evaluate simple spec substitutions with option as override" }
+    { lib_ret_test eval_specs {test_specs esc_test_1 {}}
+	{2 % 3}
+	"evaluate simple spec substitutions with literal %" }
+    { lib_ret_test eval_specs {test_specs esc_test_2 {}}
+	{1 % 3}
+	"evaluate simple spec substitutions with literal % substituted" }
+
+    { "#" layer search path }
+    { lib_ret_test eval_specs {test_specs base_test {_layers {foo}}}
+	{2 4 6}
+	"use layer 'foo'" }
+    { lib_ret_test eval_specs {test_specs base_test {_layers {bar}}}
+	{8 1 9}
+	"use layer 'bar'" }
+    { lib_ret_test eval_specs {test_specs base_test {_layers {foo bar}}}
+	{8 4 6}
+	"use layers 'foo' and 'bar'" }
+    { lib_ret_test eval_specs {test_specs base_test {_layers {bar foo}}}
+	{8 4 9}
+	"use layers 'bar' and 'foo'" }
+
+    { "#" value-map substitutions }
+    { lib_ret_test eval_specs {test_specs map_test {}}
+	{1 2 3}
+	"mapped-value substitution as default" }
+    { lib_ret_test eval_specs {test_specs map_test {mapped_order desc}}
+	{3 2 1}
+	"mapped-value substitution with option as override" }
+    { lib_ret_test eval_specs {test_specs map_test {mapped_order ""}}
+	{1 2 3}
+	"mapped-value substitution with empty selector" }
+    { lib_errpat_test eval_specs {test_specs map_test {mapped_order bogus}}
+	{*mapped/bogus*}
+	"error if mapped value refers to non-existent spec string" }
+
+    { "#" procedure-call substitutions }
+    { lib_ret_test eval_specs {test_specs call_test_1 {}}
+	{test-1}
+	"substitute arity 0 procedure call result" }
+    { lib_ret_test eval_specs {test_specs call_test_2 {}}
+	{0: }
+	"substitute procedure call result with no arguments" }
+    { lib_ret_test eval_specs {test_specs call_test_2 {args {%{base_test}}}}
+	{3: 2 1 3}
+	"substitute procedure call result with substituted arguments" }
+    { lib_ret_test eval_specs {test_specs call_test_2 {args {%%{one}}}}
+	{1: %{one}}
+	"substitutions not evaluated in procedure call result" }
+
+    { "#" board_info substitutions }
+    { lib_ret_test eval_specs {test_specs board_test {board baz key other}}
+	{}
+	"empty result for non-existent key" }
+    { lib_ret_test eval_specs {test_specs board_test {board baz}}
+	{-Tbaz.ld}
+	"find 'ldscript' key for board 'baz'" }
+    { lib_ret_test eval_specs {test_specs board_test {board quux}}
+	{-specs quux.specs}
+	"find 'ldscript' key for board 'quux'" }
+    { lib_ret_test eval_specs {test_specs board_test {board quux key other}}
+	{-mquux}
+	"find 'other' key for board 'quux'" }
+}
+
+puts "END specs.test"

@@ -1,0 +1,294 @@
+# Copyright (C) 2021 Free Software Foundation, Inc.
+#
+# This file is part of DejaGnu.
+#
+# DejaGnu is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# DejaGnu is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with DejaGnu; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
+
+# This file was written by Jacob Bachmeyer.
+
+# Procedures for handling specs strings similar to those used in GCC.
+
+# These spec strings support substitutions introduced using "%":
+#
+#	%%	-- literal "%" character
+#	%{...}	-- substitute data value with recursive evaluation
+#	%[...]	-- evaluate Tcl code and substitute result literally
+#
+# All other uses of "%" in specs strings are reserved.  Data item names
+# containing colon (":") are generally reserved for future expansion; a few
+# are currently used as shorthand for certain DejaGnu API calls.
+# Convention for hierarchical name parts is separation using ".", while "/"
+# is used for variations intended to be selected using another value.
+
+# Specs are stored in a Tcl array, referred to as the "database" array.
+# Spec strings are organized into layers, providing a hierarchical
+# structure of fallback and default values by searching layers in the order
+# given by the "_layers" option.
+
+# The external data structures used by this module are mostly association
+# lists, but they are internally referenced using Tcl arrays.
+
+# All procedures in this module are currently internal to DejaGnu and
+# subject to change without notice.
+namespace eval ::dejagnu::specs {
+    namespace export eval_specs validate_specs
+}
+
+# Expand one data substitution token.
+# internal procedure; uses SPECS and OPTION arrays in caller's context
+proc ::dejagnu::specs::subst_token { key } {
+    upvar 1 specs specs option option
+
+    # check for an option first
+    if { [info exists option($key)] } {
+	return $option($key)
+    }
+
+    # check for a board configuration value
+    if { [regexp {^board_info\(([^)]+)\):(.*)$} $key -> machine info_key] } {
+	return [board_info $machine $info_key]
+    }
+
+    # search the specs database if a layer path was given
+    if { [info exists option(_layers)] } {
+	foreach layer $option(_layers) {
+	    if { [info exists specs(layer,$layer,$key)] } {
+		return $specs(layer,$layer,$key)
+	    }
+	}
+    }
+
+    # check for suitable default entry in the specs database
+    if { [info exists specs(base,$key)] } {
+	return $specs(base,$key)
+    }
+
+    error "unresolved specs token: $key"
+}
+
+# Evaluate excess open or close delimiters.
+proc ::dejagnu::specs::delimiter_balance { text } {
+    # first, remove all backslashes that cannot quote delimiters
+    regsub -all {\\+[^][\\{}]} $text "" text
+    # strip backslash-quoted backslashes
+    regsub -all {(?:\\{2})+} $text "" text
+    # strip backslash-quoted delimiters
+    regsub -all {(^|[^\\])\\[][{}]} $text "\\1" text
+    # remove all unrelated characters
+    regsub -all {[^][{}]+} $text "" text
+
+    # separate the text into only-left and only-right subsets
+    regsub -all "\\\\*\[\]\}\]" $text "" left
+    regsub -all "\\\\*\[\[\{\]" $text "" right
+
+    return [expr { [string length $left] - [string length $right] }]
+}
+
+# Find the end of a token.
+proc ::dejagnu::specs::token_end { text start end_pat } {
+    set balance 1
+    set point $start
+    while { $balance > 0 } {
+	regexp -indices -start [expr { 1 + $point }] -- $end_pat $text item
+	set point [lindex $item 0]
+	# optimization: if delimiter_balance returns N, we need at least N
+	#     more closing delimiters, but that could be any combination of
+	#     braces and brackets, not only the main endpoint delimiter
+	for {
+	    set balance [delimiter_balance [string range $text $start $point]]
+	} { $balance > 1 } { incr balance -1 } {
+	    regexp -indices -start [expr { 1 + $point }] -- \
+		"\[\\\}\\\]\]" $text item
+	    set point [lindex $item 0]
+	}
+    }
+    return [lindex $item 1]
+}
+
+# Abstract parsing loop.
+# internal procedure; sets TOKEN variable in caller's context
+proc ::dejagnu::specs::scan_specs_string { text literal char data code } {
+    upvar 1 token token
+
+    for {
+	set mark -1
+	set point 0
+    } { [regexp -indices -start $point -- {%.} $text item] } {
+	set point [expr { 1 + $mark }]
+    } {
+	# extract literal from preceding range
+	set token [string range $text \
+		       [expr { $mark + 1 }] \
+		       [expr { [lindex $item 0] - 1 }]]
+	uplevel 1 $literal
+	# advance point
+	set point [lindex $item 1]
+	# extract first character of substitution
+	set enter [string index $text $point]
+	if { $enter eq "%" } {
+	    # %% -- literal "%"
+	    set mark $point
+	    uplevel 1 $char
+	} elseif { $enter eq "\{" } {
+	    # %{...} -- substitute data item
+	    set mark [token_end $text $point "\\\}"]
+	    set token [string range $text \
+			   [expr { $point + 1 }] [expr { $mark  - 1 }]]
+	    uplevel 1 $data
+	} elseif { $enter eq "\[" } {
+	    # %[...] -- substitute value from Tcl code fragment
+	    set mark [token_end $text $point "\\\]"]
+	    set token [string range $text \
+			   [expr { $point + 1 }] [expr { $mark  - 1 }]]
+	    uplevel 1 $code
+	} else {
+	    error "unrecognized sequence %$enter in spec string"
+	}
+    }
+    # leave the trailing literal in TOKEN
+    set token [string range $text [expr { $mark + 1 }] end]
+}
+
+# Generate parse report for specs string; for debugging
+proc ::dejagnu::specs::parse_specs_string { text } {
+    set tokens [list]
+    scan_specs_string $text {
+	# intervening literal text
+	lappend tokens [list text $token]
+    } { # %% escape
+	lappend tokens [list text %]
+    } { # data item
+	lappend tokens [list data $token]
+    } { # code item
+	lappend tokens [list code $token]
+    }
+    lappend tokens [list text $token]
+    return $tokens
+}
+
+# Expand substitutions in specs string.
+# internal procedure; uses SPECS and OPTION arrays and BASE_LEVEL variable
+# in caller's context
+proc ::dejagnu::specs::eval_specs_string { text } {
+    upvar 1 specs specs option option base_level base_level
+
+    set output ""
+    scan_specs_string $text {
+	# copy intervening literal text to output
+	append output $token
+    } {
+	# emit "%" where string contains "%%"
+	append output "%"
+    } {
+	# substitute data item
+	append output [eval_specs_string \
+			   [subst_token [eval_specs_string $token]]]
+    } {
+	# evaluate Tcl code fragment
+	append output [uplevel "#$base_level" [eval_specs_string $token]]
+    }
+    # copy trailing literal
+    append output $token
+
+    return $output
+}
+
+# Check that the provided specs string can be evaluated; that is, that all
+# substitutions have definitions.
+# internal procedure; uses SPECS and OPTION arrays in caller's context
+proc ::dejagnu::specs::validate_specs_string { text } {
+    upvar 1 specs specs option option
+
+    scan_specs_string $text {
+	# ignore literal text
+    } {
+	# ignore literal "%"
+    } {
+	# check substitution
+    } {
+	# check Tcl code fragment
+    }
+    # ignore trailing literal
+
+    # an error is thrown if validation fails
+    return 1
+}
+
+# Perform spec substitutions to evaluate %{GOAL}.
+#
+#  The DATABASE_NAME is the name (in the caller's context) of the database
+#  array to use, while OPTIONS is a list of additional KEY VALUE pairs that
+#  should be available for substitution.
+proc ::dejagnu::specs::eval_specs { database_name goal options } {
+    upvar 1 $database_name specs
+    array set option $options
+    set base_level [expr { [info level] - 1 }]
+
+    return [eval_specs_string "%{$goal}"]
+}
+
+# Load specs strings into DATABASE_NAME; as:
+#	load_specs DATABASE_NAME BASE_STRINGS (LAYER_NAME LAYER_STRINGS)...
+#  to load only into a layer:
+#	load_specs DATABASE_NAME {} LAYER_NAME LAYER_STRINGS
+proc ::dejagnu::specs::load_specs { database_name base_strings args } {
+    upvar 1 $database_name specs
+
+    if { ([llength $args] & 1) != 0 } {
+	error "specs layer names and contents must be in pairs"
+    }
+    foreach {k v} $base_strings {
+	set specs(base,$k) $v
+    }
+    foreach {layer layer_strings} $args {
+	foreach {k v} $layer_strings {
+	    set specs(layer,$layer,$k) $v
+	}
+    }
+}
+
+# Display contents of specs database array; for debugging
+proc ::dejagnu::specs::dump_specs { database_name } {
+    upvar 1 $database_name specs
+
+    set keys [lsort -dictionary [array names specs]]
+    # all defaults (base,*) sort ahead of all layers (layer,*,*)
+
+    puts "Specs $database_name:\n"
+    for { set i 0 } { ($i < [llength $keys])
+		      && [regexp {^base,(.*)$} [lindex $keys $i] \
+			      -> name] } \
+	{ incr i } {
+	    puts "*$name:\n$specs([lindex $keys $i])\n"
+	}
+
+    for { set prev "" } { ($i < [llength $keys])
+			  && [regexp {^layer,([^,]+),(.*)$} [lindex $keys $i] \
+				  -> layer name] } \
+	{ incr i } {
+	    if { $prev ne $layer } {
+		puts "\[$layer\]"
+		set prev $layer
+	    }
+	    puts "*$name:\n$specs([lindex $keys $i])\n"
+	}
+}
+
+# Validate a specs database
+proc ::dejagnu::specs::validate_specs { database_name } {
+    upvar 1 $database_name specs
+
+    # TODO
+}

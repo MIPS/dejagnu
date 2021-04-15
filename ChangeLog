@@ -1,3 +1,7 @@
+2021-04-14  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* lib/specs.exp, testsuite/runtest.libs/specs.test: New files.
+
 2021-03-22  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.
