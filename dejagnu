@@ -152,9 +152,7 @@ command=`basename "$0" | sed -e 's/^.*-\?dejagnu-\?//'`
 while expr $# \> 0 > /dev/null
 do
     if test -z "${command}" ; then
-	if expr "$1" : - > /dev/null ; then
-	    break
-	fi
+	case $1 in -*) break;; esac
 	command="$1"
 	shift
     fi
@@ -167,9 +165,7 @@ do
 	    break 2
 	fi
     done
-    if expr "$1" : - > /dev/null ; then
-	break
-    fi
+    case $1 in -*) break;; esac
     if test -n "$1" ; then
 	command="${command}-$1"
 	shift

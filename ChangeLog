@@ -1,3 +1,10 @@
+2021-04-14  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu: Replace use of "expr :" with shell "case" pattern
+	match to avoid limitations of Solaris 10 expr(1).
+
 2021-04-08  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure: Regenerate.
