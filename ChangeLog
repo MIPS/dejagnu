@@ -15,6 +15,12 @@
 	* configure.ac: Remove experimental support for propagating
 	CONFIG_SHELL to scripts in the source directory.
 
+	* runtest.exp: Use CONFIG_SHELL or SHELL environment variable when
+	running config.guess.  Check the result carefully and stop with an
+	error immediately if running config.guess does not produce
+	something that plausibly resembles a triplet.  Advise the user
+	that SHELL or CONFIG_SHELL may need to be set in the environment.
+
 2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382
