@@ -248,11 +248,10 @@ if $have_gawk ; then
 fi
 # is "awk" actually GNU Awk?
 if $have_awk ; then
-    if "$awkbin" --version | sed 1q | grep -qi 'GNU Awk' ; then
-	have_gawk_as_awk=true
-    else
-	have_gawk_as_awk=false
-    fi
+    case `"$awkbin" --version 2>&1 | sed 1q` in
+	*'GNU Awk'*)	have_gawk_as_awk=true	;;
+	*)		have_gawk_as_awk=false	;;
+    esac
 fi
 if expr "$verbose" \> 2 > /dev/null ; then
     if $have_awk ; then

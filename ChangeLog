@@ -5,6 +5,9 @@
 	* dejagnu (command): Use Awk instead of non-portable basename(1)
 	and a non-portable sed(1) pattern to initially set this variable.
 
+	* dejagnu: Use shell "case" pattern match instead of non-portable
+	"grep -q" to determine if "awk" is GNU Awk.
+
 2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382
