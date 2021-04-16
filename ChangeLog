@@ -8,6 +8,10 @@
 	* dejagnu: Use shell "case" pattern match instead of non-portable
 	"grep -q" to determine if "awk" is GNU Awk.
 
+	* dejagnu: Use Awk instead of non-portable "grep -q" to verify
+	that a file contains a help message.  Also use Awk to extract help
+	messages from files, instead of a complex dynamic sed(1) program.
+
 2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382

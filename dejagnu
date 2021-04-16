@@ -418,21 +418,15 @@ if $want_help ; then
 	echo ERROR: file "'$help_file'" is not readable
 	exit 2
     fi
-    if grep -q '#help' "$help_file" \
-	&& grep -q '#end' "$help_file"; then : ; else
+    if awk '/#help$/ { pfxlen = length($0) - 4 }
+	    pfxlen && substr($0, pfxlen) == "#end" { exit 1 }
+	   ' "$help_file" ; then
 	echo ERROR: file "'$help_file'" does not contain a help message
 	exit 2
     fi
-    help_prefix_pat=`grep '#help' "$help_file" \
-	| sed -e 's/#help.*$//' -e '1q' | tr '[:print:][:blank:]' .`
-    if expr "$verbose" \> 1 > /dev/null ; then
-	echo Extracting help from "'$help_file'" with prefix "'$help_prefix_pat'"
-    fi
-    sed -n < "$help_file" \
-	-e '1,/#help/d' \
-	-e '/^'"$help_prefix_pat"'#end/q' \
-	-e 's/^'"$help_prefix_pat"'//;p'
-    exit 0
+    exec awk '/#help$/ { pfxlen = length($0) - 4 }
+	      pfxlen && substr($0, pfxlen) == "#end" { exit 0 }
+	      pfxlen { print substr($0, pfxlen) }' "$help_file"
 fi
 
 if test -z "$command" ; then
