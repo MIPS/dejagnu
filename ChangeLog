@@ -1,3 +1,11 @@
+2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu: Avoid using $? for an exit code; it is convenient until
+	the tests fail because the script is run on Solaris where false
+	returns 255 instead of 1 and the test harness expects exit code 1.
+
 2021-04-14  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382

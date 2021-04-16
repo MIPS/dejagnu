@@ -426,13 +426,13 @@ fi
 if test -z "$command" ; then
     if test -n "$override_ext" ; then
 	case $selected_ext in
-	    awk)	$have_awk;	exit $? ;;
-	    bash)	$have_bash;	exit $? ;;
-	    exp)	$have_expect;	exit $? ;;
-	    gawk)	$have_gawk;	exit $? ;;
-	    tcl)	$have_tcl;	exit $? ;;
-	    sh)		$have_sh;	exit $? ;;
-	    *)				exit  2 ;;
+	    awk)    if $have_awk;	then exit 0; else exit 1; fi ;;
+	    bash)   if $have_bash;	then exit 0; else exit 1; fi ;;
+	    exp)    if $have_expect;	then exit 0; else exit 1; fi ;;
+	    gawk)   if $have_gawk;	then exit 0; else exit 1; fi ;;
+	    tcl)    if $have_tcl;	then exit 0; else exit 1; fi ;;
+	    sh)	    if $have_sh;	then exit 0; else exit 1; fi ;;
+	    *)	    exit 2 ;;
 	esac
     else
 	echo ERROR: no command given
