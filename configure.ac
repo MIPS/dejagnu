@@ -42,25 +42,5 @@ fi
 AC_SUBST(DEJAGNU)
 # Makefile.am arranges for DEJAGNU to be exported in the environment.
 
-# Patch interpreter lines in config.* scripts to reference CONFIG_SHELL.
-# Normally configure ensures that these scripts are run using CONFIG_SHELL
-# and their interpreter lines are ignored, but DejaGnu also installs
-# config.guess and the framework invokes it at runtime.
-if test x"$SHELL" != x/bin/sh
-then
-  AC_CONFIG_COMMANDS([scriptpatch],[
-    for file in config.guess config.sub
-    do
-      f=${ac_srcdir}/${file}
-      sed -e '1s,^@%:@!.*$,@%:@! '"${SHELL}", $f > ${f}.new
-      if test `awk 'END {print NR}' $f` != `awk 'END {print NR}' ${f}.new`
-      then
-	AC_MSG_ERROR([patching script for local shell changed line count!])
-      fi
-      mv -f ${f}.new $f
-    done
-], [SHELL=$SHELL])
-fi
-
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

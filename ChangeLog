@@ -12,6 +12,9 @@
 	that a file contains a help message.  Also use Awk to extract help
 	messages from files, instead of a complex dynamic sed(1) program.
 
+	* configure.ac: Remove experimental support for propagating
+	CONFIG_SHELL to scripts in the source directory.
+
 2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382
