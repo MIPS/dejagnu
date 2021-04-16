@@ -1,3 +1,10 @@
+2021-04-16  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu (command): Use Awk instead of non-portable basename(1)
+	and a non-portable sed(1) pattern to initially set this variable.
+
 2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382
