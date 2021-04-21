@@ -1,3 +1,14 @@
+2021-04-20  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure.ac: Set Automake options to use the ancient and
+	universal V7 format when building distribution tarballs.  The
+	limitations of this format are not expected to impact DejaGnu; the
+	"ustar" format will be used instead if this is proved wrong.
+
+	* Makefile.am (TAR_OPTIONS): Add exported environment variable to
+	set options when building distribution tarballs.  Ensure that all
+	files in distribution tarballs will be recorded as owned by root.
+
 2021-04-16  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR47382
