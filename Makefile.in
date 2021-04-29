@@ -366,6 +366,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = dejagnu
+
+# record all files in the distribution tarball as owned by root
+TAR_OPTIONS = --owner=0 --group=0
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
@@ -1157,6 +1160,11 @@ distdir: $(DISTFILES)
 	  ! -type d ! -perm -400 -exec chmod a+r {} \; -o \
 	  ! -type d ! -perm -444 -exec $(install_sh) -c -m a+r {} {} \; \
 	|| chmod -R a+r "$(distdir)"
+	@if test -z "$(am__skip_length_check)" && find "$(distdir)" -type f -print | \
+	  grep '^...................................................................................................' 1>&2; then \
+	  echo 'error: the above filenames are too long' 1>&2; \
+	  exit 1; \
+	else :; fi
 dist-gzip: distdir
 	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__post_remove_distdir)
@@ -1529,6 +1537,7 @@ uninstall-man: uninstall-man1
 	uninstall-ps-am
 
 export DEJAGNU
+export TAR_OPTIONS
 
 clean-local: clean-local-check
 .PHONY: clean-local-check

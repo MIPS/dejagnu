@@ -1,5 +1,7 @@
 2021-04-28  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* configure, Makefile.in: Regenerate.
+
 	* runtest.exp, configure.ac, doc/version.texi: Update version.
 
 2021-04-20  Jacob Bachmeyer  <jcb@gnu.org>
