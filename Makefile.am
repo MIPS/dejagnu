@@ -22,7 +22,7 @@ AUTOMAKE_OPTIONS = dejagnu
 export DEJAGNU
 
 # record all files in the distribution tarball as owned by root
-TAR_OPTIONS = --owner=0 --group=0
+TAR_OPTIONS = --format=v7 --owner=0 --group=0
 export TAR_OPTIONS
 
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \

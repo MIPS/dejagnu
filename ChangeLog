@@ -4,6 +4,9 @@
 
 	* runtest.exp, configure.ac, doc/version.texi: Update version.
 
+	* Makefile.am (TAR_OPTIONS): Explicitly select v7 tarball format
+	to work around Automake limitation of assuming that v7 is default.
+
 2021-04-20  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure.ac: Set Automake options to use the ancient and
