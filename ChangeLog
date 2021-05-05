@@ -1,3 +1,15 @@
+2021-05-05  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR48155
+
+	* Makefile.am (TESTSUITE_FILES): Update.
+	(CLEANFILES): Add special init file for PR48155 nested tests.
+
+	* testsuite/runtest.main/pr48155.exp: New file.
+	* testsuite/runtest.main/pr48155-csh.sh: New trivial file.  This
+	script emulates the behavior of the C shell if an attempt is made
+	to use it to run the config.guess script.
+
 2021-05-04  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR48155
