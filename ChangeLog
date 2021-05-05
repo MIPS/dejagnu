@@ -1,6 +1,6 @@
 2021-05-04  Jacob Bachmeyer  <jcb@gnu.org>
 
-	PR41855
+	PR48155
 
 	* runtest.exp: Tighten regexp used to validate output from
 	config.guess.  The previous regexp would accept an error produced
