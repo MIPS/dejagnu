@@ -1,3 +1,11 @@
+2021-05-04  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR41855
+
+	* runtest.exp: Tighten regexp used to validate output from
+	config.guess.  The previous regexp would accept an error produced
+	if config.guess was incorrectly run using the C shell.
+
 2021-04-28  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* configure, Makefile.in: Regenerate.

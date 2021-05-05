@@ -862,7 +862,7 @@ if {[expr {$build_triplet eq "" && $host_triplet eq ""}]} {
 	    }
 	}
     }
-    if { ![regexp -- {^[^-]+-[^-]+-[^-]+} $build_triplet] } {
+    if { ![regexp -- {^[[:alnum:]_.]+(-[[:alnum:]_.]+)+$} $build_triplet] } {
 	send_error "ERROR: Running config.guess produced bogus build triplet:\n"
 	send_error "        $build_triplet\n"
 	send_error "       (Perhaps you need to set CONFIG_SHELL or\
