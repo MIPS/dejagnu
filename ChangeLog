@@ -1,3 +1,8 @@
+2021-05-18  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* testsuite/runtest.main/pr48155.exp: Fix assumption about exit
+	code from /bin/false, which is different on Solaris.
+
 2021-05-05  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR48155

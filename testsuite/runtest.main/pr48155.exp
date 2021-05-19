@@ -78,7 +78,7 @@ proc test_pr48155_error { name envlist output } {
 
 test_pr48155_error "bogus CONFIG_SHELL as false"		\
     [list CONFIG_SHELL [which false]]				\
-    "exited on code 1.*produced bogus build triplet:"
+    "exited on code .*produced bogus build triplet:"
 test_pr48155_error "bogus CONFIG_SHELL as true"			\
     [list CONFIG_SHELL [which true]]				\
     "produced bogus build triplet:"
@@ -91,7 +91,7 @@ test_pr48155_error "bogus CONFIG_SHELL as simulated C shell"	\
 
 test_pr48155_error "bogus SHELL as false"			\
     [list SHELL [which false]]					\
-    "exited on code 1.*produced bogus build triplet:"
+    "exited on code .*produced bogus build triplet:"
 test_pr48155_error "bogus SHELL as true"			\
     [list SHELL [which true]]					\
     "produced bogus build triplet:"
