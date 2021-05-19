@@ -1,5 +1,8 @@
 2021-05-18  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* testsuite/report-card.all/onetest.exp: Avoid Tcl error when item
+	and totals lines are missing entirely.
+
 	* testsuite/runtest.main/pr48155.exp: Fix assumption about exit
 	code from /bin/false, which is different on Solaris.
 

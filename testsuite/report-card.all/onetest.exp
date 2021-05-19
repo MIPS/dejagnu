@@ -193,11 +193,17 @@ foreach name $test_names {
     }
     # skip the footer
     expect -re {.+} { exp_continue }
-    # do the item and totals lines match?
-    if { $item_line eq $totals_line } {
-	pass "verify total for $name"
+    # were item and totals lines even produced?
+    if { [info exists item_line] && [info exists totals_line] } {
+	# do the item and totals lines match?
+	if { $item_line eq $totals_line } {
+	    pass "verify total for $name"
+	} else {
+	    fail "verify total for $name"
+	}
     } else {
-	fail "verify total for $name"
+	# either an item line or the totals line was not seen
+	unresolved "verify total for $name"
     }
     if { $separator_count == 2 } {
 	pass "expected separator lines for $name"
