@@ -1,5 +1,9 @@
 2021-05-18  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu: Redirect input from /dev/null when testing if awk is
+	GNU Awk; this avoids a hang on Solaris 10 where awk treats
+	--version as an Awk program and attempts to read input.
+
 	* testsuite/report-card.all/onetest.exp: Avoid Tcl error when item
 	and totals lines are missing entirely.
 

@@ -248,7 +248,7 @@ if $have_gawk ; then
 fi
 # is "awk" actually GNU Awk?
 if $have_awk ; then
-    case `"$awkbin" --version 2>&1 | sed 1q` in
+    case `"$awkbin" --version </dev/null 2>&1 | sed 1q` in
 	*'GNU Awk'*)	have_gawk_as_awk=true	;;
 	*)		have_gawk_as_awk=false	;;
     esac
