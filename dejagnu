@@ -148,19 +148,21 @@ fi
 
 # Remove any leading autoconf platform prefix and the "dejagnu" prefix.
 # command=`basename "$0" | sed -e 's/^.*-\?dejagnu-\?//'`
-# The above simple solution is not portable, so we use Awk:
-command=`echo "$0" | awk 'BEGIN { FS = "/" }
-{   OFS = FS = "-"
-    $0 = $NF
-    for (i = 1; i <= NF; i++) if ($i ~ /dejagnu/) break;
-    for (j = 1; j <= (NF - i); j++) $j = $(j+i);
-    NF = j - 1
-    print }'`
-# Initially splitting on "/", then assigning the last field to the record
-# performs the role of basename.  Splitting on "-" and searching for a
-# field matching /dejagnu/ identifies the other prefixes, and the second
-# loop removes the "dejagnu" prefix and everything before it.  The record
-# is then truncated, printed, and thereby returned to the shell.
+
+# The above simple solution is not portable, so we use Awk and two steps:
+command=`echo "$0" | awk 'BEGIN { FS = "/" } { print $NF }'`
+# First, we use a simple Awk program to perform the role of basename.
+command=`echo "$command" | awk 'BEGIN { OFS = FS = "-" }
+	   { for (i = 1; i <= NF; i++) if ($i ~ /dejagnu/) break;
+	     i++; for (out = ""; i <= NF; i++) out = out OFS $i;
+	     print substr(out,2) }'`
+# Second, we split on "-" and search for a field matching /dejagnu/ to
+# identify the other prefixes, then skip that field and the second loop
+# collects any following fields.  The spurious leading "-" is then removed
+# using substr() and the result is returned to the shell.
+
+# This roundabout approach maintains compatibility with Solaris 10, where
+# awk allows only limited manipulation of the record structure.
 
 while expr $# \> 0 > /dev/null
 do
