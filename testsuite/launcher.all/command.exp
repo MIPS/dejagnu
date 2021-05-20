@@ -103,6 +103,19 @@ set tests {
 	{ "dejagnu foo --help fails if Tcl variant selected"
 	    {foo --help} {EXPECT=true  TCLSH=true } 2
 	    "does not contain a help message" }
+
+	{ "dejagnu foo --help fails if no POSIX Awk available"
+	    {foo --help} {EXPECT=bogus TCLSH=bogus AWK=bogus GAWK=bogus} 2
+	    "requires POSIX Awk" }
+	{ "dejagnu foo --help recognizes dummy GNU Awk as Awk"
+	    {foo --help} {EXPECT=bogus TCLSH=bogus AWK=bogus GAWK=true } 2
+	    "does not contain a help message" }
+	{
+	    # The above still fails, because true(1) does not actually
+	    # evaluate Awk programs and the Awk program that tests if a help
+	    # message is present returns true if the launcher should abort.
+	}
+
     }
 
     { dejagnu-foo

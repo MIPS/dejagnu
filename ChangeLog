@@ -1,3 +1,10 @@
+2021-05-20  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* dejagnu: Search for a POSIX Awk and validate that at least a
+	simple Awk program actually works.
+	* testsuite/launcher.all/command.exp: Add tests for error produced
+	when no Awk is found and a help message is requested.
+
 2021-05-18  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* dejagnu: Redirect input from /dev/null when testing if awk is

@@ -222,7 +222,14 @@ if test -n "$AWK" ; then
 elif test -x "${bindir}/awk" ; then
     awkbin="${bindir}/awk"
 else
-    awkbin=awk
+    # find what might be a usable awk
+    # on Solaris 10, POSIX awk is in /usr/xpg4/bin
+    for awktest in mawk /usr/xpg4/bin/awk nawk awk ; do
+	if command -v "$awktest" > /dev/null 2>&1 ; then
+	    awkbin=$awktest
+	    break;
+	fi
+    done
 fi
 if test -n "$GAWK" ; then
     gawkbin="$GAWK"
@@ -231,7 +238,8 @@ elif test -x "${bindir}/gawk" ; then
 else
     gawkbin=gawk
 fi
-if command -v "$awkbin" > /dev/null 2>&1 ; then
+# The non-POSIX awk in /usr/bin on Solaris 10 fails this test
+if echo | "$awkbin" '1 && 1 {exit 0}' > /dev/null 2>&1 ; then
     have_awk=true
 else
     have_awk=false
@@ -266,6 +274,15 @@ if expr "$verbose" \> 2 > /dev/null ; then
     else
 	echo GNU Awk interpreter was not found
     fi
+fi
+# export chosen Awk and GNU Awk
+if $have_awk ; then
+    AWK=$awkbin
+    export AWK
+fi
+if $have_gawk ; then
+    GAWK=$gawkbin
+    export GAWK
 fi
 
 
@@ -410,6 +427,10 @@ fi
 
 # Are we just looking for a usage message?
 if $want_help ; then
+    if $have_awk; then : ; else
+	echo ERROR: extracting help message requires POSIX Awk; not found
+	exit 2
+    fi
     if test -z "$command" ; then
 	# want help on the launcher itself
 	help_file=$0
@@ -420,13 +441,13 @@ if $want_help ; then
 	echo ERROR: file "'$help_file'" is not readable
 	exit 2
     fi
-    if awk '/#help$/ { pfxlen = length($0) - 4 }
+    if "$AWK" '/#help$/ { pfxlen = length($0) - 4 }
 	    pfxlen && substr($0, pfxlen) == "#end" { exit 1 }
 	   ' "$help_file" ; then
 	echo ERROR: file "'$help_file'" does not contain a help message
 	exit 2
     fi
-    exec awk '/#help$/ { pfxlen = length($0) - 4 }
+    exec "$AWK" '/#help$/ { pfxlen = length($0) - 4 }
 	      pfxlen && substr($0, pfxlen) == "#end" { exit 0 }
 	      pfxlen { print substr($0, pfxlen) }' "$help_file"
 fi
