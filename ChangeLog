@@ -1,5 +1,8 @@
 2021-05-20  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* lib/dejagnu.exp: Avoid reporting next test as UNRESOLVED when
+	reporting error due to missing size(1) while loading file.
+
 	* testsuite/lib/runtest.exp (runtest_copy_nested_testsuite_log):
 	New procedure.  Dumps log from nested run into main test log.
 
