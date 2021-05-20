@@ -21,5 +21,6 @@
 load_lib dejagnu.exp
 
 if {[info exists N]} {
-    host_execute [which awk] -f [testsuite file -source -test pr42399.awk] N=$N
+    host_execute [which awk] -f [testsuite file -source -test pr42399.awk] \
+	N=$N /dev/null
 }
