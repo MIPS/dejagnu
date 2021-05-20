@@ -139,12 +139,12 @@ if {[which [file join $objdir .. config.status]] != 0} {
   fail "which, absolute path to config.status"
 }
 
-# Test 'which make'.
+# Test 'which sh'.
 #
-if {[which make] != 0} {
-  pass "which, make"
+if {[which sh] != 0} {
+  pass "which, sh"
 } else {
-  fail "which, make"
+  fail "which, sh"
 }
 
 ### Do not adjust the comment on the next line. The grep test case

@@ -11,6 +11,11 @@
 	* testsuite/lib/runtest.exp (runtest_copy_nested_testsuite_log):
 	New procedure.  Dumps log from nested run into main test log.
 
+	* testsuite/runtest.libs/utils.test: Change test for [which make]
+	to [which sh] because make(1) is not always available on non-GNU
+	systems but sh(1) exists on any Unix.  GNU make is often installed
+	as "gmake" on non-GNU systems and may be the only "make" utility.
+
 	* testsuite/runtest.main/pr42399.exp (test_pr42399): Revise to
 	ensure that a failure to produce any output at all in the inner
 	test will be detected.  This was discovered on Solaris 10.
