@@ -1,5 +1,11 @@
 2021-05-20  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* testsuite/lib/runtest.exp (runtest_copy_nested_testsuite_log):
+	New procedure.  Dumps log from nested run into main test log.
+
+	* testsuite/runtest.main/stats.exp: Copy stat.log from nested
+	testsuite run to the main test log upon test failure.
+
 	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.exp:
 	Explicitly pass /dev/null to unit-sub.awk because /usr/bin/awk on
 	Solaris 10 does not seem to recognize assignment to ARGV.

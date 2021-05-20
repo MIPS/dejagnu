@@ -70,6 +70,13 @@ proc runtest_setup_nested_testsuite {} {
     }
 }
 
+proc runtest_copy_nested_testsuite_log { tool } {
+    verbose -log -- "---- ${tool}.log from failed test ----"
+    spawn -open [open [testsuite file -object -top tmpdir "${tool}.log"]]
+    expect { .+ { exp_continue } }
+    verbose -log -- "---- end ${tool}.log ----"
+}
+
 proc runtest_cleanup_nested_testsuite {} {
     upvar 1 tmpdir tmpdir
 
