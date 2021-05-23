@@ -1,5 +1,7 @@
 2021-05-22  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* configure, Makefile.in, aclocal.m4: Regenerate.
+
 	* runtest.exp, configure.ac, doc/version.texi: Update version.
 
 	* dejagnu: Fix error message.
