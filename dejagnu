@@ -428,7 +428,7 @@ fi
 # Are we just looking for a usage message?
 if $want_help ; then
     if $have_awk; then : ; else
-	echo ERROR: extracting help message requires POSIX Awk; not found
+	echo ERROR: extracting help message requires POSIX Awk
 	exit 2
     fi
     if test -z "$command" ; then
