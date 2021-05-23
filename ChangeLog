@@ -4,6 +4,13 @@
 
 	* config.guess: Import patched version; patches sent upstream.
 
+	* commands/help.sh: Add test mode in which man(1) is never
+	actually invoked.  The ability to reference a manpage by absolute
+	file name seems to be unique to Free systems.
+	* testsuite/launcher.all/help.exp: Amend test list to use new
+	testing mode in "dejagnu help" command.  This mode should also
+	work on Solaris, so the logic for skipping the tests is removed.
+
 2021-05-20  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* dejagnu: Search for a POSIX Awk and validate that at least a

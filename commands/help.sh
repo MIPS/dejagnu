@@ -40,6 +40,13 @@
 
 # This script was written by Jacob Bachmeyer.
 
+# For testing and development
+in_test_mode=false
+if test x"$1" = x--DGTest ; then
+    in_test_mode=true
+    shift
+fi
+
 args=
 command=dejagnu
 verbose=0
@@ -84,7 +91,11 @@ if expr "$verbose" \> 0 > /dev/null ; then
     echo Forwarding to man $args "\"$command\""
 fi
 
-#shellcheck disable=SC2086
-exec man $args "$command"
+if $in_test_mode ; then
+    echo man "$args $command"
+else
+    #shellcheck disable=SC2086
+    exec man $args "$command"
+fi
 
 #EOF
