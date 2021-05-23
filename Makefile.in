@@ -548,6 +548,7 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/pr42399.exp \
 	testsuite/runtest.main/nested/testsuite/bug.test/pr42399.awk \
 	testsuite/runtest.main/nested/testsuite/bug.test/pr42399-sub.exp \
+	testsuite/runtest.main/pr48155-csh.sh \
 	testsuite/runtest.main/pr48155.exp \
 	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
