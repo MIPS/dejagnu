@@ -1,3 +1,7 @@
+2021-05-22  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* config.guess: Import patched version; patches sent upstream.
+
 2021-05-20  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* dejagnu: Search for a POSIX Awk and validate that at least a
