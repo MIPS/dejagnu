@@ -1,5 +1,7 @@
 2021-05-22  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
 	* dejagnu: Fix error message.
 
 	* config.guess: Import patched version; patches sent upstream.
