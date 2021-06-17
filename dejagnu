@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -28,12 +28,24 @@
 # either be run with a command name as the first (few) argument(s), via a
 # link from the command name, or some combination of those.
 
+# shellcheck disable=SC2003
+# The shellcheck tool complains about use of expr and recommends using
+# newer shell features instead.  Solaris 10 /bin/sh does not support the
+# newer features, so we must use expr in this script.
+
+# shellcheck disable=SC2006
+# The shellcheck tool complains about the old style backtick command
+# substitution.  Solaris 10 /bin/sh does not support the new style $()
+# command substitution and the usage of command substitution in this script
+# is simple enough to work.  Most notably, nesting backtick command
+# substitution is tricky, but we do not do that.
+
 # shellcheck disable=SC2209
 # The shellcheck tool complains about assigning certain constant strings to
 # variables.  In this script, the intended meaning is obvious in context.
 
 # ##help
-# #Usage: dejagnu <command> [--help|options...]
+# #Usage: dejagnu COMMAND [ --help | OPTIONS... ]
 # #Usage: dejagnu --help
 # #Usage: dejagnu --version
 # #	--help			Print help text
@@ -41,7 +53,8 @@
 # ##end
 
 # list of extensions supported for commands in priority order
-readonly Variants="gawk awk tcl exp bash sh"
+Variants='gawk awk tcl exp bash sh'
+readonly Variants
 
 ## Recognize options
 
@@ -57,19 +70,19 @@ want_version=false
 verbose=0
 for a in "$@"; do
     case $a in
-	--help)				want_help=true ;;
-	-v|--v|-verbose|--verbose)	verbose=$((verbose + 1)) ;;
-	-V|--V|-version|--version)	want_version=true ;;
+	--help)				want_help=true			;;
+	-v|--v|-verbose|--verbose)	verbose=`expr $verbose + 1`	;;
+	-V|--V|-version|--version)	want_version=true		;;
     esac
 done
 
 if expr "$verbose" \> 0 > /dev/null ; then
-    echo Verbose level is $verbose
+    echo Verbose level is "$verbose"
 fi
 
 ## Get the file name of this script and deduce @bindir@.
 
-bindir="$(echo "$0" | sed -e 's@/[^/]*$@@')"
+bindir=`echo "$0" | sed -e 's@/[^/]*$@@'`
 if expr "$verbose" \> 0 > /dev/null ; then
     echo Running launcher from "$bindir"
 fi
@@ -97,9 +110,10 @@ elif test -d "${bindir}/commands" && test -f "${bindir}/runtest.exp" ; then
     datadir="${bindir}"
 else
     commdir=
+    bindir1up_check=`echo "$bindir" | sed -e 's@/[^/]*$@/share/dejagnu@'`
+    bindir2up_check=`echo "$bindir" | sed -e 's@/[^/]*/[^/]*$@/share/dejagnu@'`
     for i in \
-	"$(echo "$bindir" | sed -e 's@/[^/]*$@/share/dejagnu@')" \
-	"$(echo "$bindir" | sed -e 's@/[^/]*/[^/]*$@/share/dejagnu@')" \
+	"${bindir1up_check}" "${bindir2up_check}" \
 	/usr/share/dejagnu /usr/local/share/dejagnu
     do
 	if expr "$verbose" \> 1 > /dev/null ; then
@@ -126,21 +140,34 @@ fi
 
 # Are we just looking for version information?
 if $want_version ; then
-    frame_version=$(grep '^set frame_version' "${datadir}/runtest.exp" \
-	| sed 's/^[^0-9]*//')
+    frame_version=`grep '^set frame_version' "${datadir}/runtest.exp" \
+	| sed 's/^[^0-9]*//'`
     echo 'dejagnu auxiliary launcher (DejaGnu)' "$frame_version"
     exit 0
 fi
 
 # Remove any leading autoconf platform prefix and the "dejagnu" prefix.
-command="$(basename "$0" | sed -e 's/^.*-\?dejagnu-\?//')"
+# command=`basename "$0" | sed -e 's/^.*-\?dejagnu-\?//'`
+
+# The above simple solution is not portable, so we use Awk and two steps:
+command=`echo "$0" | awk 'BEGIN { FS = "/" } { print $NF }'`
+# First, we use a simple Awk program to perform the role of basename.
+command=`echo "$command" | awk 'BEGIN { OFS = FS = "-" }
+	   { for (i = 1; i <= NF; i++) if ($i ~ /dejagnu/) break;
+	     i++; for (out = ""; i <= NF; i++) out = out OFS $i;
+	     print substr(out,2) }'`
+# Second, we split on "-" and search for a field matching /dejagnu/ to
+# identify the other prefixes, then skip that field and the second loop
+# collects any following fields.  The spurious leading "-" is then removed
+# using substr() and the result is returned to the shell.
+
+# This roundabout approach maintains compatibility with Solaris 10, where
+# awk allows only limited manipulation of the record structure.
 
 while expr $# \> 0 > /dev/null
 do
     if test -z "${command}" ; then
-	if expr "$1" : - > /dev/null ; then
-	    break
-	fi
+	case $1 in -*) break;; esac
 	command="$1"
 	shift
     fi
@@ -153,9 +180,7 @@ do
 	    break 2
 	fi
     done
-    if expr "$1" : - > /dev/null ; then
-	break
-    fi
+    case $1 in -*) break;; esac
     if test -n "$1" ; then
 	command="${command}-$1"
 	shift
@@ -197,7 +222,14 @@ if test -n "$AWK" ; then
 elif test -x "${bindir}/awk" ; then
     awkbin="${bindir}/awk"
 else
-    awkbin=awk
+    # find what might be a usable awk
+    # on Solaris 10, POSIX awk is in /usr/xpg4/bin
+    for awktest in mawk /usr/xpg4/bin/awk nawk awk ; do
+	if command -v "$awktest" > /dev/null 2>&1 ; then
+	    awkbin=$awktest
+	    break;
+	fi
+    done
 fi
 if test -n "$GAWK" ; then
     gawkbin="$GAWK"
@@ -206,7 +238,8 @@ elif test -x "${bindir}/gawk" ; then
 else
     gawkbin=gawk
 fi
-if command -v "$awkbin" > /dev/null 2>&1 ; then
+# The non-POSIX awk in /usr/bin on Solaris 10 fails this test
+if echo | "$awkbin" '1 && 1 {exit 0}' > /dev/null 2>&1 ; then
     have_awk=true
 else
     have_awk=false
@@ -225,11 +258,10 @@ if $have_gawk ; then
 fi
 # is "awk" actually GNU Awk?
 if $have_awk ; then
-    if "$awkbin" --version | sed 1q | grep -qi 'GNU Awk' ; then
-	have_gawk_as_awk=true
-    else
-	have_gawk_as_awk=false
-    fi
+    case `"$awkbin" --version </dev/null 2>&1 | sed 1q` in
+	*'GNU Awk'*)	have_gawk_as_awk=true	;;
+	*)		have_gawk_as_awk=false	;;
+    esac
 fi
 if expr "$verbose" \> 2 > /dev/null ; then
     if $have_awk ; then
@@ -242,6 +274,15 @@ if expr "$verbose" \> 2 > /dev/null ; then
     else
 	echo GNU Awk interpreter was not found
     fi
+fi
+# export chosen Awk and GNU Awk
+if $have_awk ; then
+    AWK=$awkbin
+    export AWK
+fi
+if $have_gawk ; then
+    GAWK=$gawkbin
+    export GAWK
 fi
 
 
@@ -386,6 +427,10 @@ fi
 
 # Are we just looking for a usage message?
 if $want_help ; then
+    if $have_awk; then : ; else
+	echo ERROR: extracting help message requires POSIX Awk
+	exit 2
+    fi
     if test -z "$command" ; then
 	# want help on the launcher itself
 	help_file=$0
@@ -396,33 +441,27 @@ if $want_help ; then
 	echo ERROR: file "'$help_file'" is not readable
 	exit 2
     fi
-    if grep -q '#help' "$help_file" \
-	&& grep -q '#end' "$help_file"; then : ; else
+    if "$AWK" '/#help$/ { pfxlen = length($0) - 4 }
+	    pfxlen && substr($0, pfxlen) == "#end" { exit 1 }
+	   ' "$help_file" ; then
 	echo ERROR: file "'$help_file'" does not contain a help message
 	exit 2
     fi
-    help_prefix_pat=$(grep '#help' "$help_file" \
-	| sed -e 's/#help.*$//' -e '1q' | tr '[:print:][:blank:]' .)
-    if expr "$verbose" \> 1 > /dev/null ; then
-	echo Extracting help from "'$help_file'" with prefix "'$help_prefix_pat'"
-    fi
-    sed -n < "$help_file" \
-	-e '1,/#help/d' \
-	-e '/^'"$help_prefix_pat"'#end/q' \
-	-e 's/^'"$help_prefix_pat"'//;p'
-    exit 0
+    exec "$AWK" '/#help$/ { pfxlen = length($0) - 4 }
+	      pfxlen && substr($0, pfxlen) == "#end" { exit 0 }
+	      pfxlen { print substr($0, pfxlen) }' "$help_file"
 fi
 
 if test -z "$command" ; then
     if test -n "$override_ext" ; then
 	case $selected_ext in
-	    awk)	$have_awk;	exit $? ;;
-	    bash)	$have_bash;	exit $? ;;
-	    exp)	$have_expect;	exit $? ;;
-	    gawk)	$have_gawk;	exit $? ;;
-	    tcl)	$have_tcl;	exit $? ;;
-	    sh)		$have_sh;	exit $? ;;
-	    *)				exit  2 ;;
+	    awk)    if $have_awk;	then exit 0; else exit 1; fi ;;
+	    bash)   if $have_bash;	then exit 0; else exit 1; fi ;;
+	    exp)    if $have_expect;	then exit 0; else exit 1; fi ;;
+	    gawk)   if $have_gawk;	then exit 0; else exit 1; fi ;;
+	    tcl)    if $have_tcl;	then exit 0; else exit 1; fi ;;
+	    sh)	    if $have_sh;	then exit 0; else exit 1; fi ;;
+	    *)	    exit 2 ;;
 	esac
     else
 	echo ERROR: no command given

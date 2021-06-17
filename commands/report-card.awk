@@ -1,5 +1,5 @@
 # report-card.awk -- Test summary tool
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -20,8 +20,8 @@
 # This file was written by Jacob Bachmeyer.
 
 # ##help
-# #Usage: dejagnu report card [<option>|<tool>|<file>]...
-# #Usage: dejagnu report-card [<option>|<tool>|<file>]...
+# #Usage: dejagnu report card [ OPTION | TOOL | FILE ]...
+# #Usage: dejagnu report-card [ OPTION | TOOL | FILE ]...
 # #	--verbose, -v		Emit additional messages
 # ##end
 

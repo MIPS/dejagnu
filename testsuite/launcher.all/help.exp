@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -21,10 +21,10 @@
 # each element: { name args envars exit_code output_re... }
 set tests {
     { "dejagnu help selects dejagnu(1) manpage"
-	{help -v} {MANPAGER=echo} 0
+	{help --DGTest -v} {} 0
 	"Forwarding to man \".*doc/dejagnu\\.1\"" }
     { "dejagnu help help selects dejagnu-help(1) manpage"
-	{help -v help} {MANPAGER=echo} 0
+	{help --DGTest -v help} {} 0
 	"Forwarding to man \".*doc/dejagnu-help\\.1\"" }
 }
 

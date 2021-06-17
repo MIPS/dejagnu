@@ -22,5 +22,7 @@ load_lib dejagnu.exp
 
 if { [info exists STATS_TEST] } {
     host_execute [which awk] -f [testsuite file -source -test unit-sub.awk] \
-	UNIT_RESULT=$STATS_TEST
+	UNIT_RESULT=$STATS_TEST /dev/null
 }
+# Solaris 10 /usr/bin/awk needs /dev/null actually passed on the command
+# line, but will run unit-sub.awk without problems if that is done.

@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018, 2021 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -44,7 +44,9 @@ proc dejagnu_run { launcher arglist envlist } {
     # reset errorCode
     catch { error }
 
+    verbose -log "Running \"[lrange $exec_cmd 1 end] $arglist\" ..."
     catch { eval $exec_cmd $arglist } output
+    verbose -log $output
 
     if { [lindex $errorCode 0] eq "CHILDSTATUS" } {
 	return [list $output [lindex $errorCode 2]]

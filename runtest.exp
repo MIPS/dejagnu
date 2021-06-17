@@ -823,13 +823,52 @@ if {[expr {$build_triplet eq "" && $host_triplet eq ""}]} {
 	send_error "ERROR: Couldn't find config.guess program.\n"
 	exit 1
     }
-    catch "exec $config_guess" build_triplet
-    switch -- $build_triplet {
-	"No uname command or uname output not recognized" -
-	"Unable to guess system type" {
-	    verbose "WARNING: Uname output not recognized"
-	    set build_triplet unknown
+    if { [info exists ::env(CONFIG_SHELL)] } {
+	if { [catch {exec $::env(CONFIG_SHELL) $config_guess} build_triplet] } {
+	    if { [lindex $::errorCode 0] eq "CHILDSTATUS" } {
+		send_error "ERROR: Running config.guess with\
+					CONFIG_SHELL=$::env(CONFIG_SHELL)\
+					exited on code\
+					[lindex $::errorCode 2].\n"
+	    } else {
+		send_error "ERROR: Running config.guess with\
+					CONFIG_SHELL=$::env(CONFIG_SHELL)\
+					produced error:\n"
+		send_error "        $::errorCode\n"
+	    }
 	}
+    } elseif { [info exists ::env(SHELL)] } {
+	if { [catch {exec $::env(SHELL) $config_guess} build_triplet] } {
+	    if { [lindex $::errorCode 0] eq "CHILDSTATUS" } {
+		send_error "ERROR: Running config.guess with\
+					SHELL=$::env(SHELL)\
+					exited on code\
+					[lindex $::errorCode 2].\n"
+	    } else {
+		send_error "ERROR: Running config.guess with\
+					SHELL=$::env(SHELL)\
+					produced error:\n"
+		send_error "        $::errorCode\n"
+	    }
+	}
+    } else {
+	if { [catch {exec $config_guess} build_triplet] } {
+	    if { [lindex $::errorCode 0] eq "CHILDSTATUS" } {
+		send_error "ERROR: Running config.guess exited on code\
+					[lindex $::errorCode 2].\n"
+	    } else {
+		send_error "ERROR: Running config.guess produced error:\n"
+		send_error "        $::errorCode\n"
+	    }
+	}
+    }
+    if { ![regexp -- {^[[:alnum:]_.]+(-[[:alnum:]_.]+)+$} $build_triplet] } {
+	send_error "ERROR: Running config.guess produced bogus build triplet:\n"
+	send_error "        $build_triplet\n"
+	send_error "       (Perhaps you need to set CONFIG_SHELL or\
+				SHELL in your environment\n"
+	send_error "        to the absolute file name of a POSIX shell?)\n"
+	exit 1
     }
     verbose "Assuming build host is $build_triplet"
     if { $host_triplet eq "" } {

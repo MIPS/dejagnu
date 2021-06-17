@@ -21,12 +21,16 @@
 AUTOMAKE_OPTIONS = dejagnu
 export DEJAGNU
 
+# record all files in the distribution tarball as owned by root
+TAR_OPTIONS = --format=v7 --owner=0 --group=0
+export TAR_OPTIONS
+
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS dejagnu runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(commands_DATA) $(TESTSUITE_FILES) $(TEXINFO_TEX)\
 	$(CONTRIB)
 
-CLEANFILES = dbg.log nested-init.exp
+CLEANFILES = dbg.log nested-init.exp pr48155-init.exp
 
 clean-local: clean-local-check
 .PHONY: clean-local-check
@@ -204,6 +208,8 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/pr42399.exp \
 	testsuite/runtest.main/nested/testsuite/bug.test/pr42399.awk \
 	testsuite/runtest.main/nested/testsuite/bug.test/pr42399-sub.exp \
+	testsuite/runtest.main/pr48155-csh.sh \
+	testsuite/runtest.main/pr48155.exp \
 	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \

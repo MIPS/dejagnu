@@ -1,6 +1,222 @@
+2021-05-22  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* Makefile.am (TESTSUITE_FILES): Correct oversight.
+
+	* configure, Makefile.in, aclocal.m4: Regenerate.
+
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
+	* dejagnu: Fix error message.
+
+	* config.guess: Import patched version; patches sent upstream.
+
+	* commands/help.sh: Add test mode in which man(1) is never
+	actually invoked.  The ability to reference a manpage by absolute
+	file name seems to be unique to Free systems.
+	* testsuite/launcher.all/help.exp: Amend test list to use new
+	testing mode in "dejagnu help" command.  This mode should also
+	work on Solaris, so the logic for skipping the tests is removed.
+
+2021-05-20  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* dejagnu: Search for a POSIX Awk and validate that at least a
+	simple Awk program actually works.
+	* testsuite/launcher.all/command.exp: Add tests for error produced
+	when no Awk is found and a help message is requested.
+
+	* lib/dejagnu.exp: Avoid reporting next test as UNRESOLVED when
+	reporting error due to missing size(1) while loading file.
+
+	* testsuite/lib/runtest.exp (runtest_copy_nested_testsuite_log):
+	New procedure.  Dumps log from nested run into main test log.
+
+	* testsuite/runtest.libs/utils.test: Change test for [which make]
+	to [which sh] because make(1) is not always available on non-GNU
+	systems but sh(1) exists on any Unix.  GNU make is often installed
+	as "gmake" on non-GNU systems and may be the only "make" utility.
+
+	* testsuite/runtest.main/pr42399.exp (test_pr42399): Revise to
+	ensure that a failure to produce any output at all in the inner
+	test will be detected.  This was discovered on Solaris 10.
+
+	* testsuite/runtest.main/stats.exp: Copy stat.log from nested
+	testsuite run to the main test log upon test failure.
+
+	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.exp:
+	Explicitly pass /dev/null to unit-sub.awk because /usr/bin/awk on
+	Solaris 10 does not seem to recognize assignment to ARGV.
+	* testsuite/runtest.main/nested/testsuite/bug.test/pr42399-sub.exp:
+	Likewise.
+
+2021-05-18  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* dejagnu: Redirect input from /dev/null when testing if awk is
+	GNU Awk; this avoids a hang on Solaris 10 where awk treats
+	--version as an Awk program and attempts to read input.
+	(command): Rework the initial setting of this variable to avoid
+	limitations in Solaris 10 awk.
+
+	* testsuite/report-card.all/onetest.exp: Avoid Tcl error when item
+	and totals lines are missing entirely.
+
+	* testsuite/runtest.main/pr48155.exp: Fix assumption about exit
+	code from /bin/false, which is different on Solaris.
+
+2021-05-05  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR48155
+
+	* Makefile.am (TESTSUITE_FILES): Update.
+	(CLEANFILES): Add special init file for PR48155 nested tests.
+
+	* testsuite/runtest.main/pr48155.exp: New file.
+	* testsuite/runtest.main/pr48155-csh.sh: New trivial file.  This
+	script emulates the behavior of the C shell if an attempt is made
+	to use it to run the config.guess script.
+
+2021-05-04  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR48155
+
+	* runtest.exp: Tighten regexp used to validate output from
+	config.guess.  The previous regexp would accept an error produced
+	if config.guess was incorrectly run using the C shell.
+
+2021-04-28  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure, Makefile.in: Regenerate.
+
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
+	* Makefile.am (TAR_OPTIONS): Explicitly select v7 tarball format
+	to work around Automake limitation of assuming that v7 is default.
+
+2021-04-20  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure.ac: Set Automake options to use the ancient and
+	universal V7 format when building distribution tarballs.  The
+	limitations of this format are not expected to impact DejaGnu; the
+	"ustar" format will be used instead if this is proved wrong.
+
+	* Makefile.am (TAR_OPTIONS): Add exported environment variable to
+	set options when building distribution tarballs.  Ensure that all
+	files in distribution tarballs will be recorded as owned by root.
+
+2021-04-16  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu (command): Use Awk instead of non-portable basename(1)
+	and a non-portable sed(1) pattern to initially set this variable.
+
+	* dejagnu: Use shell "case" pattern match instead of non-portable
+	"grep -q" to determine if "awk" is GNU Awk.
+
+	* dejagnu: Use Awk instead of non-portable "grep -q" to verify
+	that a file contains a help message.  Also use Awk to extract help
+	messages from files, instead of a complex dynamic sed(1) program.
+
+	* configure.ac: Remove experimental support for propagating
+	CONFIG_SHELL to scripts in the source directory.
+
+	* runtest.exp: Use CONFIG_SHELL or SHELL environment variable when
+	running config.guess.  Check the result carefully and stop with an
+	error immediately if running config.guess does not produce
+	something that plausibly resembles a triplet.  Advise the user
+	that SHELL or CONFIG_SHELL may need to be set in the environment.
+
+2021-04-15  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu: Avoid using $? for an exit code; it is convenient until
+	the tests fail because the script is run on Solaris where false
+	returns 255 instead of 1 and the test harness expects exit code 1.
+
+2021-04-14  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu: Replace use of "expr :" with shell "case" pattern
+	match to avoid limitations of Solaris 10 expr(1).
+
 2021-04-14  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* lib/specs.exp, testsuite/runtest.libs/specs.test: New files.
+
+2021-04-08  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure: Regenerate.
+
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
+	* configure.ac: Change "dnl" comments that should appear in
+	configure to regular comments.
+	Add experimental support for propagating CONFIG_SHELL to the
+	config.sub and config.guess scripts in the source directory.
+
+2021-04-01  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47533
+
+	* dejagnu, commands/help.sh, commands/report-card.awk: Revise help
+	message to better fit GNU conventions, with thanks to Tom Tromey
+	for the reporting this issue.
+
+	PR47382
+
+	* runtest: Remove use of non-portable "if !" that causes problems
+	with /bin/sh on Solaris 10.
+
+	* dejagnu (Variants): Split the declaration of this read-only
+	variable into an assignment followed by marking it read-only,
+	instead of doing both in one statement.  The Solaris 10 /bin/sh
+	does not accept the combined form.
+
+2021-03-30  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* configure: Regenerate.
+
+	* runtest.exp, configure.ac, doc/version.texi: Update version.
+
+2021-03-26  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47386
+
+	* testsuite/launcher.all/help.exp: Skip the tests on Solaris,
+	since Solaris man(1) does not accept explicit filenames.  The
+	manpages will be installed as usual, and the "dejagnu help"
+	command should work after installation.
+
+	Also set PAGER for testing, since other systems might also ignore
+	MANPAGER and that would cause the test to hang.
+
+	* testsuite/lib/launcher.exp (dejagnu_run): Send commands run and
+	copies of the output produced to the log.
+
+	* commands/help.sh: Extend PR47382 fix (below) to this file.
+
+	PR47385
+
+	* testsuite/lib/runtest.exp: Remove support for automatically
+	locating an Expect executable in the old Cygnus tree layout.
+
+2021-03-25  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR47382
+
+	* dejagnu, runtest: Remove use of "$()" command substitution and
+	"$(())" arithmetic substitution shell constructs.  The /bin/sh on
+	Solaris 10 does not support them.  They were replaced with the
+	traditional backticks for command substitution and backticks and
+	the expr command for arithmetic substitution.
+
+	Also add markers to explicitly disable shellcheck warnings that
+	would lead to reintroducing these problems.
+
+	Also avoid the non-portable "`..."..."...`" construct on a warning
+	in the GNU Autoconf manual, section "Shell Substitutions",
+	although this introduces additional variables.
 
 2021-03-22  Jacob Bachmeyer  <jcb@gnu.org>
 

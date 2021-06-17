@@ -20,7 +20,7 @@ dnl Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
 AC_PREREQ([2.69])
 AC_INIT([GNU DejaGnu],[1.6.4-git],[bug-dejagnu@gnu.org])
-AM_INIT_AUTOMAKE([1.14 subdir-objects])
+AM_INIT_AUTOMAKE([1.14 subdir-objects tar-v7 filename-length-max=99])
 AM_MAINTAINER_MODE
 AC_PROG_MAKE_SET
 
@@ -34,13 +34,13 @@ if test -z "$AWK"; then
   AC_MSG_ERROR([AWK not installed])
 fi
 
-dnl Provide an empty global site file (/dev/null) as default.
+# Provide an empty global site file (/dev/null) as default.
 if test x"$DEJAGNU" = x
 then
   DEJAGNU="/dev/null"
 fi
 AC_SUBST(DEJAGNU)
-dnl Makefile.am arranges for DEJAGNU to be exported in the environment.
+# Makefile.am arranges for DEJAGNU to be exported in the environment.
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

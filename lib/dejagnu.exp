@@ -23,7 +23,7 @@ set text "\[- A-Za-z0-9\.\;\"\_\:\'\`\(\)\!\#\=\+\?\&\*<>]"
 
 set SIZE size
 if { [which $SIZE] == 0 } {
-    perror "Can't find $SIZE."
+    perror "Can't find $SIZE." 0
 }
 
 # Get the size of the various section in OBJECT.

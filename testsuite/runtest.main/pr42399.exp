@@ -33,7 +33,7 @@ proc test_pr42399 {} {
 
     foreach test_count {5 5000} {
 	set result pass
-	set failures [list]
+	set eof_reached 0
 	set want_num 1
 	set cmd_args [list --local_init nested-init.exp --tool bug \
 			    -a pr42399-sub.exp N=$test_count]
@@ -49,9 +49,15 @@ proc test_pr42399 {} {
 		exp_continue
 	    }
 	    eof {
-		$result "PR42399 test with $test_count inner tests"
+		set eof_reached 1
 	    }
 	}
+	# Were any results at all produced?
+	if { $want_num == 1 } { set result unresolved }
+	# Did Expect report eof?
+	if { ! $eof_reached } { set result unresolved }
+	# emit test result
+	$result "PR42399 test with $test_count inner tests"
     }
 }
 
