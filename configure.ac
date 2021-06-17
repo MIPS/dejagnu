@@ -19,7 +19,7 @@ dnl along with DejaGnu; if not, write to the Free Software Foundation,
 dnl Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 
 AC_PREREQ([2.69])
-AC_INIT([GNU DejaGnu],[1.6.3-rc5],[bug-dejagnu@gnu.org])
+AC_INIT([GNU DejaGnu],[1.6.3],[bug-dejagnu@gnu.org])
 AM_INIT_AUTOMAKE([1.14 subdir-objects tar-v7 filename-length-max=99])
 AM_MAINTAINER_MODE
 AC_PROG_MAKE_SET

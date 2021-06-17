@@ -1,4 +1,4 @@
 @set UPDATED 28 December 2020
 @set UPDATED-MONTH December 2020
-@set EDITION 1.6.3-rc5
-@set VERSION 1.6.3-rc5
+@set EDITION 1.6.3
+@set VERSION 1.6.3
