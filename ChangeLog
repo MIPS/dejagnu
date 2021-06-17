@@ -1,5 +1,7 @@
 2021-06-16  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* DejaGnu 1.6.3 released.
+
 	* configure: Regenerate.
 
 	* runtest.exp, configure.ac, doc/version.texi: Update version.
