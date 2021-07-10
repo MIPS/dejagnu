@@ -741,7 +741,7 @@ if { [file tail $srcdir] eq "testsuite" } {
     set testsuitedir $base_dir
     set testbuilddir $base_dir
 } else {
-    if { $testsuitedir eq "testsuite" && $srcdir eq "." && $objdir eq "." } {
+    if { $testsuitedir eq "testsuite" && $testbuilddir eq "testsuite" } {
 	# Broken legacy case -- testsuite not actually in testsuite/
 	# Produce a warning, but continue.
 	send_error "WARNING: testsuite is not in a testsuite/ directory.\n"

@@ -1,3 +1,12 @@
+2021-06-29  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR49250
+
+	* runtest.exp: Adjust detection logic for deprecated broken legacy
+	case of a testsuite not actually in a testsuite/ directory.
+
+	This was never supported but happened to work in older versions.
+
 2021-05-22  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* Makefile.am (TESTSUITE_FILES): Correct oversight.
