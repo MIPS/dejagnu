@@ -1,3 +1,11 @@
+2022-01-21  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR53427
+
+	* testsuite/runtest.main/pr53427.exp: New file for regression test.
+	* testsuite/runtest.main/nested/testsuite/pr53427.test/a.exp: Likewise.
+	* testsuite/runtest.main/nested/testsuite/pr53427.test/b.exp: Likewise.
+
 2021-06-29  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR49250

@@ -1,0 +1,55 @@
+# Copyright (C) 2022 Free Software Foundation, Inc.
+#
+# This file is part of DejaGnu.
+#
+# DejaGnu is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# DejaGnu is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with DejaGnu; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
+
+# This file is a regression test for PR53427, where the running count of
+# errors (and warnings) propagates from one test file to the next.  This
+# causes the first test in the second file to be spuriously UNRESOLVED.
+
+runtest_setup_nested_testsuite
+
+proc test_pr53427 {} {
+    global RUNTEST
+
+    foreach test_mode {error warning} {
+	set result unresolved
+	set pass_count 0
+	set cmd_args [list --local_init nested-init.exp --tool pr53427 \
+			 -a MODE=$test_mode]
+
+	verbose -log "Spawning $RUNTEST $cmd_args ..."
+	eval [list spawn $RUNTEST] $cmd_args
+	expect {
+	    -re { of expected passes[[:space:]]+([[:digit:]]+)[\r\n]+} {
+		set pass_count $expect_out(1,string)
+		exp_continue
+	    }
+	    -re { of unresolved testcases} {
+		set result fail
+		exp_continue
+	    }
+	}
+	# Were the expected number of passed tests reported?
+	if { $result eq "unresolved" && $pass_count == 4 } { set result pass }
+	# emit test result
+	$result "PR53427 test for $test_mode isolation between test files"
+    }
+}
+
+test_pr53427
+
+runtest_cleanup_nested_testsuite
