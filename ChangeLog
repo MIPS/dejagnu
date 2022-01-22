@@ -2,6 +2,8 @@
 
 	PR53427
 
+	* Makefile.am (TESTSUITE_FILES): Add new files.
+
 	* testsuite/runtest.main/pr53427.exp: New file for regression test.
 	* testsuite/runtest.main/nested/testsuite/pr53427.test/a.exp: Likewise.
 	* testsuite/runtest.main/nested/testsuite/pr53427.test/b.exp: Likewise.

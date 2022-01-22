@@ -550,6 +550,9 @@ TESTSUITE_FILES = \
 	testsuite/runtest.main/nested/testsuite/bug.test/pr42399-sub.exp \
 	testsuite/runtest.main/pr48155-csh.sh \
 	testsuite/runtest.main/pr48155.exp \
+	testsuite/runtest.main/pr53427.exp \
+	testsuite/runtest.main/nested/testsuite/pr53427.test/a.exp \
+	testsuite/runtest.main/nested/testsuite/pr53427.test/b.exp \
 	testsuite/lib/bohman_ssd.exp \
 	testsuite/lib/launcher.exp \
 	testsuite/lib/libdejagnu.exp \
