@@ -2,6 +2,11 @@
 
 	PR53427
 
+	* runtest.exp (runtest): Reset the global warning and error
+	counters before running each test file.  This prevents an error
+	"left over" from a previous test file from causing the first test
+	in the next file to be spuriously reported as UNRESOLVED.
+
 	* Makefile.am (TESTSUITE_FILES): Add new files.
 
 	* testsuite/runtest.main/pr53427.exp: New file for regression test.

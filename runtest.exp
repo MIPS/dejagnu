@@ -1,5 +1,5 @@
 # runtest.exp -- Test framework driver
-# Copyright (C) 1992-2019, 2020 Free Software Foundation, Inc.
+# Copyright (C) 1992-2019, 2020, 2022 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -1594,7 +1594,7 @@ proc runtest { test_file_name } {
     global prms_id
     global bug_id
     global test_result
-    global errcnt
+    global errcnt warncnt
     global errorCode
     global errorInfo
     global tool
@@ -1603,6 +1603,8 @@ proc runtest { test_file_name } {
     clone_output "Running $test_file_name ..."
     set prms_id	0
     set bug_id	0
+    set errcnt  0
+    set warncnt 0
     set test_result ""
 
     # set testdir so testsuite file -test has a starting point
