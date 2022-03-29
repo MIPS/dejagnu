@@ -448,13 +448,13 @@ the correct command line options, or a @ref{Local configuration file}
 must be set up correctly.
 
 @menu
-* Running 'make check': Make Check.
+* Running `make check': Make Check.
 * Running runtest: Runtest.
 * Output files: Output Files.
 @end menu
 
 @node Make Check, Runtest, , Running tests
-@section Running 'make check'
+@section Running `make check'
 
 To run tests from an existing collection, first use @code{configure}
 as usual to set up the build directory.  Then type @code{make check}.
