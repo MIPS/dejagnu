@@ -96,6 +96,7 @@ create_test_interpreter dg-test-1 {
     mocks {
 	# minor test shims
 	prune_warnings	{ text }		{ $text }
+	isnative	{ }			{ 1 }
 	unknown		{ args }		{ [error "unknown $args"] }
 	# results collection
 	pass		{ message }		{ 0 }
@@ -121,6 +122,12 @@ foreach {type token line} {
 } {
     create_mock_file dg-test-vfs "dg/basic-${type}-${token}" \
 	"# test file for dg.exp\n$line\n"
+    if { $token ne "build" && $token ne "excess" } {
+	regsub -- {\{ dg-} $line "\n\n&" line
+	regsub -- { \}\Z} $line " {target *-*-*} 2&" line
+	create_mock_file dg-test-vfs "dg/linum-${type}-${token}" \
+	    "#test file for dg.exp\n$line\n"
+    }
 }
 
 dg-test-1 eval {proc send_log { text } { puts $text }}
@@ -159,6 +166,11 @@ foreach { type token message } {
     test_proc_with_mocks "test with dg/basic-${type}-${token}" dg-test-1 \
 	[list dg-runtest dg/basic-${type}-${token} "" ""] \
 	check_calls $check_calls
+    if { $token ne "build" &&  $token ne "excess" } {
+	test_proc_with_mocks "test with dg/linum-${type}-${token}" dg-test-1 \
+	    [list dg-runtest dg/linum-${type}-${token} "" ""] \
+	    check_calls $check_calls
+    }
 }
 dg-test-1 eval dg-finish
 
