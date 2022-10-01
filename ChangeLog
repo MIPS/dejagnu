@@ -1,3 +1,13 @@
+2022-09-30  Jacob Bachmeyer  <jcb@gnu.org>
+
+	PR58065
+
+	* testsuite/runtest.libs/mockutil.tcl (test_proc_with_mocks): Add
+	usage comment and option to match number of calls for test.
+	(create_test_interpreter): Add support for mockvfs.
+
+	* testsuite/runtest.libs/dg.test: New file.
+
 2022-09-29  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR58065

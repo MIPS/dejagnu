@@ -1,0 +1,166 @@
+# Test procedures in lib/dg.exp					-*- Tcl -*-
+
+# Copyright (C) 2022 Free Software Foundation, Inc.
+#
+# This file is part of DejaGnu.
+#
+# DejaGnu is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# DejaGnu is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with DejaGnu; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
+
+foreach lib { default_procs mockutil mockvfs } {
+    set file $srcdir/$subdir/${lib}.tcl
+    if [ file exists $file] {
+	source $file
+    } else {
+	puts "ERROR: $file doesn't exist"
+    }
+}
+foreach lib { utils dg } {
+    set file $srcdir/../lib/${lib}.exp
+    if [ file exists $file] {
+	source $file
+    } else {
+	puts "ERROR: $file doesn't exist"
+    }
+}
+
+# callbacks required by dg.exp
+
+proc mock-dg-test { prog what flags } {
+    set chan [open $prog r]
+    set linum 0
+    set output ""
+
+    while { [gets $chan line] >= 0 } {
+	incr linum
+	if { [regexp -- {^%([EW])\s+([^\r\n{}]*)} $line -> item text] } {
+	    switch -- $item {
+		E { append output "$prog:$linum: error: $text\n" }
+		W { append output "$prog:$linum: warning: $text\n" }
+	    }
+	}
+    }
+    puts "<<< $prog $what $flags"
+    puts -nonewline $output
+    puts ">>> $prog $what $flags"
+    return [list $output a.out]
+}
+
+proc mock-dg-prune { target output } {
+    puts "<<< output pruning callback"
+    puts "target: $target"
+    puts "output:\n$output"
+    puts ">>> output pruning callback"
+    return $output
+}
+
+# testing...
+
+# init call trace list
+reset_mock_trace
+# build test environment
+create_mockvfs dg-test-vfs
+create_test_interpreter dg-test-1 {
+    copy_procs {
+	dg-format-linenum dg-get-options dg-process-target
+	dg-prms-id dg-options dg-do
+	dg-error dg-warning dg-bogus dg-build
+	dg-excess-errors dg-output dg-final
+	dg-init dg-runtest dg-test dg-finish
+	dg-trim-dirname
+	grep mock-dg-test mock-dg-prune
+    }
+    link_procs { verbose }
+    shim_procs { runtest_file_p }
+    attach_vfs { dg-test-vfs }
+    link_channels { stdout }
+    copy_vars {
+	dg-do-what-default dg-interpreter-batch-mode dg-linenum-format
+	srcdir subdir target_triplet
+    }
+    vars {
+	tool mock
+	runtests { dg.test {} }
+    }
+    mocks {
+	# minor test shims
+	prune_warnings	{ text }		{ $text }
+	unknown		{ args }		{ [error "unknown $args"] }
+	# results collection
+	pass		{ message }		{ 0 }
+	fail		{ message }		{ 0 }
+	xpass		{ message }		{ 0 }
+	xfail		{ message }		{ 0 }
+	kpass		{ bugid message }	{ 0 }
+	kfail		{ bugid message }	{ 0 }
+    }
+}
+
+foreach {type token line} {
+    pass error		{%E foo { dg-error   "foo" "simple error" }}
+    fail error		{%  foo { dg-error   "foo" "simple error" }}
+    pass warning	{%W foo { dg-warning "foo" "simple warning" }}
+    fail warning	{%  foo { dg-warning "foo" "simple warning" }}
+    pass bogus		{%  foo { dg-bogus   "foo" "bogus message" }}
+    fail bogus		{%W foo { dg-bogus   "foo" "bogus message" }}
+    pass build		{%  foo { dg-build   "foo" "build failure" }}
+    fail build		{%E foo { dg-build   "foo" "build failure" }}
+    pass excess		{%  foo}
+    fail excess		{%E extra}
+} {
+    create_mock_file dg-test-vfs "dg/basic-${type}-${token}" \
+	"# test file for dg.exp\n$line\n"
+}
+
+dg-test-1 eval {proc send_log { text } { puts $text }}
+
+dg-test-1 eval dg-init
+foreach { type token message } {
+    pass error		{ test for errors, line 2	}
+    fail error		{ test for errors, line 2	}
+    pass warning	{ test for warnings, line 2	}
+    fail warning	{ test for warnings, line 2	}
+    pass bogus		{ test for bogus message	}
+    fail bogus		{ test for bogus message	}
+    pass build		{ test for build failure	}
+    fail build		{ test for build failure	}
+    pass excess		{ test for excess errors	}
+    fail excess		{ test for excess errors	}
+} {
+    set check_calls {xpass ! {} xfail ! {} kpass ! {} kfail ! {}}
+    switch -glob -- ${type}:${token} {
+	pass:excess	{ lappend check_calls fail ! {} pass C 1 }
+	fail:excess	{ lappend check_calls pass ! {} fail C 1 }
+	pass:*		{ lappend check_calls fail ! {} pass C 2 }
+	fail:*		{ lappend check_calls fail C 1  pass C 1 }
+    }
+    if { $message ne "" } {
+	lappend check_calls $type 0 [list 1 ".*[string trim ${message}].*"]
+    }
+    if { $token ne "excess" } {
+	lappend check_calls pass
+	switch -- ${type} {
+	    pass { lappend check_calls 1 }
+	    fail { lappend check_calls 0 }
+	}
+	lappend check_calls { 1 {.*test for excess errors.*} }
+    }
+    test_proc_with_mocks "test with dg/basic-${type}-${token}" dg-test-1 \
+	[list dg-runtest dg/basic-${type}-${token} "" ""] \
+	check_calls $check_calls
+}
+dg-test-1 eval dg-finish
+
+
+puts "END dg.test"

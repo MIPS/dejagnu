@@ -28,7 +28,7 @@ proc strip_comment_lines { text } {
 
 proc create_test_interpreter { name opts } {
     array set opt {
-	copy_arrays {} copy_procs {} copy_vars {}
+	copy_arrays {} copy_procs {} copy_vars {} attach_vfs {}
 	link_channels {} link_procs {} shim_procs {} mocks {} vars {}
     }
     array set opt [strip_comment_lines $opts]
@@ -75,6 +75,9 @@ proc create_test_interpreter { name opts } {
     foreach chan $opt(link_channels)	{ interp share {} $chan $name }
     foreach link $opt(link_procs)	{ establish_link $name $link }
     foreach shim $opt(shim_procs)	{ establish_shim $name $shim }
+    if { $opt(attach_vfs) ne "" } {
+	attach_mockvfs $name [lindex $opt(attach_vfs) 0]
+    }
     return $name
 }
 proc copy_array_to_test_interpreter { sicmd dest {src {}} } {
@@ -176,6 +179,13 @@ proc match_argpat { argpat call } {
     return $result
 }
 
+# test_proc_with_mocks testName sicmd testCode {
+#   check_calls {
+#       prefix mode:[*U[:digit:]] { [argument pattern]... }
+#       prefix mode:[!] { }
+#       prefix mode:[C] [ { count } | count ]
+#   }
+# }
 proc test_proc_with_mocks { name sicmd code args } {
     array set opt {
 	check_calls {}
@@ -214,6 +224,12 @@ proc test_proc_with_mocks { name sicmd code args } {
 	} elseif { $callpos eq "!" } {
 	    # succeed if no calls match prefix
 	    if { [llength $calls] != 0 } {
+		verbose "  failed!"
+		set result fail
+	    }
+	} elseif { $callpos eq "C" } {
+	    # succeed if exactly N calls match prefix
+	    if { [llength $calls] != [lindex $argpat 0] } {
 		verbose "  failed!"
 		set result fail
 	    }
