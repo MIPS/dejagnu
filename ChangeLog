@@ -2,6 +2,9 @@
 
 	PR58065
 
+	* testsuite/runtest.libs/mockutil.tcl (test_proc_with_mocks):
+	Report test failure instead of raising errors.
+
 	* testsuite/runtest.libs/dg.test: Add more unit tests.
 
 2022-09-30  Jacob Bachmeyer  <jcb@gnu.org>

@@ -236,8 +236,9 @@ proc test_proc_with_mocks { name sicmd code args } {
 	} elseif { $callpos eq "U" } {
 	    # prefix selects one unique call
 	    if { [llength $calls] != 1 } {
-		error "expected unique call"
-		return
+		verbose "  expected unique call... failed!"
+		set result fail
+		continue
 	    }
 	    if { ![match_argpat $argpat [lindex $calls 0]] } {
 		verbose "  failed!"
@@ -249,8 +250,9 @@ proc test_proc_with_mocks { name sicmd code args } {
 		set result fail
 	    }
 	} else {
-	    error "failed to select trace record"
-	    return
+	    verbose "  expected trace record not found... failed!"
+	    set result fail
+	    continue
 	}
     }
 
