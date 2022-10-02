@@ -138,10 +138,20 @@ foreach {type token line} {
 } {
     create_mock_file dg-test-vfs "dg/basic-${type}-${token}" \
 	"# test file for dg.exp\n$line\n"
+    regsub -- {\{ dg-} $line "\n\n&" line
+    regsub -- { \}\Z} $line " {target *-*-*} 2&" line
     if { $token ne "build" && $token ne "excess" } {
-	regsub -- {\{ dg-} $line "\n\n&" line
-	regsub -- { \}\Z} $line " {target *-*-*} 2&" line
 	create_mock_file dg-test-vfs "dg/linum-${type}-${token}" \
+	    "#test file for dg.exp\n$line\n"
+    }
+    regsub -- {\n\n} $line "" line
+    regsub -- {{target [-*]+} *[[:digit:]]*} $line \
+	"{xfail mock-target-one}" line
+    if { $token ne "excess" } {
+	create_mock_file dg-test-vfs "dg/basic-here-x${type}-${token}" \
+	    "#test file for dg.exp\n$line\n"
+	regsub -- {xfail mock-target-one} $line "xfail mock-target-two" line
+	create_mock_file dg-test-vfs "dg/basic-there-x${type}-${token}" \
 	    "#test file for dg.exp\n$line\n"
     }
 }
@@ -177,14 +187,25 @@ foreach { type token message } {
 	xpass ! {} xfail ! {} kpass ! {} kfail ! {}
 	unresolved ! {} unsupported ! {} untested ! {}
     }
+    set check_xcalls {
+	pass C 1 fail ! {} kpass ! {} kfail ! {}
+	unresolved ! {} unsupported ! {} untested ! {}
+    }
     switch -glob -- ${type}:${token} {
 	pass:excess	{ lappend check_calls fail ! {} pass C 1 }
 	fail:excess	{ lappend check_calls pass ! {} fail C 1 }
-	pass:*		{ lappend check_calls fail ! {} pass C 2 }
-	fail:*		{ lappend check_calls fail C 1  pass C 1 }
+	pass:*		{
+	    lappend check_calls   fail ! {}  pass C 2
+	    lappend check_xcalls xfail ! {} xpass C 1
+	}
+	fail:*		{
+	    lappend check_calls   fail C 1  pass C 1
+	    lappend check_xcalls xfail C 1 xpass ! {}
+	}
     }
     if { $message ne "" } {
-	lappend check_calls $type 0 [list 1 ".*[string trim ${message}].*"]
+	lappend check_calls   $type 0 [list 1 ".*[string trim ${message}].*"]
+	lappend check_xcalls x$type 0 [list 1 ".*[string trim ${message}].*"]
     }
     if { $token ne "excess" } {
 	lappend check_calls pass
@@ -193,10 +214,19 @@ foreach { type token message } {
 	    fail { lappend check_calls 0 }
 	}
 	lappend check_calls { 1 {.*test for excess errors.*} }
+	lappend check_xcalls pass 0 { 1 {.*test for excess errors.*} }
     }
     test_proc_with_mocks "test with dg/basic-${type}-${token}" dg-test-1 \
 	[list dg-runtest dg/basic-${type}-${token} "" ""] \
 	check_calls $check_calls
+    if { $token ne "excess" } {
+	test_proc_with_mocks "test with dg/basic-here-x${type}-${token}" dg-test-1 \
+	    [list dg-runtest dg/basic-here-x${type}-${token} "" ""] \
+	    check_calls $check_xcalls
+	test_proc_with_mocks "test with dg/basic-there-x${type}-${token}" dg-test-1 \
+	    [list dg-runtest dg/basic-there-x${type}-${token} "" ""] \
+	    check_calls $check_calls
+    }
     if { $token ne "build" && $token ne "excess" } {
 	test_proc_with_mocks "test with dg/linum-${type}-${token}" dg-test-1 \
 	    [list dg-runtest dg/linum-${type}-${token} "" ""] \
