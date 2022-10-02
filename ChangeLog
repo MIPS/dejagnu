@@ -6,6 +6,8 @@
 	Report test failure instead of raising errors.
 
 	* testsuite/runtest.libs/dg.test: Add more unit tests.
+	(eval_tests): Copy this procedure...
+	* testsuite/runtest.libs/target.test (eval_tests): ...from here.
 
 2022-09-30  Jacob Bachmeyer  <jcb@gnu.org>
 

@@ -66,6 +66,18 @@ proc mock-dg-prune { target output } {
 }
 
 # testing...
+# each item in testlist: { name code checks... }
+proc eval_tests { sicmd testlist } {
+    set testlist [strip_comment_lines $testlist]
+    foreach { test } $testlist {
+	if { [llength $test] > 2 } {
+	    eval [list test_proc_with_mocks [lindex $test 0] $sicmd \
+		      [lindex $test 1]] [lrange $test 2 end]
+	} else {
+	    $sicmd eval [lindex $test 1]
+	}
+    }
+}
 
 # init call trace list
 reset_mock_trace
@@ -87,16 +99,17 @@ create_test_interpreter dg-test-1 {
     link_channels { stdout }
     copy_vars {
 	dg-do-what-default dg-interpreter-batch-mode dg-linenum-format
-	srcdir subdir target_triplet
+	srcdir subdir
     }
     vars {
 	tool mock
+	target_triplet mock-target-one
 	runtests { dg.test {} }
     }
     mocks {
 	# minor test shims
 	prune_warnings	{ text }		{ $text }
-	isnative	{ }			{ 1 }
+	isnative	{ }			{ 0 }
 	unknown		{ args }		{ [error "unknown $args"] }
 	# results collection
 	pass		{ message }		{ 0 }
@@ -105,6 +118,9 @@ create_test_interpreter dg-test-1 {
 	xfail		{ message }		{ 0 }
 	kpass		{ bugid message }	{ 0 }
 	kfail		{ bugid message }	{ 0 }
+	unresolved	{ message }		{ 0 }
+	unsupported	{ message }		{ 0 }
+	untested	{ message }		{ 0 }
     }
 }
 
@@ -130,6 +146,18 @@ foreach {type token line} {
     }
 }
 
+create_mock_file dg-test-vfs \
+    dg/skip-target {
+	# test file for dg.exp
+	{ dg-do compile { target fake-target-null } }
+	#E bogus error
+    } \
+    dg/skip-cross-target {
+	# test file for dg.exp
+	{ dg-do compile { target native } }
+	#E bogus error
+    }
+
 dg-test-1 eval {proc send_log { text } { puts $text }}
 
 dg-test-1 eval dg-init
@@ -145,7 +173,10 @@ foreach { type token message } {
     pass excess		{ test for excess errors	}
     fail excess		{ test for excess errors	}
 } {
-    set check_calls {xpass ! {} xfail ! {} kpass ! {} kfail ! {}}
+    set check_calls {
+	xpass ! {} xfail ! {} kpass ! {} kfail ! {}
+	unresolved ! {} unsupported ! {} untested ! {}
+    }
     switch -glob -- ${type}:${token} {
 	pass:excess	{ lappend check_calls fail ! {} pass C 1 }
 	fail:excess	{ lappend check_calls pass ! {} fail C 1 }
@@ -166,10 +197,28 @@ foreach { type token message } {
     test_proc_with_mocks "test with dg/basic-${type}-${token}" dg-test-1 \
 	[list dg-runtest dg/basic-${type}-${token} "" ""] \
 	check_calls $check_calls
-    if { $token ne "build" &&  $token ne "excess" } {
+    if { $token ne "build" && $token ne "excess" } {
 	test_proc_with_mocks "test with dg/linum-${type}-${token}" dg-test-1 \
 	    [list dg-runtest dg/linum-${type}-${token} "" ""] \
 	    check_calls $check_calls
+    }
+}
+eval_tests dg-test-1 {
+    { "test with dg/skip-target"
+	{ dg-runtest dg/skip-target "" "" }
+	check_calls {
+	    pass ! {} fail ! {} xpass ! {} xfail ! {} kpass ! {} kfail ! {}
+	    unresolved ! {} unsupported C 1 untested ! {}
+	    unsupported 0 { 1 {.*dg/skip-target.*} }
+	}
+    }
+    { "test with dg/skip-cross-target"
+	{ dg-runtest dg/skip-cross-target "" "" }
+	check_calls {
+	    pass ! {} fail ! {} xpass ! {} xfail ! {} kpass ! {} kfail ! {}
+	    unresolved ! {} unsupported C 1 untested ! {}
+	    unsupported 0 { 1 {.*dg/skip-cross-target.*} }
+	}
     }
 }
 dg-test-1 eval dg-finish
