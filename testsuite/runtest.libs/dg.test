@@ -44,10 +44,11 @@ proc mock-dg-test { prog what flags } {
 
     while { [gets $chan line] >= 0 } {
 	incr linum
-	if { [regexp -- {^%([EW])\s+([^\r\n{}]*)} $line -> item text] } {
+	if { [regexp -- {^%([EWO])\s+([^\r\n{}]*)} $line -> item text] } {
 	    switch -- $item {
 		E { append output "$prog:$linum: error: $text\n" }
 		W { append output "$prog:$linum: warning: $text\n" }
+		O { append output "$text\n" }
 	    }
 	}
     }
@@ -62,6 +63,10 @@ proc mock-dg-prune { target output } {
     puts "target: $target"
     puts "output:\n$output"
     puts ">>> output pruning callback"
+    if { [regexp -- {--(unresolved|unsupported|untested): (.*)--} $output \
+	      -> what why] } {
+	return "::${what}::${why}"
+    }
     return $output
 }
 
@@ -168,6 +173,11 @@ create_mock_file dg-test-vfs \
 	#E bogus error
     }
 
+foreach {result} { unresolved unsupported untested } {
+    create_mock_file dg-test-vfs "dg/pskip-${result}" \
+	"#test file for dg.exp\n%O --${result}: skip by prune--\n"
+}
+
 dg-test-1 eval {proc send_log { text } { puts $text }}
 
 dg-test-1 eval dg-init
@@ -250,6 +260,26 @@ eval_tests dg-test-1 {
 	    unsupported 0 { 1 {.*dg/skip-cross-target.*} }
 	}
     }
+}
+foreach {result} { unresolved unsupported untested } {
+    set check_calls {
+	pass ! {} fail ! {} xpass ! {} xfail ! {} kpass ! {} kfail ! {}
+    }
+    switch -- $result {
+	unresolved {
+	    lappend check_calls unresolved C 1 unsupported ! {} untested ! {}
+	}
+	unsupported {
+	    lappend check_calls unresolved ! {} unsupported C 1 untested ! {}
+	}
+	untested {
+	    lappend check_calls unresolved ! {} unsupported ! {} untested C 1
+	}
+    }
+    lappend check_calls $result 0 { 1 {.*skip by prune.*} }
+    test_proc_with_mocks "test with dg/pskip-${result}" dg-test-1 \
+	[list dg-runtest dg/pskip-${result} "" ""] \
+	check_calls $check_calls
 }
 dg-test-1 eval dg-finish
 
