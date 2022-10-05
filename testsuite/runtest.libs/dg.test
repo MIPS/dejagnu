@@ -44,7 +44,7 @@ proc mock-dg-test { prog what flags } {
 
     while { [gets $chan line] >= 0 } {
 	incr linum
-	if { [regexp -- {^%([EWO])\s+([^\r\n{}]*)} $line -> item text] } {
+	if { [regexp -- {^\s*%([EWO])\s+([^\r\n{}]*)} $line -> item text] } {
 	    switch -- $item {
 		E { append output "$prog:$linum: error: $text\n" }
 		W { append output "$prog:$linum: warning: $text\n" }
@@ -176,6 +176,9 @@ create_mock_file dg-test-vfs \
 foreach {result} { unresolved unsupported untested } {
     create_mock_file dg-test-vfs "dg/pskip-${result}" \
 	"#test file for dg.exp\n%O --${result}: skip by prune--\n"
+    create_mock_file dg-test-vfs "dg/pr58065/pskip-${result}" \
+	"#test file\n{ dg-error foo \"never produced\" }\n\
+	 %O --${result}: skip by prune--\n"
 }
 
 dg-test-1 eval {proc send_log { text } { puts $text }}
@@ -279,6 +282,9 @@ foreach {result} { unresolved unsupported untested } {
     lappend check_calls $result 0 { 1 {.*skip by prune.*} }
     test_proc_with_mocks "test with dg/pskip-${result}" dg-test-1 \
 	[list dg-runtest dg/pskip-${result} "" ""] \
+	check_calls $check_calls
+    test_proc_with_mocks "test with dg/pr58065/pskip-${result}" dg-test-1 \
+	[list dg-runtest dg/pr58065/pskip-${result} "" ""] \
 	check_calls $check_calls
 }
 dg-test-1 eval dg-finish
