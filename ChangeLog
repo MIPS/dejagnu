@@ -2,6 +2,10 @@
 
 	PR58065
 
+	* lib/dg.exp (dg-test): Store results of analyzing messages in a
+	list, then report them to the framework after giving the pruning
+	callback an opportunity to skip the test case.
+
 	* testsuite/runtest.libs/dg.test: Add tests for skipping tests
 	based on special result codes from mock-dg-prune.
 	(mock-dg-test): Add directive for output text.

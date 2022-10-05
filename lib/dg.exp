@@ -698,6 +698,7 @@ proc dg-test { args } {
     set comp_output [lindex $results 0]
     set output_file [lindex $results 1]
 
+    # Store an analysis of the messages produced.
     foreach i ${dg-messages} {
 	verbose "Scanning for message: $i" 4
 
@@ -720,28 +721,36 @@ proc dg-test { args } {
 	scan $line ${dg-linenum-format} line
 	switch -- [lindex $i 1] {
 	    "ERROR" {
-		$ok "$name $comment (test for errors, line $line)"
+		lappend scan_results $ok \
+		    "$name $comment (test for errors, line $line)"
 	    }
 	    "XERROR" {
-		x$ok "$name $comment (test for errors, line $line)"
+		lappend scan_results x$ok \
+		    "$name $comment (test for errors, line $line)"
 	    }
 	    "WARNING" {
-		$ok "$name $comment (test for warnings, line $line)"
+		lappend scan_results $ok \
+		    "$name $comment (test for warnings, line $line)"
 	    }
 	    "XWARNING" {
-		x$ok "$name $comment (test for warnings, line $line)"
+		lappend scan_results x$ok \
+		    "$name $comment (test for warnings, line $line)"
 	    }
 	    "BOGUS" {
-		$uhoh "$name $comment (test for bogus messages, line $line)"
+		lappend scan_results $uhoh \
+		    "$name $comment (test for bogus messages, line $line)"
 	    }
 	    "XBOGUS" {
-		x$uhoh "$name $comment (test for bogus messages, line $line)"
+		lappend scan_results x$uhoh \
+		    "$name $comment (test for bogus messages, line $line)"
 	    }
 	    "BUILD" {
-		$uhoh "$name $comment (test for build failure, line $line)"
+		lappend scan_results $uhoh \
+		    "$name $comment (test for build failure, line $line)"
 	    }
 	    "XBUILD" {
-		x$uhoh "$name $comment (test for build failure, line $line)"
+		lappend scan_results x$uhoh \
+		    "$name $comment (test for build failure, line $line)"
 	    }
 	    "EXEC" { }
 	    "XEXEC" { }
@@ -770,6 +779,12 @@ proc dg-test { args } {
 		return
 	    }
 	}
+    }
+
+    # Report the results of the message analysis.
+    if { [info exists scan_results] } {
+	foreach { result message } $scan_results { $result $message }
+	unset scan_results
     }
 
     # See if someone forgot to delete the extra lines.
