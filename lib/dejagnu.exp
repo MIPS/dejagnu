@@ -140,18 +140,16 @@ proc host_execute {args} {
 		XFAILED		{ xfail $output }
 		UNTESTED	{ untested $output }
 		UNRESOLVED	{ unresolved $output }
+		END {
+		    expect -re {.+} { exp_continue }
+		    verbose "All done" 2
+		}
 		default {
 		    unresolved "unknown unit test token $expect_out(1,string)"
 		}
 	    }
 	    set timetol 0
-	    exp_continue
-	}
-	-re {^Totals} {
-	    # Flush the stream to allow the child process to finish writing
-	    # logs or other information, instead of sending SIGPIPE.
-	    expect -re {.+} { exp_continue }
-	    verbose "All done" 2
+	    if { $expect_out(1,string) ne "END" } { exp_continue }
 	}
 	-re {^[^\r\n]*([0-9][0-9]:..:..:[^\n]*)\n} {
 	    # No one seems to know why this pattern is here or what it is
@@ -170,6 +168,7 @@ proc host_execute {args} {
 			$executable $arguments"
 	}
 	eof {
+	    warning "Test case did not emit an end marker"
 	}
 	timeout {
 	    warning "Timed out executing test case"

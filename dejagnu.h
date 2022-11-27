@@ -161,6 +161,7 @@ totals (void)
     printf ("\t#untested:\t\t%d\n", untest);
   if (unresolve)
     printf ("\t#unresolved:\t\t%d\n", unresolve);
+  printf ("\tEND: done\n");
 }
 
 #ifdef __cplusplus
@@ -263,6 +264,7 @@ class TestState {
 	  std::cout << "\t#untested:\t\t" << untest << std::endl;
 	if (unresolve)
 	  std::cout << "\t#unresolved:\t\t" << unresolve << std::endl;
+	std::cout << "\tEND: done" << std::endl;
       }
 
     // This is so this class can be printed in an ostream.

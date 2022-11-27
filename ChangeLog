@@ -1,3 +1,17 @@
+2022-11-26  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* doc/dejagnu.texi (DejaGnu unit test protocol): Add end marker
+	line using "END" to allow detecting tests that exit prematurely.
+	The "Totals:" line was previously used for this purpose, but it
+	does not match the pattern documented as reserved for carrying
+	unit test results and information.
+
+	* lib/dejagnu.exp (host_execute): Remove test for "Totals" line.
+	(host_execute): Add corresponding support for the new line types.
+
+	* dejagnu.h (totals): Add end marker.
+	(TestState::totals): Likewise.
+
 2022-10-04  Jacob Bachmeyer  <jcb@gnu.org>
 
 	PR58065
