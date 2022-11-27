@@ -1,5 +1,9 @@
 2022-11-26  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (xpass): Fix use of wrong counter.
+	(xfail): Likewise.
+	(totals): Report unexpected passes if any occurred.
+
 	* doc/dejagnu.texi (DejaGnu unit test protocol): Add end marker
 	line using "END" to allow detecting tests that exit prematurely.
 	The "Totals:" line was previously used for this purpose, but it

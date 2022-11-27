@@ -77,7 +77,7 @@ xpass (const char* fmt, ...)
 {
   va_list ap;
 
-  passed++;
+  xpassed++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -103,7 +103,7 @@ xfail (const char* fmt, ...)
 {
   va_list ap;
 
-  failed++;
+  xfailed++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -157,6 +157,8 @@ totals (void)
   printf ("\t#real failed:\t\t%d\n", failed);
   if (xfailed)
     printf ("\t#expected failures:\t\t%d\n", xfailed);
+  if (xpassed)
+    printf ("\t#unexpected passes:\t\t%d\n", xpassed);
   if (untest)
     printf ("\t#untested:\t\t%d\n", untest);
   if (unresolve)
