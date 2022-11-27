@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 1992-2019, 2020 Free Software Foundation, Inc.
+# Copyright (C) 1992-2019, 2020, 2022 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -108,7 +108,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-check_PROGRAMS = unit$(EXEEXT)
+check_PROGRAMS = unit$(EXEEXT) testsuite/libdejagnu/unit-c$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -123,6 +123,11 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__dirstamp = $(am__leading_dot)dirstamp
+am_testsuite_libdejagnu_unit_c_OBJECTS =  \
+	testsuite/libdejagnu/unit-c.$(OBJEXT)
+testsuite_libdejagnu_unit_c_OBJECTS =  \
+	$(am_testsuite_libdejagnu_unit_c_OBJECTS)
+testsuite_libdejagnu_unit_c_LDADD = $(LDADD)
 am_unit_OBJECTS = testsuite/libdejagnu/unit.$(OBJEXT)
 unit_OBJECTS = $(am_unit_OBJECTS)
 unit_LDADD = $(LDADD)
@@ -175,6 +180,18 @@ DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 AM_V_CXX = $(am__v_CXX_@AM_V@)
@@ -188,8 +205,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(unit_SOURCES)
-DIST_SOURCES = $(unit_SOURCES)
+SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) $(unit_SOURCES)
+DIST_SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) $(unit_SOURCES)
 AM_V_DVIPS = $(am__v_DVIPS_@AM_V@)
 am__v_DVIPS_ = $(am__v_DVIPS_@AM_DEFAULT_V@)
 am__v_DVIPS_0 = @echo "  DVIPS   " $@;
@@ -560,6 +577,7 @@ TESTSUITE_FILES = \
 	testsuite/lib/report-card.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
+	testsuite/libdejagnu/unit.exp \
 	testsuite/libdejagnu/tunit.exp
 
 DEJATOOL = launcher libdejagnu report-card runtest
@@ -567,8 +585,9 @@ DEJATOOL = launcher libdejagnu report-card runtest
 # We override runtest so that the testsuite is run with this version
 # of DejaGnu instead of an installed version.
 RUNTEST = ${top_srcdir}/runtest
-AM_CXXFLAGS = -I$(top_srcdir) -g
+AM_CPPFLAGS = -I$(top_srcdir)
 unit_SOURCES = testsuite/libdejagnu/unit.cc
+testsuite_libdejagnu_unit_c_SOURCES = testsuite/libdejagnu/unit-c.c
 
 # Documentation.
 TEXINFO_TEX = doc/texinfo.tex
@@ -582,7 +601,7 @@ doc_dejagnu_TEXINFOS = doc/fdl.texi
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cc .dvi .o .obj .ps
+.SUFFIXES: .c .cc .dvi .o .obj .ps
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -625,6 +644,13 @@ testsuite/libdejagnu/$(am__dirstamp):
 testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) testsuite/libdejagnu/$(DEPDIR)
 	@: > testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+testsuite/libdejagnu/unit-c.$(OBJEXT):  \
+	testsuite/libdejagnu/$(am__dirstamp) \
+	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+
+testsuite/libdejagnu/unit-c$(EXEEXT): $(testsuite_libdejagnu_unit_c_OBJECTS) $(testsuite_libdejagnu_unit_c_DEPENDENCIES) $(EXTRA_testsuite_libdejagnu_unit_c_DEPENDENCIES) testsuite/libdejagnu/$(am__dirstamp)
+	@rm -f testsuite/libdejagnu/unit-c$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(testsuite_libdejagnu_unit_c_OBJECTS) $(testsuite_libdejagnu_unit_c_LDADD) $(LIBS)
 testsuite/libdejagnu/unit.$(OBJEXT):  \
 	testsuite/libdejagnu/$(am__dirstamp) \
 	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
@@ -710,7 +736,24 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit-c.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit.Po@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

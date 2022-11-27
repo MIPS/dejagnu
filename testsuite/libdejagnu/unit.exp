@@ -1,0 +1,127 @@
+# Copyright (C) 2022 Free Software Foundation, Inc.
+#
+# This file is part of DejaGnu.
+#
+# DejaGnu is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# DejaGnu is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with DejaGnu; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
+
+# This file is a test driver for the unit test protocol library.
+
+# Each test program must accept test outcomes on the command line, and
+# produce exactly those results in that order.
+
+proc test_libdejagnu_unit { language tests } {
+    set test_program [testsuite file -object -test "unit-${language}"]
+
+    # map messages from dejagnu.h:totals() to result types
+    array set expected_totals_map {
+	passed	pass	"real failed"	fail
+	"unexpected passes"	xpass
+	"expected failures"	xfail
+	untested		untested
+	unresolved		unresolved
+    }
+
+    foreach test $tests {
+	array set expected_totals {
+	    pass     0	fail       0
+	    xpass    0	xfail      0
+	    untested 0	unresolved 0
+	}
+	set test_idx 0
+	set result pass
+
+	verbose -log "Spawning $test_program $test ..."
+	eval [list spawn $test_program] $test
+
+	expect_after {
+	    -re {^[^\n]*\n} { exp_continue }
+	    full_buffer {
+		perror "Expect matching buffer overrun during test."
+	    }
+	    eof {
+		# No end marker?  ->  Fail!
+		verbose -log " unit test did not emit an end marker"
+		set result fail
+	    }
+	    timeout {
+		catch close
+		set result unresolved
+	    }
+	}
+
+	# Check that the reported results match.
+	expect {
+	    -re {^[\r\n]*Totals:[\r\n]+} {
+		# done with results, but fail if there should be more
+		if { [lindex $test $test_idx] ne "" } {
+		    verbose -log " expected [lindex $test $test_idx]"
+		    set result fail
+		}
+	    }
+	    -re {(?:\A|\n)\t([][[:upper:]]+):([^\n]+)\n} {
+		# above pattern copied from lib/dejagnu.exp:host_execute
+		switch -- [lindex $test $test_idx] {
+		    pass	{ set expected PASSED     }
+		    fail	{ set expected FAILED     }
+		    xpass	{ set expected XPASSED    }
+		    xfail	{ set expected XFAILED    }
+		    untested	{ set expected UNTESTED   }
+		    unresolved	{ set expected UNRESOLVED }
+		}
+		if { [info exists expected_totals([lindex $test $test_idx])]} {
+		    incr expected_totals([lindex $test $test_idx])
+		}
+		if { $expected ne $expect_out(1,string) } {
+		    set result fail
+		}
+		incr test_idx
+		exp_continue
+	    }
+	}
+	# Now ensure that the reported totals are as expected.
+	expect {
+	    -re {^\n*\t#([^:]+):\t+([[:digit:]]+)\r*\n} {
+		set type $expected_totals_map($expect_out(1,string))
+		set count $expect_out(2,string)
+
+		if { $expected_totals($type) != $count } {
+		    verbose -log " expected $expected_totals($type)\
+						 $type; got $count"
+		    set result fail
+		}
+		unset expected_totals($type)
+		exp_continue
+	    }
+	    -re {^\n*\tEND:[^\n]+\n} {
+		# flush to EOF
+		expect -re {.+} { exp_continue } eof
+	    }
+	}
+	catch close
+	wait -nowait
+
+	foreach { type count } [array get expected_totals] {
+	    if { $count == 0 } { continue }
+	    verbose -log " expected $count $type; got no report"
+	    set result fail
+	}
+
+	$result "test $test_program with: $test"
+    }
+}
+
+test_libdejagnu_unit c {
+    pass fail xpass xfail untested unresolved
+}

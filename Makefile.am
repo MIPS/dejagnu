@@ -1,4 +1,4 @@
-# Copyright (C) 1992-2019, 2020 Free Software Foundation, Inc.
+# Copyright (C) 1992-2019, 2020, 2022 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -220,6 +220,7 @@ TESTSUITE_FILES = \
 	testsuite/lib/report-card.exp \
 	testsuite/lib/runtest.exp \
 	testsuite/lib/util-defs.exp \
+	testsuite/libdejagnu/unit.exp \
 	testsuite/libdejagnu/tunit.exp
 
 DEJATOOL = launcher libdejagnu report-card runtest
@@ -228,9 +229,11 @@ DEJATOOL = launcher libdejagnu report-card runtest
 # of DejaGnu instead of an installed version.
 RUNTEST = ${top_srcdir}/runtest
 
-AM_CXXFLAGS = -I$(top_srcdir) -g
-check_PROGRAMS = unit
+AM_CPPFLAGS = -I$(top_srcdir)
+check_PROGRAMS = unit \
+	testsuite/libdejagnu/unit-c
 unit_SOURCES = testsuite/libdejagnu/unit.cc
+testsuite_libdejagnu_unit_c_SOURCES = testsuite/libdejagnu/unit-c.c
 
 # Documentation.
 

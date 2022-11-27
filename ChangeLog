@@ -1,5 +1,14 @@
 2022-11-26  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* Makefile.in: Regenerate.
+	* Makefile.am (AM_CXXFLAGS): Change this...
+	(AM_CPPFLAGS): ...to this.  (Also remove -g flag.)
+	(check_PROGRAMS): Add testsuite/libdejagnu/unit-c.
+	(testsuite_libdejagnu_unit_c_SOURCES): Add.
+	(TESTSUITE_FILES): Update.
+	* testsuite/libdejagnu/unit-c.c: New file.
+	* testsuite/libdejagnu/unit.exp: New file.
+
 	* dejagnu.h (xpass): Fix use of wrong counter.
 	(xfail): Likewise.
 	(totals): Report unexpected passes if any occurred.
