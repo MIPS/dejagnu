@@ -34,6 +34,10 @@ END {
 	print "\tUNTESTED: sample unit test"
     else if (UNIT_RESULT == "unresolved")
 	print "\tUNRESOLVED: sample unit test"
+    else if (UNIT_RESULT == "unsupported")
+	print "\tUNSUPPORTED: sample unit test"
+
+    print "\tEND: unit-sub.awk done"
 }
 
 # EOF

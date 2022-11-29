@@ -1,5 +1,11 @@
 2022-11-28  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* testsuite/runtest.main/stats.exp: Add test for UNSUPPORTED
+	result from a unit test program.
+	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.awk:
+	Update to account for addition of END marker and UNSUPPORTED to
+	DejaGnu unit testing protocol.
+
 	* dejagnu.h: Add UNSUPPORTED test result.
 	(unsupport): New counter variable for UNSUPPORTED results.
 	(unsupported): New function in C API.

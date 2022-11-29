@@ -41,6 +41,7 @@ set tests {
     { unit xfail "expected failures\[ \t\]+1\n" }
     { unit untested "untested testcases\[ \t\]+1\n" }
     { unit unresolved "unresolved testcases\[ \t\]+1\n" }
+    { unit unsupported "unsupported tests\[ \t\]+1\n" }
 }
 
 foreach t $tests {
