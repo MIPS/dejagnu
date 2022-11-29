@@ -2622,6 +2622,14 @@ to look over the results to determine what happened.
 @end quotation
 
 @item
+@code{unsupported} prints a message for a test case that depends on a
+facility that is not available in the testing environment.
+
+@quotation
+@t{@b{unsupported}(@i{msg}, ...);}
+@end quotation
+
+@item
 @code{totals} prints out the total counts of all of the test results
 as a convenience when running the unit test program directly.  DejaGnu
 does not use this information and instead counts the results
@@ -2699,6 +2707,14 @@ to look over the results to determine what happened.
 
 @quotation
 @t{@b{TestState::unresolved}(@i{msg});}
+@end quotation
+
+@item
+@code{unsupported} prints a message for a test case that depends on a
+facility that is not available in the testing environment.
+
+@quotation
+@t{@b{unsupported}(@i{msg}, ...);}
 @end quotation
 
 @item

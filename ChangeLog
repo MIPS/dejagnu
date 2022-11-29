@@ -22,6 +22,9 @@
 	(TestState::totals): Likewise for C++ API.
 	* lib/dejagnu.exp (host_execute): Add UNSUPPORTED test result.
 	* doc/dejagnu.texi (DejaGnu unit test protocol): Document same.
+	(C unit testing API): Document new function for same.
+	(C++ unit testing API): Document new function for same.
+
 	* testsuite/libdejagnu/unit-c.c: Add test for UNSUPPORTED.
 	* testsuite/libdejagnu/unit.exp: Likewise.
 
