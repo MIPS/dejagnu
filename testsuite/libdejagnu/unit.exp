@@ -73,6 +73,7 @@ proc test_libdejagnu_unit { language tests } {
 	    -re {(?:\A|\n)\t([][[:upper:]]+):([^\n]+)\n} {
 		# above pattern copied from lib/dejagnu.exp:host_execute
 		switch -- [lindex $test $test_idx] {
+		    note	{ set expected NOTE       }
 		    pass	{ set expected PASSED     }
 		    fail	{ set expected FAILED     }
 		    xpass	{ set expected XPASSED    }
@@ -123,5 +124,5 @@ proc test_libdejagnu_unit { language tests } {
 }
 
 test_libdejagnu_unit c {
-    pass fail xpass xfail untested unresolved
+    note pass fail xpass xfail untested unresolved
 }
