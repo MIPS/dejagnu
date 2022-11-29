@@ -2536,6 +2536,8 @@ This will cause @i{text} to be printed at verbose levels 2 and higher.
 
 @print{}@t{@ @ @ @ @ @ @ @ UNRESOLVED: }@i{name}
 
+@print{}@t{@ @ @ @ @ @ @ @ UNSUPPORTED: }@i{name}
+
 These indicate simple test results.
 
 @print{}@t{@ @ @ @ @ @ @ @ END: }@i{text}

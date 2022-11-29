@@ -1,5 +1,18 @@
 2022-11-28  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h: Add UNSUPPORTED test result.
+	(unsupport): New counter variable for UNSUPPORTED results.
+	(unsupported): New function in C API.
+	(TestState::unsupported): New function in C++ API.
+	(outstate_list): Add UNSUPPORTED entry.
+	(teststate::laststate): Likewise.
+	(totals): Mention number of unsupported tests.
+	(TestState::totals): Likewise for C++ API.
+	* lib/dejagnu.exp (host_execute): Add UNSUPPORTED test result.
+	* doc/dejagnu.texi (DejaGnu unit test protocol): Document same.
+	* testsuite/libdejagnu/unit-c.c: Add test for UNSUPPORTED.
+	* testsuite/libdejagnu/unit.exp: Likewise.
+
 	* testsuite/libdejagnu/unit.exp: Add test for NOTE message.
 
 2022-11-26  Jacob Bachmeyer  <jcb@gnu.org>

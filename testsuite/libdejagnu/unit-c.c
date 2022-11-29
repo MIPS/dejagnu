@@ -45,6 +45,7 @@ main(int argc, char ** argv)
     else if (!strcmp("xfail", argv[i]))		xfail("test");
     else if (!strcmp("untested", argv[i]))	untested("test");
     else if (!strcmp("unresolved", argv[i]))	unresolved("test");
+    else if (!strcmp("unsupported", argv[i]))	unsupported("test");
     else if (!strcmp("note", argv[i]))		note("test");
     else {
       fprintf(stderr, "%s: unknown test `%s'\n", argv[0], argv[i]);

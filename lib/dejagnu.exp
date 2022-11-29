@@ -140,6 +140,7 @@ proc host_execute {args} {
 		XFAILED		{ xfail $output }
 		UNTESTED	{ untested $output }
 		UNRESOLVED	{ unresolved $output }
+		UNSUPPORTED	{ unsupported $output }
 		END {
 		    expect -re {.+} { exp_continue }
 		    verbose "All done" 2

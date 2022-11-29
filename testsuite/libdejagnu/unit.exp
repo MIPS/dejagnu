@@ -31,13 +31,14 @@ proc test_libdejagnu_unit { language tests } {
 	"expected failures"	xfail
 	untested		untested
 	unresolved		unresolved
+	unsupported		unsupported
     }
 
     foreach test $tests {
 	array set expected_totals {
 	    pass     0	fail       0
 	    xpass    0	xfail      0
-	    untested 0	unresolved 0
+	    untested 0	unresolved 0	unsupported 0
 	}
 	set test_idx 0
 	set result pass
@@ -73,13 +74,14 @@ proc test_libdejagnu_unit { language tests } {
 	    -re {(?:\A|\n)\t([][[:upper:]]+):([^\n]+)\n} {
 		# above pattern copied from lib/dejagnu.exp:host_execute
 		switch -- [lindex $test $test_idx] {
-		    note	{ set expected NOTE       }
-		    pass	{ set expected PASSED     }
-		    fail	{ set expected FAILED     }
-		    xpass	{ set expected XPASSED    }
-		    xfail	{ set expected XFAILED    }
-		    untested	{ set expected UNTESTED   }
-		    unresolved	{ set expected UNRESOLVED }
+		    note	{ set expected NOTE        }
+		    pass	{ set expected PASSED      }
+		    fail	{ set expected FAILED      }
+		    xpass	{ set expected XPASSED     }
+		    xfail	{ set expected XFAILED     }
+		    untested	{ set expected UNTESTED    }
+		    unresolved	{ set expected UNRESOLVED  }
+		    unsupported { set expected UNSUPPORTED }
 		}
 		if { [info exists expected_totals([lindex $test $test_idx])]} {
 		    incr expected_totals([lindex $test $test_idx])
@@ -124,5 +126,5 @@ proc test_libdejagnu_unit { language tests } {
 }
 
 test_libdejagnu_unit c {
-    note pass fail xpass xfail untested unresolved
+    note pass fail xpass xfail untested unresolved unsupported
 }

@@ -39,6 +39,7 @@ static int passed;
 static int failed;
 static int untest;
 static int unresolve;
+static int unsupport;
 static int xfailed;
 static int xpassed;
 
@@ -138,6 +139,19 @@ unresolved (const char* fmt, ...)
 }
 
 static inline void
+unsupported (const char* fmt, ...)
+{
+  va_list ap;
+
+  unsupport++;
+  va_start (ap, fmt);
+  vsnprintf (buffer, sizeof (buffer), fmt, ap);
+  va_end (ap);
+  printf ("\tUNSUPPORTED: %s\n", buffer);
+  wait ();
+}
+
+static inline void
 note (const char* fmt, ...)
 {
   va_list ap;
@@ -163,6 +177,8 @@ totals (void)
     printf ("\t#untested:\t\t%d\n", untest);
   if (unresolve)
     printf ("\t#unresolved:\t\t%d\n", unresolve);
+  if (unsupport)
+    printf ("\t#unsupported:\t\t%d\n", unsupport);
   printf ("\tEND: done\n");
 }
 
@@ -174,12 +190,16 @@ totals (void)
 #include <string>
 
 const char *outstate_list[] = {
-  "FAILED: ", "PASSED: ", "UNTESTED: ", "UNRESOLVED: ", "XFAILED: ", "XPASSED: "
+  "FAILED: ", "PASSED: ",
+  "UNTESTED: ", "UNRESOLVED: ", "UNSUPPORTED: ",
+  "XFAILED: ", "XPASSED: "
 };
 
 const char ** outstate = outstate_list;
 
-enum teststate { FAILED, PASSED, UNTESTED, UNRESOLVED, XFAILED, XPASSED} laststate;
+enum teststate { FAILED, PASSED,
+		 UNTESTED, UNRESOLVED, UNSUPPORTED,
+		 XFAILED, XPASSED } laststate;
 
 class TestState {
  private:
@@ -194,6 +214,7 @@ class TestState {
       xpassed = 0;
       xfailed = 0;
       unresolve = 0;
+      unsupport = 0;
     }
 
   ~TestState (void) { totals(); }
@@ -254,6 +275,14 @@ class TestState {
 	std::cout << "\t" << outstate[UNRESOLVED] << s << std::endl;
       }
 
+    void unsupported (std::string s)
+      {
+	unsupport++;
+	laststate = UNSUPPORTED;
+	lastmsg = s;
+	std::cout << "\t" << outstate[UNSUPPORTED] << s << std::endl;
+      }
+
     void totals (void)
       {
 	std::cout << "\t#passed:\t\t" << passed << std::endl;
@@ -266,6 +295,8 @@ class TestState {
 	  std::cout << "\t#untested:\t\t" << untest << std::endl;
 	if (unresolve)
 	  std::cout << "\t#unresolved:\t\t" << unresolve << std::endl;
+	if (unsupport)
+	  std::cout << "\t#unsupported:\t\t" << unsupport << std::endl;
 	std::cout << "\tEND: done" << std::endl;
       }
 
