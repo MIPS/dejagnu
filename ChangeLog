@@ -1,5 +1,11 @@
 2022-11-28  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h: Remove _DEJAGNU_WAIT_ conditional and revise comment
+	to explain improved solution to the problem for which it seems to
+	have been intended as a workaround.
+	(wait): Remove this function.  It conflicted with POSIX wait(2);
+	this conflict was reported as PR59586.
+
 	* testsuite/runtest.main/stats.exp: Add test for UNSUPPORTED
 	result from a unit test program.
 	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.awk:
