@@ -1,5 +1,8 @@
 2022-11-29  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (TestState::note): New method, like C note().
+	* doc/dejagnu.texi (C++ unit testing API): Add note() method.
+
 	* doc/dejagnu.texi (C++ unit testing API): Fix incorrect
 	documentation.  The C and C++ interfaces share the same global
 	counters, as do all C++ TestState objects.

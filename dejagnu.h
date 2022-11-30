@@ -255,6 +255,11 @@ class TestState {
 	std::cout << "\t" << outstate[UNSUPPORTED] << s << std::endl;
       }
 
+    void note (std::string s)
+      {
+	std::cout << "\t" << "NOTE: " << s << std::endl;
+      }
+
     void totals (void)
       {
 	std::cout << "\t#passed:\t\t" << passed << std::endl;

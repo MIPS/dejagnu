@@ -2667,6 +2667,14 @@ The @code{TestState} class supports the following instance methods:
 
 @itemize
 @item
+@code{note} emits a note that will be displayed at verbose level 2 or
+higher.
+
+@quotation
+@t{@b{TestState::note}(@i{msg});}
+@end quotation
+
+@item
 @code{pass} prints a message for a successful test completion.
 
 @quotation
