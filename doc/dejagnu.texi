@@ -2656,10 +2656,12 @@ as the message to be displayed.  There currently is no support for
 formatted output in the C++ API; build the desired string before
 passing it to these functions.
 
-Note that the C API is also available in C++ unit test programs; using
-both will cause confusion because each @code{TestState} object carries
-its own set of summary counters, while the C API has an independent
-global set of summary counters.
+Note that the C API is also available in C++ unit test programs; all
+@code{TestState} objects and the C API share the same global set of
+summary counters.  Also note that a single global @code{TestState}
+object should be used, since the constructor clears the summary
+counters and the @code{totals} method is automatically called when a
+@code{TestState} object is destroyed.
 
 The @code{TestState} class supports the following instance methods:
 

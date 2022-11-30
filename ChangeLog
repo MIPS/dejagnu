@@ -1,3 +1,9 @@
+2022-11-29  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* doc/dejagnu.texi (C++ unit testing API): Fix incorrect
+	documentation.  The C and C++ interfaces share the same global
+	counters, as do all C++ TestState objects.
+
 2022-11-28  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* dejagnu.h: Remove _DEJAGNU_WAIT_ conditional and revise comment
