@@ -18,6 +18,12 @@
 
 # This file is a test driver for the unit test protocol library.
 
+# Note that the tests for the framework side of the unit testing support
+# are in testsuite/runtest.main/stats.exp and its nested testsuite, and
+# this code is a separate implementation for testing libdejagnu.  In
+# particular, while libdejagnu suport modules will always emit a "Totals:"
+# line, that line is not actually part of the protocol.
+
 # Each test program must accept test outcomes on the command line, and
 # produce exactly those results in that order.
 
