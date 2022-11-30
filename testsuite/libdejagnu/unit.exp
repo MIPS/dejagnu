@@ -125,6 +125,8 @@ proc test_libdejagnu_unit { language tests } {
     }
 }
 
-test_libdejagnu_unit c {
-    note pass fail xpass xfail untested unresolved unsupported
+foreach language {c cxx} {
+    test_libdejagnu_unit $language {
+	note pass fail xpass xfail untested unresolved unsupported
+    }
 }

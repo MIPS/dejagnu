@@ -108,7 +108,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-check_PROGRAMS = unit$(EXEEXT) testsuite/libdejagnu/unit-c$(EXEEXT)
+check_PROGRAMS = unit$(EXEEXT) testsuite/libdejagnu/unit-c$(EXEEXT) \
+	testsuite/libdejagnu/unit-cxx$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -128,6 +129,11 @@ am_testsuite_libdejagnu_unit_c_OBJECTS =  \
 testsuite_libdejagnu_unit_c_OBJECTS =  \
 	$(am_testsuite_libdejagnu_unit_c_OBJECTS)
 testsuite_libdejagnu_unit_c_LDADD = $(LDADD)
+am_testsuite_libdejagnu_unit_cxx_OBJECTS =  \
+	testsuite/libdejagnu/unit-cxx.$(OBJEXT)
+testsuite_libdejagnu_unit_cxx_OBJECTS =  \
+	$(am_testsuite_libdejagnu_unit_cxx_OBJECTS)
+testsuite_libdejagnu_unit_cxx_LDADD = $(LDADD)
 am_unit_OBJECTS = testsuite/libdejagnu/unit.$(OBJEXT)
 unit_OBJECTS = $(am_unit_OBJECTS)
 unit_LDADD = $(LDADD)
@@ -205,8 +211,10 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) $(unit_SOURCES)
-DIST_SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) $(unit_SOURCES)
+SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) \
+	$(testsuite_libdejagnu_unit_cxx_SOURCES) $(unit_SOURCES)
+DIST_SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) \
+	$(testsuite_libdejagnu_unit_cxx_SOURCES) $(unit_SOURCES)
 AM_V_DVIPS = $(am__v_DVIPS_@AM_V@)
 am__v_DVIPS_ = $(am__v_DVIPS_@AM_DEFAULT_V@)
 am__v_DVIPS_0 = @echo "  DVIPS   " $@;
@@ -588,6 +596,7 @@ RUNTEST = ${top_srcdir}/runtest
 AM_CPPFLAGS = -I$(top_srcdir)
 unit_SOURCES = testsuite/libdejagnu/unit.cc
 testsuite_libdejagnu_unit_c_SOURCES = testsuite/libdejagnu/unit-c.c
+testsuite_libdejagnu_unit_cxx_SOURCES = testsuite/libdejagnu/unit-cxx.cxx
 
 # Documentation.
 TEXINFO_TEX = doc/texinfo.tex
@@ -601,7 +610,7 @@ doc_dejagnu_TEXINFOS = doc/fdl.texi
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cc .dvi .o .obj .ps
+.SUFFIXES: .c .cc .cxx .dvi .o .obj .ps
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -651,6 +660,13 @@ testsuite/libdejagnu/unit-c.$(OBJEXT):  \
 testsuite/libdejagnu/unit-c$(EXEEXT): $(testsuite_libdejagnu_unit_c_OBJECTS) $(testsuite_libdejagnu_unit_c_DEPENDENCIES) $(EXTRA_testsuite_libdejagnu_unit_c_DEPENDENCIES) testsuite/libdejagnu/$(am__dirstamp)
 	@rm -f testsuite/libdejagnu/unit-c$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testsuite_libdejagnu_unit_c_OBJECTS) $(testsuite_libdejagnu_unit_c_LDADD) $(LIBS)
+testsuite/libdejagnu/unit-cxx.$(OBJEXT):  \
+	testsuite/libdejagnu/$(am__dirstamp) \
+	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+
+testsuite/libdejagnu/unit-cxx$(EXEEXT): $(testsuite_libdejagnu_unit_cxx_OBJECTS) $(testsuite_libdejagnu_unit_cxx_DEPENDENCIES) $(EXTRA_testsuite_libdejagnu_unit_cxx_DEPENDENCIES) testsuite/libdejagnu/$(am__dirstamp)
+	@rm -f testsuite/libdejagnu/unit-cxx$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(testsuite_libdejagnu_unit_cxx_OBJECTS) $(testsuite_libdejagnu_unit_cxx_LDADD) $(LIBS)
 testsuite/libdejagnu/unit.$(OBJEXT):  \
 	testsuite/libdejagnu/$(am__dirstamp) \
 	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
@@ -737,6 +753,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit-c.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit-cxx.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit.Po@am__quote@
 
 .c.o:
@@ -764,6 +781,22 @@ distclean-compile:
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
 
 .cc.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cxx.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cxx.obj:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
 @am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po

@@ -1,5 +1,11 @@
 2022-11-29  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* Makefile.in: Regenerate.
+	* Makefile.am (check_PROGRAMS): Add testsuite/libdejagnu/unit-cxx.
+	(testsuite_libdejagnu_unit_cxx_SOURCES): Add.
+	* testsuite/libdejagnu/unit.exp: Add tests for C++ unit test API.
+	* testsuite/libdejagnu/unit-cxx.cxx: New file.
+
 	* dejagnu.h (TestState::totals): Emit header line, like the C version.
 
 	* dejagnu.h (TestState::note): New method, like C note().
