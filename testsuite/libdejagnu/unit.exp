@@ -136,3 +136,9 @@ foreach language {c cxx} {
 	note pass fail xpass xfail untested unresolved unsupported
     }
 }
+
+test_libdejagnu_unit ccxxmix {
+    {pass pass xpass xfail xfail xpass}
+    {fail fail xfail xpass xpass xfail}
+    {untested unresolved unsupported untested unresolved unsupported}
+}

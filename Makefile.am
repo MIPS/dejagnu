@@ -232,9 +232,11 @@ RUNTEST = ${top_srcdir}/runtest
 AM_CPPFLAGS = -I$(top_srcdir)
 check_PROGRAMS = \
 	testsuite/libdejagnu/unit-c \
-	testsuite/libdejagnu/unit-cxx
+	testsuite/libdejagnu/unit-cxx \
+	testsuite/libdejagnu/unit-ccxxmix
 testsuite_libdejagnu_unit_c_SOURCES = testsuite/libdejagnu/unit-c.c
 testsuite_libdejagnu_unit_cxx_SOURCES = testsuite/libdejagnu/unit-cxx.cxx
+testsuite_libdejagnu_unit_ccxxmix_SOURCES = testsuite/libdejagnu/unit-ccxxmix.cxx
 
 # Documentation.
 

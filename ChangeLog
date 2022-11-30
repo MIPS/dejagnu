@@ -1,5 +1,11 @@
 2022-11-29  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* Makefile.in: Regenerate.
+	* Makefile.am (check_PROGRAMS): Add testsuite/libdejagnu/unit-ccxxmix.
+	(testsuite_libdejagnu_unit_ccxxmix_SOURCES): Add.
+	* testsuite/libdejagnu/unit.exp: Add tests for C/C++ mixed usage.
+	* testsuite/libdejagnu/unit-ccxxmix.cxx: New file.
+
 	* testsuite/libdejagnu/unit.exp: Add note that tests for the
 	framework side of the unit testing protocol are located in
 	testsuite/runtest.main/stats.exp and its nested testsuite.
@@ -17,7 +23,6 @@
 	* Makefile.am (check_PROGRAMS): Add testsuite/libdejagnu/unit-cxx.
 	(testsuite_libdejagnu_unit_cxx_SOURCES): Add.
 	* testsuite/libdejagnu/unit.exp: Add tests for C++ unit test API.
-
 	* testsuite/libdejagnu/unit-cxx.cxx: New file.
 
 	* dejagnu.h (TestState::totals): Emit header line, like the C version.

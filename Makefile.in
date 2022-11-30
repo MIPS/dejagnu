@@ -109,7 +109,8 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 check_PROGRAMS = testsuite/libdejagnu/unit-c$(EXEEXT) \
-	testsuite/libdejagnu/unit-cxx$(EXEEXT)
+	testsuite/libdejagnu/unit-cxx$(EXEEXT) \
+	testsuite/libdejagnu/unit-ccxxmix$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -129,6 +130,11 @@ am_testsuite_libdejagnu_unit_c_OBJECTS =  \
 testsuite_libdejagnu_unit_c_OBJECTS =  \
 	$(am_testsuite_libdejagnu_unit_c_OBJECTS)
 testsuite_libdejagnu_unit_c_LDADD = $(LDADD)
+am_testsuite_libdejagnu_unit_ccxxmix_OBJECTS =  \
+	testsuite/libdejagnu/unit-ccxxmix.$(OBJEXT)
+testsuite_libdejagnu_unit_ccxxmix_OBJECTS =  \
+	$(am_testsuite_libdejagnu_unit_ccxxmix_OBJECTS)
+testsuite_libdejagnu_unit_ccxxmix_LDADD = $(LDADD)
 am_testsuite_libdejagnu_unit_cxx_OBJECTS =  \
 	testsuite/libdejagnu/unit-cxx.$(OBJEXT)
 testsuite_libdejagnu_unit_cxx_OBJECTS =  \
@@ -209,8 +215,10 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) \
+	$(testsuite_libdejagnu_unit_ccxxmix_SOURCES) \
 	$(testsuite_libdejagnu_unit_cxx_SOURCES)
 DIST_SOURCES = $(testsuite_libdejagnu_unit_c_SOURCES) \
+	$(testsuite_libdejagnu_unit_ccxxmix_SOURCES) \
 	$(testsuite_libdejagnu_unit_cxx_SOURCES)
 AM_V_DVIPS = $(am__v_DVIPS_@AM_V@)
 am__v_DVIPS_ = $(am__v_DVIPS_@AM_DEFAULT_V@)
@@ -593,6 +601,7 @@ RUNTEST = ${top_srcdir}/runtest
 AM_CPPFLAGS = -I$(top_srcdir)
 testsuite_libdejagnu_unit_c_SOURCES = testsuite/libdejagnu/unit-c.c
 testsuite_libdejagnu_unit_cxx_SOURCES = testsuite/libdejagnu/unit-cxx.cxx
+testsuite_libdejagnu_unit_ccxxmix_SOURCES = testsuite/libdejagnu/unit-ccxxmix.cxx
 
 # Documentation.
 TEXINFO_TEX = doc/texinfo.tex
@@ -656,6 +665,13 @@ testsuite/libdejagnu/unit-c.$(OBJEXT):  \
 testsuite/libdejagnu/unit-c$(EXEEXT): $(testsuite_libdejagnu_unit_c_OBJECTS) $(testsuite_libdejagnu_unit_c_DEPENDENCIES) $(EXTRA_testsuite_libdejagnu_unit_c_DEPENDENCIES) testsuite/libdejagnu/$(am__dirstamp)
 	@rm -f testsuite/libdejagnu/unit-c$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testsuite_libdejagnu_unit_c_OBJECTS) $(testsuite_libdejagnu_unit_c_LDADD) $(LIBS)
+testsuite/libdejagnu/unit-ccxxmix.$(OBJEXT):  \
+	testsuite/libdejagnu/$(am__dirstamp) \
+	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+
+testsuite/libdejagnu/unit-ccxxmix$(EXEEXT): $(testsuite_libdejagnu_unit_ccxxmix_OBJECTS) $(testsuite_libdejagnu_unit_ccxxmix_DEPENDENCIES) $(EXTRA_testsuite_libdejagnu_unit_ccxxmix_DEPENDENCIES) testsuite/libdejagnu/$(am__dirstamp)
+	@rm -f testsuite/libdejagnu/unit-ccxxmix$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(testsuite_libdejagnu_unit_ccxxmix_OBJECTS) $(testsuite_libdejagnu_unit_ccxxmix_LDADD) $(LIBS)
 testsuite/libdejagnu/unit-cxx.$(OBJEXT):  \
 	testsuite/libdejagnu/$(am__dirstamp) \
 	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
@@ -742,6 +758,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit-c.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit-ccxxmix.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit-cxx.Po@am__quote@
 
 .c.o:
