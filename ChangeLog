@@ -1,6 +1,15 @@
 2022-11-29  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* Makefile.in: Regenerate.
+	* Makefile.am (check_PROGRAMS): Remove unit.
+	(unit_SOURCES): Remove.
+	* testsuite/libdejagnu/tunit.exp: Remove file.
+	* testsuite/libdejagnu/unit.cc: Remove file.
+	The limited coverage of this test is now included in unit.exp
+	and unit-cxx, and supporting this test required some leaky
+	abstractions in dejagnu.h that can now be cleaned up.
+
+	* Makefile.in: Regenerate.
 	* Makefile.am (check_PROGRAMS): Add testsuite/libdejagnu/unit-cxx.
 	(testsuite_libdejagnu_unit_cxx_SOURCES): Add.
 	* testsuite/libdejagnu/unit.exp: Add tests for C++ unit test API.
