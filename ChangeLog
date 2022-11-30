@@ -1,5 +1,7 @@
 2022-11-29  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (TestState::totals): Emit header line, like the C version.
+
 	* dejagnu.h (TestState::note): New method, like C note().
 	* doc/dejagnu.texi (C++ unit testing API): Add note() method.
 

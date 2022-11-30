@@ -262,6 +262,7 @@ class TestState {
 
     void totals (void)
       {
+	std::cout << std::endl << "Totals:" << std::endl;
 	std::cout << "\t#passed:\t\t" << passed << std::endl;
 	std::cout << "\t#real failed:\t\t" << failed << std::endl;
 	if (xfailed)
