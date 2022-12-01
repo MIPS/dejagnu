@@ -218,6 +218,12 @@ class TestState {
  public:
   TestState (void)
     {
+      DG__status.TestState_count++;
+
+      if (DG__status.TestState_count > 1)
+	return; /* Do not clear the counters if additional TestState
+		   objects are constructed. */
+
       DG__status.pass = 0;
       DG__status.fail = 0;
       DG__status.xpass = 0;
@@ -228,7 +234,6 @@ class TestState {
 
       /* C++ object destruction will substitute for atexit(). */
       DG__status.endmsg_registered = 1;
-      DG__status.TestState_count++;
     }
 
   ~TestState (void)

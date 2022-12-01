@@ -1,5 +1,8 @@
 2022-11-30  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (TestState::TestState): Only perform initialization
+	when the first TestState object is constructed.
+
 	* dejagnu.h (DG__endmsg): New function, called using atexit().
 	(endmsg_registered, TestState_count): Add fields to DG__status.
 	(DG__init): New function, to register DG__endmsg.
