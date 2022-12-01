@@ -22,6 +22,7 @@ Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* If you have problems with DejaGnu dropping failed, untested, or
@@ -38,7 +39,23 @@ static struct {
   int untested;
   int unresolved;
   int unsupported;
+  /**/
+  int endmsg_registered;
+  int TestState_count;	/* number of live TestState objects in C++ */
 } DG__status = { 0 };
+
+static inline void
+DG__endmsg (void)
+{ puts ("\tEND: done"); }
+
+static inline void
+DG__init (void)
+{
+  if (DG__status.endmsg_registered) return;
+
+  if (atexit (DG__endmsg) == 0)
+    DG__status.endmsg_registered = 1;
+}
 
 static inline void
 pass (const char* fmt, ...)
@@ -46,6 +63,7 @@ pass (const char* fmt, ...)
   va_list ap;
 
   DG__status.pass++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tPASSED: ", stdout);
@@ -60,6 +78,7 @@ xpass (const char* fmt, ...)
   va_list ap;
 
   DG__status.xpass++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tXPASSED: ", stdout);
@@ -74,6 +93,7 @@ fail (const char* fmt, ...)
   va_list ap;
 
   DG__status.fail++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tFAILED: ", stdout);
@@ -88,6 +108,7 @@ xfail (const char* fmt, ...)
   va_list ap;
 
   DG__status.xfail++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tXFAILED: ", stdout);
@@ -102,6 +123,7 @@ untested (const char* fmt, ...)
   va_list ap;
 
   DG__status.untested++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tUNTESTED: ", stdout);
@@ -116,6 +138,7 @@ unresolved (const char* fmt, ...)
   va_list ap;
 
   DG__status.unresolved++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tUNRESOLVED: ", stdout);
@@ -130,6 +153,7 @@ unsupported (const char* fmt, ...)
   va_list ap;
 
   DG__status.unsupported++;
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tUNSUPPORTED: ", stdout);
@@ -142,6 +166,8 @@ static inline void
 note (const char* fmt, ...)
 {
   va_list ap;
+
+  DG__init ();
 
   flockfile (stdout);
   fputs ("\tNOTE: ", stdout);
@@ -166,7 +192,6 @@ totals (void)
     printf ("\t#unresolved:\t\t%d\n", DG__status.unresolved);
   if (DG__status.unsupported)
     printf ("\t#unsupported:\t\t%d\n", DG__status.unsupported);
-  printf ("\tEND: done\n");
 }
 
 #ifdef __cplusplus
@@ -200,9 +225,22 @@ class TestState {
       DG__status.untested = 0;
       DG__status.unresolved = 0;
       DG__status.unsupported = 0;
+
+      /* C++ object destruction will substitute for atexit(). */
+      DG__status.endmsg_registered = 1;
+      DG__status.TestState_count++;
     }
 
-  ~TestState (void) { totals(); }
+  ~TestState (void)
+    {
+      DG__status.TestState_count--;
+
+      if (DG__status.TestState_count > 0) return;
+
+      /* The last TestState object is being destroyed. */
+      totals ();
+      std::cout << "\tEND: done" << std::endl;
+    }
 
   void testrun (bool b, std::string s)
     {
@@ -297,8 +335,6 @@ class TestState {
 	if (DG__status.unsupported)
 	  std::cout << "\t#unsupported:\t\t"
 		    << DG__status.unsupported << std::endl;
-
-	std::cout << "\tEND: done" << std::endl;
       }
 
     // This is so this class can be printed in an ostream.

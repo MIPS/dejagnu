@@ -1,5 +1,18 @@
 2022-11-30  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (DG__endmsg): New function, called using atexit().
+	(endmsg_registered, TestState_count): Add fields to DG__status.
+	(DG__init): New function, to register DG__endmsg.
+	(pass, xpass, fail, xfail, untested, unresolved, unsupported)
+	(note): Call DG__init to ensure libdejagnu initialization.
+	(totals): Move "END" message to DG__endmsg.
+	(TestState::TestState): Consider DG__endmsg registered when a
+	TestState object is constructed.
+	(TestState::TestState, TestState::~TestState): Track number of
+	live TestState objects in global status structure.
+	(TestState::~TestState): Call totals() and emit "END" message only
+	when the last TestState object is destroyed.
+
 	* dejagnu.h (outstate): Remove.
 	(TestState::pass, TestState::xpass, TestState::fail)
 	(TestState::xfail, TestState::untested, TestState::unresolved)
