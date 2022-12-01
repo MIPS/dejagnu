@@ -40,18 +40,18 @@ static struct {
   int unsupported;
 } DG__status = { 0 };
 
-static char buffer[512];
-
 static inline void
 pass (const char* fmt, ...)
 {
   va_list ap;
 
   DG__status.pass++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tPASSED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tPASSED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -60,10 +60,12 @@ xpass (const char* fmt, ...)
   va_list ap;
 
   DG__status.xpass++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tXPASSED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tXPASSED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -72,10 +74,12 @@ fail (const char* fmt, ...)
   va_list ap;
 
   DG__status.fail++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tFAILED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tFAILED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -84,10 +88,12 @@ xfail (const char* fmt, ...)
   va_list ap;
 
   DG__status.xfail++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tXFAILED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tXFAILED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -96,10 +102,12 @@ untested (const char* fmt, ...)
   va_list ap;
 
   DG__status.untested++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tUNTESTED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tUNTESTED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -108,10 +116,12 @@ unresolved (const char* fmt, ...)
   va_list ap;
 
   DG__status.unresolved++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tUNRESOLVED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tUNRESOLVED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -120,10 +130,12 @@ unsupported (const char* fmt, ...)
   va_list ap;
 
   DG__status.unsupported++;
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tUNSUPPORTED: %s\n", buffer);
+
+  flockfile (stdout);
+  fputs ("\tUNSUPPORTED: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void
@@ -131,10 +143,11 @@ note (const char* fmt, ...)
 {
   va_list ap;
 
-  va_start (ap, fmt);
-  vsnprintf (buffer, sizeof (buffer), fmt, ap);
-  va_end (ap);
-  printf ("\tNOTE: %s\n", buffer);
+  flockfile (stdout);
+  fputs ("\tNOTE: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
 }
 
 static inline void

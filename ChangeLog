@@ -1,5 +1,10 @@
 2022-11-30  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (buffer): Remove this variable.
+	(pass, xpass, fail, xfail, untested, unresolved, unsupported)
+	(note): Replace use of buffer and vsnprintf with flockfile,
+	multiple writes, and funlockfile in all functions.
+
 	* dejagnu.h (DG__status): New struct for test counters.
 	(passed, failed, xpassed, xfailed, untest, unresolve, unsupport):
 	Move all counters into new struct, changing all functions.
