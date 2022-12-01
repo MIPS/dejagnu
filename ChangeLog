@@ -2,6 +2,7 @@
 
 	* dejagnu.h (TestState::TestState): Only perform initialization
 	when the first TestState object is constructed.
+	(DG): Add global TestState object.
 
 	* dejagnu.h (DG__endmsg): New function, called using atexit().
 	(endmsg_registered, TestState_count): Add fields to DG__status.

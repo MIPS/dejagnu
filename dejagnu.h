@@ -352,5 +352,7 @@ class TestState {
     std::string GetMsg (void) { return lastmsg; }
 };
 
+TestState DG;
+
 #endif /* __cplusplus */
 #endif /* _DEJAGNU_H_ */
