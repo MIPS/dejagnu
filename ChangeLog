@@ -1,5 +1,16 @@
 2022-11-30  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (outstate): Remove.
+	(TestState::pass, TestState::xpass, TestState::fail)
+	(TestState::xfail, TestState::untested, TestState::unresolved)
+	(TestState::unsupported, TestState::note): Remove support for
+	overriding protocol tag lines.
+	(outstate_list): Rename this...
+	(DG__outstate_list): ...to this to mark it as internal.
+	(teststate): Rename this...
+	(DG_teststate): ...to this to avoid name collisions with user code.
+	(TestState::TestState): Sort lines by length.
+
 	* dejagnu.h (buffer): Remove this variable.
 	(pass, xpass, fail, xfail, untested, unresolved, unsupported)
 	(note): Replace use of buffer and vsnprintf with flockfile,

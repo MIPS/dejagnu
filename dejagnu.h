@@ -176,30 +176,28 @@ totals (void)
 #include <fstream>
 #include <string>
 
-const char *outstate_list[] = {
-  "FAILED: ", "PASSED: ",
-  "UNTESTED: ", "UNRESOLVED: ", "UNSUPPORTED: ",
-  "XFAILED: ", "XPASSED: "
+const char * DG__outstate_list[] = {
+  "\tFAILED: ", "\tPASSED: ",
+  "\tUNTESTED: ", "\tUNRESOLVED: ", "\tUNSUPPORTED: ",
+  "\tXFAILED: ", "\tXPASSED: "
 };
 
-const char ** outstate = outstate_list;
-
-enum teststate { FAILED, PASSED,
-		 UNTESTED, UNRESOLVED, UNSUPPORTED,
-		 XFAILED, XPASSED } laststate;
+enum DG_teststate { FAILED, PASSED,
+		    UNTESTED, UNRESOLVED, UNSUPPORTED,
+		    XFAILED, XPASSED };
 
 class TestState {
  private:
-  teststate laststate;
+  DG_teststate laststate;
   std::string lastmsg;
  public:
   TestState (void)
     {
       DG__status.pass = 0;
       DG__status.fail = 0;
-      DG__status.untested = 0;
       DG__status.xpass = 0;
       DG__status.xfail = 0;
+      DG__status.untested = 0;
       DG__status.unresolved = 0;
       DG__status.unsupported = 0;
     }
@@ -219,7 +217,7 @@ class TestState {
 	DG__status.pass++;
 	laststate = PASSED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[PASSED] << s << std::endl;
+	std::cout << DG__outstate_list[PASSED] << s << std::endl;
       }
 
     void xpass (std::string s)
@@ -227,7 +225,7 @@ class TestState {
 	DG__status.xpass++;
 	laststate = PASSED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[XPASSED] << s << std::endl;
+	std::cout << DG__outstate_list[XPASSED] << s << std::endl;
       }
 
     void fail (std::string s)
@@ -235,7 +233,7 @@ class TestState {
 	DG__status.fail++;
 	laststate = FAILED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[FAILED] << s << std::endl;
+	std::cout << DG__outstate_list[FAILED] << s << std::endl;
       }
 
     void xfail (std::string s)
@@ -243,7 +241,7 @@ class TestState {
 	DG__status.xfail++;
 	laststate = XFAILED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[XFAILED] << s << std::endl;
+	std::cout << DG__outstate_list[XFAILED] << s << std::endl;
       }
 
     void untested (std::string s)
@@ -251,7 +249,7 @@ class TestState {
 	DG__status.untested++;
 	laststate = UNTESTED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[UNTESTED] << s << std::endl;
+	std::cout << DG__outstate_list[UNTESTED] << s << std::endl;
       }
 
     void unresolved (std::string s)
@@ -259,7 +257,7 @@ class TestState {
 	DG__status.unresolved++;
 	laststate = UNRESOLVED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[UNRESOLVED] << s << std::endl;
+	std::cout << DG__outstate_list[UNRESOLVED] << s << std::endl;
       }
 
     void unsupported (std::string s)
@@ -267,7 +265,7 @@ class TestState {
 	DG__status.unsupported++;
 	laststate = UNSUPPORTED;
 	lastmsg = s;
-	std::cout << "\t" << outstate[UNSUPPORTED] << s << std::endl;
+	std::cout << DG__outstate_list[UNSUPPORTED] << s << std::endl;
       }
 
     void note (std::string s)
@@ -306,7 +304,7 @@ class TestState {
     // This is so this class can be printed in an ostream.
     friend std::ostream & operator << (std::ostream &os, TestState& t)
       {
-	return os << "\t" << outstate[t.laststate] << t.lastmsg ;
+	return os << DG__outstate_list[t.laststate] << t.lastmsg ;
       }
 
     int GetState (void) { return laststate; }
