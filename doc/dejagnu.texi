@@ -2554,11 +2554,14 @@ recognized and interpreted by DejaGnu, appears in the log.
 @cindex C unit testing API
 
 The C API is provided in the @file{dejagnu.h} header file.  This
-header provides a self-contained implementation.  For convenience, the
-@code{totals()} function can be called at the end of the unit test
-program to output summary totals.  DejaGnu counts the test results
-independently and will operate correctly even if @code{totals()} is
-never invoked.
+header provides a self-contained implementation and reserves names
+prefixed with @code{DG_} for future extensions and names prefixed with
+@code{DG__} (two underscores) for internal use.
+
+For convenience, the @code{totals()} function can be called at the end
+of the unit test program to output summary totals.  DejaGnu counts the
+test results independently and will operate correctly even if
+@code{totals()} is never invoked.
 
 All of the functions that take a @code{msg} parameter use a C
 @code{char *} that is the message to be displayed.  All of the
@@ -2646,10 +2649,15 @@ independently.
 @cindex C++ unit testing API
 
 The C++ API is also provided in the @file{dejagnu.h} header file.
-This header provides a self-contained implementation.  For
-convenience, the @code{totals()} method outputs summary totals to be
-used at the end of unit test program.  DejaGnu does not depend on this
-summary and counts the test results independently.
+This header provides a self-contained implementation and reserves
+names prefixed with @code{DG_} for future extensions and names
+prefixed with @code{DG__} (two underscores) for internal use.  In C++,
+@file{dejagnu.h} also reserves the C++ namespace @code{DejaGnu} for
+possible future use.
+
+For convenience, the @code{totals()} method outputs summary totals to
+be used at the end of unit test program.  DejaGnu does not depend on
+this summary and counts the test results independently.
 
 All of the methods that take a @code{msg} parameter use a STL string
 as the message to be displayed.  There currently is no support for
