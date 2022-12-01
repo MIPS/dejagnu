@@ -1,5 +1,5 @@
 /* DejaGnu unit testing header.
-   Copyright (C) 2000-2016 Free Software Foundation, Inc.
+   Copyright (C) 2000-2016, 2022 Free Software Foundation, Inc.
 
 This file is part of DejaGnu.
 
@@ -30,13 +30,15 @@ Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
  * use the DejaGnu built-in unit testing support in your testsuite, which
  * has been improved to resolve this issue in DejaGnu 1.6.3.  */
 
-static int passed;
-static int failed;
-static int untest;
-static int unresolve;
-static int unsupport;
-static int xfailed;
-static int xpassed;
+static struct {
+  int pass;
+  int fail;
+  int xpass;
+  int xfail;
+  int untested;
+  int unresolved;
+  int unsupported;
+} DG__status = { 0 };
 
 static char buffer[512];
 
@@ -45,7 +47,7 @@ pass (const char* fmt, ...)
 {
   va_list ap;
 
-  passed++;
+  DG__status.pass++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -57,7 +59,7 @@ xpass (const char* fmt, ...)
 {
   va_list ap;
 
-  xpassed++;
+  DG__status.xpass++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -69,7 +71,7 @@ fail (const char* fmt, ...)
 {
   va_list ap;
 
-  failed++;
+  DG__status.fail++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -81,7 +83,7 @@ xfail (const char* fmt, ...)
 {
   va_list ap;
 
-  xfailed++;
+  DG__status.xfail++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -93,7 +95,7 @@ untested (const char* fmt, ...)
 {
   va_list ap;
 
-  untest++;
+  DG__status.untested++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -105,7 +107,7 @@ unresolved (const char* fmt, ...)
 {
   va_list ap;
 
-  unresolve++;
+  DG__status.unresolved++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -117,7 +119,7 @@ unsupported (const char* fmt, ...)
 {
   va_list ap;
 
-  unsupport++;
+  DG__status.unsupported++;
   va_start (ap, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, ap);
   va_end (ap);
@@ -139,18 +141,18 @@ static inline void
 totals (void)
 {
   printf ("\nTotals:\n");
-  printf ("\t#passed:\t\t%d\n", passed);
-  printf ("\t#real failed:\t\t%d\n", failed);
-  if (xfailed)
-    printf ("\t#expected failures:\t\t%d\n", xfailed);
-  if (xpassed)
-    printf ("\t#unexpected passes:\t\t%d\n", xpassed);
-  if (untest)
-    printf ("\t#untested:\t\t%d\n", untest);
-  if (unresolve)
-    printf ("\t#unresolved:\t\t%d\n", unresolve);
-  if (unsupport)
-    printf ("\t#unsupported:\t\t%d\n", unsupport);
+  printf ("\t#passed:\t\t%d\n", DG__status.pass);
+  printf ("\t#real failed:\t\t%d\n", DG__status.fail);
+  if (DG__status.xfail)
+    printf ("\t#expected failures:\t\t%d\n", DG__status.xfail);
+  if (DG__status.xpass)
+    printf ("\t#unexpected passes:\t\t%d\n", DG__status.xpass);
+  if (DG__status.untested)
+    printf ("\t#untested:\t\t%d\n", DG__status.untested);
+  if (DG__status.unresolved)
+    printf ("\t#unresolved:\t\t%d\n", DG__status.unresolved);
+  if (DG__status.unsupported)
+    printf ("\t#unsupported:\t\t%d\n", DG__status.unsupported);
   printf ("\tEND: done\n");
 }
 
@@ -180,13 +182,13 @@ class TestState {
  public:
   TestState (void)
     {
-      passed = 0;
-      failed = 0;
-      untest = 0;
-      xpassed = 0;
-      xfailed = 0;
-      unresolve = 0;
-      unsupport = 0;
+      DG__status.pass = 0;
+      DG__status.fail = 0;
+      DG__status.untested = 0;
+      DG__status.xpass = 0;
+      DG__status.xfail = 0;
+      DG__status.unresolved = 0;
+      DG__status.unsupported = 0;
     }
 
   ~TestState (void) { totals(); }
@@ -201,7 +203,7 @@ class TestState {
 
     void pass (std::string s)
       {
-	passed++;
+	DG__status.pass++;
 	laststate = PASSED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[PASSED] << s << std::endl;
@@ -209,7 +211,7 @@ class TestState {
 
     void xpass (std::string s)
       {
-	xpassed++;
+	DG__status.xpass++;
 	laststate = PASSED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[XPASSED] << s << std::endl;
@@ -217,7 +219,7 @@ class TestState {
 
     void fail (std::string s)
       {
-	failed++;
+	DG__status.fail++;
 	laststate = FAILED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[FAILED] << s << std::endl;
@@ -225,7 +227,7 @@ class TestState {
 
     void xfail (std::string s)
       {
-	xfailed++;
+	DG__status.xfail++;
 	laststate = XFAILED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[XFAILED] << s << std::endl;
@@ -233,7 +235,7 @@ class TestState {
 
     void untested (std::string s)
       {
-	untest++;
+	DG__status.untested++;
 	laststate = UNTESTED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[UNTESTED] << s << std::endl;
@@ -241,7 +243,7 @@ class TestState {
 
     void unresolved (std::string s)
       {
-	unresolve++;
+	DG__status.unresolved++;
 	laststate = UNRESOLVED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[UNRESOLVED] << s << std::endl;
@@ -249,7 +251,7 @@ class TestState {
 
     void unsupported (std::string s)
       {
-	unsupport++;
+	DG__status.unsupported++;
 	laststate = UNSUPPORTED;
 	lastmsg = s;
 	std::cout << "\t" << outstate[UNSUPPORTED] << s << std::endl;
@@ -263,18 +265,28 @@ class TestState {
     void totals (void)
       {
 	std::cout << std::endl << "Totals:" << std::endl;
-	std::cout << "\t#passed:\t\t" << passed << std::endl;
-	std::cout << "\t#real failed:\t\t" << failed << std::endl;
-	if (xfailed)
-	  std::cout << "\t#expected failures:\t\t" << xfailed << std::endl;
-	if (xpassed)
-	  std::cout << "\t#unexpected passes:\t\t" << xpassed << std::endl;
-	if (untest)
-	  std::cout << "\t#untested:\t\t" << untest << std::endl;
-	if (unresolve)
-	  std::cout << "\t#unresolved:\t\t" << unresolve << std::endl;
-	if (unsupport)
-	  std::cout << "\t#unsupported:\t\t" << unsupport << std::endl;
+
+	std::cout << "\t#passed:\t\t"
+		  << DG__status.pass << std::endl;
+	std::cout << "\t#real failed:\t\t"
+		  << DG__status.fail << std::endl;
+
+	if (DG__status.xfail)
+	  std::cout << "\t#expected failures:\t\t"
+		    << DG__status.xfail << std::endl;
+	if (DG__status.xpass)
+	  std::cout << "\t#unexpected passes:\t\t"
+		    << DG__status.xpass << std::endl;
+	if (DG__status.untested)
+	  std::cout << "\t#untested:\t\t"
+		    << DG__status.untested << std::endl;
+	if (DG__status.unresolved)
+	  std::cout << "\t#unresolved:\t\t"
+		    << DG__status.unresolved << std::endl;
+	if (DG__status.unsupported)
+	  std::cout << "\t#unsupported:\t\t"
+		    << DG__status.unsupported << std::endl;
+
 	std::cout << "\tEND: done" << std::endl;
       }
 
