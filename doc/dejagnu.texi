@@ -2653,11 +2653,10 @@ This header provides a self-contained implementation and reserves
 names prefixed with @code{DG_} for future extensions and names
 prefixed with @code{DG__} (two underscores) for internal use.  In C++,
 @file{dejagnu.h} also reserves the C++ namespace @code{DejaGnu} for
-possible future use.
-
-For convenience, the @code{totals()} method outputs summary totals to
-be used at the end of unit test program.  DejaGnu does not depend on
-this summary and counts the test results independently.
+possible future use and provides a global @code{TestState} object
+named @code{DG}.  User code may construct and use any number of
+@code{TestState} objects, and each object has its own notion of the
+last result emitted.
 
 All of the methods that take a @code{msg} parameter use a STL string
 as the message to be displayed.  There currently is no support for
@@ -2666,12 +2665,10 @@ passing it to these functions.
 
 Note that the C API is also available in C++ unit test programs; all
 @code{TestState} objects and the C API share the same global set of
-summary counters.  Also note that a single global @code{TestState}
-object should be used, since the constructor clears the summary
-counters and the @code{totals} method is automatically called when a
-@code{TestState} object is destroyed.
+summary counters.
 
-The @code{TestState} class supports the following instance methods:
+The @code{TestState} class supports the following instance methods for
+reporting results:
 
 @itemize
 @item
@@ -2732,7 +2729,21 @@ to look over the results to determine what happened.
 facility that is not available in the testing environment.
 
 @quotation
-@t{@b{unsupported}(@i{msg}, ...);}
+@t{@b{TestState::unsupported}(@i{msg}, ...);}
+@end quotation
+
+@end itemize
+
+The @code{TestState} class also supports these instance methods:
+
+@itemize
+@item
+@code{testrun} evaluates a Boolean value as a test result: if the
+Boolean @code{outcome} parameter is true, the test is considered to
+have passed, otherwise a failure is reported.
+
+@quotation
+@t{@b{TestState::testrun}(@i{outcome}, @i{msg});}
 @end quotation
 
 @item
@@ -2741,12 +2752,47 @@ as a convenience when running the unit test program directly.  DejaGnu
 does not use this information and instead counts the results
 independently.
 
-In the C++ API, this method is automatically called when a
-@code{TestState} instance is destroyed.
+In the C++ API, this method is automatically called when the last
+@code{TestState} object in the program is destroyed.
 
 @quotation
 @t{@b{TestState::totals}(@i{});}
 @end quotation
+
+@item
+@code{GetState} returns the most recent result emitted by a
+@code{TestState} object as an integer value drawn from @code{enum
+DG_teststate}, which defines the following constants:
+
+@itemize
+@item @code{PASSED}
+@item @code{FAILED}
+@item @code{XPASSED}
+@item @code{XFAILED}
+@item @code{UNTESTED}
+@item @code{UNRESOLVED}
+@item @code{UNSUPPORTED}
+@end itemize
+
+The numerical values of these constants are intentionally
+undocumented and subject to change without notice.
+
+@quotation
+@t{@b{TestState::GetState}(@i{});}
+@end quotation
+
+@item
+@code{GetMsg} returns the message most recently emitted by a
+@code{TestState} object as a @code{std::string}.
+
+@quotation
+@t{@b{TestState::GetMsg}(@i{});}
+@end quotation
+
+@item
+Lastly, a @code{TestState} object can be printed on any
+@code{std::ostream}, and will emit its most recent unit test protocol
+message, exactly as that message was sent to @code{std::cout}.
 
 @end itemize
 

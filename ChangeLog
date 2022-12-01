@@ -1,5 +1,8 @@
 2022-11-30  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* doc/dejagnu.texi (C++ unit testing API): Document recent
+	improvements and the rest of the C++ API.
+
 	* dejagnu.h (TestState::TestState): Only perform initialization
 	when the first TestState object is constructed.
 	(DG): Add global TestState object.
