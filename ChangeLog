@@ -1,5 +1,10 @@
 2022-12-20  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (totals, TestState::totals): Change "real failed" to
+	"failed" when listing number of failed tests.
+	* testsuite/libdejagnu/harness.exp (test_libdejagnu_unit): Update
+	to match above change.
+
 	* dejagnu.h (DG_error, DG_warning): New functions.
 	(TestState::error, TestState::warning): New methods.
 	* doc/dejagnu.texi (C unit testing API): Document new functions.

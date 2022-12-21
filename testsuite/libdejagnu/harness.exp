@@ -32,7 +32,7 @@ proc test_libdejagnu_unit { language tests } {
 
     # map messages from dejagnu.h:totals() to result types
     array set expected_totals_map {
-	passed	pass	"real failed"	fail
+	passed	pass	failed	fail
 	"unexpected passes"	xpass
 	"expected failures"	xfail
 	untested		untested

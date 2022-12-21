@@ -209,7 +209,7 @@ totals (void)
 {
   printf ("\nTotals:\n");
   printf ("\t#passed:\t\t%d\n", DG__status.pass);
-  printf ("\t#real failed:\t\t%d\n", DG__status.fail);
+  printf ("\t#failed:\t\t%d\n", DG__status.fail);
   if (DG__status.xfail)
     printf ("\t#expected failures:\t\t%d\n", DG__status.xfail);
   if (DG__status.xpass)
@@ -360,7 +360,7 @@ class TestState {
 
 	std::cout << "\t#passed:\t\t"
 		  << DG__status.pass << std::endl;
-	std::cout << "\t#real failed:\t\t"
+	std::cout << "\t#failed:\t\t"
 		  << DG__status.fail << std::endl;
 
 	if (DG__status.xfail)
