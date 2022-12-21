@@ -1,4 +1,4 @@
-# Copyright (C) 1997-2016 Free Software Foundation, Inc.
+# Copyright (C) 1997-2016, 2022 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -22,6 +22,9 @@
 if { ![info exists STATS_TEST] } {
     return
 }
+
+for {set i 0} {$i < $ERROR_COUNT} {incr i} { perror "test error $i" }
+for {set i 0} {$i < $WARNING_COUNT} {incr i} { warning "test warning $i" }
 
 switch $STATS_TEST {
     pass { pass "pass test" }

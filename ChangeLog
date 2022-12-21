@@ -1,3 +1,10 @@
+2022-12-20  Jacob Bachmeyer  <jcb@gnu.org>
+
+	* testsuite/runtest.main/stats.exp: Add tests for UNRESOLVED
+	results after warnings and errors.
+	* testsuite/runtest.main/nested/testsuite/stat.test/stats-sub.exp:
+	Add support for above.
+
 2022-11-30  Jacob Bachmeyer  <jcb@gnu.org>
 
 	* testsuite/libdejagnu/unit.exp: Rename this...
