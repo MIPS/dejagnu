@@ -2645,6 +2645,22 @@ facility that is not available in the testing environment.
 @end quotation
 
 @item
+@code{DG_error} prints a message for a major but nonfatal error
+detected in a test case.
+
+@quotation
+@t{@b{DG_error}(@i{msg}, ...);}
+@end quotation
+
+@item
+@code{DG_warning} prints a message for a minor error detected in a
+test case.
+
+@quotation
+@t{@b{DG_warning}(@i{msg}, ...);}
+@end quotation
+
+@item
 @code{totals} prints out the total counts of all of the test results
 as a convenience when running the unit test program directly.  DejaGnu
 does not use this information and instead counts the results
@@ -2741,7 +2757,23 @@ to look over the results to determine what happened.
 facility that is not available in the testing environment.
 
 @quotation
-@t{@b{TestState::unsupported}(@i{msg}, ...);}
+@t{@b{TestState::unsupported}(@i{msg});}
+@end quotation
+
+@item
+@code{error} prints a message for a major but nonfatal error
+detected in a test case.
+
+@quotation
+@t{@b{TestState::error}(@i{msg});}
+@end quotation
+
+@item
+@code{warning} prints a message for a minor error detected in a
+test case.
+
+@quotation
+@t{@b{TestState::warning}(@i{msg});}
 @end quotation
 
 @end itemize

@@ -177,6 +177,34 @@ note (const char* fmt, ...)
 }
 
 static inline void
+DG_error (const char* fmt, ...)
+{
+  va_list ap;
+
+  DG__init ();
+
+  flockfile (stdout);
+  fputs ("\tERROR: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
+}
+
+static inline void
+DG_warning (const char* fmt, ...)
+{
+  va_list ap;
+
+  DG__init ();
+
+  flockfile (stdout);
+  fputs ("\tWARNING: ", stdout);
+  va_start (ap, fmt); vfprintf (stdout, fmt, ap); va_end (ap);
+  fputc ('\n', stdout);
+  funlockfile (stdout);
+}
+
+static inline void
 totals (void)
 {
   printf ("\nTotals:\n");
@@ -314,6 +342,16 @@ class TestState {
     void note (std::string s)
       {
 	std::cout << "\t" << "NOTE: " << s << std::endl;
+      }
+
+    void error (std::string s)
+      {
+	std::cout << "\t" << "ERROR: " << s << std::endl;
+      }
+
+    void warning (std::string s)
+      {
+	std::cout << "\t" << "WARNING: " << s << std::endl;
       }
 
     void totals (void)

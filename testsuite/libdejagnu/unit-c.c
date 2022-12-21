@@ -47,6 +47,8 @@ main(int argc, char ** argv)
     else if (!strcmp("unresolved", argv[i]))	unresolved("test");
     else if (!strcmp("unsupported", argv[i]))	unsupported("test");
     else if (!strcmp("note", argv[i]))		note("test");
+    else if (!strcmp("error", argv[i]))		DG_error("test");
+    else if (!strcmp("warning", argv[i]))	DG_warning("test");
     else {
       fprintf(stderr, "%s: unknown test `%s'\n", argv[0], argv[i]);
       return 2;

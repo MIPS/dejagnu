@@ -1,5 +1,17 @@
 2022-12-20  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* dejagnu.h (DG_error, DG_warning): New functions.
+	(TestState::error, TestState::warning): New methods.
+	* doc/dejagnu.texi (C unit testing API): Document new functions.
+	(C++ unit testing API): Document new methods and fix an error:
+	TestState::unsupported does not take varargs.
+	* testsuite/libdejagnu/unit-c.c (main): Add support for testing
+	errors and warnings.
+	* testsuite/libdejagnu/unit-cxx.cxx (main): Likewise.
+	* testsuite/libdejagnu/unit-ccxxmix.cxx (main): Likewise.
+	* testsuite/libdejagnu/harness.exp: Add tests.
+	(test_libdejagnu_unit): Add support for ERROR and WARNING tokens.
+
 	* doc/dejagnu.texi (DejaGnu unit test protocol): Add ERROR and
 	WARNING tokens to DejaGnu unit testing protocol.
 	* lib/dejagnu.exp (host_execute): Implement same.

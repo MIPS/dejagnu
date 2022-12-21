@@ -52,6 +52,8 @@ main(int argc, char ** argv)
       else if (!std::strcmp("unresolved", argv[i]))   DGT.unresolved("test");
       else if (!std::strcmp("unsupported", argv[i]))  DGT.unsupported("test");
       else if (!std::strcmp("note", argv[i]))         DGT.note("test");
+      else if (!std::strcmp("error", argv[i]))	      DGT.error("test");
+      else if (!std::strcmp("warning", argv[i]))      DGT.warning("test");
       else {
 	std::cerr <<argv[0] <<": unknown test `" <<argv[i] <<"'" <<std::endl;
 	return 2;
@@ -65,6 +67,8 @@ main(int argc, char ** argv)
       else if (!strcmp("unresolved", argv[i]))        unresolved("test");
       else if (!strcmp("unsupported", argv[i]))       unsupported("test");
       else if (!strcmp("note", argv[i]))              note("test");
+      else if (!strcmp("error", argv[i]))             DG_error("test");
+      else if (!strcmp("warning", argv[i]))           DG_warning("test");
       else {
 	fprintf(stderr, "%s: unknown test `%s'\n", argv[0], argv[i]);
 	return 2;

@@ -88,6 +88,8 @@ proc test_libdejagnu_unit { language tests } {
 		    untested	{ set expected UNTESTED    }
 		    unresolved	{ set expected UNRESOLVED  }
 		    unsupported { set expected UNSUPPORTED }
+		    warning	{ set expected WARNING     }
+		    error	{ set expected ERROR       }
 		}
 		if { [info exists expected_totals([lindex $test $test_idx])]} {
 		    incr expected_totals([lindex $test $test_idx])
@@ -134,6 +136,8 @@ proc test_libdejagnu_unit { language tests } {
 foreach language {c cxx} {
     test_libdejagnu_unit $language {
 	note pass fail xpass xfail untested unresolved unsupported
+	{error pass} {error fail} {error xpass} {error xfail}
+	{warning pass} {warning fail} {warning xpass} {warning xfail}
     }
 }
 
@@ -141,4 +145,10 @@ test_libdejagnu_unit ccxxmix {
     {pass pass xpass xfail xfail xpass}
     {fail fail xfail xpass xpass xfail}
     {untested unresolved unsupported untested unresolved unsupported}
+    {error pass} {error fail} {error xpass} {error xfail}
+    {warning pass} {warning fail} {warning xpass} {warning xfail}
+    {note error pass} {note error fail}
+    {note error xpass} {note error xfail}
+    {note warning pass} {note warning fail}
+    {note warning xpass} {note warning xfail}
 }
