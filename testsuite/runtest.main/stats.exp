@@ -62,6 +62,26 @@ set tests {
     { unit 0 0 untested "untested testcases\[ \t\]+1\n" }
     { unit 0 0 unresolved "unresolved testcases\[ \t\]+1\n" }
     { unit 0 0 unsupported "unsupported tests\[ \t\]+1\n" }
+
+    { unit 1 0 pass "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 fail "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 xpass "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 xfail "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 kpass "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 kfail "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 untested "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 unresolved "unresolved testcases\[ \t\]+1\n" }
+    { unit 1 0 unsupported "unresolved testcases\[ \t\]+1\n" }
+
+    { unit 0 4 pass "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 fail "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 xpass "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 xfail "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 kpass "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 kfail "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 untested "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 unresolved "unresolved testcases\[ \t\]+1\n" }
+    { unit 0 4 unsupported "unresolved testcases\[ \t\]+1\n" }
 }
 
 foreach t $tests {

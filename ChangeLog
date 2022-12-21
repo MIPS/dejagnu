@@ -1,5 +1,14 @@
 2022-12-20  Jacob Bachmeyer  <jcb@gnu.org>
 
+	* doc/dejagnu.texi (DejaGnu unit test protocol): Add ERROR and
+	WARNING tokens to DejaGnu unit testing protocol.
+	* lib/dejagnu.exp (host_execute): Implement same.
+	* testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.exp,
+	  testsuite/runtest.main/nested/testsuite/stat.test/unit-sub.awk:
+	Add support for testing ERROR and WARNING tokens.
+	* testsuite/runtest.main/stats.exp: Add tests for UNRESOLVED
+	results after warnings and errors in unit test programs.
+
 	* testsuite/runtest.main/stats.exp: Add tests for UNRESOLVED
 	results after warnings and errors.
 	* testsuite/runtest.main/nested/testsuite/stat.test/stats-sub.exp:

@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Free Software Foundation, Inc.
+# Copyright (C) 2020, 2022 Free Software Foundation, Inc.
 #
 # This file is part of DejaGnu.
 #
@@ -22,6 +22,11 @@ BEGIN {
 }
 
 END {
+    for (i = 0; i < ECNT; i++)
+	print "\tERROR: sample error "i
+    for (i = 0; i < WCNT; i++)
+	print "\tWARNING: sample warning "i
+
     if (UNIT_RESULT == "pass")
 	print "\tPASSED: sample unit test"
     else if (UNIT_RESULT == "fail")

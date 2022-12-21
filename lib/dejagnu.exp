@@ -141,6 +141,8 @@ proc host_execute {args} {
 		UNTESTED	{ untested $output }
 		UNRESOLVED	{ unresolved $output }
 		UNSUPPORTED	{ unsupported $output }
+		WARNING		{ warning $output }
+		ERROR		{ perror $output }
 		END {
 		    expect -re {.+} { exp_continue }
 		    verbose "All done" 2

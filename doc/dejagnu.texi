@@ -2524,6 +2524,18 @@ information.
 
 This will cause @i{text} to be printed at verbose levels 2 and higher.
 
+@print{}@t{@ @ @ @ @ @ @ @ ERROR: }@i{text}
+
+This reports a major nonfatal error detected in the unit test program.
+The framework will change the next test result to UNRESOLVED as a
+result of the error.
+
+@print{}@t{@ @ @ @ @ @ @ @ WARNING: }@i{text}
+
+This reports a minor nonfatal error detected in the unit test program.
+If more than @code{warning_threshold} minor errors occur between test
+results, the framework will change the next test result to UNRESOLVED.
+
 @print{}@t{@ @ @ @ @ @ @ @ PASSED: }@i{name}
 
 @print{}@t{@ @ @ @ @ @ @ @ FAILED: }@i{name}
